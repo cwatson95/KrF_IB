@@ -1,0 +1,64 @@
+# Cross-Section Browser export — 2026-07-30T05:04:50Z
+# source: LXCat, www.lxcat.net (SIGLO database). SIGLO database is the electron-impact cross-section source of Chen et al., Phys. Plasmas 32, 113502 (2025), ref 22. Re-sourced from the project crossbrowser export lxcat_siglo.json, SIGLO process id SIGLO__Xe__Ionization__39.
+# database: SIGLO database (LXCat)
+# process_id: e_Xe_ionization
+# reaction: E + Xe -> E + E + Xe+
+# type: Ionization   |   category: Ionization   |   family: Electron
+# data_kind: total
+# species: e / Xe
+# threshold: 12.12 eV
+# param: E = 12.12 eV, complete set
+# comment: RAPP & ENGLANDER 1965 J.Chem.Phys 43 1464. SIGLO dataset (Chen 2025, ref 22); re-sourced from crossbrowser lxcat_siglo.json, source id SIGLO__Xe__Ionization__39. Ground-state Xe ionization (arf.toml R17). Cross section stored in m^2 by SIGLO (converted to cm^2 for the CSV column).
+# updated: 2010-03-13 08:19:23
+# n_points: 49
+# columns: energy [eV], cross_section [cm^2]
+energy_eV,cross_section_cm2
+1.212000e+1,0.000000e+00
+1.250000e+1,1.100000e-17
+1.300000e+1,2.560000e-17
+1.350000e+1,4.120000e-17
+1.400000e+1,5.710000e-17
+1.450000e+1,7.420000e-17
+1.500000e+1,9.060000e-17
+1.550000e+1,1.070000e-16
+1.600000e+1,1.230000e-16
+1.650000e+1,1.380000e-16
+1.700000e+1,1.530000e-16
+1.750000e+1,1.670000e-16
+1.800000e+1,1.800000e-16
+1.900000e+1,2.050000e-16
+2.000000e+1,2.270000e-16
+2.100000e+1,2.490000e-16
+2.200000e+1,2.730000e-16
+2.300000e+1,2.920000e-16
+2.400000e+1,3.090000e-16
+2.600000e+1,3.360000e-16
+2.800000e+1,3.610000e-16
+3.000000e+1,3.850000e-16
+3.200000e+1,4.040000e-16
+3.400000e+1,4.180000e-16
+3.600000e+1,4.290000e-16
+3.800000e+1,4.390000e-16
+4.000000e+1,4.470000e-16
+4.500000e+1,4.680000e-16
+5.000000e+1,4.830000e-16
+5.500000e+1,4.940000e-16
+6.000000e+1,5.030000e-16
+6.500000e+1,5.080000e-16
+7.000000e+1,5.120000e-16
+8.000000e+1,5.180000e-16
+9.000000e+1,5.260000e-16
+1.000000e+2,5.380000e-16
+1.100000e+2,5.450000e-16
+1.200000e+2,5.450000e-16
+1.300000e+2,5.410000e-16
+1.400000e+2,5.280000e-16
+1.500000e+2,5.190000e-16
+1.600000e+2,5.060000e-16
+1.800000e+2,4.830000e-16
+2.000000e+2,4.580000e-16
+3.000000e+2,3.890000e-16
+4.000000e+2,3.360000e-16
+6.000000e+2,2.600000e-16
+8.000000e+2,2.190000e-16
+1.000000e+3,1.880000e-16

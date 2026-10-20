@@ -1,0 +1,44 @@
+# Cross-Section Browser export — 2026-07-30T05:04:50Z
+# source: LXCat, www.lxcat.net (SIGLO database). SIGLO database is the electron-impact cross-section source of Chen et al., Phys. Plasmas 32, 113502 (2025), ref 22. Re-sourced from the project crossbrowser export lxcat_siglo.json, SIGLO process id SIGLO__Ar__Ionization__02.
+# database: SIGLO database (LXCat)
+# process_id: e_Ar_ionization
+# reaction: E + Ar -> E + E + Ar+
+# type: Ionization   |   category: Ionization   |   family: Electron
+# data_kind: total
+# species: e / Ar
+# threshold: 15.8 eV
+# param: E = 15.8 eV, complete set
+# comment: RAPP-SCHRAM. SIGLO dataset (Chen 2025, ref 22); re-sourced from crossbrowser lxcat_siglo.json, source id SIGLO__Ar__Ionization__02. Ground-state Ar ionization (arf.toml R7). Cross section stored in m^2 by SIGLO (converted to cm^2 for the CSV column).
+# updated: 2010-03-02 16:19:07
+# n_points: 29
+# columns: energy [eV], cross_section [cm^2]
+energy_eV,cross_section_cm2
+1.580000e+1,0.000000e+00
+1.600000e+1,2.020000e-18
+1.700000e+1,1.340000e-17
+1.800000e+1,2.940000e-17
+2.000000e+1,6.300000e-17
+2.200000e+1,9.300000e-17
+2.375000e+1,1.150000e-16
+2.500000e+1,1.300000e-16
+2.650000e+1,1.450000e-16
+3.000000e+1,1.800000e-16
+3.250000e+1,1.990000e-16
+3.500000e+1,2.170000e-16
+3.750000e+1,2.310000e-16
+4.000000e+1,2.390000e-16
+5.000000e+1,2.530000e-16
+5.500000e+1,2.600000e-16
+1.000000e+2,2.850000e-16
+1.500000e+2,2.520000e-16
+2.000000e+2,2.390000e-16
+3.000000e+2,2.000000e-16
+5.000000e+2,1.450000e-16
+7.000000e+2,1.150000e-16
+1.000000e+3,8.600000e-17
+1.500000e+3,6.400000e-17
+2.000000e+3,5.200000e-17
+3.000000e+3,3.600000e-17
+5.000000e+3,2.400000e-17
+7.000000e+3,1.800000e-17
+1.000000e+4,1.350000e-17

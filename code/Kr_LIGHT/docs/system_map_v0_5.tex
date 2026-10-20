@@ -1,0 +1,454 @@
+% LIGHT_Kr system map for v0_5: energy flow through pure krypton at LIGHT's
+% reference point, on the kinetic EEDF, every band at its default. Every
+% number comes from system_map_v0_5_numbers.tex, which
+% make_system_map_v0_5.py writes from the model. Build from LIGHT_Kr/docs:
+%   python3 make_system_map_v0_5.py && latexmk -pdf system_map_v0_5.tex
+% Palette and styles are LIGHT's maps'.
+\documentclass[11pt]{article}
+\usepackage[a4paper,landscape,margin=0.9cm,top=0.7cm,bottom=0.6cm]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[scaled=0.95]{helvet}
+\renewcommand{\familydefault}{\sfdefault}
+\usepackage{amsmath,amssymb}
+\usepackage{sansmath}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,calc,positioning}
+\pagestyle{empty}
+\setlength{\parindent}{0pt}
+
+\input{system_map_v0_5_numbers}
+\makeatletter
+\newcommand\wm[1]{\ifcsname wm@#1\endcsname\csname wm@#1\endcsname
+  \else\wm@missing{#1}\fi}
+\newcommand\wm@missing[1]{\errmessage{system_map_v0_5_numbers.tex has no
+  number '#1'. Rerun make_system_map_v0_5.py}}
+\makeatother
+
+% LIGHT's palette: electrons, Kr*, Kr** and its near-IR light, Kr2* and
+% 147 nm, heat, ions (stored, a neutral grey)
+\definecolor{cE}{HTML}{2A78D6}
+\definecolor{cX}{HTML}{EDA100}
+\definecolor{cP}{HTML}{C46A00}
+\definecolor{cV}{HTML}{A63A83}
+\definecolor{cH}{HTML}{E34948}
+\definecolor{cI}{HTML}{52514E}
+\definecolor{ink}{HTML}{0B0B0B}
+\definecolor{ink2}{HTML}{52514E}
+\definecolor{muted}{HTML}{898781}
+
+\newcommand{\unit}[1]{\ensuremath{\,\mathrm{#1}}}
+\newcommand{\el}{\ensuremath{\mathrm{e}^-}}
+\newcommand{\Krs}{Kr\ensuremath{^*}}
+\newcommand{\Krpp}{Kr\ensuremath{^{**}}}
+\newcommand{\Krp}{Kr\ensuremath{^+}}
+\newcommand{\Krtp}{Kr\ensuremath{_2^+}}
+\newcommand{\Krts}{Kr\ensuremath{_2^*}}
+\newcommand{\ra}{\ensuremath{\to}\ }
+\newcommand{\hnu}{\ensuremath{h\nu}}
+\newcommand{\Edep}{\ensuremath{E_\mathrm{dep}}}
+\newcommand{\pc}[1]{\wm{#1}\,\%}
+\newcommand{\cm}[1]{\ensuremath{\,\mathrm{cm^{#1}s^{-1}}}}
+
+\tikzset{
+  band/.style={line width={max(0.6pt,(#1)*0.03mm)},
+    -{Triangle[width=2.2pt 1.8,length=2pt 1.0]}},
+  flat/.style={line width={max(0.6pt,(#1)*0.03mm)}},
+  casing/.style={line width={max(0.6pt,(#1)*0.03mm)+2.4pt}, white},
+  thin arrow/.style={line width=0.6pt,
+    -{Triangle[width=2.2pt 1.8,length=2pt 1.0]}},
+  blab/.style={font=\scriptsize, text=ink, inner sep=0.8pt, fill=white,
+    fill opacity=0.85, text opacity=1},
+  nohyph/.style={execute at begin node={\hyphenpenalty=10000
+    \exhyphenpenalty=10000}},
+  proc/.style={nohyph, draw=ink2!55, fill=white, rounded corners=2pt,
+    text width=2.6cm, align=left, font=\scriptsize, inner sep=3pt,
+    text=ink},
+  spec/.style={nohyph, draw=#1, fill=#1!12, rounded corners=5pt,
+    align=center, font=\scriptsize, text=ink, inner sep=3pt,
+    text width=2.3cm, line width=0.8pt},
+  inbox/.style={nohyph, draw=ink2!55, fill=white, rounded corners=2pt,
+    text width=2.5cm, align=left, font=\scriptsize, inner sep=4pt,
+    text=ink},
+  tag/.style={draw=#1, fill=#1!14, rounded corners=1.5pt,
+    font=\tiny, text=ink, inner sep=1.6pt},
+  hdr/.style={font=\footnotesize\bfseries, text=ink2},
+  note/.style={nohyph, font=\tiny, text=ink2},
+}
+
+\begin{document}
+\sansmath
+
+{\large\bfseries LIGHT\_Kr system map, v0\_5: energy flow through pure
+krypton}\par
+\vspace{2pt}
+{\footnotesize Reference point: \wm{p}\unit{atm} of Kr at
+\wm{Tg0}\unit{K}, $P=\wm{P}\unit{kW\,cm^{-3}}$ into the electrons for
+\wm{pulse}\unit{\mu s} so that $\Edep=\wm{Edep}\unit{J\,cm^{-3}}$, $n_e$
+seeded at $\wm{ne}\unit{cm^{-3}}$ and then solved, every band at its
+default, run to \wm{tend}\unit{\mu s} on the kinetic EEDF. Band width is
+proportional to the energy flow. Numbers are percent of \Edep, rounded to
+0.1. The four 5s levels are one node, \Krs, each at its own energy.}\par
+\vspace{2pt}
+
+\begin{tikzpicture}[x=1cm,y=1cm]
+% ================================================================ frames
+\node[hdr] at (1.35,15.7) {INPUT};
+\node[hdr] at (25.8,15.7) {OUTPUT at $t=\wm{tend}\unit{\mu s}$};
+\node[note] at (25.8,15.32) {percent of \Edep, sums to 100};
+\draw[draw=ink2!35, fill=black!2.5, rounded corners=6pt]
+  (2.95,0.25) rectangle (23.55,15.45);
+\node[hdr, anchor=west] at (3.15,15.08)
+  {UNIFORM INITIAL GAS\quad 0-D, constant volume};
+
+% ================================================================ inputs
+\node[inbox, line width=0.9pt, draw=cE] (pow) at (1.35,12.6) {%
+  \textbf{Power in}\\
+  $P=\wm{P}\unit{kW\,cm^{-3}}$\\ for \wm{pulse}\unit{\mu s}, uniform,\\
+  into the electrons\\
+  $\Edep=\wm{Edep}\unit{J\,cm^{-3}}$\\
+  \textcolor{ink2}{the only input}};
+\node[inbox] (seed) at (1.35,8.8) {%
+  \textbf{$n_e$ seed}\\
+  $\wm{ne}\unit{cm^{-3}}$ of \el{} and \Krp{} at $t=0$, then solved\\
+  $\wm{neEnd}$ at the end};
+\node[inbox] (fill) at (1.35,4.6) {%
+  \textbf{Initial gas fill}\\
+  pure Kr\\ \wm{p}\unit{atm}, \wm{Tg0}\unit{K}\\
+  $N=\wm{N}$\\ \hspace*{1.2em}$\unit{cm^{-3}}$};
+
+% ================================================================ electron gas
+\node[draw=cE, fill=cE!10, rounded corners=5pt, line width=0.9pt,
+  minimum width=1.6cm, minimum height=11.2cm, anchor=north]
+  (eg) at (3.95,14.6) {};
+\node[align=center, font=\scriptsize, text=ink, text width=1.5cm,
+  anchor=north] at ([yshift=-4pt]eg.north) {\textbf{electron}\\
+  \textbf{gas}\\[4pt] kinetic\\ EEDF\\ \textcolor{ink2}{two-term}\\
+  \textcolor{ink2}{Boltzmann,}\\ \textcolor{ink2}{with e-e}\\[5pt]
+  $T_e$ \wm{Te}\unit{eV}\\ \textcolor{ink2}{pulse mean}\\[5pt]
+  $E/N$ \wm{enLo}\\ to \wm{enHi}\unit{Td}\\
+  \textcolor{ink2}{in the pulse}\\[5pt] $U_e=\tfrac32 n_e T_e$};
+\node[align=center, note, text width=1.4cm, anchor=south]
+  at ([yshift=3pt]eg.south) {in: power \wm{e.P}\\ and Penning
+  \wm{e.pen}\\[3pt] captured \el\\ \wm{e.cap} to heat};
+
+% ================================================================ e-impact rows
+\node[note, anchor=south west, text width=5.4cm, align=left]
+  at (5.3,14.1) {$Q=k\,n_e[\mathrm{X}]$, $k=\langle\sigma v\rangle$ over
+  the kinetic EEDF, on Biagi's level-resolved cross sections (trained factors) and Jung et al.'s};
+\node[proc, text width=2.35cm] (G1) at (6.6,13.35) {%
+  \textbf{G1}\quad \el{} + Kr\\ \ra \el{} + \Krs(5s)\\
+  \textcolor{ink2}{\wm{nG1} levels, \wm{E.S} to \wm{G1.hi}\unit{eV},
+  each its own species}};
+\node[proc, text width=2.35cm] (C1) at (6.6,11.2) {%
+  \textbf{C1}\quad \el{} + Kr\\ \ra Kr(5p, 4d, \dots)\\
+  \textcolor{ink2}{\wm{nC1} levels, \wm{C1.lo} to \wm{C1.hi}\unit{eV},
+  cascade to \Krpp(5p)}};
+\node[proc, text width=2.35cm] (K76) at (6.6,8.6) {%
+  \textbf{K76, K76r}\\ \el{} + \Krs{} $\rightleftarrows$\\ \el{} +
+  \Krpp, measured $\sigma$\\
+  \textcolor{ink2}{\wm{nPairs} pairs, each at its own threshold}};
+\node[proc, text width=2.35cm] (C2) at (6.6,6.0) {%
+  \textbf{C2, KSTEP, EI}\\ \el{} + Kr, \Krs, \Krpp,\\ \Krts{} \ra
+  ions + 2\el\\ \textcolor{ink2}{the electrons' share}};
+\node[proc, text width=2.35cm] (G6) at (6.6,4.35) {%
+  \textbf{G6}\quad elastic\\ \el{} + Kr\\
+  \textcolor{ink2}{$(2m/M)$ per collision}};
+
+% ================================================================ Kr*, Kr**, R11p
+\node[spec=cX] (KS) at (10.05,12.95) {%
+  \textbf{\Krs(5s)}, four levels\\
+  formed $\wm{krsFormed}\unit{cm^{-3}}$\\
+  {\tiny K76 \pc{brs.76}, AK8 \pc{brs.AK8}, KSTEP \pc{brs.step}, G2
+  \pc{brs.G2}, SUPER \pc{brs.super}}};
+\node[spec=cP] (KPP) at (10.05,8.6) {%
+  \textbf{\Krpp(5p)} from \wm{E.PP}\unit{eV}\\
+  formed $\wm{kppFormed}\unit{cm^{-3}}$\\
+  {\tiny KPS \pc{brp.KPS}, K76r \pc{brp.76r}, KSTEP \pc{brp.step},
+  PRAD \pc{brp.PRAD}; ten levels at $T_g$}};
+\node[proc, text width=2.3cm] (R11) at (10.05,4.5) {%
+  \textbf{R11p}\quad \Krtp{} + \el\\ \ra \Krpp{} + Kr\\
+  \textcolor{ink2}{$\wm{k.R11p}\cm{3}$}\\
+  \textcolor{ink2}{$\times\,(300\,\mathrm{K}/T_e)^{\wm{pow.R11p}}$}};
+
+% ================================================================ Kr2*, G2, ions
+\node[spec=cV, text width=2.5cm] (K2S) at (13.75,13.05) {%
+  \textbf{\Krts}, \pc{brs.AK8} of \Krs\\
+  $\wm{k2sFormed}\unit{cm^{-3}}$\\
+  {\tiny AK8 out of 1s$_{5,4,3}$: \wm{form.1s5}, \wm{form.1s4},
+  \pc{form.1s3}; AK8r \pc{redis.pc} back; EI \pc{brk2.ei}}};
+\node[proc, text width=2.5cm] (G2) at (13.75,10.35) {%
+  \textbf{G2}\quad \Krs{} + \Krs\\ \ra \Krp{} + Kr + \el\\
+  \textcolor{ink2}{$\wm{k.G2}\cm{3}$, \wm{pen.e}\unit{eV} to \el}\\
+  takes \pc{brs.G2} of \Krs};
+\node[spec=cI, text width=2.5cm] (KI) at (13.75,6.0) {%
+  \textbf{\Krp{}, \Krtp{} ions}\\ {\tiny K15: \Krp{} + 2Kr \ra \Krtp{} +
+  Kr}\\ {\tiny $\wm{k.K15}\cm{6}\times(T_g/300)^{\wm{tpow.K15}}$}};
+
+% ================================================================ Kr2* light
+\node[proc, text width=2.5cm] (KR) at (17.55,12.95) {%
+  \textbf{KR2\_RAD}\quad 147\unit{nm}\\ \Krts{} \ra 2Kr + \hnu\\
+  \textcolor{ink2}{$\tau=\wm{tauRAD}\unit{ns}$}, \pc{brk2.RAD} of \Krts};
+\node[note, draw=ink2!40, dashed, rounded corners=2pt, fill=white,
+  text width=3.95cm, align=left, inner sep=3pt] (Z) at (18.4,10.6) {%
+  \textbf{0 by default}, printed, not drawn. No measurement:
+  \textbf{PEN\_KR2} \Krts{} + \Krts; \textbf{EQ\_KR2, EM\_KR2}
+  \el{} + \Krts{}, its quenching and the mixing of its two states;
+  \textbf{HM} (\wm{nHM} rows, Hornbeck--Molnar). Off by default:
+  \textbf{AK8f, KR2F\_RAD, EI\_KR2F} (the fast 0$_u^+$ state),
+  \textbf{QKR2} \Krts{} + Kr, \textbf{RES}, \textbf{KPS\_low} and
+  its reverse. Each is a band (bottom).};
+
+% ================================================================ bands
+% inputs into the gas
+\draw[band=\wm{e.P}, cE] (pow.east) -- (pow.east -| eg.west)
+  node[blab, midway, above=2.2pt] {\wm{e.P}};
+\draw[thin arrow, ink2] (seed.east) -- (seed.east -| eg.west)
+  node[blab, midway, above=1pt, font=\tiny] {seeds $n_e$};
+\draw[thin arrow, ink2] (fill.east) -- (fill.east -| 2.95,0)
+  node[blab, midway, above=1pt, font=\tiny] {fills};
+% electron gas out to the electron-impact rows
+\foreach \n/\k in {G1/e.G1, C1/e.C1, K76/e.76, C2/e.ion, G6/e.G6}{
+  \draw[band=\wm{\k}, cE] (\n.west -| eg.east) -- (\n.west)
+    node[blab, midway, above=1.5pt] {\wm{\k}};
+}
+% into Kr* and into the 5p rung
+\draw[band=\wm{G1.krs}, cX] (G1.east) -- (KS.west |- G1.east)
+  node[blab, midway, above=1.5pt] {\wm{G1.krs}};
+\draw[band=\wm{C1.kr}, cP] (C1.south east) -- (KPP.north west)
+  node[blab, midway, above right=0pt and 0pt] {\wm{C1.kr}};
+\draw[band=\wm{e.76}, cP] (K76.east) -- (KPP.west)
+  node[blab, midway, above=4pt] {\wm{e.76}};
+% the rung hands its Kr* energy back, net of K76, K76r, KPS and PRAD
+\draw[band=\wm{kpp.back}, cX] ([xshift=0.55cm]KPP.north) --
+  ([xshift=0.55cm]KS.south)
+  node[blab, midway, right=2pt] {\wm{kpp.back}};
+% out of Kr*: to Kr2*, to Penning
+\draw[band=\wm{krs.AK8}, cX] (KS.east) -- (K2S.west)
+  node[blab, midway, above=2pt] {\wm{krs.AK8}};
+\draw[band=\wm{krs.G2}, cX] (KS.south east) -- (G2.north west)
+  node[blab, midway, above right=0pt and 0pt] {\wm{krs.G2}};
+% Kr2* to its light, and the light to the ledger
+\draw[band=\wm{k2s.RAD}, cV] (K2S.east) -- (KR.west)
+  node[blab, midway, above=2pt] {\wm{k2s.RAD}};
+\draw[band=\wm{RAD.hv}, cV] (KR.east) -- (KR.east -| 23.8,0)
+  node[blab, pos=0.85, above=2pt] {\wm{RAD.hv}};
+% ionization into the ions
+\draw[band=\wm{eion.ion}, cI] (C2.east) -- (C2.east -| KI.west)
+  node[blab, pos=0.16, above=1.5pt] {\wm{eion.ion}};
+\draw[band=\wm{G2.ion}, cI] ([xshift=0.4cm]G2.south) --
+  ([xshift=0.4cm]G2.south |- KI.north)
+  node[blab, pos=0.85, right=3pt] {\wm{G2.ion}};
+% recombination: the ions to R11p, R11p up into the 5p rung over C2's band
+\draw[band=\wm{R11p.in}, cI] (KI.south west) -- (R11.east)
+  node[blab, midway, below right=0pt and 0pt] {\wm{R11p.in}};
+\draw[casing=\wm{R11p.kr}] (R11.north) -- (KPP.south);
+\draw[band=\wm{R11p.kr}, cP] (R11.north) -- (KPP.south)
+  node[blab, pos=0.5, left=2pt] {\wm{R11p.kr}};
+% the rung's near-IR light and its relaxation heat, right to the ledger,
+% over the ionization band of G2
+\draw[casing=\wm{PRAD.hv}] ([yshift=5pt]KPP.east) -- ([yshift=5pt]KPP.east -| 23.8,0);
+\draw[band=\wm{PRAD.hv}, cP] ([yshift=5pt]KPP.east) -- ([yshift=5pt]KPP.east -| 23.8,0)
+  node[blab, pos=0.93, above=1.5pt] {\wm{PRAD.hv}};
+\node[note, anchor=south west] at (15.75,8.86)
+  {PRAD, \wm{nLines} lines, $\tau=\wm{tauPRAD}\unit{ns}$ at 300\unit{K}};
+\coordinate (kpsA) at ([yshift=-6pt]KPP.east);
+\draw[casing=\wm{rung.heat}, rounded corners=6pt]
+  (kpsA) -- (kpsA -| 21.9,0) -- (21.9,5.55) -- (23.8,5.55);
+\draw[band=\wm{rung.heat}, cH, rounded corners=6pt]
+  (kpsA) -- (kpsA -| 21.9,0) -- (21.9,5.55) -- (23.8,5.55);
+\node[blab, anchor=north west, align=left, text width=5.6cm, font=\tiny] at
+  (15.75,8.22) {the rung's relaxation to heat, \wm{rung.heat}:
+  \textbf{KPS} net of KPSr, $\wm{k.KPS}\cm{3}$, the gaps to 5s,
+  \wm{KPS.heat}; the pumps' excess over 2p$_{10}$, net of the reverses,
+  \wm{K76.heat}};
+% Penning back to the electrons, down beside G2's ionization band and
+% left under the 5p rung, over the rung's and R11p's bands
+\draw[casing=\wm{e.pen}, rounded corners=5pt]
+  ([xshift=-0.4cm]G2.south) -- ([xshift=-0.4cm]G2.south |- 0,7.15)
+  -- (eg.east |- 0,7.15);
+\draw[band=\wm{e.pen}, cE, rounded corners=5pt]
+  ([xshift=-0.4cm]G2.south) -- ([xshift=-0.4cm]G2.south |- 0,7.15)
+  -- (eg.east |- 0,7.15)
+  node[blab, pos=0.72, below=2pt] {Penning returns \wm{e.pen}};
+
+% v0_5: the electrons return the 5s levels to the ground state (SUPER),
+% left to the electron gas between G1 and C1
+\draw[casing=\wm{krs.super}] (KS.west |- 0,12.45) -- (eg.east |- 0,12.45);
+\draw[band=\wm{krs.super}, cE] (KS.west |- 0,12.45) -- (eg.east |- 0,12.45)
+  node[blab, pos=0.5, below=1pt, font=\tiny] {SUPER \wm{krs.super}};
+% v0_5: the electrons ionize the 5s levels (KSTEP_S), down beside the 5p
+% rung, and the rung (KSTEP_P), into the ions' west side; their own share
+% of the energy comes through C2's box
+\coordinate (ksA) at ([yshift=-0.38cm]KS.east);
+\draw[casing=\wm{krs.stepS}, rounded corners=5pt]
+  (ksA) -- (ksA -| 11.8,0) -- (11.8,6.92) -- (12.75,6.92) -- (12.75,0 |- KI.north);
+\draw[band=\wm{krs.stepS}, cX, rounded corners=5pt]
+  (ksA) -- (ksA -| 11.8,0) -- (11.8,6.92)
+  node[blab, pos=0.59, right=1.5pt, font=\tiny] {KSTEP\_S \wm{krs.stepS}}
+  -- (12.75,6.92) -- (12.75,0 |- KI.north);
+\draw[casing=\wm{kpp.stepP}, rounded corners=5pt]
+  ([xshift=0.75cm]KPP.south) -- ([xshift=0.75cm]KPP.south |- 0,6.36)
+  -- (KI.west |- 0,6.36);
+\draw[band=\wm{kpp.stepP}, cP, rounded corners=5pt]
+  ([xshift=0.75cm]KPP.south) -- ([xshift=0.75cm]KPP.south |- 0,6.36)
+  -- (KI.west |- 0,6.36)
+  node[blab, pos=0.45, above=1pt, font=\tiny] {KSTEP\_P \wm{kpp.stepP}};
+% v0_5: the electrons ionize the excimer (EI), down past G2 into the ions'
+% east side
+\coordinate (eiA) at ([yshift=-0.45cm]K2S.east);
+\draw[casing=\wm{k2s.ei}, rounded corners=5pt]
+  (eiA) -- (eiA -| 15.5,0) -- (15.5,6.2) -- (KI.east |- 0,6.2);
+\draw[band=\wm{k2s.ei}, cV, rounded corners=5pt]
+  (eiA) -- (eiA -| 15.5,0) -- (15.5,6.2)
+  node[blab, pos=0.87, right=1.5pt, font=\tiny] {EI \wm{k2s.ei}}
+  -- (KI.east |- 0,6.2);
+
+% ================================================================ loss tags
+\node[tag=cH, anchor=north east] at ([yshift=-2pt]KS.south east)
+  {heat \wm{MIX.heat}, MIX};
+\node[tag=cH, anchor=north east] at ([yshift=-2pt]C1.south east)
+  {heat \wm{C1.heat}};
+\node[tag=cH, anchor=north east] at ([yshift=-2pt]G6.south east)
+  {heat \wm{e.G6}, elastic};
+\node[tag=cH, anchor=north east] at ([yshift=-2pt]R11.south east)
+  {heat \wm{R11p.heat}};
+\node[tag=cH, anchor=north east] at ([yshift=-2pt]KI.south east)
+  {heat \wm{K15.heat}, K15 net of K15r};
+\node[tag=cH, anchor=north east] at ([yshift=-2pt]K2S.south east)
+  {heat \wm{AK8.heat}, AK8 net of AK8r};
+\node[tag=cH, anchor=north east] at ([yshift=-2pt]KR.south east)
+  {heat \wm{RAD.heat}};
+
+% ================================================================ bands box
+\node[draw=ink2!60, dashed, rounded corners=3pt, fill=white,
+  align=left, font=\tiny, text=ink, anchor=south west,
+  text width=15.9cm, inner sep=4pt] (BX) at (5.3,0.35) {%
+  {\scriptsize\textbf{Bands.}} The 147-nm share at each end of one band,
+  the rest at their defaults, kinetic EEDF (here \wm{out.147}); the
+  default end in bold. \wm{bd.ncalc} of the \wm{bd.n} are set by a
+  calculation (Vriens and Smeets), \wm{bd.nzero} have no measurement and
+  \wm{bd.noff} more are off by default.\\[1pt]
+  \begin{tabular}{@{}l@{\hspace{3pt}}r@{\hspace{8pt}}l@{\hspace{3pt}}r@{\hspace{8pt}}l@{\hspace{3pt}}r@{\hspace{8pt}}l@{\hspace{3pt}}r@{}}
+  \el{} + \Krs{} \ra \Krp, scale & \wm{bd.kstep_s.cell}
+    & \el{} + \Krpp{} \ra \Krp, scale & \wm{bd.kstep_p.cell}
+    & \el{} + \Krts{} \ra \Krtp, scale & \wm{bd.ei_kr2.cell}
+    & \el{} + \Krts{} \ra \el{} + 2Kr & \wm{bd.eq_kr2.cell}\\
+  \el{} + \Krts, its two states & \wm{bd.em_kr2.cell}
+    & \el{} + 1s$_5$ \ra 1s$_4$ & \wm{bd.emix_5s.cell}
+    & \el{} + \Krs{} \ra \Krpp, scale & \wm{bd.k_5s5p.cell}
+    & the same, $J=1$ & \wm{bd.k_5s5p_j1.cell}\\
+  \Krpp{} + Kr \ra \Krs{} & \wm{bd.kps_kr.cell}
+    & its products over 5s & \wm{bd.kps_5s.cell}
+    & \Krs{} + \Krs{} & \wm{bd.kr_pen.cell}
+    & 1s$_5$ + 2Kr & \wm{bd.kr2_form.cell}\\
+  1s$_4$ + 2Kr & \wm{bd.kr2_form_1s4.cell}
+    & 1s$_3$ + 2Kr & \wm{bd.kr2_form_1s3.cell}
+    & the fast 0$_u^+$ share & \wm{bd.kr2_fast.cell}
+    & \Krts{} + Kr \ra 3Kr & \wm{bd.kr2_quench.cell}\\
+  the excimer's well & \wm{bd.kr2_d0.cell}
+    & \Krts{} + \Krts{} & \wm{bd.kr2_pen.cell}
+    & \Krtp{} + \el, $T_g$ factor & \wm{bd.dr_tg.cell}
+    & resonance lines & \wm{bd.res_escape.cell}\\
+  Kr(nl) + Kr \ra \Krtp{} & \wm{bd.hm_kr.cell} & & & & & & \\
+  \end{tabular}\\[1pt]
+  The 5s \ra 5p cycle off: \pc{om.nocycle}; Kannari's fit in K76's
+  place: \pc{om.kannari}; the two-temperature closure: \pc{om.twot}.};
+
+% ================================================================ legend
+\begin{scope}[shift={(16.3,3.75)}, font=\tiny, text=ink]
+  \node[anchor=west, font=\tiny\bfseries, text=ink2] at (0,2.95)
+    {Band color is where the energy sits};
+  \foreach \c/\t [count=\i] in {cE/electron gas, cX/\Krs{} (5s),
+      cP/{\Krpp{} (5p) and near-IR light},
+      cV/\Krts{} and 147-nm light, cI/\Krp{} and \Krtp{} ions,
+      cH/heat}{
+    \draw[\c, line width=1.2mm] (0,2.95-0.36*\i) -- ++(0.5,0);
+    \node[anchor=west] at (0.56,2.95-0.36*\i) {\t};
+  }
+  \node[tag=cH, anchor=west] at (3.55,2.59) {heat};
+  \node[anchor=west] at (4.15,2.59) {turns into heat};
+  \draw[ink2, line width={10*0.03mm}] (3.55,2.23) -- ++(0.5,0);
+  \node[anchor=west] at (4.1,2.23) {10\,\% band};
+  \draw[ink2, line width={50*0.03mm}] (3.55,1.87) -- ++(0.5,0);
+  \node[anchor=west] at (4.1,1.87) {50\,\% band};
+\end{scope}
+
+% ================================================================ ledger
+\begin{scope}[font=\scriptsize, text=ink]
+  \newcommand{\ledger}[5]{% y, color, label, key, bar options
+    \node[anchor=south west, inner sep=1pt] at (23.85,#1) {#3};
+    \node[anchor=south east, inner sep=1pt, font=\scriptsize\bfseries]
+      at (27.85,#1) {$\wm{#4}$};
+    \draw[ink2!30] (23.9,#1-0.1) -- (27.8,#1-0.1);
+    \fill[#2, #5] (23.9,#1-0.1) rectangle
+      ++({3.9*max(0,\wm{#4})/100},-0.14);
+  }
+  \ledger{12.95}{cV}{147-nm emission}{out.147}{}
+  \ledger{9.0}{cP}{near-IR emission}{out.IR}{}
+  \ledger{5.55}{cH}{reaction heat}{out.heat}{}
+  \ledger{4.6}{cH}{elastic losses}{out.elastic}{opacity=0.55}
+  \ledger{3.65}{cI}{stored in ions}{out.ions}{}
+  \ledger{2.7}{muted}{other stores}{out.other}{}
+  \node[note, anchor=north west, text width=3.8cm, align=left]
+    at (23.85,3.5) {the seed's ions recombine};
+  \node[note, anchor=north west, text width=3.8cm, align=left]
+    at (23.85,2.45) {The rung's heat band and the heat tags inside the gas
+    add up to the reaction heat; the resonance lines, \pc{out.res}, are 0 by
+    default. Ledger closure: $\wm{closure}$ of \Edep. Every node above
+    conserves its flows (\wm{nodes} checks).};
+\end{scope}
+\node[note, anchor=north west, text width=2.6cm, align=left]
+  at (0.05,2.9) {Generated from LIGHT\_Kr v0\_5, version \wm{version}, the
+  default network (\wm{nrows} rows) with every band at its default. No
+  number on this page is typed by hand.};
+\end{tikzpicture}
+
+\vspace{1pt}
+{\tiny\sloppy The outputs as flows, which overlap: to \Krs{} and \Krpp{}
+by electron impact \pc{notes.krs}, to \Krp{} \pc{notes.krp}, to \Krts{}
+\pc{notes.k2s} (formed times the 147-nm quantum), heat \pc{out.heat},
+elastic losses \pc{out.elastic}. \textbf{The 5s $\leftrightarrow$ 5p
+cycle.} The electrons pump the 5s levels up to the 5p rung (K76, on Jung
+et al.'s measured cross sections, each pair at its own threshold)
+\wm{cyc.perK2} times for each \Krts{} formed net, and krypton relaxes the
+rung back onto every level (KPS), so the cycle is drawn as its two net
+bands: of the 5s atoms formed (gross), \pc{brs.76} are pumped up; of the
+rung, krypton relaxes \pc{brp.KPS}, the electrons return \pc{brp.76r} and
+ionize \pc{brp.step}, and \pc{brp.PRAD} radiates. The net pumping,
+$\wm{cyc.net}\unit{cm^{-3}}$ pumps, takes \pc{cyc.e} of the input from
+the electrons, and the rung's relaxation turns \pc{rung.heat} into heat.
+The 5s atoms come from G1 (\pc{gs.G1}), the rung's KPS (\pc{gs.KPS}) and
+PRAD (\pc{gs.PRAD}), K76r (\pc{gs.76r}) and the excimer's redissociation
+(\pc{gs.redis}). \textbf{The ions}, by number: the 5s levels' ionization
+(KSTEP\_S) makes \wm{ion.stepS}\,\%, the excimer's (EI) \wm{ion.ei}\,\%,
+the rung's (KSTEP\_P) \wm{ion.stepP}\,\%, Penning (G2) \wm{ion.G2}\,\%
+and C2 \wm{ion.C2}\,\%; they recombine onto the rung (R11p). The
+electrons' 1s$_5$ $\rightleftarrows$ 1s$_4$ mixing (EMIX) moves
+\pc{e.emix} net. \textbf{The kinetic EEDF:} \wm{kinN} solutions,
+\wm{kinOn} in the pulse; over its second half the field carries
+\wm{kinRatioLo} to \wm{kinRatioHi} of the input and the kinetic and the
+model's energy balances agree to $\wm{kinGap}$ of it. At the end
+$T_g=\wm{TgEnd}\unit{K}$, $p=\wm{pEnd}\unit{atm}$,
+$n_e=\wm{neEnd}\unit{cm^{-3}}$. \textbf{Sources} (DOIs) of the rates printed: cross sections Biagi 1999,
+10.1016/S0168-9002(98)01233-9, via LXCat, 10.1016/j.chemphys.2011.04.020,
+times factors trained on krypton's drift velocities and ionization
+coefficients (5s $\times$\wm{fac.x1s}, 5p $\times$\wm{fac.x2p}, higher
+$\times$\wm{fac.xhi}, momentum transfer $\times$\wm{fac.mlo} to
+$\times$\wm{fac.mhi}); K76 Jung et al.\ 2006, 10.1103/PhysRevA.73.022722;
+KSTEP and EI Vriens and Smeets 1980, 10.1103/PhysRevA.22.940; SUPER
+scored on Blagoev et al.\ 1984, 10.1088/0022-3700/17/3/013; EMIX Blagoev
+and Pilosov 1981, 10.1016/0375-9601(81)90875-6; AK8 Marchal et al.\
+2018, 10.5772/intechopen.71942, on Wieme and Lenaerts 1981,
+10.1063/1.440855; AK8r LaRocque et al.\ 1986, 10.1063/1.450716, Killeen
+and Eden 1986, 10.1063/1.450794; MIX Turner 1967, 10.1103/PhysRev.158.121,
+Audouard et al.\ 1991, 10.1063/1.460834; KR2\_RAD Morikawa et al.\ 1989,
+10.1063/1.457108; G2 Leichner and Ericson 1974, 10.1103/PhysRevA.9.251,
+as Kannari et al.\ 1985 print it, 10.1063/1.334590; KPS Gazeli et al.\
+2021, 10.1063/5.0041471; PRAD NIST ASD, 10.18434/T4W30F; R11p Shiu and
+Biondi 1977, 10.1103/PhysRevA.16.1817; K15 Bhattacharya 1970,
+10.1103/PhysRevA.1.1196, Gr\"ossl et al.\ 1981, 10.1063/1.441261, Smith
+et al.\ 1972, 10.1088/0022-3700/5/11/020; K15r and \Krtp's well Signorell
+et al.\ 2001, 10.1063/1.1370939.\par}
+
+\end{document}

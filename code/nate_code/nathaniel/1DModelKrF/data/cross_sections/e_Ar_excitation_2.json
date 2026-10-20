@@ -1,0 +1,44 @@
+{
+ "schema": "cross-section-metadata/1.1",
+ "generated_utc": "2026-07-31T00:00:00Z",
+ "source": "SIGLO swarm-validated lumped Ar excitation total (Chen ref 22, the EEDF input) apportioned between R5 (Ar*, 4s) and R6 (Ar**, 4p) by BSR (B-spline R-matrix, Zatsarinny & Bartschat) 4p/(4s+4p) branching f(E)=0.25-0.36 in 13.5-30 eV, ->0.12 at 200 eV; benchmarked vs beam experiments (which give 4p share ~0.2-0.3), replacing the RDW ratio (f->0.68 at 20 eV, threshold-peaked theory known to overestimate). Two-level per Chen (3d/5s cascade reassigns through the total); R5+R6 == SIGLO exactly. Sources: SIGLO database, www.lxcat.net; BSR database, www.lxcat.net (retrieved 2026-07-30).",
+ "data_file": "e_Ar_excitation_2.csv",
+ "data_kind": "total",
+ "process_id": "e_Ar_excitation_2",
+ "database": "SIGLO x BSR-4p branching (LXCat)",
+ "reaction": "E + Ar -> E + Ar**(4p)",
+ "type": "Excitation",
+ "category": "Excitation (electronic)",
+ "family": "Electron",
+ "projectile": "e",
+ "target": "Ar",
+ "mass_ratio_m_over_M": null,
+ "ion_mass_amu": null,
+ "ion_mass_ratio": null,
+ "stat_weight_ratio": null,
+ "complete_set": false,
+ "param_raw": "E = 13.074 eV",
+ "comment": "two-level split; R5+R6 == SIGLO lumped at every grid point",
+ "updated": "2026-07-31",
+ "n_points": 32,
+ "threshold": 13.074,
+ "axes": {
+  "x_quantity": "Energy",
+  "y_quantity": "Cross section"
+ },
+ "units": {
+  "x": "eV",
+  "y": "cm^2"
+ },
+ "source_units": {
+  "x": "eV",
+  "y": "m^2"
+ },
+ "conversion_from_source": {
+  "x": 1,
+  "y": 10000
+ },
+ "x_min": 11.5,
+ "x_max": 10000.0,
+ "y_max": 4.8096856817085475e-17
+}

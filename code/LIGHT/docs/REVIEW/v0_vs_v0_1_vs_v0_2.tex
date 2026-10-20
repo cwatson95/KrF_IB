@@ -1,0 +1,385 @@
+% Which is more accurate, LIGHT v0, v0_1 or v0_2. The three versions on the
+% same tests. No number here is typed by hand. They come from seven
+% generated files: v0's map and overview numbers
+% (docs/system_map_basic_numbers.tex, docs/overview_fast.tex,
+% docs/overview_slow.tex), v0_1's (docs/system_map_v0_1_numbers.tex,
+% docs/overview_v0_1_fast.tex, docs/overview_v0_1_slow.tex) and this
+% comparison's review_numbers.tex (make_review.py), which also holds v0_2's
+% column. Build from LIGHT/docs/REVIEW:
+%   python3 make_review.py && latexmk -pdf v0_vs_v0_1_vs_v0_2.tex
+\documentclass[11pt]{article}
+\usepackage[a4paper,margin=2.2cm]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[scaled=0.95]{helvet}
+\renewcommand{\familydefault}{\sfdefault}
+\usepackage{amsmath}
+\usepackage{sansmath}
+\usepackage{booktabs,tabularx,array}
+\usepackage{xcolor}
+\usepackage{float}
+\usepackage{needspace}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{5pt}
+\definecolor{ink2}{HTML}{52514E}
+% a page of tables starts at its top
+\makeatletter\setlength{\@fptop}{0pt}\makeatother
+
+\input{../system_map_basic_numbers}
+\input{../overview_fast}
+\input{../overview_slow}
+\input{../system_map_v0_1_numbers}
+\input{../overview_v0_1_fast}
+\input{../overview_v0_1_slow}
+\input{review_numbers}
+\makeatletter
+\newcommand\lm[1]{\ifcsname lm@#1\endcsname\csname lm@#1\endcsname
+  \else\errmessage{no v0 map number '#1'}\fi}
+\newcommand\ov[1]{\ifcsname ov@#1\endcsname\csname ov@#1\endcsname
+  \else\errmessage{no v0 overview number '#1'}\fi}
+\newcommand\vm[1]{\ifcsname vm@#1\endcsname\csname vm@#1\endcsname
+  \else\errmessage{no v0_1 map number '#1'}\fi}
+\newcommand\vi[1]{\ifcsname vi@#1\endcsname\csname vi@#1\endcsname
+  \else\errmessage{no v0_1 overview number '#1'}\fi}
+\newcommand\rv[1]{\ifcsname rv@#1\endcsname\csname rv@#1\endcsname
+  \else\errmessage{no review number '#1'. Rerun make_review.py}\fi}
+\makeatother
+
+% chemistry and units
+\newcommand{\unit}[1]{\ensuremath{\,\mathrm{#1}}}
+\newcommand{\el}{\ensuremath{\mathrm{e}^-}}
+\newcommand{\Krs}{Kr\ensuremath{^*}}
+\newcommand{\Krp}{Kr\ensuremath{^+}}
+\newcommand{\Krtp}{Kr\ensuremath{_2^+}}
+\newcommand{\Krts}{Kr\ensuremath{_2^*}}
+\newcommand{\KtF}{Kr\ensuremath{_2}F\ensuremath{^*}}
+\newcommand{\Ft}{F\ensuremath{_2}}
+\newcommand{\ra}{\ensuremath{\to}\ }
+\newcommand{\Edep}{\ensuremath{E_\mathrm{dep}}}
+\newcommand{\gIP}{\ensuremath{g_0I_\mathrm{sat}/P_\mathrm{in}}}
+\newcommand{\x}[1]{\ensuremath{\times}#1}
+
+\begin{document}
+\sansmath
+
+{\LARGE\bfseries Which is more accurate, LIGHT v0, v0\_1 or v0\_2}\par
+\vspace{4pt}
+{\large The three versions on the same tests. v0 is version \lm{version},
+v0\_1 is version \vm{version} and v0\_2 is version \rv{v02.version}, 29
+September 2026.}\par
+\vspace{10pt}
+
+\noindent\fbox{\parbox{\dimexpr\linewidth-2\fboxsep-2\fboxrule\relax}{%
+\setlength{\parskip}{5pt}%
+\textbf{Bottom line.} v0\_2 is the best of the three models. It is more
+accurate than v0, it scores level with v0\_1, and it is the only version
+whose default network rests on measurements and theory alone.
+
+v0 falls behind because its default network holds $n_e$ fixed and has no
+charge chemistry, and under Tahoma's beam it gives the gain at
+\x{\rv{tah.v0.def.x}} the measured value. v0\_1 and v0\_2 give the same
+numbers on every kinetic dataset, every pure-gas check and the electron
+closure. At Tahoma they trade places. v0\_2 gives the formation efficiency
+at \x{\rv{v02.tah.eta.x}}, the nearest of the three, and the gain at
+\x{\rv{tah.v02.def.x}}. v0\_1 comes closer on the gain,
+\x{\rv{tah.v01.def.x}} by default and \x{\vi{tah.g0.x}} as ML scores it,
+but only by leaving measurements behind. Its default network has no
+\Krts{} route and so leaves out \Krs{} + 2Kr, a measured channel that takes
+\Krs{} from the harpoon reaction. ML's configuration adds the route with
+Kannari's estimates for \Krts{} + F and \Krts{} + \Krts{}, two rates that
+have never been measured, and v0\_2 with those two estimates gives v0\_1's
+\rv{tah.v02.kannari.g0}\unit{\%/cm}. Under the predictive-only policy an
+estimate may not set a rate. v0\_2 also gives every unmeasured or disputed
+rate as a band, so it says how far its answer can move, up to a factor
+\rv{grid.kr2} through \Krts{} + F and down by \rv{grid.tri}\,\% through the
+trimer's temperature law across the notes' ranges.
+
+Most of the gain v0\_2 still misses at Tahoma lies inside its \Krts{} + F
+band, whose top gives \x{\rv{tah.v02.hiF.x}}. A measurement of that rate
+would show whether the gap is that reaction.}}
+\medskip
+
+v0\_1 kept v0's KrF(B,C) block and every formation link, and v0\_2 kept
+v0\_1's, so wherever they run the same chemistry they score alike, and
+Table~\ref{tab:same} lists every test. On the 300\unit{K} kinetic datasets
+the three agree to the digit. Under Tahoma's electron beam, with the ion
+and F$_2$-electron chemistry on, $n_e$ free and the \Krts{} group with
+Kannari's estimates in it, v0 gives the small-signal gain at
+\x{\ov{tah.g0.x}} the measured \ov{tah.g0.meas}\unit{\%/cm} and v0\_1 at
+\x{\vi{tah.g0.x}}. Yu and Setser's C/B ratio between 230 and 300\unit{K}
+improves from \ov{sc.ys_ratio_230_300} to \vi{sc.ys_ratio_230_300}\,\%,
+but v0\_1 and v0\_2 book their B-C gap, which rests partly on that ratio,
+so the improvement is not an independent test.
+
+The difference between v0 and the others is what each runs by default.
+v0's basic network holds $n_e$ at $10^{15}$\unit{cm^{-3}} and has no charge
+chemistry, so every ion it makes stays an ion. Under Tahoma's beam, which
+makes ion pairs, that network gives the gain at \x{\rv{tah.v0.def.x}} the
+measured value, and \x{\rv{tah.v0.defkr2.x}} with the \Krts{} group added.
+v0's overview scored \x{\ov{tah.g0.x}} because ML ran v0 with its optional
+ion, F$_2$-electron and \Krts{} groups on and $n_e$ free, and the overview
+did not say so. v0\_1 made that chemistry its default, and its default
+network gives \x{\rv{tah.v01.def.x}}. v0\_2's gives \x{\rv{tah.v02.def.x}}.
+
+Between v0\_1 and v0\_2 the difference at Tahoma is the \Krts{} route.
+v0\_2 carries its measured rows, Ueda's \Krs{} + 2Kr, the 270-ns lifetime
+and Quigley and Hughes' \Krts{} + F$_2$. \Krts{} + F \ra KrF(B) + Kr and
+\Krts{} + \Krts{} Penning ionization have no measurement, so v0\_2 leaves
+them at zero and gives the gain at \x{\rv{tah.v02.def.x}}. v0\_1 as ML
+scores it, with Kannari's estimates for those two, gives
+\x{\vi{tah.g0.x}}, and v0\_2 with the same two estimates gives
+\x{\rv{tah.v02.kannari.x}}, so those two rates are the whole difference.
+On the formation efficiency the order turns, \x{\rv{v02.tah.eta.x}} for
+v0\_2 against \x{\vi{tah.eta.x}} for v0\_1, and the saturation
+intensities agree, \vi{tah.isat} and \rv{v02.tah.isat}\unit{MW/cm^2}. Over the posterior of the B/C constants v0\_2's gain
+spans \rv{v02.post.g0.lo} to \rv{v02.post.g0.hi}\unit{\%/cm} and v0\_1's
+\vi{post.g0.lo} to \vi{post.g0.hi}. Tahoma's gain would favour a
+nonzero \Krts{} + F and its formation efficiency the zero, but Tahoma is
+device data, so it scores that rate and never sets it. At the top of its
+band v0\_2 gives the gain at \x{\rv{tah.v02.hiF.x}}.
+
+Two unmeasured quantities dominate what all three versions leave open. One is
+the trimer's temperature law above \vi{tri.klimek.hi}\unit{K}. At Tahoma's
+\rv{v02.tah.tg}\unit{K} the weak $T_g^{-1/2}$ law gives v0\_2's gain at
+\x{\rv{tah.v02.tri.x}} and v0\_1's at \x{\vi{tah.tri.x}}, so Tahoma's
+gain counts against that law, as a score, and at the reference point it
+takes v0\_2's 248-nm share from \rv{band.trimer_tg_pow.lo} to
+\rv{band.trimer_tg_pow.hi}\,\%. The other is \Krts{} + F, whose band
+takes the same share from \rv{band.kr2_f.lo} to \rv{band.kr2_f.hi}\,\%.
+Each of v0\_2's other bands moves it by \rv{band.minor} points or less. v0\_2's changes are in
+\texttt{LIGHT/v0\_2/README.md}, and v0\_1's accuracy is written up in
+\texttt{docs/accuracy\_overview\_v0\_1.pdf}.
+
+\begin{table}[htbp]
+\centering\footnotesize
+\renewcommand{\arraystretch}{1.12}
+\begin{tabularx}{\linewidth}{@{}>{\raggedright\arraybackslash}X
+  >{\raggedright\arraybackslash}p{1.9cm}>{\raggedright\arraybackslash}p{2.35cm}
+  >{\raggedright\arraybackslash}p{2.35cm}
+  >{\raggedright\arraybackslash}p{2.35cm}@{}}
+\toprule
+test & measured & v0 & v0\_1 & v0\_2\\
+\midrule
+KrF(B) decay against Kr and F$_2$, Eden 1978 & & rms \ov{sc.eden_kr} and
+  \ov{sc.eden_f2}\,\% & rms \vi{sc.eden_kr} and \vi{sc.eden_f2}\,\% & rms
+  \rv{v02.sc.eden_kr} and \rv{v02.sc.eden_f2}\,\%\\
+KrF(B,C) slow decay, Gadomski 1992 & & rms \ov{sc.ksu_fig1} and
+  \ov{sc.ksu_fig2}\,\% & rms \vi{sc.ksu_fig1} and \vi{sc.ksu_fig2}\,\% &
+  rms \rv{v02.sc.ksu_fig1} and \rv{v02.sc.ksu_fig2}\,\%\\
+C/B emission ratio at 300\unit{K}, Yu and Setser 1990 & \ov{ys.meas}
+  $\pm$ \ov{ys.err} & \ov{sc.ys_ir300}\,\% & \vi{sc.ys_ir300}\,\% &
+  \rv{v02.sc.ys_ir300}\,\%\\
+KrF(B,C) decays, Xu 1993 Figs. 5 to 7 & & rms \ov{sc.xu_figs5_7}\,\% &
+  rms \vi{sc.xu_figs5_7}\,\% & rms \rv{v02.sc.xu_figs5_7}\,\%\\
+decay constants Xu 1993 printed & \ov{xu.50.meas} and
+  \ov{xu.100.meas}\unit{s^{-1}} & \x{\ov{xu.50}} and \x{\ov{xu.100}} &
+  \x{\vi{xu.50}} and \x{\vi{xu.100}} & \x{\rv{v02.xu.50}} and
+  \x{\rv{v02.xu.100}}\\
+C-A decays, Hakuta 1990 & & rms \ov{sc.hakuta_fig2} and
+  \ov{sc.hakuta_fig3}\,\% & rms \vi{sc.hakuta_fig2} and
+  \vi{sc.hakuta_fig3}\,\% & rms \rv{v02.sc.hakuta_fig2} and
+  \rv{v02.sc.hakuta_fig3}\,\%\\
+$\tau_B$, Burnham and Searles 1977 & \ov{sc.bs.meas} $\pm$
+  \ov{sc.bs.err}\unit{ns} & \ov{sc.bs_tau_b}\,\% & \vi{sc.bs_tau_b}\,\% &
+  \rv{v02.sc.bs_tau_b}\,\%\\
+C/B ratio 230\unit{K} over 300\unit{K}, Yu and Setser & \ov{ysr.meas}
+  $\pm$ \ov{ysr.err} & \ov{sc.ys_ratio_230_300}\,\% &
+  \vi{sc.ys_ratio_230_300}\,\%, not independent &
+  \rv{v02.sc.ys_ratio_230_300}\,\%, not independent\\
+\midrule
+\Krs{} + \Krp{} made per eV, pure Kr and Ar, Saito 2003 & &
+  \x{\ov{pure.Kr.x}} and \x{\ov{pure.Ar.x}} & \x{\vi{pure.Kr.x}} and
+  \x{\vi{pure.Ar.x}} & \x{\rv{v02.pure.Kr.x}} and \x{\rv{v02.pure.Ar.x}}\\
+\Krtp{} + \el{} recombination, Shiu and Biondi 1977 & &
+  \x{\ov{pure.dr.lo}} to \x{\ov{pure.dr.hi}} & \x{\vi{pure.dr.lo}}, the
+  input & \x{\rv{v02.pure.dr.lo}}, the input\\
+\Krp{} + 2Kr \ra \Krtp{} + Kr, Smith et al. 1972 & \ov{pure.conv.lo} to
+  \ov{pure.conv.hi} & \ov{pure.k15} & \vi{pure.k15}, a mean with two
+  others & \rv{v02.pure.k15}, the same mean\\
+VUV yield of pure Kr at low pump, Morozov 2008 & \ov{pure.vuv.meas}
+  $\pm$ \ov{pure.vuv.err} & \ov{pure.vuv} & \vi{pure.vuv} &
+  \rv{v02.pure.vuv}\\
+electron closure at Tahoma, $T_e$ and $n_e$ against the kinetic loop & &
+  within \ov{el.dev.te} and \ov{el.dev.ne}\,\% & within \vi{el.dev.te}
+  and \vi{el.dev.ne}\,\% & within \rv{v02.el.dev.te} and
+  \rv{v02.el.dev.ne}\,\%\\
+\midrule
+Tahoma small-signal gain $g_0$, each version's default network &
+  \ov{tah.g0.meas}\unit{\%/cm} & \rv{tah.v0.def.g0}, \x{\rv{tah.v0.def.x}}
+  & \rv{tah.v01.def.g0}, \x{\rv{tah.v01.def.x}} & \rv{tah.v02.def.g0},
+  \x{\rv{tah.v02.def.x}}\\
+\quad the same with the \Krts{} group & & \rv{tah.v0.defkr2.g0},
+  \x{\rv{tah.v0.defkr2.x}} & \rv{tah.v01.defkr2.g0},
+  \x{\rv{tah.v01.defkr2.x}} & in the default\\
+\quad as ML scores each version, with ion and F$_2$-electron chemistry,
+  \Krts{} and free $n_e$ & & \ov{tah.g0}, \x{\ov{tah.g0.x}} & \vi{tah.g0},
+  \x{\vi{tah.g0.x}} & \rv{v02.tah.g0}, \x{\rv{v02.tah.g0.x}}, the
+  default\\
+\quad the same without the estimated \Krts{} + F \ra KrF & &
+  \rv{tah.v0.noF.g0}, \x{\rv{tah.v0.noF.x}} & \rv{tah.v01.noF.g0},
+  \x{\rv{tah.v01.noF.x}} & as above\\
+\quad with Kannari's \Krts{} + F and \Krts{} + \Krts{}, and at the top of
+  the \Krts{} + F band & & & & \rv{tah.v02.kannari.g0},
+  \x{\rv{tah.v02.kannari.x}}, and \rv{tah.v02.hiF.g0},
+  \x{\rv{tah.v02.hiF.x}}\\
+\quad over the posterior of the B/C constants & & \ov{post.g0.mid}
+  [\ov{post.g0.lo}, \ov{post.g0.hi}] & \vi{post.g0.mid} [\vi{post.g0.lo},
+  \vi{post.g0.hi}] & \rv{v02.post.g0.mid} [\rv{v02.post.g0.lo},
+  \rv{v02.post.g0.hi}]\\
+\quad on each version's own power input, no beam & &
+  \rv{tah.v0.own.g0}, \x{\rv{tah.v0.own.x}} & \rv{tah.v01.own.g0},
+  \x{\rv{tah.v01.own.x}} & \rv{tah.v02.own.g0}, \x{\rv{tah.v02.own.x}}\\
+Tahoma saturation intensity $I_\mathrm{sat}$ & \ov{tah.isat.meas} $\pm$
+  \ov{tah.isat.err}\unit{MW/cm^2} & \ov{tah.isat}, \x{\ov{tah.isat.x}} &
+  \vi{tah.isat}, \x{\vi{tah.isat.x}} & \rv{v02.tah.isat},
+  \x{\rv{v02.tah.isat.x}}\\
+Tahoma formation efficiency \gIP & \ov{tah.eta.meas} & \ov{tah.eta},
+  \x{\ov{tah.eta.x}} & \vi{tah.eta}, \x{\vi{tah.eta.x}} &
+  \rv{v02.tah.eta}, \x{\rv{v02.tah.eta.x}}\\
+\bottomrule
+\end{tabularx}
+\caption{v0, v0\_1 and v0\_2 on the same tests. A percentage is the model's
+deviation from the data, signed for a single value and rms for a set. A
+\x{} factor is the model over the measurement. Tahoma's gain is in
+\%/cm. For v0\_1, ML's configuration is its default network with the
+\Krts{} group, and for v0\_2 it is its default network. The two
+recombination rows compare v0\_1 and v0\_2 with the measurements they were
+built from.}
+\label{tab:same}
+\end{table}
+
+\section*{Where the versions differ without data}
+
+At the notes' reference point, \lm{p}\unit{atm} of Kr with \lm{xF2}\,\%
+F$_2$ pumped at \lm{P}\unit{kW\,cm^{-3}} for \lm{pulse}\unit{\mu s}, no
+measurement exists, and there the defaults differ too. v0 sends
+\rv{ref.v0}\,\% of the deposited energy out at 248\unit{nm}, v0\_1
+\rv{ref.v01}\,\% and v0\_2 \rv{ref.v02}\,\%. Table~\ref{tab:ref} takes the
+gaps apart. Between v0 and v0\_1 the default network accounts for
+\rv{ref.d.network} of the \rv{ref.gap} points. v0 holds $n_e$ at
+$10^{15}$\unit{cm^{-3}}, where v0\_1's free $n_e$ runs at
+$\vm{neF2}$\unit{cm^{-3}} while F$_2$ lasts, so electrons quench
+\lm{brf.e}\,\% of the KrF in v0 and \vm{brf.e}\,\% in v0\_1. v0 also leaves
+\lm{out.ions}\,\% of the deposited energy in ions that never recombine.
+v0\_1 returns that energy through recombination, mostly as heat, and its
+gas ends at \vm{TgEnd}\unit{K} where v0's ends at \lm{TgEnd}\unit{K}. The
+values v0\_1 changed account for the other \rv{ref.d.values} points. Only
+the B-A branch moves the 248-nm share by more than a few hundredths, since
+it sends \vm{pc.BA}\,\% of B's emission to 272\unit{nm}.
+
+v0\_2 differs from v0\_1 by \rv{ref.gap12} points at 248\unit{nm}, but its
+gas ends \rv{ref.cool12}\unit{K} cooler. After F$_2$ burns out, the \Krs{}
+that v0\_1 turns into Penning ionization and heat forms \Krts{} in v0\_2
+and leaves as 147-nm light, \rv{ref.v02.vuv}\,\% of the deposited energy.
+With Kannari's two estimates v0\_2 gives \rv{ref.v02kannari}\,\%, what
+v0\_1 gives with its optional \Krts{} group (\vi{kr2.on}\,\% in v0\_1's
+overview).
+
+\begin{table}[htbp]
+\centering\footnotesize
+\renewcommand{\arraystretch}{1.12}
+\begin{tabular}{@{}lrrr@{}}
+\toprule
+model at the reference point & 248\unit{nm}, \% of \Edep & 147\unit{nm},
+  \% of \Edep & $T_g$ at the end, K\\
+\midrule
+v0 by default, $n_e$ held at $10^{15}$\unit{cm^{-3}}, no charge chemistry &
+  \rv{ref.v0} & \rv{ref.v0.vuv} & \rv{ref.v0.tg}\\
+v0 with its ion and F$_2$-electron groups, $n_e$ free & \rv{ref.v0groups}
+  & \rv{ref.v0groups.vuv} & \rv{ref.v0groups.tg}\\
+\textbf{v0\_1} & \textbf{\rv{ref.v01}} & \textbf{\rv{ref.v01.vuv}} &
+  \textbf{\rv{ref.v01.tg}}\\
+v0\_1 without the B-A branch & \rv{ref.noBA} & \rv{ref.noBA.vuv} &
+  \rv{ref.noBA.tg}\\
+v0\_1 without F + F + Kr & \rv{ref.noFF} & \rv{ref.noFF.vuv} &
+  \rv{ref.noFF.tg}\\
+v0\_1 with v0's \Krp{} conversion and \Krtp{} recombination &
+  \rv{ref.v0ions} & \rv{ref.v0ions.vuv} & \rv{ref.v0ions.tg}\\
+v0\_1 without the ion-ion temperature law & \rv{ref.noIIT} &
+  \rv{ref.noIIT.vuv} & \rv{ref.noIIT.tg}\\
+v0\_1 with REBUILD's KrF and \KtF{} energies & \rv{ref.v0E} &
+  \rv{ref.v0E.vuv} & \rv{ref.v0E.tg}\\
+\textbf{v0\_2} & \textbf{\rv{ref.v02}} & \textbf{\rv{ref.v02.vuv}} &
+  \textbf{\rv{ref.v02.tg}}\\
+v0\_2 with Kannari's \Krts{} + \Krts{} & \rv{ref.v02pen} &
+  \rv{ref.v02pen.vuv} & \rv{ref.v02pen.tg}\\
+v0\_2 with Kannari's \Krts{} + F and \Krts{} + \Krts{} & \rv{ref.v02kannari}
+  & \rv{ref.v02kannari.vuv} & \rv{ref.v02kannari.tg}\\
+\bottomrule
+\end{tabular}
+\caption{The reference point, one change at a time. The rows below v0\_1
+each undo one of its changes. The rows below v0\_2 give its two
+unmeasured \Krts{} rates Kannari's estimates, and the last is v0\_1 with
+its optional \Krts{} group.}
+\label{tab:ref}
+\end{table}
+
+v0\_2 carries every rate that is known only as a published spread, or not
+at all, as a band. A measured rate keeps its measurement as the default
+and spans the other published values. A rate with no measurement is zero
+by default and runs to the largest published value, which is no bound.
+Table~\ref{tab:bands} runs each band alone at its two ends. Two of the
+\rv{band.n} matter for the laser line, \Krts{} + F and the trimer law. The
+\KtF{} quench bands raise the 248-nm share through the gas temperature,
+since their energy goes to heat instead of 420-nm light and the hotter gas
+slows the trimer.
+
+\begin{table}[htbp]
+\centering\footnotesize
+\renewcommand{\arraystretch}{1.12}
+\begin{tabularx}{\linewidth}{@{}>{\raggedright\arraybackslash}X
+  >{\raggedright\arraybackslash}p{1.55cm}>{\raggedright\arraybackslash}p{5.2cm}rrr@{}}
+\toprule
+rate & v0\_2's value & band & 248\unit{nm} & 147\unit{nm} & $T_g$ end,
+  K\\
+\midrule
+\rvBands
+\bottomrule
+\end{tabularx}
+\caption{v0\_2's bands at the reference point. Each row runs one band at
+its low end and then at its high end, the rest at their defaults, and
+gives the percentages of \Edep{} and the final gas temperature at the two
+ends. The unmeasured rates start at zero.}
+\label{tab:bands}
+\end{table}
+
+Table~\ref{tab:grid} runs the three defaults over the notes' ranges, where
+no measurement exists either. v0 and v0\_1 differ by up to
+\rv{grid.diff}\,\% of v0\_1's value, and v0\_1 and v0\_2 by up to
+\rv{grid.diff12}\,\%. \Krts{} + F at the top of its band raises v0\_2's
+share by up to a factor \rv{grid.kr2}, and the trimer's weak law lowers it
+by up to \rv{grid.tri}\,\%. Those two bands reach farther than the spread
+between the versions at \rv{grid.nband} of the \rv{grid.n} points. The
+spread is the wider only where v0\_2's gas ends at \rv{grid.hotmin}\unit{K}
+or more, beyond every rate law's data. No version can be preferred there
+on its numbers.
+
+\begin{table}[htbp]
+\centering\footnotesize
+\renewcommand{\arraystretch}{1.08}
+\begin{tabular}{@{}rrrrrrrr@{}}
+\toprule
+$p$ & $P$ & \multicolumn{5}{c}{248\unit{nm}, \% of \Edep} & $T_g$ at the
+  end\\
+\cmidrule(lr){3-7}
+atm & kW\,cm$^{-3}$ & v0 & v0\_1 & v0\_2 & v0\_2, \Krts{} + F at
+  $10^{-9}$ & v0\_2, trimer $T_g^{-1/2}$ & v0\_2, K\\
+\midrule
+\rvGrid
+\bottomrule
+\end{tabular}
+\caption{The three defaults over the notes' pressure and power ranges,
+0.5\,\% F$_2$ for 1\unit{\mu s}. The sixth and seventh columns put v0\_2's
+two wide bands at the ends that move the share most.}
+\label{tab:grid}
+% the provenance note rides with the last table, so it ends the document
+% wherever the floats land
+\vspace{18pt}
+{\normalsize\raggedright\color{ink2} Generated from LIGHT v0
+(\lm{version}), v0\_1 (\vm{version}), v0\_2 (\rv{v02.version}) and ML by
+\texttt{docs/}\allowbreak\texttt{make\_overview.py},
+\texttt{docs/}\allowbreak\texttt{make\_overview\_v0\_1.py}, the two map
+scripts and \texttt{docs/REVIEW/}\allowbreak\texttt{make\_review.py}. No
+number in this document is typed by hand.\par}
+\end{table}
+
+\end{document}

@@ -1,0 +1,486 @@
+# Reduced Ne/Kr/F2 KrF* laser reaction network (45 active reactions)
+#
+# This is the KrF* counterpart of data/reactions/arf.toml.  It is a deliberately reduced,
+# closed network for a three-gas Ne/Kr/F2 discharge, assembled from the primary-rate audit in
+# rate-references/ne_kr_f_rates.csv and rate-references/kannari1985_KrF_rates_final.csv.
+# Electron-impact rows use the project's cited LXCat/SIGLO/Morgan cross-section datasets.
+#
+# STATE CONTRACT
+#   KrF*  = the optically active, B-dominated 248 nm population.  Its measured B-state lifetime
+#           (9 ns) is paired with the B-state stimulated-emission cross section (2.6e-16 cm2).
+#           C/D states and B<->C mixing are not separately resolved in this reduced model.
+#   Kr*, Ne* = lumped metastable manifolds; Kr**, Ne** = lumped higher manifolds.
+#   Kr2*, Ne2*, Kr2F* are explicit molecular excited-state sinks/intermediates.
+#
+# UNITS
+#   Published cgs rate constants are retained with k_units="cm3/s" or "cm6/s" and converted
+#   to SI by the loader.  Bare photo cross sections use sigma_m2.  Electron temperature Te in
+#   te_dependent rows is in eV: k = K0 * Te^te_power * exp(-E0_eV/Te).
+#
+# DOCUMENTED REDUCTIONS / CORRECTIONS
+#   * e + F2 -> F2+ + 2e conserves charge (the abbreviated '+ e' product is incorrect).
+#   * Kr2+ + F- forms KrF* + Kr, not KrF* + F.  The latter violates both Kr and F balance.
+#   * R30/R31 are effective atmospheric-pressure two-body mutual-neutralization coefficients;
+#     the stabilizing bath gas is implicit, so pressure-scan fidelity is limited.
+#   * KrF* + F2 is the measured electronic-quench channel Kr + F + F2.  The often-copied
+#     Kr + 3F products are the ArF table's dissociative branch and are not used for KrF here.
+#   * R18 sends the measured total Ne*+F2 quench into the neutral-dissociation branch.  Branching
+#     among neutral dissociation, Penning ionization, and ion-pair formation is not measured, so
+#     those alternatives are not added (which would double-count the measured total).
+#   * R24 is retained because it was requested, but 1e-14 cm3/s is an experimental upper bound;
+#     Ne+ -> Kr+ atomic charge transfer is negligible in this mixture.
+#   * PHOTO rows use exact frozen-fluence hazards to attenuate the 248 nm field, consume the
+#     absorber, create declared products, and deposit sourced photoelectron birth energy.
+
+# ==================================================================================================
+# A. Electron collisions and dissociative recombination
+# ==================================================================================================
+
+[[reaction]]
+id = "R1"
+reactants = "e + Ne"
+products = "Ne* + e"
+rate_form = "electron_impact"
+threshold_eV = 16.62
+cross_section = "e_Ne_excitation_1"
+reference = "SIGLO database (LXCat), Ne 4s-manifold sum, www.lxcat.net; cross-section provenance in data/cross_sections/e_Ne_excitation_1.json."
+
+[[reaction]]
+id = "R2"
+reactants = "e + Ne"
+products = "Ne** + e"
+rate_form = "electron_impact"
+threshold_eV = 18.72
+cross_section = "e_Ne_excitation_2"
+reference = "SIGLO database (LXCat), Ne higher-manifold sum, www.lxcat.net; cross-section provenance in data/cross_sections/e_Ne_excitation_2.json."
+
+[[reaction]]
+id = "R3"
+reactants = "e + Ne"
+products = "Ne+ + 2 e"
+rate_form = "electron_impact"
+threshold_eV = 21.56
+cross_section = "e_Ne_ionization"
+reference = "SIGLO database (LXCat), Ne total ionization, www.lxcat.net; cross-section provenance in data/cross_sections/e_Ne_ionization.json."
+
+[[reaction]]
+id = "R4"
+reactants = "e + Ne*"
+products = "Ne+ + 2 e"
+rate_form = "electron_impact"
+threshold_eV = 4.9
+cross_section = "e_Nes_ionization"
+reference = "SIGLO database (LXCat), Ne(3P2) stepwise ionization; J. Meunier, Ph. Belenguer, and J.-P. Boeuf, J. Appl. Phys. 78, 731 (1995); dataset provenance in data/cross_sections/e_Nes_ionization.json."
+
+[[reaction]]
+id = "R5"
+reactants = "e + Kr"
+products = "Kr* + e"
+rate_form = "electron_impact"
+threshold_eV = 9.915
+cross_section = "e_Krs_1s"
+reference = "SIGLO database (LXCat), digitized from H. Date, Y. Sakai, and H. Tagashira, J. Phys. D 22, 1478 (1989); dataset provenance in data/cross_sections/e_Krs_1s.json."
+
+[[reaction]]
+id = "R6"
+reactants = "e + Kr"
+products = "Kr** + e"
+rate_form = "electron_impact"
+threshold_eV = 11.3
+cross_section = "e_Krs_2s"
+reference = "SIGLO database (LXCat), digitized from H. Date, Y. Sakai, and H. Tagashira, J. Phys. D 22, 1478 (1989); dataset provenance in data/cross_sections/e_Krs_2s.json."
+
+[[reaction]]
+id = "R7"
+reactants = "e + Kr"
+products = "Kr+ + 2 e"
+rate_form = "electron_impact"
+threshold_eV = 14.0
+cross_section = "e_Kr_ionization"
+reference = "SIGLO database (LXCat), Kr total ionization, digitized from H. Date, Y. Sakai, and H. Tagashira, J. Phys. D 22, 1478 (1989); dataset provenance in data/cross_sections/e_Kr_ionization.json."
+
+[[reaction]]
+id = "R8"
+reactants = "e + Kr*"
+products = "Kr+ + 2 e"
+rate_form = "te_dependent"
+K0 = 7.0e-8
+te_power = 0.68
+E0_eV = 4.04
+k_units = "cm3/s"
+reference = "L. Vriens, Physica 31, 395 (1965), as compiled by F. Kannari, M. Obara, and T. Fujioka, J. Appl. Phys. 57, 4309 (1985), electron reaction 55; DOI 10.1063/1.334590."
+
+[[reaction]]
+id = "R9"
+reactants = "e + F2"
+products = "F- + F"
+rate_form = "electron_impact"
+threshold_eV = 0.0
+cross_section = "e_F2_attachment"
+reference = "SIGLO database (LXCat), www.lxcat.net; underlying compilation W. L. Morgan, Plasma Chem. Plasma Process. 12, 449 (1992); dataset provenance in data/cross_sections/e_F2_attachment.json."
+
+[[reaction]]
+id = "R10"
+reactants = "e + F2"
+products = "F2(a3) + e"
+rate_form = "electron_impact"
+threshold_eV = 3.16
+cross_section = "e_F2_excitation_a3"
+reference = "SIGLO database (LXCat), F2 a3 excitation/dissociation set, www.lxcat.net; dataset provenance in data/cross_sections/e_F2_excitation_a3.json."
+
+[[reaction]]
+id = "R11"
+reactants = "e + F2(a3)"
+products = "2 F + e"
+rate_form = "te_dependent"
+K0 = 2.08e-8
+te_power = -0.51
+E0_eV = 4.69
+k_units = "cm3/s"
+reference = "J. Tennyson et al., The 2021 release of the Quantemol database (QDB), Plasma Sources Sci. Technol. 31, 095020 (2022); Chen et al., Phys. Plasmas 32, 113502 (2025), Table III R13. Printed prefactor is interpreted as cm3/s, not the unphysical printed m3/s."
+
+[[reaction]]
+id = "R12"
+reactants = "e + F2"
+products = "F2+ + 2 e"
+rate_form = "electron_impact"
+threshold_eV = 15.69
+cross_section = "e_F2_ionization"
+reference = "SIGLO database (LXCat), F2 total ionization, www.lxcat.net; dataset provenance in data/cross_sections/e_F2_ionization.json."
+
+[[reaction]]
+id = "R13"
+reactants = "e + Ne2*"
+products = "Ne2+ + 2 e"
+rate_form = "te_dependent"
+K0 = 9.75e-9
+te_power = 0.71
+E0_eV = 3.4
+k_units = "cm3/s"
+reference = "S. Rauf and M. J. Kushner, J. Appl. Phys. 85, 3460 (1999); Chen et al., Phys. Plasmas 32, 113502 (2025), Table III R18."
+
+[[reaction]]
+id = "R14"
+reactants = "e + Ne2+"
+products = "Ne + Ne*"
+rate_form = "te_dependent"
+K0 = 3.6342143e-8
+te_power = -0.43
+E0_eV = 0.0
+k_units = "cm3/s"
+reference = "C. R. Philbrick, F. J. Mehr, and M. A. Biondi, Phys. Rev. 181, 271 (1969), k=1.75e-7*(300/Te[K])^0.43 cm3/s; DOI 10.1103/PhysRev.181.271. Converted here to Te in eV; the Ne+Ne* product lumping follows Rauf and Kushner (1999)."
+
+[[reaction]]
+id = "R15"
+reactants = "e + Kr2+"
+products = "Kr* + Kr"
+rate_form = "te_dependent"
+K0 = 2.1428500e-7
+te_power = -0.55
+E0_eV = 0.0
+k_units = "cm3/s"
+reference = "Y.-J. Shiu and M. A. Biondi, Phys. Rev. A 16, 1817 (1977), k=1.6e-6*(300/Te[K])^0.55 cm3/s; DOI 10.1103/PhysRevA.16.1817. Converted here to Te in eV."
+
+# ==================================================================================================
+# B. Penning ionization, excited-state transfer, and mutual neutralization
+# ==================================================================================================
+
+[[reaction]]
+id = "R16"
+reactants = "2 Ne*"
+products = "Ne+ + Ne + e"
+rate_form = "constant"
+k = 5.0e-10
+k_units = "cm3/s"
+reference = "X. Ma et al., Plasma Sources Sci. Technol. 33, 075012 (2024), as used by Chen et al., Phys. Plasmas 32, 113502 (2025), Table III R20."
+
+[[reaction]]
+id = "R17"
+reactants = "Ne* + Kr"
+products = "Kr+ + Ne + e"
+rate_form = "constant"
+k = 9.0e-11
+k_units = "cm3/s"
+reference = "M. Neynaber and G. D. Magnuson, Phys. Rev. A 14, 961 (1976); DOI 10.1103/PhysRevA.14.961. Measured total is about 1e-10 cm3/s, with about 90% assigned to Penning ionization."
+
+[[reaction]]
+id = "R18"
+reactants = "2 Kr*"
+products = "Kr+ + Kr + e"
+rate_form = "constant"
+k = 5.0e-10
+k_units = "cm3/s"
+reference = "P. K. Leichner and R. J. Ericson, Phys. Rev. A 9, 251 (1974); DOI 10.1103/PhysRevA.9.251; retained in Kannari et al. (1985)."
+
+[[reaction]]
+id = "R19"
+reactants = "Ne* + F2"
+products = "Ne + 2 F"
+rate_form = "constant"
+k = 4.2e-10
+k_units = "cm3/s"
+reference = "J. M. Brom, J. H. Kolts, and D. W. Setser, Chem. Phys. Lett. 55, 44 (1978); DOI 10.1016/0009-2614(78)85128-8. Measured total Ne(3P2)+F2 removal; this reduced model assigns the total to neutral dissociation."
+
+[[reaction]]
+id = "R20"
+reactants = "Ne** + Ne"
+products = "Ne* + Ne"
+rate_form = "constant"
+k = 7.1e-11
+k_units = "cm3/s"
+reference = "J. H. Lee, M. Matsui, F. Kannari, and M. Obara, IEEE J. Quantum Electron. 25, 2053 (1989); DOI 10.1109/3.35232. Lumped upper-Ne cascade model coefficient."
+
+[[reaction]]
+id = "R21"
+reactants = "F2+ + F-"
+products = "3 F"
+rate_form = "constant"
+k = 4.0e-8
+k_units = "cm3/s"
+reference = "R. Hofland, M. Lundquist, B. Ching, and G. Whittier, J. Appl. Phys. 45, 2207 (1974); DOI 10.1063/1.1663569. Corrects the unrelated DOI sometimes attached to this rate."
+
+# ==================================================================================================
+# C. Three-body excited-state association
+# ==================================================================================================
+
+[[reaction]]
+id = "R22"
+reactants = "Kr* + Kr + Ne"
+products = "Kr2* + Ne"
+rate_form = "constant"
+k = 2.7e-32
+k_units = "cm6/s"
+reference = "F. Kannari, M. Obara, and T. Fujioka, J. Appl. Phys. 57, 4309 (1985), Table I reaction 15, DOI 10.1063/1.334590. The tabulated Ar-third-body value is transferred to Ne here; MODEL estimate, no direct Ne measurement located."
+
+[[reaction]]
+id = "R23"
+reactants = "Ne* + 2 Ne"
+products = "Ne2* + Ne"
+rate_form = "constant"
+k = 4.1e-34
+k_units = "cm6/s"
+reference = "A. V. Phelps, Phys. Rev. 114, 1011 (1959), measured about 5e-34 cm6/s, DOI 10.1103/PhysRev.114.1011; 4.1e-34 is the Lee et al. (1989) Ne-backbone value."
+
+# ==================================================================================================
+# D. Charge transfer and dimer-ion association
+# ==================================================================================================
+
+[[reaction]]
+id = "R24"
+reactants = "Ne+ + Kr"
+products = "Kr+ + Ne"
+rate_form = "constant"
+k = 1.0e-14
+k_units = "cm3/s"
+reference = "R. Johnsen, J. A. MacDonald, and M. A. Biondi, J. Chem. Phys. 68, 2991 (1978); DOI 10.1063/1.436059. Experimental upper bound <=1e-14 cm3/s; retained at the bound for sensitivity."
+
+[[reaction]]
+id = "R25"
+reactants = "Kr+ + Kr + Ne"
+products = "Kr2+ + Ne"
+rate_form = "constant"
+k = 2.5e-31
+k_units = "cm6/s"
+reference = "F. Kannari, M. Obara, and T. Fujioka, J. Appl. Phys. 57, 4309 (1985), Table I mixed-third-body association; DOI 10.1063/1.334590. Ne is substituted for the tabulated Ar third body; MODEL estimate."
+
+[[reaction]]
+id = "R26"
+reactants = "Kr+ + 2 Kr"
+products = "Kr2+ + Kr"
+rate_form = "constant"
+k = 2.3e-31
+k_units = "cm6/s"
+reference = "B. B. Bhattacharya, Phys. Rev. A 1, 1196 (1970); DOI 10.1103/PhysRevA.1.1196. Measured Kr2+ three-body formation at 300 K."
+
+[[reaction]]
+id = "R27"
+reactants = "Ne+ + 2 Ne"
+products = "Ne2+ + Ne"
+rate_form = "constant"
+k = 4.4e-32
+k_units = "cm6/s"
+reference = "O. J. Orient, Chem. Phys. Lett. 23, 579 (1973), measured 4.2e-32 cm6/s; DOI 10.1016/0009-2614(73)89033-5. The 4.4e-32 value is the established Ne-backbone coefficient."
+
+# ==================================================================================================
+# E. KrF* formation
+# ==================================================================================================
+
+[[reaction]]
+id = "R28"
+reactants = "Kr* + F2"
+products = "KrF* + F"
+rate_form = "constant"
+k = 7.2e-10
+k_units = "cm3/s"
+reference = "J. E. Velazco, J. H. Kolts, and D. W. Setser, J. Chem. Phys. 65, 3468 (1976); DOI 10.1063/1.433573. Measured near-unit KrF* harpooning yield."
+
+[[reaction]]
+id = "R29"
+reactants = "Kr** + F2"
+products = "KrF* + F"
+rate_form = "constant"
+k = 8.1e-10
+k_units = "cm3/s"
+reference = "SRI Report MP-76-99 (Nakano et al., 1976), as compiled by F. Kannari, M. Obara, and T. Fujioka, J. Appl. Phys. 57, 4309 (1985); DOI 10.1063/1.334590. MODEL coefficient for the higher Kr manifold."
+
+[[reaction]]
+id = "R30"
+reactants = "Kr+ + F-"
+products = "KrF*"
+rate_form = "constant"
+k = 2.16e-6
+k_units = "cm3/s"
+reference = "S. P. Mezyk, R. Cooper, and J. Sherwell, J. Phys. Chem. 95, 6984 (1991), measured effective KrF mutual-neutralization coefficient; DOI 10.1021/j100161a037. Stabilizing bath gas is implicit."
+
+[[reaction]]
+id = "R31"
+reactants = "Kr2+ + F-"
+products = "KrF* + Kr"
+rate_form = "constant"
+k = 1.0e-6
+k_units = "cm3/s"
+reference = "M. R. Flannery and T. P. Yang, J. Chem. Phys. 69, 3432 (1978), molecular-ion mutual-neutralization theory; DOI 10.1063/1.90057. Effective atmospheric-pressure coefficient; KrF*+Kr branch is lumped."
+
+[[reaction]]
+id = "R32"
+reactants = "Kr2* + F2"
+products = "KrF* + Kr + F"
+rate_form = "constant"
+k = 3.0e-10
+k_units = "cm3/s"
+reference = "C. H. Chen and M. G. Payne, IEEE J. Quantum Electron. QE-15, 149 (1979); DOI 10.1109/JQE.1979.1069984. MODEL coefficient retained by Kannari et al. (1985)."
+
+# ==================================================================================================
+# F. KrF* quenching and triatomic conversion
+# ==================================================================================================
+
+[[reaction]]
+id = "R33"
+reactants = "KrF* + e"
+products = "Kr + F + e"
+rate_form = "constant"
+k = 2.0e-7
+k_units = "cm3/s"
+reference = "D. W. Trainor and J. H. Jacob, Appl. Phys. Lett. 37, 675 (1980); DOI 10.1063/1.92047. Measured electron quenching near 2e-7 cm3/s."
+
+[[reaction]]
+id = "R34"
+reactants = "KrF* + Kr"
+products = "2 Kr + F"
+rate_form = "constant"
+k = 4.0e-12
+k_units = "cm3/s"
+reference = "J. Xu, W. Gadomski, and D. W. Setser, J. Chem. Phys. 98, 4735 (1993); DOI 10.1063/1.465222. Measured KrF(B,C)+Kr quenching."
+
+[[reaction]]
+id = "R35"
+reactants = "KrF* + Kr + Ne"
+products = "Kr2F* + Ne"
+rate_form = "constant"
+k = 5.0e-31
+k_units = "cm6/s"
+reference = "MODEL estimate within the 2e-31--7e-31 cm6/s range inferred from the isostructural XeF*+Xe+Ne measurements of Rokni et al., J. Chem. Phys. (1978), DOI 10.1063/1.89998; no direct Kr/Ne value located."
+
+[[reaction]]
+id = "R36"
+reactants = "KrF* + Ne"
+products = "Kr + Ne + F"
+rate_form = "constant"
+k = 2.1e-12
+k_units = "cm3/s"
+reference = "J. Xu, W. Gadomski, and D. W. Setser, J. Chem. Phys. 98, 4735 (1993); DOI 10.1063/1.465222. Measured KrF(B,C)+Ne quenching."
+
+[[reaction]]
+id = "R37"
+reactants = "KrF* + F2"
+products = "Kr + F + F2"
+rate_form = "constant"
+k = 5.7e-10
+k_units = "cm3/s"
+reference = "G. P. Quigley and W. M. Hughes, Appl. Phys. Lett. 32, 627 (1978); DOI 10.1063/1.89873. Direct photolytic KrF* quenching measurement."
+
+# ==================================================================================================
+# G. Spontaneous and stimulated emission; radiative sinks for molecular intermediates
+# ==================================================================================================
+
+[[reaction]]
+id = "R38"
+reactants = "KrF*"
+products = "Kr + F + hv248"
+rate_form = "radiative"
+tau_s = 9.0e-9
+photon_mode = "hv248"
+reference = "G. P. Quigley and W. M. Hughes, Appl. Phys. Lett. 32, 627 (1978), measured KrF(B) lifetime about 9 ns; DOI 10.1063/1.89873."
+
+[[reaction]]
+id = "R39"
+reactants = "KrF* + hv248"
+products = "Kr + F + 2 hv248"
+rate_form = "stimulated"
+sigma_eff_cm2 = 2.6e-16
+photon_mode = "hv248"
+reference = "T. H. Dunning, Jr. and P. J. Hay, Appl. Phys. Lett. 28, 649 (1976), KrF(B-X) gain cross section; DOI 10.1063/1.88610. Paired with the B-state lifetime in R38."
+
+[[reaction]]
+id = "R40"
+reactants = "Kr2*"
+products = "2 Kr + hv147"
+rate_form = "radiative"
+tau_s = 275.0e-9
+photon_mode = "hv147"
+reference = "Kr2* long-lived manifold lifetime about 270--280 ns from Quigley and Hughes / Luches et al., summarized in the Kannari audit; DOI 10.1063/1.89882. The reduced model selects the long-lived state formed from Kr*."
+
+[[reaction]]
+id = "R41"
+reactants = "Ne2*"
+products = "2 Ne + hv80"
+rate_form = "radiative"
+tau_s = 1.0e-6
+photon_mode = "hv80"
+reference = "R. T. Schneider and J. S. Cohen, J. Chem. Phys. 61, 3240 (1974), Ne2 triplet-continuum lifetime scale; DOI 10.1063/1.1682482. THEORY/lumped-state value."
+
+[[reaction]]
+id = "R42"
+reactants = "Kr2F*"
+products = "2 Kr + F + hv415"
+rate_form = "radiative"
+tau_s = 179.0e-9
+photon_mode = "hv415"
+reference = "G. P. Quigley and W. M. Hughes / Luches et al., measured Kr2F* blue-emission lifetime about 180 ns; DOI 10.1063/1.89882; confirmed in the Kannari rate audit."
+
+# ==================================================================================================
+# H. 248 nm photoabsorption / photodetachment
+# ==================================================================================================
+
+[[reaction]]
+id = "R43"
+reactants = "Kr** + hv248"
+products = "Kr+ + e"
+rate_form = "photo"
+sigma_m2 = 6.0e-22
+# Photoelectron KE = hv(248.4 nm) - binding = 4.999 - (IP 13.9996 - E(5p) ~12.1) ~ 3.10 eV.
+# Kr 4p5 5p manifold 11.90-12.26 eV and IP from NIST ASD; mean-5p reading.
+electron_energy_eV = 3.10
+photon_mode = "hv248"
+reference = "H. A. Hyman, Appl. Phys. Lett. 31, 14 (1977), excited-Kr photoionization at 248 nm; DOI 10.1063/1.89481."
+
+[[reaction]]
+id = "R44"
+reactants = "F- + hv248"
+products = "F + e"
+rate_form = "photo"
+sigma_m2 = 5.6e-22
+# Photoelectron KE = hv(248.4 nm) - EA(F) = 4.999 - 3.4012 = 1.60 eV.
+# EA(F) 3.4012 eV: C. Blondel, P. Cacciani, C. Delsart, R. Trainham, Phys. Rev. A 40, 3698 (1989).
+electron_energy_eV = 1.60
+photon_mode = "hv248"
+reference = "F. Mandl, Phys. Rev. A 3, 251 (1971), F- photodetachment; DOI 10.1103/PhysRevA.3.251. Remeasured by Vacquie et al., Phys. Rev. A 35, 1615 (1987), DOI 10.1103/PhysRevA.35.1615."
+
+[[reaction]]
+id = "R45"
+reactants = "F2 + hv248"
+products = "2 F"
+rate_form = "photo"
+sigma_m2 = 1.48e-24
+photon_mode = "hv248"
+reference = "D. M. Holland and J. L. Lyman, J. Quant. Spectrosc. Radiat. Transfer 38, 293 (1987), measured F2 absorption cross section at 248 nm; DOI 10.1016/0022-4073(87)90112-9."

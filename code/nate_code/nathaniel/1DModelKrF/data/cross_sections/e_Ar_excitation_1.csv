@@ -1,0 +1,37 @@
+# source: SIGLO swarm-validated lumped Ar excitation total (Chen ref 22, the EEDF input) apportioned between R5 (Ar*, 4s) and R6 (Ar**, 4p) by BSR (B-spline R-matrix, Zatsarinny & Bartschat) 4p/(4s+4p) branching f(E)=0.25-0.36 in 13.5-30 eV, ->0.12 at 200 eV; benchmarked vs beam experiments (which give 4p share ~0.2-0.3), replacing the RDW ratio (f->0.68 at 20 eV, threshold-peaked theory known to overestimate). Two-level per Chen (3d/5s cascade reassigns through the total); R5+R6 == SIGLO exactly. Sources: SIGLO database, www.lxcat.net; BSR database, www.lxcat.net (retrieved 2026-07-30).
+# process_id: e_Ar_excitation_1
+# reaction: E + Ar -> E + Ar*(4s)
+# threshold_eV: 11.5
+energy_eV,cross_section_cm2
+1.150000e+01,0.000000e+00
+1.270000e+01,7.000000e-18
+1.370000e+01,9.898484e-18
+1.470000e+01,1.569562e-17
+1.590000e+01,2.554312e-17
+1.650000e+01,3.154515e-17
+1.750000e+01,3.889859e-17
+1.850000e+01,4.774768e-17
+1.990000e+01,5.852332e-17
+2.220000e+01,7.402526e-17
+2.470000e+01,8.555362e-17
+2.700000e+01,9.390314e-17
+3.000000e+01,9.980796e-17
+3.300000e+01,1.016461e-16
+3.530000e+01,9.927127e-17
+4.200000e+01,9.633670e-17
+4.800000e+01,9.208895e-17
+5.200000e+01,8.928385e-17
+7.000000e+01,7.785182e-17
+1.000000e+02,6.484816e-17
+1.500000e+02,5.225517e-17
+2.000000e+02,4.443663e-17
+3.000000e+02,3.502687e-17
+5.000000e+02,2.482918e-17
+7.000000e+02,1.995202e-17
+1.000000e+03,1.569559e-17
+1.500000e+03,1.205989e-17
+2.000000e+03,9.754319e-18
+3.000000e+03,7.360077e-18
+5.000000e+03,5.143186e-18
+7.000000e+03,3.990403e-18
+1.000000e+04,3.103647e-18

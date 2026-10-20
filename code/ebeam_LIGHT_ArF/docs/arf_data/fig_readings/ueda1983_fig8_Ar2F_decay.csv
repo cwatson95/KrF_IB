@@ -1,0 +1,13 @@
+# Ueda, Kanada, Kitagawa and Takuma, Rev. Laser Eng. 11, 576 (1983), Fig. 8 p.36 (581): Ar2F decay rate vs F2 density; Febetron 706, 3 ns, 500 kV
+# survey reading of the PDF at 300 dpi; +-0.1e7 per s
+p_total_atm,f2_1e17_cm3,decay_1e7_per_s
+1,0.698,1.906
+1,1.209,2.85
+1.5,1.038,2.50
+1.5,1.855,4.05
+2,1.481,3.39
+2,2.451,4.97
+2.5,1.864,3.94
+2.5,3.064,6.17
+3,2.17,4.92
+3,3.66,7.70

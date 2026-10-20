@@ -1,0 +1,156 @@
+\documentclass[11pt]{report}
+\usepackage[margin=1in]{geometry}
+\usepackage[T1,OT1]{fontenc}   % OT1 by default, T1 inside the chapters whose note uses it
+\usepackage{amsmath,amssymb}
+\usepackage{cancel}
+\usepackage{xcolor}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{longtable}
+\usepackage{graphicx}
+\usepackage{placeins}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,decorations.pathmorphing,decorations.markings,positioning,calc}
+\usepackage[colorlinks=true,linkcolor=blue,citecolor=blue,urlcolor=blue]{hyperref}
+\hypersetup{pdftitle={Inverse-bremsstrahlung heating of KrF laser gases: afterglow reheating as it stands},
+  pdfauthor={Cooper K. Watson}}
+
+%================================================================
+%  Inverse-bremsstrahlung heating of KrF laser gases: a compendium.
+%  Part I is written for the compendium (part1.tex). Part II is six
+%  notes, one chapter each (chapters/<key>.tex with their tables and
+%  figures in chapters/<key>/), assembled from the notes' sources with
+%  every label, reference and citation key prefixed by the chapter's
+%  key: env, qib, nl, lad, pd, ea. No hyperlinks inside table cells
+%  (they crash macOS Preview): use \ref* and \nlcite there.
+%================================================================
+
+\setlength{\emergencystretch}{3em}
+\setlength{\LTcapwidth}{\textwidth}
+\setlength{\belowcaptionskip}{4pt}
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+\makeatletter
+\newcommand{\tabinput}[1]{\@@input #1 }
+\makeatother
+
+% the notation of the six notes (one definition each; \avea is the
+% electron-atom note's bold a, since the plasma derivation's \av is bold a_0)
+\newcommand{\dd}{\mathrm d}
+\newcommand{\kB}{k_B}
+\newcommand{\ehat}{\hat{\mathbf e}}
+\newcommand{\Ev}{\mathbf E}
+\newcommand{\vv}{\mathbf v}
+\newcommand{\jv}{\mathbf j}
+\newcommand{\kv}{\mathbf k}
+\newcommand{\pv}{\mathbf p}
+\newcommand{\rv}{\mathbf r}
+\newcommand{\Rv}{\mathbf R}
+\newcommand{\Av}{\mathbf A}
+\newcommand{\Qv}{\mathbf Q}
+\newcommand{\av}{\mathbf a_0}
+\newcommand{\avea}{\mathbf a}
+\newcommand{\Vol}{\mathcal V}
+\newcommand{\vosc}{\mathbf v_{\rm osc}}
+\newcommand{\vos}{v_{\rm os}}
+\newcommand{\Up}{U_{\rm p}}
+\newcommand{\vt}{v_t}
+\newcommand{\nuT}{\nu_T}
+\newcommand{\nueff}{\nu_{\rm eff}}
+\newcommand{\nuea}{\nu_{ea}}
+\newcommand{\nuei}{\nu_{ei}}
+\newcommand{\num}{\nu_m}
+\newcommand{\Te}{T_e}
+\newcommand{\fbest}{f_{\rm best}}
+\newcommand{\lnL}{\ln\Lambda}
+\newcommand{\sm}{\sigma_{\rm m}}
+\newcommand{\Ebar}{\bar E}
+\newcommand{\lambdabar}{{\mkern0.75mu\mathchar'26\mkern-9.75mu\lambda}}
+\DeclareMathOperator{\Imag}{Im}
+\DeclareMathOperator{\Real}{Re}
+\DeclareMathOperator{\sgn}{sgn}
+\DeclareMathOperator{\erf}{erf}
+
+% chapters: the note's date under its title, its appendices as sections
+% A, B, ... of the chapter, its abstract, and its bibliography as a section
+\newcommand{\notedate}[1]{\noindent{\small\itshape The note of #1.}\par\medskip}
+\makeatletter
+\newcommand{\chapterappendix}{%
+  \setcounter{section}{0}%
+  \renewcommand{\thesection}{\thechapter.\Alph{section}}%
+  \renewcommand{\theHsection}{\thechapter.app.\Alph{section}}}
+\renewenvironment{thebibliography}[1]
+  {\section*{References}%
+   \addcontentsline{toc}{section}{References}%
+   \list{\@biblabel{\@arabic\c@enumiv}}%
+        {\settowidth\labelwidth{\@biblabel{#1}}%
+         \leftmargin\labelwidth
+         \advance\leftmargin\labelsep
+         \@openbib@code
+         \usecounter{enumiv}%
+         \let\p@enumiv\@empty
+         \renewcommand\theenumiv{\@arabic\c@enumiv}}%
+   \sloppy
+   \clubpenalty4000
+   \@clubpenalty \clubpenalty
+   \widowpenalty4000%
+   \sfcode`\.\@m}
+  {\def\@noitemerr
+     {\@latex@warning{Empty `thebibliography' environment}}%
+   \endlist}
+\makeatother
+\newenvironment{chapterabstract}{\begin{quote}\small\noindent\textbf{Abstract.}\ }{\end{quote}}
+% a citation without a link, for table cells
+\newcommand{\nlcite}[1]{\begin{NoHyper}\cite{#1}\end{NoHyper}}
+
+\begin{document}
+% the title page, the contents and the body each number their own pages,
+% so that no two pages share a page anchor
+\pagenumbering{alph}
+\begin{titlepage}
+\centering
+\vspace*{2cm}
+{\LARGE\bfseries Inverse-bremsstrahlung heating\\[4pt] of KrF laser gases\par}
+\vspace{0.8cm}
+{\large Afterglow reheating as it stands, and the six notes behind it\par}
+\vspace{1.2cm}
+{\large Cooper K.\ Watson\par}
+\vspace{0.4cm}
+{\large October 20, 2026\par}
+\vspace{1.6cm}
+\begin{minipage}{0.86\textwidth}
+\small
+\noindent This compendium collects six notes on the heating of the free electrons of KrF
+laser gases by inverse bremsstrahlung, and asks of them one question: can an
+electromagnetic wave that reheats the electrons of the afterglow, after the electron beam
+has stopped, make the laser more efficient? Part~I answers it as the notes stand. The
+heating half of the proposal is verified in silico. At the afterglow's
+$10^{20}$~m$^{-3}$ a wave of 0.64 to 3.8~THz is absorbed through 10~cm of gas, where
+microwaves heat a layer millimetres deep, the absorption coefficient is known to 1.6\,\%
+in its kernel and to about 20\,\% in krypton's cross section at the afterglow's
+0.63~eV, and $1.4\times10^{3}$ to $1.5\times10^{4}$~W\,cm$^{-2}$ holds the electrons, far
+from the nonlinear regimes of Langdon and Silin. The efficiency half is open. A THz wave
+would form 1.4 to 1.8 times the electron beam's KrF$^*$ per absorbed joule, but that
+count leaves out the electron collisions of Kr$^*$ and KrF$^*$ on which the sign of the
+gain rests, and no note follows the KrF$^*$ to laser energy or to the wall plug. The
+nonlinearity of inverse bremsstrahlung and the laser's own field are invalidated as
+levers. Part~I ends with the measurements and the calculation that would settle the
+rest, and Part~II reproduces the six notes in full.
+\end{minipage}
+\end{titlepage}
+\pagenumbering{roman}
+\tableofcontents
+\clearpage
+\pagenumbering{arabic}
+
+\part{Afterglow reheating: where the case stands}\label{p1:part:case}
+\input{part1}
+
+\part{The notes}\label{p1:part:notes}
+\input{chapters/env}
+\input{chapters/qib}
+\input{chapters/nl}
+\input{chapters/lad}
+\input{chapters/pd}
+\input{chapters/ea}
+
+\end{document}

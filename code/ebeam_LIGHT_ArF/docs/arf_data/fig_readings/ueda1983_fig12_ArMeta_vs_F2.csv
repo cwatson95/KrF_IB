@@ -1,0 +1,8 @@
+# Ueda et al., Rev. Laser Eng. 11, 576 (1983), Fig. 12 p.584 (footer 39, PDF 9): Ar(3P2) absorption decay rate vs F2 fraction, Ar-F2 at 2.5 atm; printed k = 1.1e-9 cm3/s
+# survey reading of the PDF at 300 dpi; +-0.3e7 per s (error bars in the figure are about +-0.7e7)
+f2_percent,decay_1e7_per_s
+0.000,2.11
+0.049,5.80
+0.098,9.14
+0.148,11.85
+0.200,15.1

@@ -1,0 +1,75 @@
+# Pure krypton: electron drift velocity W and density-normalized longitudinal diffusion coefficient N*D_L versus E/N
+# (MEASURED; values READ FROM A FIGURE by pixel digitization)
+# Source: Y. Nakamura (Keio University), "Drift velocity and longitudinal diffusion coefficient of electrons in rare gases"
+#   (in Japanese), Meeting Abstracts of the Physical Society of Japan, 1991 autumn meeting, abstract 27p-ZA-3, p. 103.
+#   J-STAGE: https://www.jstage.jst.go.jp/article/jpsgaiyoa/1991.4/0/1991.4_103/_pdf
+#   Figure 1 ("Kr and Xe: electron drift velocity and ND_L"): open circles = Kr (measured), filled circles = Xe,
+#   solid lines = the author's Boltzmann analysis (not used here). Left axis W (cm/s), right axis ND_L (cm^-1 s^-1).
+# Method: the abstract does not describe the apparatus; it says the group re-measured swarm parameters in several rare
+#   gases and that its Ar results were reported separately (Y. Nakamura and M. Kurachi, J. Phys. D 21, 718 (1988)).
+#   The abstract states the Kr W agrees well with Hunter, Carter & Christophorou, Phys. Rev. A 38, 5539 (1988)
+#   (triangles in the figure) in the common range E/N < 3 Td.
+# Gas / conditions: pure Kr; gas temperature and pressure not stated in the abstract (room temperature assumed).
+# Units: E/N in Td; W in cm/s; N*D_L in cm^-1 s^-1.
+# Uncertainty: measurement uncertainty not stated in the abstract. Digitization: log axes calibrated on 38 x-ticks and
+#   19 y-ticks (affine fit, residuals <= 0.009 decade); marker centres located from the open-circle holes of the native
+#   1-bit scan (about 189 px per decade). Estimated reading error about +-1 % in E/N and +-3 % in W and N*D_L.
+# Cross-check against Pack et al. 1962 (Dutton Table 1.9a, 300 K): ratio Pack/this = 0.99, 1.03, 1.05 at 0.30, 0.61,
+#   0.89 Td, but 1.07, 1.14, 1.05, 1.21 at 1.53, 1.79, 2.44, 3.06 Td (Pack higher above ~1.5 Td).
+# Omitted: one open circle at E/N = 0.286 Td (plotted value 1.506e5) sits where the W and ND_L curves cross and could
+#   belong to either series; N*D_L points near 0.5-0.6 Td and 8-16 Td are hidden by overlapping symbols (no data read).
+# Scale note: the scan is a 1-bit (CCITT) image of a meeting-abstract figure, so treat these as figure-quality data.
+quantity,E_N_Td,value,unit
+W,0.341,1.59e5,cm/s
+W,0.388,1.60e5,cm/s
+W,0.489,1.68e5,cm/s
+W,0.583,1.72e5,cm/s
+W,0.680,1.78e5,cm/s
+W,0.773,1.86e5,cm/s
+W,0.965,1.92e5,cm/s
+W,1.158,2.03e5,cm/s
+W,1.350,2.08e5,cm/s
+W,1.655,2.18e5,cm/s
+W,1.941,2.24e5,cm/s
+W,2.414,2.39e5,cm/s
+W,2.893,2.56e5,cm/s
+W,3.382,2.83e5,cm/s
+W,3.929,3.21e5,cm/s
+W,4.902,4.05e5,cm/s
+W,5.818,4.97e5,cm/s
+W,6.706,5.85e5,cm/s
+W,7.702,6.96e5,cm/s
+W,9.739,8.66e5,cm/s
+W,11.44,1.03e6,cm/s
+W,13.49,1.20e6,cm/s
+W,16.48,1.41e6,cm/s
+W,19.43,1.63e6,cm/s
+W,24.26,1.98e6,cm/s
+W,29.28,2.39e6,cm/s
+W,34.08,2.72e6,cm/s
+W,39.09,3.03e6,cm/s
+W,48.65,3.75e6,cm/s
+NDL,0.335,1.40e22,cm^-1 s^-1
+NDL,0.381,1.40e22,cm^-1 s^-1
+NDL,0.472,1.27e22,cm^-1 s^-1
+NDL,0.660,1.10e22,cm^-1 s^-1
+NDL,0.757,1.05e22,cm^-1 s^-1
+NDL,0.949,9.57e21,cm^-1 s^-1
+NDL,1.137,9.16e21,cm^-1 s^-1
+NDL,1.323,8.62e21,cm^-1 s^-1
+NDL,1.651,8.68e21,cm^-1 s^-1
+NDL,1.932,7.88e21,cm^-1 s^-1
+NDL,2.395,7.86e21,cm^-1 s^-1
+NDL,2.855,1.00e22,cm^-1 s^-1
+NDL,3.250,1.34e22,cm^-1 s^-1
+NDL,3.757,1.52e22,cm^-1 s^-1
+NDL,4.721,2.14e22,cm^-1 s^-1
+NDL,5.598,2.40e22,cm^-1 s^-1
+NDL,6.628,2.55e22,cm^-1 s^-1
+NDL,7.549,2.58e22,cm^-1 s^-1
+NDL,16.27,2.66e22,cm^-1 s^-1
+NDL,19.15,2.73e22,cm^-1 s^-1
+NDL,24.34,2.73e22,cm^-1 s^-1
+NDL,29.21,2.75e22,cm^-1 s^-1
+NDL,33.47,2.71e22,cm^-1 s^-1
+NDL,38.13,2.82e22,cm^-1 s^-1

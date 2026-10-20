@@ -1,0 +1,454 @@
+{
+  "reference": {
+    "eta": 0.015359581996050666,
+    "E_laser_J": 0.484717169070405,
+    "E_dep_J": 31.557966173495995,
+    "g0_peak_m1": 1.5745802152478172,
+    "g_th_m1": 0.3574800085253502,
+    "margin": 4.404666492381372,
+    "f2_burn": 0.20804432117720106,
+    "regime": "mode=krf drive=beam grid=1x1x1 (1 cells, 169 reactions) 2 atm | beam yields via spencer_fano, sub-table rates = MEASURED relax curves (F-,el:Ar,el:F2,el:Kr,vib; <eps> in-coverage 99%, below it the taper extrapolates from the measured floor) | drive 3.156e+01 J, laser 4.847e-01 J (eta 1.54%) | ledger residual max 6.58e-13 | validity: ionization 2.2e-05 of N, F2 burn 20.8%, <eps> in-table 19% | wall 4.8 s | cells are independent reactors (no inter-cell transport; coarse device grid, not a PIC grid)"
+  },
+  "rows": [
+    {
+      "lever": "reference",
+      "value": null,
+      "eta": 0.015359581996050666,
+      "E_laser_J": 0.484717169070405,
+      "E_dep_J": 31.557966173495995,
+      "g0_peak_m1": 1.5745802152478172,
+      "g_th_m1": 0.3574800085253502,
+      "margin": 4.404666492381372,
+      "f2_burn": 0.20804432117720106,
+      "regime": "mode=krf drive=beam grid=1x1x1 (1 cells, 169 reactions) 2 atm | beam yields via spencer_fano, sub-table rates = MEASURED relax curves (F-,el:Ar,el:F2,el:Kr,vib; <eps> in-coverage 99%, below it the taper extrapolates from the measured floor) | drive 3.156e+01 J, laser 4.847e-01 J (eta 1.54%) | ledger residual max 6.58e-13 | validity: ionization 2.2e-05 of N, F2 burn 20.8%, <eps> in-table 19% | wall 4.8 s | cells are independent reactors (no inter-cell transport; coarse device grid, not a PIC grid)"
+    },
+    {
+      "lever": "pressure_atm",
+      "value": 0.5,
+      "eta": 0.005068235620021604,
+      "E_laser_J": 0.03998580063420431,
+      "E_dep_J": 7.889491261267341,
+      "g0_peak_m1": 0.8414318236759856,
+      "g_th_m1": 0.3574800085253502,
+      "margin": 2.3537870751066534,
+      "f2_burn": 0.2048645355764701,
+      "regime": "mode=krf drive=beam grid=1x1x1 (1 cells, 169 reactions) 0.5 atm | beam yields via spencer_fano, sub-table rates = MEASURED relax curves (F-,el:Ar,el:F2,el:Kr,vib; <eps> in-coverage 99%, below it the taper extrapolates from the measured floor) | drive 7.889e+00 J, laser 3.999e-02 J (eta 0.51%) | ledger residual max 2.17e-13 | validity: ionization 8.6e-05 of N, F2 burn 20.5%, <eps> in-table 22% | wall 3.7 s | cells are independent reactors (no inter-cell transport; coarse device grid, not a PIC grid)"
+    },
+    {
+      "lever": "pressure_atm",
+      "value": 1.0,
+      "eta": 0.025884791919587286,
+      "E_laser_J": 0.40843569725637324,
+      "E_dep_J": 15.778983216291794,
+      "g0_peak_m1": 1.2531443004550482,
+      "g_th_m1": 0.3574800085253502,
+      "margin": 3.505494770531156,
+      "f2_burn": 0.21539040330357473,
+      "regime": "mode=krf drive=beam grid=1x1x1 (1 cells, 169 reactions) 1 atm | beam yields via spencer_fano, sub-table rates = MEASURED relax curves (F-,el:Ar,el:F2,el:Kr,vib; <eps> in-coverage 99%, below it the taper extrapolates from the measured floor) | drive 1.578e+01 J, laser 4.084e-01 J (eta 2.59%) | ledger residual max 5.40e-13 | validity: ionization 4.8e-05 of N, F2 burn 21.5%, <eps> in-table 16% | wall 3.7 s | cells are independent reactors (no inter-cell transport; coarse device grid, not a PIC grid)"
+    },
+    {
+      "lever": "pressure_atm",
+      "value": 1.5,
+      "eta": 0.023024243917410266,
+      "E_laser_J": 0.5449487216946468,
+      "E_dep_J": 23.668474137496972,
+      "g0_peak_m1": 1.5955332521098053,
+      "g_th_m1": 0.3574800085253502,
+      "margin": 4.463279663362378,
+      "f2_burn": 0.21200758049429225,
+      "regime": "mode=krf drive=beam grid=1x1x1 (1 cells, 169 reactions) 1.5 atm | beam yields via spencer_fano, sub-table rates = MEASURED relax curves (F-,el:Ar,el:F2,el:Kr,vib; <eps> in-coverage 99%, below it the taper extrapolates from the measured floor) | drive 2.367e+01 J, laser 5.449e-01 J (eta 2.30%) | ledger residual max 8.58e-13 | validity: ionization 3.1e-05 of N, F2 burn 21.2%, <eps> in-table 16% | wall 4.6 s | cells are independent reactors (no inter-cell transport; coarse device grid, not a PIC grid)"
+    },
+    {
+      "lever": "pressure_atm",
+      "value": 2.0,
+      "eta": 0.015359581996050666,
+      "E_laser_J": 0.484717169070405,
+      "E_dep_J": 31.557966173495995,
+      "g0_peak_m1": 1.5745802152478172,
+      "g_th_m1": 0.3574800085253502,
+      "margin": 4.404666492381372,
+      "f2_burn": 0.20804432117720106,
+      "regime": "mode=krf drive=beam grid=1x1x1 (1 cells, 169 reactions) 2 atm | beam yields via spencer_fano, sub-table rates = MEASURED relax curves (F-,el:Ar,el:F2,el:Kr,vib; <eps> in-coverage 99%, below it the taper extrapolates from the measured floor) | drive 3.156e+01 J, laser 4.847e-01 J (eta 1.54%) | ledger residual max 6.58e-13 | validity: ionization 2.2e-05 of N, F2 burn 20.8%, <eps> in-table 19% | wall 4.8 s | cells are independent reactors (no inter-cell transport; coarse device grid, not a PIC grid)"
+    },
+    {
+      "lever": "pressure_atm",
+      "value": 3.0,
+      "eta": 0.0012406906095959998,
+      "E_laser_J": 0.058730509256905705,
+      "E_dep_J": 47.33694992342196,
+      "g0_peak_m1": 1.059338980940975,
+      "g_th_m1": 0.3574800085253502,
+      "margin": 2.963351671918329,
+      "f2_burn": 0.2004670829891979,
+      "regime": "mode=krf drive=beam grid=1x1x1 (1 cells, 169 reactions) 3 atm | beam yields via spencer_fano, sub-table rates = MEASURED relax curves (F-,el:Ar,el:F2,el:Kr,vib; <eps> in-coverage 75%, below it the taper extrapolates from the measured floor) | drive 4.734e+01 J, laser 5.873e-02 J (eta 0.12%) | ledger residual max 2.21e-13 | validity: ionization 1.3e-05 of N, F2 burn 20.0%, <eps> in-table 26% | wall 5.5 s | cells are independent reactors (no inter-cell transport; coarse device grid, not a PIC grid)"
+    },
+    {
+      "lever": "beam_j_A_cm2",
+      "value": 50.0,
+      "eta": 0.00016734977047732258,
+      "E_laser_J": 0.002640609178256211,
+      "E_dep_J": 15.778982969170176,
+      "g0_peak_m1": 0.870475394230404,
+      "g_th_m1": 0.3574800085253502,
+      "margin": 2.4350323751563727,
+      "f2_burn": 0.10715250656048603,
+      "regime": "mode=krf drive=beam grid=1x1x1 (1 cells, 169 reactions) 2 atm | beam yields via spencer_fano, sub-table rates = MEASURED relax curves (F-,el:Ar,el:F2,el:Kr,vib; <eps> in-coverage 38%, below it the taper extrapolates from the measured floor) | drive 1.578e+01 J, laser 2.641e-03 J (eta 0.02%) | ledger residual max 2.92e-12 | validity: ionization 1.1e-05 of N, F2 burn 10.7%, <eps> in-table 26% | wall 4.7 s | cells are independent reactors (no inter-cell transport; coarse device grid, not a PIC grid)"
+    },
+    {
+      "lever": "beam_j_A_cm2",
+      "value": 100.0,
+      "eta": 0.015359581996050666,
+      "E_laser_J": 0.484717169070405,
+      "E_dep_J": 31.557966173495995,
+      "g0_peak_m1": 1.5745802152478172,
+      "g_th_m1": 0.3574800085253502,
+      "margin": 4.404666492381372,
+      "f2_burn": 0.20804432117720106,
+      "regime": "mode=krf drive=beam grid=1x1x1 (1 cells, 169 reactions) 2 atm | beam yields via spencer_fano, sub-table rates = MEASURED relax curves (F-,el:Ar,el:F2,el:Kr,vib; <eps> in-coverage 99%, below it the taper extrapolates from the measured floor) | drive 3.156e+01 J, laser 4.847e-01 J (eta 1.54%) | ledger residual max 6.58e-13 | validity: ionization 2.2e-05 of N, F2 burn 20.8%, <eps> in-table 19% | wall 4.8 s | cells are independent reactors (no inter-cell transport; coarse device grid, not a PIC grid)"
+    },
+    {
+      "lever": "beam_j_A_cm2",
+      "value": 200.0,
+      "eta": 0.0192375154562064,
+      "E_laser_J": 1.2141937474940079,
+      "E_dep_J": 63.11593356522997,
+      "g0_peak_m1": 2.328857755893035,
+      "g_th_m1": 0.3574800085253502,
+      "margin": 6.5146517297564825,
+      "f2_burn": 0.38377190103872727,
+      "regime": "mode=krf drive=beam grid=1x1x1 (1 cells, 169 reactions) 2 atm | beam yields via spencer_fano, sub-table rates = MEASURED relax curves (F-,el:Ar,el:F2,el:Kr,vib; <eps> in-coverage 99%, below it the taper extrapolates from the measured floor) | drive 6.312e+01 J, laser 1.214e+00 J (eta 1.92%) | ledger residual max 5.87e-14 | validity: ionization 4.5e-05 of N, F2 burn 38.4%, <eps> in-table 9% | wall 5.5 s | cells are independent reactors (no inter-cell transport; coarse device grid, not a PIC grid)"
+    },
+    {
+      "lever": "beam_j_A_cm2",
+      "value": 400.0,
+      "eta": 0.011594022240291038,
+      "E_laser_J": 1.4635350999099626,
+      "E_dep_J": 126.2318692838064,
+      "g0_peak_m1": 2.8150612591483513,
+      "g_th_m1": 0.3574800085253502,
+      "margin": 7.8747375853570984,
+      "f2_burn": 0.6567907527513082,
+      "regime": "mode=krf drive=beam grid=1x1x1 (1 cells, 169 reactions) 2 atm | beam yields via spencer_fano, sub-table rates = MEASURED relax curves (F-,el:Ar,el:F2,el:Kr,vib; <eps> in-coverage 79%, below it the taper extrapolates from the measured floor) | drive 1.262e+02 J, laser 1.464e+00 J (eta 1.16%) | ledger residual max 1.32e-13 | validity: ionization 8.7e-05 of N, F2 burn 65.7%, <eps> in-table 6% | wall 5.2 s | cells are independent reactors (no inter-cell transport; coarse device grid, not a PIC grid)"
+    },
+    {
+      "lever": "beam_flat_ns",
+      "value": 30.0,
+      "eta": 0.001777488670107533,
+      "E_laser_J": 0.030204423207056907,
+      "E_dep_J": 16.992751467287622,
+      "g0_peak_m1": 1.5383134841099566,
+      "g_th_m1": 0.3574800085253502,
+      "margin": 4.303215417431851,
+      "f2_burn": 0.11391252945202579,
+      "regime": "mode=krf drive=beam grid=1x1x1 (1 cells, 169 reactions) 2 atm | beam yields via spencer_fano, sub-table rates = MEASURED relax curves (F-,el:Ar,el:F2,el:Kr,vib; <eps> in-coverage 99%, below it the taper extrapolates from the measured floor) | drive 1.699e+01 J, laser 3.020e-02 J (eta 0.18%) | ledger residual max 6.58e-13 | validity: ionization 1.8e-05 of N, F2 burn 11.4%, <eps> in-table 14% | wall 5.1 s | cells are independent reactors (no inter-cell transport; coarse device grid, not a PIC grid)"
+    },
+    {
+      "lever": "beam_flat_ns",
+      "value": 60.0,
+      "eta": 0.015359581996050666,
+      "E_laser_J": 0.484717169070405,
+      "E_dep_J": 31.557966173495995,
+      "g0_peak_m1": 1.5745802152478172,
+      "g_th_m1": 0.3574800085253502,
+      "margin": 4.404666492381372,
+      "f2_burn": 0.20804432117720106,
+      "regime": "mode=krf drive=beam grid=1x1x1 (1 cells, 169 reactions) 2 atm | beam yields via spencer_fano, sub-table rates = MEASURED relax curves (F-,el:Ar,el:F2,el:Kr,vib; <eps> in-coverage 99%, below it the taper extrapolates from the measured floor) | drive 3.156e+01 J, laser 4.847e-01 J (eta 1.54%) | ledger residual max 6.58e-13 | validity: ionization 2.2e-05 of N, F2 burn 20.8%, <eps> in-table 19% | wall 4.7 s | cells are independent reactors (no inter-cell transport; coarse device grid, not a PIC grid)"
+    },
+    {
+      "lever": "beam_flat_ns",
+      "value": 100.0,
+      "eta": 0.018368178602268897,
+      "E_laser_J": 0.9363776582516826,
+      "E_dep_J": 50.97825312608939,
+      "g0_peak_m1": 1.5745802152478172,
+      "g_th_m1": 0.3574800085253502,
+      "margin": 4.404666492381372,
+      "f2_burn": 0.3198124587690665,
+      "regime": "mode=krf drive=beam grid=1x1x1 (1 cells, 169 reactions) 2 atm | beam yields via spencer_fano, sub-table rates = MEASURED relax curves (F-,el:Ar,el:F2,el:Kr,vib; <eps> in-coverage 99%, below it the taper extrapolates from the measured floor) | drive 5.098e+01 J, laser 9.364e-01 J (eta 1.84%) | ledger residual max 6.58e-13 | validity: ionization 2.6e-05 of N, F2 burn 32.0%, <eps> in-table 19% | wall 5.2 s | cells are independent reactors (no inter-cell transport; coarse device grid, not a PIC grid)"
+    },
+    {
+      "lever": "beam_flat_ns",
+      "value": 150.0,
+      "eta": 0.018175978510128407,
+      "E_laser_J": 1.3678080370850547,
+      "E_dep_J": 75.25361214103854,
+      "g0_peak_m1": 1.5728403654945728,
+      "g_th_m1": 0.3574800085253502,
+      "margin": 4.39979950762208,
+      "f2_burn": 0.4470697577739252,
+      "regime": "mode=krf drive=beam grid=1x1x1 (1 cells, 169 reactions) 2 atm | beam yields via spencer_fano, sub-table rates = MEASURED relax curves (F-,el:Ar,el:F2,el:Kr,vib; <eps> in-coverage 99%, below it the taper extrapolates from the measured floor) | drive 7.525e+01 J, laser 1.368e+00 J (eta 1.82%) | ledger residual max 3.84e-13 | validity: ionization 2.7e-05 of N, F2 burn 44.7%, <eps> in-table 16% | wall 5.2 s | cells are independent reactors (no inter-cell transport; coarse device grid, not a PIC grid)"
+    },
+    {
+      "lever": "Lz_m",
+      "value": 0.1,
+      "eta": 0.015359581996050666,
+      "E_laser_J": 0.484717169070405,
+      "E_dep_J": 31.557966173495995,
+      "g0_peak_m1": 1.5745802152478172,
+      "g_th_m1": 0.3574800085253502,
+      "margin": 4.404666492381372,
+      "f2_burn": 0.20804432117720106,
+      "regime": "mode=krf drive=beam grid=1x1x1 (1 cells, 169 reactions) 2 atm | beam yields via spencer_fano, sub-table rates = MEASURED relax curves (F-,el:Ar,el:F2,el:Kr,vib; <eps> in-coverage 99%, below it the taper extrapolates from the measured floor) | drive 3.156e+01 J, laser 4.847e-01 J (eta 1.54%) | ledger residual max 6.58e-13 | validity: ionization 2.2e-05 of N, F2 burn 20.8%, <eps> in-table 19% | wall 4.8 s | cells are independent reactors (no inter-cell transport; coarse device grid, not a PIC grid)"
+    },
+    {
+      "lever": "Lz_m",
+      "value": 0.2,
+      "eta": 0.015918789385152093,
+      "E_laser_J": 1.0047292270373263,
+      "E_dep_J": 63.11593191718874,
+      "g0_peak_m1": 1.5358318176871972,
+      "g_th_m1": 0.1787400042626751,
+      "margin": 8.592546609936011,
+      "f2_burn": 0.21193219939086083,
+      "regime": "mode=krf drive=beam grid=1x1x1 (1 cells, 169 reactions) 2 atm | beam yields via spencer_fano, sub-table rates = MEASURED relax curves (F-,el:Ar,el:F2,el:Kr,vib; <eps> in-coverage 99%, below it the taper extrapolates from the measured floor) | drive 6.312e+01 J, laser 1.005e+00 J (eta 1.59%) | ledger residual max 4.65e-13 | validity: ionization 2.4e-05 of N, F2 burn 21.2%, <eps> in-table 18% | wall 4.4 s | cells are independent reactors (no inter-cell transport; coarse device grid, not a PIC grid)"
+    },
+    {
+      "lever": "Lz_m",
+      "value": 0.3,
+      "eta": 0.014422143101479932,
+      "E_laser_J": 1.365400467973011,
+      "E_dep_J": 94.67389543741942,
+      "g0_peak_m1": 1.522668132703561,
+      "g_th_m1": 0.11916000284178342,
+      "margin": 12.778349247988082,
+      "f2_burn": 0.21457972221861854,
+      "regime": "mode=krf drive=beam grid=1x1x1 (1 cells, 169 reactions) 2 atm | beam yields via spencer_fano, sub-table rates = MEASURED relax curves (F-,el:Ar,el:F2,el:Kr,vib; <eps> in-coverage 99%, below it the taper extrapolates from the measured floor) | drive 9.467e+01 J, laser 1.365e+00 J (eta 1.44%) | ledger residual max 9.62e-13 | validity: ionization 2.5e-05 of N, F2 burn 21.5%, <eps> in-table 18% | wall 4.3 s | cells are independent reactors (no inter-cell transport; coarse device grid, not a PIC grid)"
+    },
+    {
+      "lever": "r_oc",
+      "value": 0.9,
+      "eta": 0.0109401570817278,
+      "E_laser_J": 0.3452491094553095,
+      "E_dep_J": 31.55796638715023,
+      "g0_peak_m1": 1.6141440465742245,
+      "g_th_m1": 0.6278161148767287,
+      "margin": 2.571045897557377,
+      "f2_burn": 0.20588687960126606,
+      "regime": "mode=krf drive=beam grid=1x1x1 (1 cells, 169 reactions) 2 atm | beam yields via spencer_fano, sub-table rates = MEASURED relax curves (F-,el:Ar,el:F2,el:Kr,vib; <eps> in-coverage 99%, below it the taper extrapolates from the measured floor) | drive 3.156e+01 J, laser 3.452e-01 J (eta 1.09%) | ledger residual max 8.28e-13 | validity: ionization 2.0e-05 of N, F2 burn 20.6%, <eps> in-table 21% | wall 5.0 s | cells are independent reactors (no inter-cell transport; coarse device grid, not a PIC grid)"
+    },
+    {
+      "lever": "r_oc",
+      "value": 0.95,
+      "eta": 0.015359581996050666,
+      "E_laser_J": 0.484717169070405,
+      "E_dep_J": 31.557966173495995,
+      "g0_peak_m1": 1.5745802152478172,
+      "g_th_m1": 0.3574800085253502,
+      "margin": 4.404666492381372,
+      "f2_burn": 0.20804432117720106,
+      "regime": "mode=krf drive=beam grid=1x1x1 (1 cells, 169 reactions) 2 atm | beam yields via spencer_fano, sub-table rates = MEASURED relax curves (F-,el:Ar,el:F2,el:Kr,vib; <eps> in-coverage 99%, below it the taper extrapolates from the measured floor) | drive 3.156e+01 J, laser 4.847e-01 J (eta 1.54%) | ledger residual max 6.58e-13 | validity: ionization 2.2e-05 of N, F2 burn 20.8%, <eps> in-table 19% | wall 4.7 s | cells are independent reactors (no inter-cell transport; coarse device grid, not a PIC grid)"
+    },
+    {
+      "lever": "r_oc",
+      "value": 0.98,
+      "eta": 0.011301856615817502,
+      "E_laser_J": 0.35666361347632436,
+      "E_dep_J": 31.55796658906079,
+      "g0_peak_m1": 1.5462211571555182,
+      "g_th_m1": 0.20202707317519464,
+      "margin": 7.653534414244867,
+      "f2_burn": 0.21118109281298192,
+      "regime": "mode=krf drive=beam grid=1x1x1 (1 cells, 169 reactions) 2 atm | beam yields via spencer_fano, sub-table rates = MEASURED relax curves (F-,el:Ar,el:F2,el:Kr,vib; <eps> in-coverage 99%, below it the taper extrapolates from the measured floor) | drive 3.156e+01 J, laser 3.567e-01 J (eta 1.13%) | ledger residual max 7.18e-13 | validity: ionization 2.4e-05 of N, F2 burn 21.1%, <eps> in-table 18% | wall 4.4 s | cells are independent reactors (no inter-cell transport; coarse device grid, not a PIC grid)"
+    },
+    {
+      "lever": "r_oc",
+      "value": 0.99,
+      "eta": 0.007161294184968738,
+      "E_laser_J": 0.2259958834704717,
+      "E_dep_J": 31.55796670730659,
+      "g0_peak_m1": 1.537916054097207,
+      "g_th_m1": 0.15126521585510458,
+      "margin": 10.167017218091708,
+      "f2_burn": 0.21302618676877738,
+      "regime": "mode=krf drive=beam grid=1x1x1 (1 cells, 169 reactions) 2 atm | beam yields via spencer_fano, sub-table rates = MEASURED relax curves (F-,el:Ar,el:F2,el:Kr,vib; <eps> in-coverage 99%, below it the taper extrapolates from the measured floor) | drive 3.156e+01 J, laser 2.260e-01 J (eta 0.72%) | ledger residual max 2.00e-13 | validity: ionization 2.4e-05 of N, F2 burn 21.3%, <eps> in-table 18% | wall 4.4 s | cells are independent reactors (no inter-cell transport; coarse device grid, not a PIC grid)"
+    },
+    {
+      "lever": "l_op",
+      "value": 0.005,
+      "eta": 0.02056796244189863,
+      "E_laser_J": 0.6490830815527995,
+      "E_dep_J": 31.55796707556038,
+      "g0_peak_m1": 1.561229223003041,
+      "g_th_m1": 0.2815291810554743,
+      "margin": 5.545532499152926,
+      "f2_burn": 0.2092541612592963,
+      "regime": "mode=krf drive=beam grid=1x1x1 (1 cells, 169 reactions) 2 atm | beam yields via spencer_fano, sub-table rates = MEASURED relax curves (F-,el:Ar,el:F2,el:Kr,vib; <eps> in-coverage 99%, below it the taper extrapolates from the measured floor) | drive 3.156e+01 J, laser 6.491e-01 J (eta 2.06%) | ledger residual max 1.62e-13 | validity: ionization 2.3e-05 of N, F2 burn 20.9%, <eps> in-table 19% | wall 4.7 s | cells are independent reactors (no inter-cell transport; coarse device grid, not a PIC grid)"
+    },
+    {
+      "lever": "l_op",
+      "value": 0.01,
+      "eta": 0.018635680909853687,
+      "E_laser_J": 0.5881041918927192,
+      "E_dep_J": 31.55796639454998,
+      "g0_peak_m1": 1.5643837727375396,
+      "g_th_m1": 0.30671815120526014,
+      "margin": 5.100395156237857,
+      "f2_burn": 0.2088008065671635,
+      "regime": "mode=krf drive=beam grid=1x1x1 (1 cells, 169 reactions) 2 atm | beam yields via spencer_fano, sub-table rates = MEASURED relax curves (F-,el:Ar,el:F2,el:Kr,vib; <eps> in-coverage 99%, below it the taper extrapolates from the measured floor) | drive 3.156e+01 J, laser 5.881e-01 J (eta 1.86%) | ledger residual max 9.51e-13 | validity: ionization 2.3e-05 of N, F2 burn 20.9%, <eps> in-table 19% | wall 4.7 s | cells are independent reactors (no inter-cell transport; coarse device grid, not a PIC grid)"
+    },
+    {
+      "lever": "l_op",
+      "value": 0.02,
+      "eta": 0.015359581996050666,
+      "E_laser_J": 0.484717169070405,
+      "E_dep_J": 31.557966173495995,
+      "g0_peak_m1": 1.5745802152478172,
+      "g_th_m1": 0.3574800085253502,
+      "margin": 4.404666492381372,
+      "f2_burn": 0.20804432117720106,
+      "regime": "mode=krf drive=beam grid=1x1x1 (1 cells, 169 reactions) 2 atm | beam yields via spencer_fano, sub-table rates = MEASURED relax curves (F-,el:Ar,el:F2,el:Kr,vib; <eps> in-coverage 99%, below it the taper extrapolates from the measured floor) | drive 3.156e+01 J, laser 4.847e-01 J (eta 1.54%) | ledger residual max 6.58e-13 | validity: ionization 2.2e-05 of N, F2 burn 20.8%, <eps> in-table 19% | wall 4.7 s | cells are independent reactors (no inter-cell transport; coarse device grid, not a PIC grid)"
+    },
+    {
+      "lever": "l_op",
+      "value": 0.05,
+      "eta": 0.008557843843643834,
+      "E_laser_J": 0.27006814092504067,
+      "E_dep_J": 31.557965517871455,
+      "g0_peak_m1": 1.5983014657705992,
+      "g_th_m1": 0.5129329438755057,
+      "margin": 3.116004703645091,
+      "f2_burn": 0.20655789849803585,
+      "regime": "mode=krf drive=beam grid=1x1x1 (1 cells, 169 reactions) 2 atm | beam yields via spencer_fano, sub-table rates = MEASURED relax curves (F-,el:Ar,el:F2,el:Kr,vib; <eps> in-coverage 99%, below it the taper extrapolates from the measured floor) | drive 3.156e+01 J, laser 2.701e-01 J (eta 0.86%) | ledger residual max 5.98e-13 | validity: ionization 2.1e-05 of N, F2 burn 20.7%, <eps> in-table 20% | wall 4.7 s | cells are independent reactors (no inter-cell transport; coarse device grid, not a PIC grid)"
+    },
+    {
+      "lever": "F2_frac",
+      "value": 0.0005,
+      "eta": 1.906631314150108e-05,
+      "E_laser_J": 0.0006016767296399194,
+      "E_dep_J": 31.557056950369056,
+      "g0_peak_m1": 0.771324419197265,
+      "g_th_m1": 0.3574800085253502,
+      "margin": 2.1576714803691397,
+      "f2_burn": 0.2894567751168037,
+      "regime": "mode=krf drive=beam grid=1x1x1 (1 cells, 169 reactions) 2 atm | beam yields via spencer_fano, sub-table rates = MEASURED relax curves (F-,el:Ar,el:F2,el:Kr,vib; <eps> in-coverage 69%, below it the taper extrapolates from the measured floor) | drive 3.156e+01 J, laser 6.017e-04 J (eta 0.00%) | ledger residual max 8.46e-13 | validity: ionization 2.4e-05 of N, F2 burn 28.9%, <eps> in-table 11% | wall 4.7 s | cells are independent reactors (no inter-cell transport; coarse device grid, not a PIC grid)"
+    },
+    {
+      "lever": "F2_frac",
+      "value": 0.001,
+      "eta": 0.015359581996050666,
+      "E_laser_J": 0.484717169070405,
+      "E_dep_J": 31.557966173495995,
+      "g0_peak_m1": 1.5745802152478172,
+      "g_th_m1": 0.3574800085253502,
+      "margin": 4.404666492381372,
+      "f2_burn": 0.20804432117720106,
+      "regime": "mode=krf drive=beam grid=1x1x1 (1 cells, 169 reactions) 2 atm | beam yields via spencer_fano, sub-table rates = MEASURED relax curves (F-,el:Ar,el:F2,el:Kr,vib; <eps> in-coverage 99%, below it the taper extrapolates from the measured floor) | drive 3.156e+01 J, laser 4.847e-01 J (eta 1.54%) | ledger residual max 6.58e-13 | validity: ionization 2.2e-05 of N, F2 burn 20.8%, <eps> in-table 19% | wall 4.7 s | cells are independent reactors (no inter-cell transport; coarse device grid, not a PIC grid)"
+    },
+    {
+      "lever": "F2_frac",
+      "value": 0.002,
+      "eta": 0.027731902618171444,
+      "E_laser_J": 0.8752129349364651,
+      "E_dep_J": 31.559786826994632,
+      "g0_peak_m1": 2.0275718646405823,
+      "g_th_m1": 0.3574800085253502,
+      "margin": 5.671846862163202,
+      "f2_burn": 0.12749067801716452,
+      "regime": "mode=krf drive=beam grid=1x1x1 (1 cells, 169 reactions) 2 atm | beam yields via spencer_fano, sub-table rates = MEASURED relax curves (F-,el:Ar,el:F2,el:Kr,vib; <eps> in-coverage 99%, below it the taper extrapolates from the measured floor) | drive 3.156e+01 J, laser 8.752e-01 J (eta 2.77%) | ledger residual max 2.72e-13 | validity: ionization 1.6e-05 of N, F2 burn 12.7%, <eps> in-table 26% | wall 4.7 s | cells are independent reactors (no inter-cell transport; coarse device grid, not a PIC grid)"
+    },
+    {
+      "lever": "F2_frac",
+      "value": 0.003,
+      "eta": 0.027683959516786785,
+      "E_laser_J": 0.8737502208938062,
+      "E_dep_J": 31.561605931549938,
+      "g0_peak_m1": 2.1158438317544572,
+      "g_th_m1": 0.3574800085253502,
+      "margin": 5.918775263776506,
+      "f2_burn": 0.0920135167800592,
+      "regime": "mode=krf drive=beam grid=1x1x1 (1 cells, 169 reactions) 2 atm | beam yields via spencer_fano, sub-table rates = MEASURED relax curves (F-,el:Ar,el:F2,el:Kr,vib; <eps> in-coverage 99%, below it the taper extrapolates from the measured floor) | drive 3.156e+01 J, laser 8.738e-01 J (eta 2.77%) | ledger residual max 5.16e-13 | validity: ionization 1.3e-05 of N, F2 burn 9.2%, <eps> in-table 26% | wall 5.2 s | cells are independent reactors (no inter-cell transport; coarse device grid, not a PIC grid)"
+    },
+    {
+      "lever": "Kr_frac",
+      "value": 0.025,
+      "eta": 0.013275088418138273,
+      "E_laser_J": 0.41042851420610077,
+      "E_dep_J": 30.91719627609532,
+      "g0_peak_m1": 1.5002505828846628,
+      "g_th_m1": 0.3574800085253502,
+      "margin": 4.196739809516577,
+      "f2_burn": 0.20588869528052378,
+      "regime": "mode=krf drive=beam grid=1x1x1 (1 cells, 169 reactions) 2 atm | beam yields via spencer_fano, sub-table rates = MEASURED relax curves (F-,el:Ar,el:F2,el:Kr,vib; <eps> in-coverage 99%, below it the taper extrapolates from the measured floor) | drive 3.092e+01 J, laser 4.104e-01 J (eta 1.33%) | ledger residual max 5.51e-13 | validity: ionization 2.2e-05 of N, F2 burn 20.6%, <eps> in-table 18% | wall 4.8 s | cells are independent reactors (no inter-cell transport; coarse device grid, not a PIC grid)"
+    },
+    {
+      "lever": "Kr_frac",
+      "value": 0.05,
+      "eta": 0.015359581996050666,
+      "E_laser_J": 0.484717169070405,
+      "E_dep_J": 31.557966173495995,
+      "g0_peak_m1": 1.5745802152478172,
+      "g_th_m1": 0.3574800085253502,
+      "margin": 4.404666492381372,
+      "f2_burn": 0.20804432117720106,
+      "regime": "mode=krf drive=beam grid=1x1x1 (1 cells, 169 reactions) 2 atm | beam yields via spencer_fano, sub-table rates = MEASURED relax curves (F-,el:Ar,el:F2,el:Kr,vib; <eps> in-coverage 99%, below it the taper extrapolates from the measured floor) | drive 3.156e+01 J, laser 4.847e-01 J (eta 1.54%) | ledger residual max 6.58e-13 | validity: ionization 2.2e-05 of N, F2 burn 20.8%, <eps> in-table 19% | wall 4.6 s | cells are independent reactors (no inter-cell transport; coarse device grid, not a PIC grid)"
+    },
+    {
+      "lever": "Kr_frac",
+      "value": 0.1,
+      "eta": 0.01185729821030189,
+      "E_laser_J": 0.38938780957367497,
+      "E_dep_J": 32.83950548155785,
+      "g0_peak_m1": 1.4455430066686628,
+      "g_th_m1": 0.3574800085253502,
+      "margin": 4.043703066450369,
+      "f2_burn": 0.21227967505292455,
+      "regime": "mode=krf drive=beam grid=1x1x1 (1 cells, 169 reactions) 2 atm | beam yields via spencer_fano, sub-table rates = MEASURED relax curves (F-,el:Ar,el:F2,el:Kr,vib; <eps> in-coverage 99%, below it the taper extrapolates from the measured floor) | drive 3.284e+01 J, laser 3.894e-01 J (eta 1.19%) | ledger residual max 5.52e-13 | validity: ionization 2.1e-05 of N, F2 burn 21.2%, <eps> in-table 21% | wall 4.6 s | cells are independent reactors (no inter-cell transport; coarse device grid, not a PIC grid)"
+    }
+  ],
+  "best_per_lever": {
+    "pressure_atm": [
+      1.0,
+      0.025884791919587286
+    ],
+    "beam_j_A_cm2": [
+      200.0,
+      0.0192375154562064
+    ],
+    "beam_flat_ns": [
+      100.0,
+      0.018368178602268897
+    ],
+    "Lz_m": [
+      0.2,
+      0.015918789385152093
+    ],
+    "r_oc": [
+      0.95,
+      0.015359581996050666
+    ],
+    "l_op": [
+      0.005,
+      0.02056796244189863
+    ],
+    "F2_frac": [
+      0.002,
+      0.027731902618171444
+    ],
+    "Kr_frac": [
+      0.05,
+      0.015359581996050666
+    ]
+  },
+  "combo": {
+    "overrides": {
+      "pressure_atm": 1.0,
+      "beam_j_A_cm2": 200.0,
+      "beam_flat_ns": 100.0,
+      "Lz_m": 0.2,
+      "l_op": 0.005
+    },
+    "mixture": {
+      "Ar": 0.948,
+      "Kr": 0.05,
+      "F2": 0.002
+    },
+    "eta": 0.049197343731844145,
+    "E_laser_J": 5.016278563578009,
+    "E_dep_J": 101.96238624019662,
+    "g0_peak_m1": 2.6677514429564497,
+    "g_th_m1": 0.14076459052773715,
+    "margin": 18.951864477812542,
+    "f2_burn": 0.401367097927804,
+    "regime": "mode=krf drive=beam grid=1x1x1 (1 cells, 169 reactions) 1 atm | beam yields via spencer_fano, sub-table rates = MEASURED relax curves (F-,el:Ar,el:F2,el:Kr,vib; <eps> in-coverage 99%, below it the taper extrapolates from the measured floor) | drive 1.020e+02 J, laser 5.016e+00 J (eta 4.92%) | ledger residual max 5.81e-13 | validity: ionization 1.1e-04 of N, F2 burn 40.1%, <eps> in-table 14% | wall 4.3 s | cells are independent reactors (no inter-cell transport; coarse device grid, not a PIC grid)"
+  }
+}

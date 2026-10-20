@@ -1,0 +1,8 @@
+# latexmk build files (accuracy_overview.pdf itself is the deliverable and stays)
+*.aux
+*.log
+*.fls
+*.fdb_latexmk
+*.out
+*.synctex.gz
+__pycache__/

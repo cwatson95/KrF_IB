@@ -1,0 +1,195 @@
+{
+  "preset": "krf_hyper_mw",
+  "te_cold_eV": 0.5,
+  "te_hot_eV": 3.0,
+  "rows": [
+    {
+      "rid": "K25_fBv",
+      "reaction": "Kr* + F2 -> KrF*(Bv) + F",
+      "kind": "k",
+      "electron_row": false,
+      "k_ratio_hot_cold": 1.0,
+      "sign": "0 (heavy-particle)"
+    },
+    {
+      "rid": "K25_fC",
+      "reaction": "Kr* + F2 -> KrF*(C) + F",
+      "kind": "k",
+      "electron_row": false,
+      "k_ratio_hot_cold": 1.0,
+      "sign": "0 (heavy-particle)"
+    },
+    {
+      "rid": "K27_fBv",
+      "reaction": "Kr** + F2 -> KrF*(Bv) + F",
+      "kind": "k",
+      "electron_row": false,
+      "k_ratio_hot_cold": 1.0,
+      "sign": "0 (heavy-particle)"
+    },
+    {
+      "rid": "K27_fC",
+      "reaction": "Kr** + F2 -> KrF*(C) + F",
+      "kind": "k",
+      "electron_row": false,
+      "k_ratio_hot_cold": 1.0,
+      "sign": "0 (heavy-particle)"
+    },
+    {
+      "rid": "K26_fBv",
+      "reaction": "Kr+ + F- -> KrF*(Bv)",
+      "kind": "k",
+      "electron_row": false,
+      "k_ratio_hot_cold": 1.0,
+      "sign": "0 (heavy-particle)"
+    },
+    {
+      "rid": "K26_fC",
+      "reaction": "Kr+ + F- -> KrF*(C)",
+      "kind": "k",
+      "electron_row": false,
+      "k_ratio_hot_cold": 1.0,
+      "sign": "0 (heavy-particle)"
+    },
+    {
+      "rid": "K108_fBv",
+      "reaction": "Kr2+ + F- -> KrF*(Bv) + Kr",
+      "kind": "k",
+      "electron_row": false,
+      "k_ratio_hot_cold": 1.0,
+      "sign": "0 (heavy-particle)"
+    },
+    {
+      "rid": "K108_fC",
+      "reaction": "Kr2+ + F- -> KrF*(C) + Kr",
+      "kind": "k",
+      "electron_row": false,
+      "k_ratio_hot_cold": 1.0,
+      "sign": "0 (heavy-particle)"
+    },
+    {
+      "rid": "NK7_fBv",
+      "reaction": "Kr2* + F2 -> KrF*(Bv) + Kr + F",
+      "kind": "k",
+      "electron_row": false,
+      "k_ratio_hot_cold": 1.0,
+      "sign": "0 (heavy-particle)"
+    },
+    {
+      "rid": "NK7_fC",
+      "reaction": "Kr2* + F2 -> KrF*(C) + Kr + F",
+      "kind": "k",
+      "electron_row": false,
+      "k_ratio_hot_cold": 1.0,
+      "sign": "0 (heavy-particle)"
+    },
+    {
+      "rid": "AK1_fBv",
+      "reaction": "ArF* + Kr -> KrF*(Bv) + Ar",
+      "kind": "k",
+      "electron_row": false,
+      "k_ratio_hot_cold": 1.0,
+      "sign": "0 (heavy-particle)"
+    },
+    {
+      "rid": "AK1_fC",
+      "reaction": "ArF* + Kr -> KrF*(C) + Ar",
+      "kind": "k",
+      "electron_row": false,
+      "k_ratio_hot_cold": 1.0,
+      "sign": "0 (heavy-particle)"
+    },
+    {
+      "rid": "AKD3_fBv",
+      "reaction": "ArKr* + F2 -> KrF*(Bv) + Ar + F",
+      "kind": "k",
+      "electron_row": false,
+      "k_ratio_hot_cold": 1.0,
+      "sign": "0 (heavy-particle)"
+    },
+    {
+      "rid": "AKD3_fC",
+      "reaction": "ArKr* + F2 -> KrF*(C) + Ar + F",
+      "kind": "k",
+      "electron_row": false,
+      "k_ratio_hot_cold": 1.0,
+      "sign": "0 (heavy-particle)"
+    },
+    {
+      "rid": "A2F_KR2_fBv",
+      "reaction": "Ar2F* + Kr -> KrF*(Bv) + Ar + Ar",
+      "kind": "k",
+      "electron_row": false,
+      "k_ratio_hot_cold": 1.0,
+      "sign": "0 (heavy-particle)"
+    },
+    {
+      "rid": "A2F_KR2_fC",
+      "reaction": "Ar2F* + Kr -> KrF*(C) + Ar + Ar",
+      "kind": "k",
+      "electron_row": false,
+      "k_ratio_hot_cold": 1.0,
+      "sign": "0 (heavy-particle)"
+    },
+    {
+      "rid": "K2F_F_fBv",
+      "reaction": "Kr2* + F -> KrF*(Bv) + Kr",
+      "kind": "k",
+      "electron_row": false,
+      "k_ratio_hot_cold": 1.0,
+      "sign": "0 (heavy-particle)"
+    },
+    {
+      "rid": "K2F_F_fC",
+      "reaction": "Kr2* + F -> KrF*(C) + Kr",
+      "kind": "k",
+      "electron_row": false,
+      "k_ratio_hot_cold": 1.0,
+      "sign": "0 (heavy-particle)"
+    },
+    {
+      "rid": "AKI_F_fBv",
+      "reaction": "ArKr+ + F- -> KrF*(Bv) + Ar",
+      "kind": "k",
+      "electron_row": false,
+      "k_ratio_hot_cold": 1.0,
+      "sign": "0 (heavy-particle)"
+    },
+    {
+      "rid": "AKI_F_fC",
+      "reaction": "ArKr+ + F- -> KrF*(C) + Ar",
+      "kind": "k",
+      "electron_row": false,
+      "k_ratio_hot_cold": 1.0,
+      "sign": "0 (heavy-particle)"
+    },
+    {
+      "rid": "HK5_fBv",
+      "reaction": "NeKr+ + F- -> KrF*(Bv) + Ne",
+      "kind": "k",
+      "electron_row": false,
+      "k_ratio_hot_cold": 1.0,
+      "sign": "0 (heavy-particle)"
+    },
+    {
+      "rid": "HK5_fC",
+      "reaction": "NeKr+ + F- -> KrF*(C) + Ne",
+      "kind": "k",
+      "electron_row": false,
+      "k_ratio_hot_cold": 1.0,
+      "sign": "0 (heavy-particle)"
+    }
+  ],
+  "attachment_ratio_hot_cold": 0.13419462582624037,
+  "dr_ratio_hot_cold": 0.37326460723324606,
+  "k_Kr_exc": {
+    "0.5": 2.8269948428772336e-23,
+    "3.0": 8.822120074574056e-18,
+    "5.75": 1.7703979379865474e-15
+  },
+  "tally": {
+    "negative": 0,
+    "heavy": 22,
+    "positive": 0
+  }
+}

@@ -1,0 +1,902 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>status — REBUILD system map</title>
+<!-- ADAPTED, NOT RE-DERIVED: shell (CSS + render/filter/flow machinery) is
+     PIC_MCC_3D/status.html @ 2026-08-04; only the MAP and FLOW literals and
+     the framing text are REBUILD's. Same rule as every adapted module: the
+     point of reusing a verified artifact is that its behaviour is known. -->
+<style>
+  :root{
+    --bg:#fbfaf7; --panel:#ffffff; --ink:#1c1b19; --dim:#6c6a65; --faint:#9a9791;
+    --line:#e3e0d9; --line2:#efece6;
+    --ok:#2e7d32; --warn:#e65100; --gap:#b71c1c;
+    --ok-bg:rgba(46,125,50,.10); --warn-bg:rgba(230,81,0,.10); --gap-bg:rgba(183,28,28,.10);
+    --accent:#37474f;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --bg:#16171a; --panel:#1d1f23; --ink:#e8e6e1; --dim:#a4a29c; --faint:#77756f;
+      --line:#2e3137; --line2:#26282d;
+      --ok:#6cc070; --warn:#ffa04a; --gap:#ef5f5f;
+      --ok-bg:rgba(108,192,112,.12); --warn-bg:rgba(255,160,74,.12); --gap-bg:rgba(239,95,95,.12);
+      --accent:#b0bec5;
+    }
+  }
+  :root[data-theme="light"]{
+    --bg:#fbfaf7; --panel:#ffffff; --ink:#1c1b19; --dim:#6c6a65; --faint:#9a9791;
+    --line:#e3e0d9; --line2:#efece6;
+    --ok:#2e7d32; --warn:#e65100; --gap:#b71c1c;
+    --ok-bg:rgba(46,125,50,.10); --warn-bg:rgba(230,81,0,.10); --gap-bg:rgba(183,28,28,.10);
+    --accent:#37474f;
+  }
+  :root[data-theme="dark"]{
+    --bg:#16171a; --panel:#1d1f23; --ink:#e8e6e1; --dim:#a4a29c; --faint:#77756f;
+    --line:#2e3137; --line2:#26282d;
+    --ok:#6cc070; --warn:#ffa04a; --gap:#ef5f5f;
+    --ok-bg:rgba(108,192,112,.12); --warn-bg:rgba(255,160,74,.12); --gap-bg:rgba(239,95,95,.12);
+    --accent:#b0bec5;
+  }
+
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:var(--bg); color:var(--ink);
+    font:14px/1.55 ui-sans-serif,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    padding:28px 20px 80px;
+  }
+  .wrap{max-width:1080px;margin:0 auto}
+  code,.mono{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+
+  header h1{font-size:20px;margin:0 0 4px;letter-spacing:-.01em}
+  header h1 .sub{color:var(--dim);font-weight:400}
+  .lede{color:var(--dim);font-size:13px;margin:0 0 18px;max-width:78ch}
+  .lede a{color:inherit}
+
+  /* summary tiles */
+  .tiles{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:18px}
+  .tile{
+    background:var(--panel);border:1px solid var(--line);border-radius:10px;
+    padding:10px 14px;min-width:118px;
+  }
+  .tile .n{font-size:21px;font-weight:600;line-height:1.15}
+  .tile .l{font-size:11px;color:var(--dim);text-transform:uppercase;letter-spacing:.06em}
+  .tile.ok .n{color:var(--ok)} .tile.warn .n{color:var(--warn)} .tile.gap .n{color:var(--gap)}
+
+  /* controls */
+  .bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:14px}
+  button{
+    font:inherit;font-size:12px;color:var(--ink);background:var(--panel);
+    border:1px solid var(--line);border-radius:7px;padding:5px 11px;cursor:pointer;
+  }
+  button:hover{border-color:var(--accent)}
+  button[aria-pressed="true"]{background:var(--accent);color:var(--bg);border-color:var(--accent)}
+  .bar .spacer{flex:1}
+
+  /* tree */
+  .tree{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:6px 4px 10px}
+  ul{list-style:none;margin:0;padding:0}
+  li{position:relative}
+  li ul{margin-left:19px;padding-left:14px;border-left:1px solid var(--line2)}
+
+  .node{
+    display:flex;gap:9px;align-items:flex-start;
+    padding:5px 10px;border-radius:8px;
+  }
+  .node:hover{background:var(--line2)}
+  .twist{
+    flex:none;width:15px;height:20px;border:0;background:none;padding:0;cursor:pointer;
+    color:var(--faint);font-size:10px;line-height:20px;text-align:center;
+  }
+  .twist.leaf{cursor:default;visibility:hidden}
+  li.collapsed > .node .twist{transform:rotate(-90deg)}
+  li.collapsed > ul{display:none}
+
+  .dot{flex:none;width:8px;height:8px;border-radius:50%;margin-top:7px}
+  .dot.ok{background:var(--ok)} .dot.warn{background:var(--warn)} .dot.gap{background:var(--gap)}
+  .dot.group{background:var(--faint)}
+
+  .body{min-width:0;flex:1}
+  .ttl{font-weight:600}
+  .ttl .path{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+    font-weight:500;font-size:12.5px;color:var(--dim)}
+  .note{color:var(--dim);font-size:12.5px;margin-top:1px}
+  .metric{
+    display:inline-block;margin-top:3px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+    font-size:11.5px;padding:1px 7px;border-radius:5px;border:1px solid var(--line);
+  }
+  .metric.ok{color:var(--ok);background:var(--ok-bg);border-color:transparent}
+  .src{font-size:11px;color:var(--faint);margin-top:2px}
+  .src code{font-size:11px}
+
+  .chips{display:flex;gap:5px;flex:none;align-items:center;padding-top:3px}
+  .chip{font-size:10.5px;padding:1px 7px;border-radius:20px;font-weight:600;letter-spacing:.02em}
+  .chip.ok{color:var(--ok);background:var(--ok-bg)}
+  .chip.warn{color:var(--warn);background:var(--warn-bg)}
+  .chip.gap{color:var(--gap);background:var(--gap-bg)}
+  .tag{
+    flex:none;font-size:10.5px;font-weight:600;color:var(--dim);
+    border:1px solid var(--line);border-radius:5px;padding:1px 6px;margin-top:2px;
+  }
+
+  /* level tints, so depth is readable at a glance */
+  li[data-depth="1"] > .node .ttl{font-size:14.5px;letter-spacing:.04em;text-transform:uppercase}
+  li[data-depth="2"] > .node .ttl{font-size:13.5px}
+
+  .legend{margin-top:16px;font-size:11.5px;color:var(--dim);display:flex;gap:16px;flex-wrap:wrap}
+  .legend span{display:flex;align-items:center;gap:6px}
+  .legend i{width:8px;height:8px;border-radius:50%;display:inline-block}
+
+  /* flow view */
+  .flowwrap{background:var(--panel);border:1px solid var(--line);border-radius:12px;
+    padding:8px;overflow-x:auto}
+  #flow{display:block;min-width:940px;width:100%;height:auto}
+  .fnode rect{stroke-width:1.6}
+  .fnode text{font-size:11px;fill:var(--ink)}
+  .fnode .fpath{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+    font-size:9px;fill:var(--dim)}
+  .fnode{cursor:pointer}
+  .fnode:hover rect{filter:brightness(1.08)}
+  .fedge{cursor:pointer}
+  .fedge path{fill:none;stroke:var(--faint);stroke-width:1.5}
+  .fedge:hover path,.fedge.sel path{stroke:var(--accent);stroke-width:2.6}
+  .fedge.fb path{stroke:var(--accent);stroke-width:2.2;stroke-dasharray:7 5;opacity:.85}
+  .fedge.fb text{fill:var(--accent);font-weight:600}
+  .fedge text{font-size:9.5px;fill:var(--dim);
+    font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+  .fedge:hover text,.fedge.sel text{fill:var(--ink)}
+  .flane{font-size:10px;fill:var(--faint);letter-spacing:.1em;text-transform:uppercase}
+  #flowdetail{margin-top:12px;background:var(--panel);border:1px solid var(--line);
+    border-radius:10px;padding:12px 14px;font-size:12.5px;min-height:74px}
+  #flowdetail h3{margin:0 0 4px;font-size:13px}
+  #flowdetail .k{color:var(--faint);font-size:10.5px;text-transform:uppercase;
+    letter-spacing:.06em;margin-top:7px}
+  #flowdetail code{font-size:11.5px}
+  #flowdetail .sym{color:var(--warn)}
+  footer{margin-top:22px;font-size:11.5px;color:var(--faint);max-width:80ch}
+  .hidden{display:none !important}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>status <span class="sub">— REBUILD system map</span></h1>
+  <p class="lede">
+    The Orestes-class excimer-laser engine (beam deposition → tiered chemistry →
+    laser extraction → 3-D ASE). Grouped
+    <strong>inputs → the engine → outputs → gates</strong>; every leaf carries a
+    status, its source file, and — where one exists — the measured number that
+    backs it. This is a <em>hand-maintained snapshot</em>, not a live probe: the
+    figures below come from the run recorded in <code>CHANGELOG.md</code> on
+    <strong>2026-08-04</strong>. Re-run
+    <code>python3 -m pytest SPECK/REBUILD/tests -q</code> and
+    <code>python3 SPECK/REBUILD/verify.py</code> before trusting them. The program this
+    implements is <code>../ORESTES_CLASS_REBUILD.txt</code> (milestones S1…S7).
+  </p>
+</header>
+
+<div class="tiles" id="tiles"></div>
+
+<div class="bar">
+  <button id="v-map"  aria-pressed="true">system map</button>
+  <button id="v-flow" aria-pressed="false">data flow</button>
+  <span class="spacer"></span>
+</div>
+
+<div id="view-flow" class="hidden">
+  <p class="lede">
+    Where every number comes from, and what checks it — one <strong>RHS
+    evaluation</strong>, the thing the BDF integrator calls thousands of times.
+    Click a <strong>box</strong> (a stage) or an <strong>arrow</strong> (the data
+    crossing between stages) for its payload, the invariant that must hold there,
+    the gate that enforces it, and the symptom you would see if it broke.
+  </p>
+  <div class="flowwrap"><svg id="flow" viewBox="0 0 1000 726" role="img"
+       aria-label="REBUILD data-flow diagram"></svg></div>
+  <div id="flowdetail"><em>Select a box or an arrow.</em></div>
+</div>
+
+<div id="view-map">
+<div class="bar">
+  <button id="f-all"  aria-pressed="true">all</button>
+  <button id="f-ok"   aria-pressed="false">working</button>
+  <button id="f-warn" aria-pressed="false">open</button>
+  <button id="f-gap"  aria-pressed="false">missing</button>
+  <span class="spacer"></span>
+  <button id="expand">expand all</button>
+  <button id="collapse">collapse to groups</button>
+  <button id="theme">theme</button>
+</div>
+
+<div class="tree"><ul id="root"></ul></div>
+
+<div class="legend">
+  <span><i style="background:var(--ok)"></i> working / resolved (by-scope calls say so in the note)</span>
+  <span><i style="background:var(--warn)"></i> open work remains</span>
+  <span><i style="background:var(--gap)"></i> missing for the full Orestes-class claim</span>
+</div>
+</div>
+
+<footer>
+  Status vocabulary follows <code>GUI_v2.py</code> tab ⑥ (PLAN (53)/(60)): “ok” includes
+  deliberate by-scope calls with the disposition stated; “warn” leads with what is open;
+  “gap” is absent. Milestone tags <span class="mono">S1…S7</span> refer to
+  <code>../ORESTES_CLASS_REBUILD.txt</code> §6, defect tags
+  <span class="mono">D1…D5</span> to its §2. Predictive-only policy (PLAN (26)):
+  anchors score this engine, they never steer it — misses are on the scorecard.
+</footer>
+
+</div>
+
+<script>
+/* ---------------------------------------------------------------------------
+   THE MAP.  This is the only block to edit when the code changes.
+   node = { name, path?, status?, note?, src?, metric?, tag?, open?, children? }
+     status : "ok" | "warn" | "gap"   (omit on a group -- it tallies its children)
+     path   : shown in monospace after the name (a module/function)
+     metric : the measured number that backs the status (dated run: 2026-08-04)
+     tag    : short milestone/defect chip, e.g. "S3", "D2"
+     open   : false to start collapsed
+   Sub-groups nest arbitrarily deep: just add another `children` array.
+--------------------------------------------------------------------------- */
+const MAP = {
+  name:"REBUILD — the Orestes-class engine", children:[
+
+  { name:"Inputs", children:[
+      { name:"Chen 2025 Table III", path:"MODULES/chen2025.py", status:"ok", tag:"CHEN",
+        note:"Verbatim transcription (byte-copy of the audited spectre pass); the R19 exponent and R26 product typography adjudications are preserved on the rows. 0.1.25: the table is now paired with CHEN_ERRATA — five NUMERIC transcription errors of the print (R13/R14 cm³-misprint ×1e6, R23 = their own R27 pasted onto the excimer row, R24 ×1e6 slip = 0.4 ps Ne* lifetime as printed, R36 exponent ×100), each physically impossible or source-contradicted, adjudicated against primary sources. The errata lane (default) reproduces Chen's MODEL; chen_errata=false runs the paper AS PRINTED — measured NOT to integrate under the paper's own circuit. TABLE_III itself is untouched (the record of the paper).",
+        metric:"41 rows, SI as printed + 5 errata (Known-bad: impossibility flags are never exempted by 'verbatim')", src:"tests/test_chen_verbatim.py" },
+      { name:"Harvested REPO/LIT rows", path:"MODULES/network.py", status:"ok",
+        note:"The spectre network by VALUE + citation string (kr_core, Ne↔Kr, Ar↔Kr incl. the once-missing AK7/AK8 Ar-third-body rows, NeF* channels). Copied, never re-tuned.",
+        metric:"29 REPO + 2 LIT rows (KrF)", src:"ORESTES_CLASS_REBUILD.txt §7" },
+      { name:"EST rows (flagged analogies)", path:"MODULES/network.py", status:"ok", tag:"S5",
+        note:"CLOSED AS PRICED (0.1.9): the ×1/3..×3 bracket sweep is implemented (scorecard.est_bracket_rows, run.py --est-sweep) and MEASURED. Ar fill (the DE-AR default): 15 of the 19 are Ne-chain analogs that are STRUCTURALLY zero (their reactants need an element the fill lacks — seed-level 1e-8 class, classified mechanically); the 4 active levers (R8, KSTEP, KPS_Kr, URAD_Bv) move g₀ at most −5.6 % (URAD_Bv ×3). Ne fill: the unmeasured Ne-partner B/C mixing analogs are a REAL ±70 % g₀ systematic (BC_Ne/CB_Ne; NK6 ±40 %, NK4/NK8/VREL_Ne ~15 %), direction-informed by Xu 1993 p.2596 ('k_BC for He/Ne/Ar may be much smaller than for Kr' → toward +70 %). Literature exhausted: 7 in-repo papers mined first-hand (Kannari, Chen, Lee, Boichenko, J&H 1980, Xu 1993, Ma); johnson1989 checked = XeCl, not applicable. Census pinned; growth fails the gate.",
+        metric:"19 EST priced (re-measured on the 0.1.14 chain-fixed baseline): Ar fill ≤6.7 % g₀ — the worst lever is now the APS_Ar ×0.1 CONFLICT alternate (chain 2), 15 structurally zero unchanged; Ne fill ±68–70 % via BC/CB_Ne — the named Ne-mode systematic; LIT 105 of 169 rows", src:"tests/test_network.py::test_est_bracket_*" },
+      { name:"LoKI-MC curated mixture tables", path:"MODULES/loki_tables/", status:"ok", tag:"LOKI",
+        note:"Five curated sweeps (ChenArF + Ne-fill + Ar-fill V2 points), byte-verbatim from projects/spectre with a provenance README. Looked up by ⟨ε⟩ = (3/2)Te — the documented fluid mapping.",
+        metric:"5 sweeps packaged, 164 K", src:"MODULES/loki_tables/README.txt" },
+      { name:"PIC_MCC_3D swarm export", path:"MODULES/kinetic_tables/pic_mcc_3d_swarm.npz", status:"ok", tag:"S4",
+        note:"The KINETIC tier: rates measured by PIC_MCC_3D's oracle-matched MCC in a uniform-field swarm, read as DATA — the engine never imports the package (gated).",
+        metric:"7 E/N pts, ⟨ε⟩ 3.4–7.7 eV", src:"tools/export_kinetic.py" },
+      { name:"LXCat cross sections", path:"MODULES/cross_sections.py", status:"ok",
+        note:"Search-path loader (env override → local → ARPAE copy → LoKI-MC tree; marker-based, never parent-counting). Carries energy_ceiling_eV: above it every σ reads ZERO, silently.",
+        src:"tests/test_beam.py::test_ceiling_refusal_has_teeth" },
+      { name:"Declared device parameters", path:"MODULES/params.py", status:"ok", tag:"D4",
+        note:"flare/FLASH pattern: unknown names error, ranges checked at assignment, every value remembers its source — and a name/doc matching a calibration-knob pattern is REFUSED at declaration.",
+        src:"tests/test_params.py::test_banned_calibration_knob_is_refused" },
+      { name:"DE-AR device targets", path:"../docs/DE-AR_targets.txt", status:"ok",
+        note:"600 kV / ~53 A/cm², Ar-dominant 0.5–3 atm, 5–10 cm cell. Context for presets and the scorecard only — LOCAL file, never a steering input." }
+  ]},
+
+  { name:"The engine", children:[
+      { name:"State & network", children:[
+          { name:"Species registry as data", path:"MODULES/species.py", status:"ok",
+            note:"Atoms + charge + mass + formation energy per species, each E_form with tier + cite. E_form moves only the heat/potential split — closure is bookkeeping-exact regardless.",
+            src:"tests/test_species.py::test_excimer_energy_reference_consistency" },
+          { name:"Mechanical per-row balance", path:"network.check_reaction", status:"ok", tag:"D2",
+            note:"Element and charge balance computed per row from the registry; an r115-class term cannot be written. Teeth proven: unbalanced, charge-broken, over-radiating and uncited rows all raise.",
+            src:"tests/test_network.py (5 teeth tests)" },
+          { name:"Ar heteronuclear manifold (ArKr*/ArKrF*)", path:"network.ar_kr_manifold", status:"ok", tag:"S5",
+            note:"FOUND MISSING and completed 0.1.9 (exposed by the Xu 1993 re-verification): KrF*+2Ar → ArKrF* (7.0e-32 [Kannari 62,63; J&H #14 8.0e-32; Xu (2–8)e-32] — ~3.4e8 s⁻¹ per state at v2, ×2.4 the B radiative rate), KrF*+Ar quench (1.8e-12, three-source record incl. J&H's 0.0 and Xu's ≤2.9e-12 bound), the ArKr* chain (formation/harpoon/displacement/VUV), the Ar2F* fate block (was a sink-less absorber), Kr2*/Ar2* VUV decay (the 0.1.0 scope hole; ×24/×16 inter-source lifetime spreads RECORDED on the rows), the second harpoon branches, Ar2*+Kr transfer, Ar2+ DR. 30 rows, 2 species, all LIT, double/triple-sourced first-hand. Root cause of the omission: the REPO source network is Ne-buffer-oriented, and earlier table passes filtered by species already tracked — rows of untracked species were invisible.",
+            metric:"network 118 → 149 rows; v2 g₀ 0.0278 → 0.0053 /cm (sub-threshold at 0.42 MW/cm³) — the completed physics, not a regression", src:"tests/test_network.py::test_ar_manifold_complete_and_sourced" },
+          { name:"ArKr⁺ ion manifold + Ar-fill completion", path:"network.ar_kr_ion_manifold", status:"ok", tag:"S5",
+            note:"The 0.1.9 'next network milestone', closed 0.1.10, CORRECTED 0.1.11: the full ArKr⁺ manifold (formation ×2, Kr-displacement, both printed F⁻ branches, DR, ArKr* ionization/photoionization — Kannari Table I p.4311-4313, J&H #10/36-40, first-hand), the genuinely-new rows (Ar** harpoon + non-excimer branches, Ar-third-body ArF*+2Ar, five Penning rows, Ar**/Kr**/ArKr* photoionization σ), and first-hand prints SUPERSEDING Chen's generated equivalents. The 0.1.10 claims 'no Ar-atom harpoon / primary ion had no F⁻ path / source-less Ar₂⁺ / sink-less F₂⁺' were WRONG — those channels existed as generated CHEN rows (R29/R30/R31/R27/R22, invisible to the source grep that made the claims) and ran DOUBLE-COUNTED beside the new rows until the 0.1.11 dedup (CHEN_SUPERSEDED map + channel-uniqueness hard error in check_network; arf_chen keeps Chen verbatim for anchor fidelity). Value re-pins by two-primary consensus (K15 precedent): AK7 3.25→2.5e-31, AK2 7.8→7.5e-10; R11p re-lumped to the dominant printed branch (Kr*). CORRECTION (0.1.9 note): the printed 1.5e-17 absorber is the NEUTRAL ArKr* [85], not the ion.",
+            metric:"28 rows (23 LIT + 5 REPO Flannery-mirrors), 1 species; network 149 → 169 rows (8 Chen channels superseded, 0.1.11), LIT 78 → 103; EST still 19", src:"tests/test_network.py::test_ar_ion_manifold_complete_and_sourced + test_chen_supersede_and_channel_uniqueness" },
+          { name:"Anchor residuals (post prompt-floor fix)", path:"scorecard.kannari_device_rows", status:"warn", tag:"S7",
+            note:"OPEN, RE-SCOPED 0.1.12 — the fluid-Tₑ suspect was TESTED and largely CONFIRMED-AND-FIXED: the NRL population benchmark measured the bulk ×4 cold (Tₑ 0.53 vs 2 eV) with F⁻ ×0.003, and the derived prompt-floor correction (the time-free Spencer–Fano cascade was pre-spending the Platzman sub-excitation share on rate-limited trace-F₂ channels the network already owns) moved Tₑ to ×1.01 with NOTHING fitted. The anchors then moved wherever the physics took them: Kannari ×0.56 → ×0.81 (R_OC 80 %; ×0.21 at the threshold-sensitive 20 % point), Electra ×0.53 → ×1.45 at 1.09 atm (×0.85 at 0.82 atm, ×1.87 at 1.36) — the old single ×0.5 cross-device deficit story is BROKEN. What remains open, quantified: (1) F⁻ still ×0.02 vs the NRL benchmark (the attachment/consumption balance below and near the measured 1.76-eV floor — the export-deepening follow-up now has its strongest reason); (2) the measured pressure trend (peak 1.09 atm, decline 1.36) still NOT reproduced — the engine rises, exactly as NRL's own Orestes does (their stated 3-body suspicion, the ARF_AA class); (3) Ar** ×0.06 (the 4s/4p cascade split); (4) threshold-region points (Kannari 20 %, g₀ barely clears g_th at L_op 0.64).",
+            metric:"Kannari ×0.83 @ R_OC 80 % (margin 47 %), Electra ×0.84/×1.41/×1.76 (post the 0.1.14 chain fixes); the 20 %-R_OC ×0.20 now LABELS itself as a ×9-amplified threshold point (margin 11 %); residuals F⁻ ×0.19, Ar** ×0.05 (PRICED: the APS_Ar two-print value vs NRL's structural zero, swept ×0.1), trend unreproduced (3-body class, shared with NRL's own model); re-scoped 2026-08-05", src:"run.py --scorecard (kannari_device_rows + electra_arf_rows + electra_population_rows)" },
+          { name:"Amplification-chain audit (three chains)", path:"chemistry.ion_ion_screening", status:"ok", tag:"S7",
+            note:"NEW 0.1.14 — the ×0.21/×0.19/×0.06/×0.35 residuals decomposed into three amplification chains and each head treated. CHAIN 3a: F2's a3Πu/A1Πu are REPULSIVE — excitation IS dissociation; Chen's two-step bookkeeping (excite, then wait for a SECOND electron to dissociate, R13/R14) parked excited F2 for ~µs at beam nₑ and double-charged the electron gas; the Kannari-chemistry modes now deliver e+F2→F+F+e directly at the measured rate with the full threshold paid (arf_chen keeps Chen verbatim; R11/R12 = the sole documented ALLOWED_SAME_CHANNEL pair). CHAIN 3b: ion–ion Debye screened-capture S = 1/(1+R_c/λ_D), parameter-free, live per evaluation, on the flannery/lee_ii kinds — 0.695 at Kannari's printed point vs Morgan's MC 0.397 (×1.75 milder, RECORDED; Morgan not in-repo). CHAIN 2: the Ar** head APS_Ar has TWO in-repo prints at 1.0e-10 (Kannari-est + Lee [36]) against NRL's STRUCTURAL ZERO (no neutral 4p→4s quench at all) — value kept, ×0.1 alternate swept every est-sweep (−6.7 % g₀ at v2); the two printed A3 electron de-excitation rows adopted (AR_EDX1/2, superelastic). CHAIN 1: every device-anchor point self-reports g_th, threshold margin, and dlnE/dlng₀ — amplified misses are labeled, not mistaken for physics.",
+            metric:"Te ×1.15, α ×0.23 → ×0.34, g₀/α 18–24 vs NRL γ≈17.5 (was 27–35); Electra high-P overshoot ×1.89 → ×1.76; Kannari 20 % labeled ×9-amplified; F₂ burn now genuine dissociation (no parked states)", src:"tests/test_network.py::test_repulsive_f2_reroute_and_screening + run.py --scorecard" },
+          { name:"NRL population benchmark + the prompt-floor fix", path:"scorecard.electra_population_rows", status:"ok", tag:"S7",
+            note:"NEW 0.1.12 — the fluid-Tₑ suspect put on the record and largely resolved. The benchmark (petrova2022 Figs. 4/6/8, first-hand): at 0.5 MW/cc, 12.5 psi, 0.5 % F₂ their EEDF-resolved model reports Tₑ ~2 eV flat, Tg →420 K, nₑ ~5e14, ArF* ~5e14 (measured ~4e14), F⁻ ~1e14, F₂ 50 % dissociated, g₀ 2.5 %/cm, α 0.2 %/cm. MEASURED HERE (before): Tₑ ×0.26, F⁻ ×0.003, ArF* ×0.21 — the deficit mechanism in one table: cold bulk → attachment key far below the measured floor where the taper falls but physical DA rises → F⁻ collapse → the ion–ion channels (44 % of NRL's ArF* formation) starved. ROOT CAUSE, derived not fitted: the Spencer–Fano recursion is time-free — below the noble inelastic floor only trace-F₂ channels stay open, so it funneled 100 % of the sub-excitation flux through them at t=0 (~ns-per-event physics spanning the whole pulse), while the network's e+F₂ rows carry the same pathway by rate: one pathway, two owners (the 0.1.11 lesson at the energy level; the cited w_table convention always banked this energy). FIX: prompt_floor_eV in the cascade — sub-noble-floor channels excluded, energy stays with the electron gas (eps_sec 1.81 → 4.41 eV/pair at 0.5 % F₂); pure-noble cascades bit-identical (W anchors, SF-vs-MC unmoved — gate-tested). AFTER: Tₑ ×1.01, Ar* ×0.84, Tg ×0.95, nₑ ×1.9, g₀ ×0.54, F⁻ ×0.02 (the residual, named in the warn); ion ordering reproduced.",
+            metric:"Tₑ ×0.26 → ×1.01 vs the NRL EEDF benchmark (nothing fitted — eps_sec fell out of the structural correction); beam-mode ⟨ε⟩ moves INTO the measured relax window; F⁻ ×0.003 → ×0.02 (0.1.12) → ×0.19 (0.1.13 deepened export)", src:"tests/test_beam.py::test_prompt_floor_banks_subexcitation + run.py --scorecard" },
+          { name:"Electra ArF device anchor (arf_beam mode)", path:"scorecard.electra_arf_rows", status:"ok", tag:"S7",
+            note:"NEW 0.1.11 — the first ArF-side device anchor, scored LIVE: the NRL Electra quadruple-pass oscillator (Wolford 2020 HEDP 36,100801 Table 1; petrova2022 NRL memo — both first-hand 2026-08-05). Measured 90/96/80 J at 0.82/1.09/1.36 atm (99.7 % Ar / 0.3 % F₂, 0.6/0.8/0.9 MW/cc flat-top). Construction all stated: the two folded gain lines unrolled to a 2-m cell (10.5×11 cm² measured beam; round-trip gain path 4 m = the real four passes), R_OC 8 %, all other passive losses in L_op 0.37 (8 window crossings ×0.90, five mirrors ×0.97), NRL's printed 193-nm optics (σ_se eff 1.0e-16 cm², Table 2 absorber set incl. Ar₂* photoionization), flat-top power matched by construction. The arf_beam mode itself is the Kannari-chemistry pool mechanically species-filtered (no hand-picked rows; krf dedup rule applied; arf_chen untouched). Stated limits: no beam-direct F₂ channels (NRL Table A2; their F₂ is 50 % dissociated by pulse end), no F₂*/F* species, Ar-fill LOKI tables carry 5 % Kr.",
+            metric:"engine ×0.85 / ×1.45 / ×1.87 vs measured at 0.82/1.09/1.36 atm (post the 0.1.12 prompt-floor fix; was ×0.07/×0.53/×0.69); pressure trend (peak 1.09, decline 1.36) still NOT reproduced — engine rises, as does NRL's own Orestes (their stated 3-body suspicion); g₀/α 27–35 vs their γ≈17.5", src:"tests/test_network.py::test_arf_beam_mode_and_electra_optics + run.py --scorecard" },
+          { name:"Kannari p→s relaxation, unconditional", path:"network.kannari_ps_relaxation", status:"ok", tag:"D1",
+            note:"The PLAN (72) closure: KPS_*/APS_* rows are IN with no flag to turn them off — the parity-artifact defect class cannot arise because no parity obligation exists.",
+            src:"tests/test_defect_history.py::test_plan72..." },
+          { name:"State layout, quasineutral nₑ", path:"species.StateLayout", status:"ok",
+            note:"Per cell: densities + Uₑ + T_g; global photon + ledger channels. nₑ = Σcations − Σanions, floored — never a state slot (the root Known-bad 'ne is not y[0]').",
+            src:"tests/test_defect_history.py::test_ne_is_not_y0" }
+      ]},
+      { name:"Electron-impact tiers", children:[
+          { name:"LOKI tier", path:"MODULES/loki_tier.py", status:"ok",
+            note:"log-log interpolation on the packaged curves; below the table the rate holds flat 0.35 decades then tapers (a hard zero collapses the BDF step; a bare clamp cools Te without bound).",
+            src:"tests/test_loki_tier.py" },
+          { name:"KINETIC tier", path:"MODULES/kinetic_tier.py", status:"ok", tag:"S4",
+            note:"Same interface, backed by the PIC_MCC_3D export. Engine runs on either tier by configuration; no import dependency (AST-gated).",
+            src:"tests/test_kinetic_tier.py" },
+          { name:"LOKI vs KINETIC comparison", path:"kinetic_tier.compare_tiers", status:"ok", tag:"S4",
+            note:"The ×100 'vib' disagreement this comparison surfaced was diagnosed by a three-way check (Maxwellian average of the raw σ) and turned out to be a LOKI-side BUCKET BUG: the F2 Effective momentum-transfer row fell through to 'vib', draining 0.2 eV per fake event in every in-table-Te run. Fixed 2026-08-04; post-fix vib ×0.84 [0.51–1.15]. Same defect exists upstream in spectre's loki_electron (flagged, not edited). All buckets now in the pic1d ×1.6 class.",
+            metric:"elastic ×0.87–0.90 · attach ×0.95 · vib ×0.84 · exc ×1.4–1.6 · ion ×1.9–2.8",
+            src:"tests/test_kinetic_tier.py::test_recorded_agreement_bands" },
+          { name:"Non-Maxwellian consumption (L3)", path:"kinetic_tier.RelaxationBridged", status:"ok",
+            note:"CLOSED (0.1.9), export DEEPENED (0.1.13): beam mode CONSUMES the measured relaxing-population curves below the swarm-table floor (RelaxationBridged, default ON; beam_subtable='taper' reproduces the old stand-in; ≥50 %-err bins excluded; 0.1-ln crossfade keeps k(Te) C0). The recorded Ramsauer-stall follow-up is DONE: tools/export_kinetic.py --deepen re-runs ONLY the relaxation stream (independently seeded) with 10× rounds — same seed replays rounds 1..25 000 bit-identically (a mechanical pure-extension gate froze 99 above-stall bin values, and a 25 000-round reproduction run matched the shipped npz array-for-array first) — and the stall turned out to be max_rounds, not attrition: 105 s of compute. Floors: el 1.26 → 0.47 eV (through the Ramsauer minimum — the taper sat ×0.42 LOW there), vib 1.26 → 0.66 (the 100 %-err bin now carries 3 % stats), F⁻ 1.76 → 0.66 usable (the measured DA curve RISES ×13 toward low ε where the taper fell — the F⁻-starvation mechanism, now measured). Circuit path exempt by construction (E/N-direct).",
+            metric:"measured curves consumed where measured; junction ×3.3→×1.0 at 1.76 eV; coverage gauge on every regime line; v2 impact: nₑ_pk +2.4 %, g₀ unchanged", src:"tests/test_kinetic_tier.py::test_bridge_* + test_engine.py::test_beam_subtable_bridge_default_and_off_switch" }
+      ]},
+      { name:"The assembled RHS", children:[
+          { name:"Per-row flux exposure (channel budgets)", path:"chemistry.CompiledNetwork.row_fluxes", status:"ok",
+            note:"0.1.24: the rhs loop's k × densities × nₑ^pow × T_g/screening arithmetic exposed per row for diagnostics, gated to reproduce the rhs ddens to 1e-10 (tests/test_row_fluxes.py). Consumers: tools/efficiency_budget.py (beam partition → KrF* MANIFOLD formation/loss classes → stimulated-photon fate by absorber) and tools/efficiency_levers.py. Verdict on the HYPER cell: not an ionization issue — formation 21% of E_dep (37% of ion pairs return as KrF*); the losses are Ar-buffer collisional kill of KrF* (53% at 2 atm) and intracavity photo-absorption (Ar*, F₂, F⁻, Kr₂F*); F₂ fraction is the top lever; Ne-buffer optimized 5.76% vs 1.54% reference.",
+            metric:"row-flux identity ≤1e-10 · reference 1.54% → greedy Ar combo 4.95% → Ne optimized 5.76%", src:"tools/efficiency_budget.py + tools/efficiency_levers.py" },
+          { name:"Chemistry compiler", path:"MODULES/chemistry.py", status:"ok", tag:"D2",
+            note:"The RHS is assembled from the balance-checked rows — nothing hand-written, vectorized over cells. Rate specs are declarative tuples (printable, diffable), never closures.",
+            metric:"element conservation ≤1e-12 / eval", src:"tests/test_chemistry.py" },
+          { name:"Every-eV-routed identity", path:"chemistry.CompiledNetwork.rhs", status:"ok", tag:"S3",
+            note:"Per cell, per evaluation: Δpotential + ΔUₑ + Δgas + radiated + photon terms = 0 to machine precision. This is what caught the 0.3 meV/event exact-quantum mismatch.",
+            metric:"≤1e-12 / eval", src:"tests/test_chemistry.py::test_every_ev_routed_exactly" }
+      ]},
+      { name:"E-beam pump", children:[
+          { name:"Stopping power (Bethe/Møller)", path:"beam.stopping_power", status:"ok",
+            note:"First-principles relativistic collisional formula with ICRU 37 I-values; the 600 kV primary is a CSDA ray, never a particle (it is relativistic AND above every cross-section table).",
+            metric:"vs ESTAR: −1.9 % … −5.7 % (the PIC_MCC_3D band)", src:"tests/test_beam.py" },
+          { name:"Deposition march, density-responsive", path:"beam.deposition_profile", status:"ok",
+            note:"Cell-by-cell march on LOCAL density — a gradient reshapes the profile (MESH.txt's density-adaptivity, first rung). Straight-ray, single-energy: O(10 %) shape corrections stated.",
+            metric:"CSDA 600 keV / 1 atm Ar: 1.938 m (PIC_MCC_3D: 1.94)", src:"tests/test_beam.py" },
+          { name:"W-value EMERGENT (Spencer–Fano)", path:"beam.spencer_fano_per_process", status:"ok", tag:"C1",
+            note:"Per-process Fowler recursion over the same LXCat sets; W, the species split, ε_sec and the subfloor all come OUT. Differential-window rule inherited (the table edge bends E0/U_ion up).",
+            metric:"W(Ar) 27.7 (+4.9 %) · W(Kr) 26.2 (+8.1 %) vs literature", src:"tests/test_beam.py::test_emergent_w_scored_not_tuned" },
+          { name:"W(Ne) miss — characterized", path:"beam.differential_W", status:"ok",
+            note:"CLOSED AS CHARACTERIZED (2026-08-04): both independent W routes agree (43.7 eV at E0, 0.02 %), so the +16–19 % vs literature is a DATA/METHOD property, now decomposed: our excitation+sub-threshold budget is 22.1 eV vs the 15.0 eV literature-implied (U_exc/U_ion 0.62; Biagi-set excitation/ionization ratio + equal sharing carry the excess; uniform sharing moves W −5.5 %, still +14 %). Pinned on the scorecard as a stated miss — the honest disposition, not a fix.",
+            metric:"decomposed: 21.6 IP + 11.1 exc + 11.0 sub-threshold; both routes agree 0.02 %", src:"scorecard W(Ne) decomposition" },
+          { name:"Conserving per-pair split", path:"beam.BeamYields", status:"ok", tag:"S3",
+            note:"W = Σ(produced × E_form) + subfloor + ε_sec exactly — the beam injects exactly P_dep (the discipline whose absence is PLAN (70)'s open 18×). W-table fallback carries its own cite and is recorded on the run.",
+            metric:"identity residual ≤1e-9 eV, both routes", src:"tests/test_beam.py::test_conserving_identity_both_routes" },
+          { name:"W by TWO independent routes", path:"scorecard.two_route_w_rows", status:"ok",
+            note:"REBUILD's deterministic Spencer–Fano vs the MC cascade run through PIC_MCC_3D's actual MCC operator (shipped in the kinetic export with provenance), same E0 + LXCat data — independent code paths, cross-package. Also confirms the W(Ne) literature miss is data/method class: BOTH routes give ~43.7 eV.",
+            metric:"agree to Ar 0.19 % · Kr 0.04 % · Ne 0.02 % (MC stat ~1.2 %)",
+            src:"tests/test_kinetic_tier.py::test_w_two_routes_agree" }
+      ]},
+      { name:"Drives", children:[
+          { name:"Beam drive", path:"engine.Device.rhs (beam)", status:"ok",
+            note:"Areal power × envelope → per-cell deposition → mass-conserving species sources (each product consumes its ground state; 0.1.25: k products may consume one k-fold ground — 2 F eat one F₂, the prompt-dissociation booking that replaced the never-decaying F2(A1) parking of F₂ C1/H1 excitation) + ε_sec into Uₑ + subfloor into gas. 0.1.21: beam_t0_ns start delay and beam2_t0_ns second identical pulse (overlap refused; envelope sum shares deposition + the drive_in row; 2× single energy gated to 1e-5) for the pre-prime and inter-pulse timing studies." },
+          { name:"Microwave reheat window (ARPA study)", path:"engine.Device._mw_field_td", status:"ok",
+            note:"Beam-drive overlay (0.1.20): trapezoidal INJECTED power; each step the uniform cavity field settles at the lowest E/N where e E v_d(E/N)·ν²/(ν²+ω²)·N_e absorbs the feed, capped at the empty-cavity ceiling — absorbed (never injected) power enters Uₑ and drive_in, so a prescribed-field infinite-generator pathology cannot exist (Known-bad). The ARPA-chamber design verdict (a PREDICTION, scored against nothing): reheat never improves the laser — marginal −6.8% at the 1 MW WR90 feed budget, still negative at 1 GW: the sustained plasma pins the settled field ≤2 Td at any power, and ~3 eV electrons harvest ions into KrF* worse than the cold afterglow does (DR slows, e-quench rises). What it DOES do: hold afterglow n_e up 4–7 decades — an inter-pulse preionization keeper.",
+            metric:"ARPA chamber: marginal −6.8% @1 MW · −0.13% @1 GW · n_e ×3e4 held @300 ns · closure ≤9.1e-13 through the window. HYPER (DE-AR frame, 95 GHz/250 kW, 0.1.21 timing study, both metrics): afterglow laser −2.1% / fluorescence +1.5% (the DE-AR reconciliation — ROBUST under EST brackets + cross-tier); copump |ΔE| ≲ 0.15% of pulse with SIGN MODEL-FRAGILE (0.1.23: numerically real to 0.0002 mJ incl. Radau, but KSTEP ×⅓/×3 and the KINETIC tier flip it to −1.7/−5.6/−4.5%); preprime couples 48 µJ (nothing); keeper holds n_e 8 decades, pulse 2 unchanged", src:"tools/mw_reheat_experiment.py + hybrid_timing_study.py + copump_scan.py + copump_verify.py + tests/test_mw_drive.py (11 gates)" },
+          { name:"Discharge drive — the CIRCUIT", path:"MODULES/circuit.py", status:"ok",
+            note:"Chen's C0/Cp/L chain as seven engine states under the same BDF (0.1.27 adds the paper's Rf/Lf/Cf filter branch across the gap — 0.1.25's stated simplification (b) — and the swarm-residual Te closure: the E/N-indexed rows book only 88% of e·v_d·E at 14 Td with no Te-responsive absorber, so the fluid Te floated ×1.67 above the table's own ⟨ε⟩; the derived sink closes dTe/dt exactly at Te = (2/3)⟨ε⟩(E/N), and the residual undershoot is measured to be beyond-table birth dilution. The ChenArF_NeArF2_lowEN table (0.5–3 Td, generated 2026-08-26) takes the breakdown ramp off the flat+taper stand-in: coverage 74% in-table, the remaining 26% is the deep afterglow below 0.5 Td): conduction from the swarm drift velocity, electron-impact rates looked up by E/N DIRECTLY (the tables' native index — no ⟨ε⟩ mapping on this path), self-consistent breakdown, LC-conservation gate, prescribed mode still available. 0.1.25 CORRECTION (comparison audit, 2026-08-25): the 0.1.5 'decisive re-anchor' story was measured wrong — the shipped constants were Chen's Fig. 5 VALIDATION circuit (10.4 nF/8.1 nF/30 nH, '5→1 µH switch') grafted onto base-case conditions ('1.68 J stored' vs the paper's stated E_in = 1.62 J), the 'E/N 100 % in-table' claim came from a one-sided gauge that never counted the below-floor breakdown ramp (72 % of the window), and the '×3–5 formation gap' verdict blamed the network for the circuit + four impossible as-printed rates. Constants now Sec II A (10/250 nH/10/5 nH); en_below_table_frac reported; two stated simplifications remain (fixed Lm 250 nH; the RLC filter branch unmodeled).",
+            metric:"0.1.27 lane: deposits 1.121 of the 1.62 J bank, nₑ ×0.69, Tₑ at breakdown ×0.69 of Chen (was ×1.55 OVER), E/N pk 14.6 Td, lasing 2.04 mJ; E/N 74% on measured tables; closure 5.4e-6", src:"tests/test_circuit.py + tests/test_chemistry.py::test_swarm_residual_sink_closes_te_at_the_table_point" }
+      ]},
+      { name:"Photons & radiation", children:[
+          { name:"Cavity photon equation", path:"MODULES/laser.py", status:"ok", tag:"S6",
+            note:"Chen Eqs. (7)–(18) multi-zone: gain-volume averages reduce to Chen's form for one cell. Eq. (18) η_out is a COUPLING factor (measured 1.31 > 1) — reporting overlay only.",
+            src:"tests/test_laser.py" },
+          { name:"Ledgered loss split", path:"laser.loss_rates", status:"ok", tag:"S3",
+            note:"Chen Eq. (8) split into |ln R_OC| → laser output and |ln(1−L_op)| → cavity loss, integrated as separate named channels.",
+            metric:"out + internal = Eq. (8) to 1e-12", src:"tests/test_laser.py::test_loss_split_reproduces_chen_eq8" },
+          { name:"3-D ASE over the voxel gain field", path:"MODULES/ase.py", status:"ok", tag:"S6",
+            note:"Amanatides–Woo chords with the exact per-segment update; sum-rule bandwidth (no measured linewidth enters); Gauss–Legendre × φ quadrature; parasitic margins on the actual field.",
+            metric:"uniform field vs unified/ase3d closed form: 1e-15", src:"tests/test_ase.py" },
+          { name:"ASE as an in-loop photon sink", path:"engine._ase_rate", status:"ok", tag:"S6",
+            note:"CLOSED 2026-08-04: the 4-π ASE flux of the CURRENT gain field depopulates the upper level every RHS call — closed-form chords on the volume-averaged g₀/α (48 precomputed directions; stated approximations: averaged field, centre-point flux, ~1e-5 axial overlap with the cavity mode). Routing identical to stimulated emission with the photons escaping; first-principles, no new constants; ase_inloop=False reproduces the prior behaviour.",
+            metric:"every-eV identity holds with the sink; high gain clamps g₀, low gain on/off agree to 1e-6", src:"tests/test_missing_modules.py" },
+          { name:"Photo-product routing", path:"network.PHOTO_PRODUCTS", status:"ok",
+            note:"An absorbed photon TRANSFORMS its absorber; the freed-electron surplus goes to Uₑ, fragment surplus to gas — detected mechanically from the charge arithmetic.",
+            src:"tests/test_chemistry.py::test_every_ev_routed_exactly" }
+      ]},
+      { name:"Grid & integration", children:[
+          { name:"Coarse 3-D device grid", path:"engine.Device", status:"ok",
+            note:"BY SCOPE: mm–cm chemistry cells (the affordable fully-3-D device model), NOT a λ_D-resolved PIC grid — the root Known-bad's per-cell-network ban is about the latter and still stands. The regime line says so on every run.",
+            metric:"3-D = 0-D in the uniform limit: η ratio within 5 %, closure <5e-4 (gate re-verified post-0.1.9; the historical pair η 11.19 vs 11.16 % dates the pre-manifold network)", src:"tests/test_engine.py::test_3d_uniform_limit_matches_0d" },
+          { name:"One BDF over everything", path:"engine.Device.run", status:"ok",
+            note:"Block-diagonal Jacobian sparsity (cells independent; global photon row/column dense; ledger rows chord-Newton). The ledger channels ride the same step controller as the physics — closure IS integrator error.",
+            src:"engine.jac_sparsity" },
+          { name:"Inter-cell transport", path:"engine._transport_term", status:"ok",
+            note:"CLOSED 2026-08-04 as a GATED module: conservative 6-neighbour species diffusion (declared D with EST bracket, (T_g/300)^1.5/p scaling), machine-exact global conservation, sinusoid eigenmode matches the discrete −D k² to 1e-6. Default OFF with the measured justification: at device presets (cm cells, ≤200 ns) τ_diff ~ 0.1 s — a scope choice backed by a number, not an omission.",
+            metric:"conservation machine-exact; eigenmode 1e-6; default off (τ_diff ~0.1 s at presets)", src:"tests/test_missing_modules.py" },
+          { name:"Mesh refinement (MESH.txt)", path:"beam.equal_deposition_edges", status:"ok",
+            note:"CLOSED 2026-08-04 (the static rung): beam-axis cell edges at the n-quantiles of the fine-march cumulative deposition — cells crowd where the material stops the beam. Measured on a fully-stopped 100 kV / 6 cm / 3 atm case: uniform-grid per-cell deposit spans ×2e11 (empty cells past the stop), the refined mesh spans ×3.5 with mm cells at the Bragg stop; totals match the fine march to 1 %. Engine accepts axis_edges (volumes exact, ledger closes); dynamic re-refinement remains future work and says so.",
+            metric:"Bragg case: ×2e11 (uniform) → ×3.5 (refined); totals to 1 %", src:"tests/test_missing_modules.py" }
+      ]},
+      { name:"Persistence", children:[
+          { name:"Checkpoint / resume", path:"MODULES/checkpoint.py", status:"ok",
+            note:"Full state + parameters WITH provenance to .npz. Honest semantics: adaptive BDF resumes to integration tolerance, not bitwise (the fixed-step bitwise claim belongs to PIC_MCC_3D, not here).",
+            metric:"resume vs uninterrupted: ≤5e-3 (nₑ)", src:"tests/test_checkpoint.py" }
+      ]}
+  ]},
+
+  { name:"Outputs", children:[
+      { name:"Regime line", path:"Device.regime_line", status:"ok",
+        note:"Grid, cell count, reaction count, yield route, drive/laser joules, worst ledger residual, wall time, and the scope sentence — printed on every run (no silent scope).",
+        src:"tests/test_engine.py::test_regime_line_states_scope" },
+      { name:"Energy budget table", path:"ledger.format_budget", status:"ok", tag:"S3",
+        note:"drive_in vs {laser_out, cavity_loss, radiated_escape} + the four recomputed stores + the residual, at every saved step.",
+        metric:"worst residual 8.2e-6 of energy moved (full 200 ns pulse)", src:"tests/test_ledger.py" },
+      { name:"g₀ / P_out / η_intrinsic", path:"Device.run → result", status:"ok",
+        note:"η_intrinsic = laser out / energy deposited — NOT wall-plug (the delivery chain is not modelled, and the scorecard says so next to the DE-AR context).",
+        metric:"v2 point, completed + deduplicated network (0.1.11): g₀ 0.0034 /cm, sub-threshold at 0.42 MW/cm³ — FAR below spectre 0.0318/phantom11 0.0302, which lack the entire Ar heteronuclear manifold (K34Ar found 0.1.8; KrF*+2Ar/KrF*+Ar/ArKr*/VUV et al. found 0.1.9; ArKr⁺ ions found 0.1.10; Chen-overlap dedup 0.1.11); the Kannari device anchor now scores LIVE at ×0.56 (R_OC 80 %) — see the formation-deficit warn",
+        src:"tests/test_ledger.py::test_w_value_bound_on_beam_conversion" },
+      { name:"ASE / parasitics report", path:"ase.ase_report", status:"ok",
+        note:"Centre 4π flux, +z window irradiance, sum-rule Δλ, saturation fixed point, per-path round-trip gains with OSCILLATES flags." },
+      { name:"Tier comparison report", path:"kinetic_tier.format_comparison", status:"ok", tag:"S4",
+        note:"Per-bucket KINETIC/LOKI ratio over the tabulated OVERLAP only (a clamp compared against a table characterises the clamp — Known-bad)." },
+      { name:"Validity gauges", path:"Device.run → result['validity']", status:"ok",
+        note:"The ESSim.stability analog (2026-08-04): every run reports how far it strayed from its stated assumptions — peak ionization fraction (the static-N gauge), F2 burn-down, the fraction of the pulse with ⟨ε⟩ inside the rate tables, and (0.1.9, bridged beam runs) the fraction inside table-or-measured-relax coverage. On the regime line of every run.",
+        metric:"4 gauges per run; v2 point (0.1.13): ionization 7.7e-6 of N, F2 burn 11 %, ⟨ε⟩ in-table 52 %, in-table-or-measured-relax 68 % (was 0 % before the 0.1.12 hot-bulk correction + 0.1.13 deepened export — the gauges reported it, now they report the recovery)", src:"tests/test_missing_modules.py::test_validity_gauges_present_and_sane" },
+      { name:"Scorecard with misses + omissions", path:"MODULES/scorecard.py", status:"ok", tag:"S7",
+        note:"Every anchor with its source and the miss stated; the omissions list is part of the score. No tuning, ever.",
+        src:"run.py --scorecard" },
+      { name:"Chen-figure scoring", path:"scorecard.chen_figure6_rows", status:"ok", tag:"S7",
+        note:"0.1.25 REVISION (was 'CLOSED 2026-08-04' with the ×3–5-gap verdict — kept as history, marked measured-wrong): base-case observables scored by RUNNING the corrected circuit preset. Targets re-read first-hand — deposited vs the PAPER-STATED E_in = 1.62 J (the old '1.68' was the wrong capacitor), nₑ 6.5e20 from Fig. 10a's LINEAR axis (the old 1e21 was a log-axis read of Fig. 6b, a ×1.5 target error booked against the engine), + T_e-at-breakdown and FWHM rows. The verdict carries the MEASURED attribution; the as-printed lane's non-integrability and the below-table E/N fraction are recorded in the block.",
+        metric:"7 observables scored live (~13 s run); nₑ ratio ×0.79-class pinned; residual honest gap: E_L 2.08 mJ vs Chen's 75 mJ (his printed formation rates sit below the measured literature — adopting those is a beyond-Chen decision the scoring lane does not take)", src:"tests/test_missing_modules.py" },
+      { name:"Per-cell histories + 3-D visualizer", path:"tools/visualize_3d.py", status:"ok",
+        note:"0.1.15: Device.run's dense_cells is HONORED (was a dead argument) — multi-cell runs keep the full save-time state y_t by default (8.6 MB at the 240-cell preset; checkpoint.resume applies the same rule). The tool is a VIEWER, NOT AN ORACLE: per-cell n_e / upper level / local g0 (gain_m1's expression vectorized) / Te / Tg + the static deposition shape, reconstructed with the engine's own accessors; outputs npz (data of record) + contact sheet + GIF/MP4 + a self-contained canvas viewer.html (time/yaw/field/aspect controls; uint8-quantized with limits stated — exact values in the npz). Every figure carries the scope caption: independent reactors, shared cavity/ASE, not a PIC/fluid solve. 0.1.16 adds the PARTICLE VIEW (owner: hues ≠ particles), now the default animation style: dot count per cell LINEAR in the real particle number so each dot carries one stated macro-weight; positions are a deterministic hash-lattice SAMPLING (same mulberry32 in Python and the viewer JS), 'not trajectories' on every figure; viewer.html gains a particles/voxels toggle. REAL macro-particles = PIC_MCC_3D 0.8.2's tools/visualize_particles.py. Both JS viewers verified headlessly (deno + stubbed DOM, draw calls rasterized). 0.1.17 (owner: 'perfectly uniform, no filamentation'): CORRECT and measured — Electra-class spread is ×1.014 (uniform pumping is the device's design goal), and independent-reactor cells CANNOT filament (couplings are uniformizing; structure = what deposition imposes). The spread is now printed on every particle frame + viewer readout; the krf_beam_3d_bragg preset (100 kV/6 cm/3 atm, dep ×2.9 rise → zero past the stop, gated) carries the real imposed structure; self-generated grouping = PIC_MCC_3D 0.8.3's two-stream demo (closed-form-γ gated). 0.1.18 (owner: 'expected plasma in a container, still see a box changing color'): the GLOW view is now the headline movie.gif and the viewer default — a dark vessel (edges + end windows, bench-horizontal) filled with what the plasma EMITS: KrF* fluorescence violet-white + n_e² continuum blue, gains stated, per-component tone mapping, trilinear DISPLAY interpolation (stated), PIL bloom; the voxel movie moved to movie_fields.gif. Exposure iterated against inspected frames (the first true-aspect pass blew out to a white slab — recorded).",
+        metric:"volume averages recomputed from y_t reproduce _collect at rtol 1e-12; per-cell g0 averages to the collected gain at 1e-10; quantization inverts within one 8-bit bin; dot counts hit the target at peak with weight×dots = real number exactly; 240-cell demo: run 230.6 s, 1 dot ≈ 7.5e13 e⁻ / 6.1e12 KrF* at 8000 pts", src:"tests/test_visualize_3d.py" }
+  ]},
+
+  { name:"Gates", children:[
+      { name:"Falsification suite", path:"REBUILD/tests/", status:"ok",
+        note:"18 files; teeth proven for every mechanical check (a deliberately broken thing FAILS: rows, knobs, ledger, ceilings).",
+        metric:"178 passed (2026-08-12, post-0.1.18)", src:"python3 -m pytest SPECK/REBUILD/tests -q" },
+      { name:"Analytic trajectory gates", path:"tests/test_analytic_trajectories.py", status:"ok",
+        note:"The plasma-oscillation-gate analog: REAL network rows integrated by the REAL CompiledNetwork against closed forms — pure radiative decay (e^{−t/τ}), the unequal-concentration second-order solution WITH its exact release-heating ΔT_g, pseudo-first-order three-body (where the gate resolves the real Tg^-0.75 back-reaction at 2.9e-6), and the Device-level erf drive integral.",
+        metric:"trajectories match closed forms to ≤1e-5 (rtol 1e-11)", src:"tests/test_analytic_trajectories.py" },
+      { name:"Isolation + composition ladder", path:"REBUILD/verify.py", status:"ok",
+        note:"17/17 modules import alone silently; per-file = combined = reversed order; 5-rung ladder (units+species → network → tiers+chemistry → engine+ledger → checkpoint).",
+        metric:"ALL CHECKS PASS (2026-08-04)", src:"python3 SPECK/REBUILD/verify.py" },
+      { name:"Two-interpreter rule", path:"PLAN (68)", status:"ok",
+        note:"pytest under /usr/bin/python3 (3.9.6 / numpy 2.0.2) AND import + 3-D run + ASE smoke under Homebrew (3.14.6 / numpy 2.5.0) with DeprecationWarning promoted to error.",
+        metric:"closure 2.9e-11 on the Homebrew smoke" },
+      { name:"Architecture gates", path:"tests/test_architecture.py", status:"ok", tag:"D5",
+        note:"Import graph acyclic + layered; no sibling-package imports (AST); module-level state does not move across a run (the PLAN (74) rule); repeat runs bitwise-deterministic; package import prints nothing." },
+      { name:"Defect-history gates", path:"tests/test_defect_history.py", status:"ok", tag:"S1",
+        note:"PLAN (70)/(72)/(74), the r115 class, cross-section ceilings, loose-tolerance rule, ne≠y[0] — each gate cites its entry; five Known-bad items carry written statements of why they cannot apply here." },
+      { name:"Energy-ledger teeth", path:"tests/test_ledger.py::test_teeth...", status:"ok", tag:"S3",
+        note:"An injected 2 eV/event unrouted leak makes the closure gate FAIL — proof the invariant detects exactly the defect class it exists for (D3)." },
+      { name:"Literature cross-validation, first-hand", path:"docs/Recent_KrF_Papers/", status:"ok", tag:"S7",
+        note:"2026-08-04 pass against Kannari 1985 + Chen 2025 (in-repo PDFs, page-verified): 14 rows CONFIRMED (incl. the PLAN (72) p→s value, marked 'estimated' by Kannari himself); 2 Kr/Ar TRANSPOSITIONS fixed (K169 5.4→5.6e6 s⁻¹, K125 2.0→1.5e-10); 2 EST guesses corrected (NK7 ×0.37, AK3 ×0.06); Kr₂F* absorber σ was ×27 low, Ar₂F*/Ar*/Kr* absorbers were missing — all added from Table I. Device anchors: Kannari output overpredicted — the B/C-equilibrium source spread brackets it ×2.1 (f_B 0.206 Xu/Gadomski lump) to ×2.6 (f_B 0.405 Kannari split, the build as shipped) at R_OC 20 %, with the intra-B vibrational accessibility (Kannari's own 25–50 % mechanism) the named unimplemented remainder; g₀/α 5.6–6.5 inside the empirical 4–12 band; Chen Table II + photon eqs verbatim-confirmed, pulse signature reproduced at ×3–7 the drive energy.",
+        metric:"Kannari + Chen + Lee + Boichenko + J&H + Xu 1993 all read first-hand (johnson1989 = XeCl, n/a): 40+ rows verified · K34Ar triple-sourced (follow-up closed) · K33 → Xu's measured 4.0e-12 · K169 → Xu's τ 220 ns · the 0.1.9 Ar-manifold completion (30 rows) · Chen R36 ×100 flag · the anchor re-scored LIVE", src:"CHANGELOG [0.1.3]–[0.1.9]" }
+  ]}
+]};
+
+/* ------------------------------- rendering ------------------------------- */
+const STATUSES = ["ok", "warn", "gap"];
+
+function tally(node, acc = {ok:0, warn:0, gap:0}) {
+  if (node.status) acc[node.status]++;
+  (node.children || []).forEach(c => tally(c, acc));
+  return acc;
+}
+
+function el(tag, cls, text) {
+  const n = document.createElement(tag);
+  if (cls) n.className = cls;
+  if (text != null) n.textContent = text;
+  return n;
+}
+
+function renderNode(node, depth) {
+  const li = el("li");
+  li.dataset.depth = depth;
+  const isGroup = !!(node.children && node.children.length);
+  if (node.status) li.dataset.status = node.status;
+
+  const row = el("div", "node");
+
+  const tw = el("button", "twist" + (isGroup ? "" : " leaf"), "▾");
+  tw.setAttribute("aria-label", "toggle");
+  if (isGroup) tw.addEventListener("click", () => li.classList.toggle("collapsed"));
+  row.appendChild(tw);
+
+  row.appendChild(el("span", "dot " + (node.status || "group")));
+
+  const body = el("div", "body");
+  const ttl = el("div", "ttl");
+  ttl.appendChild(document.createTextNode(node.name));
+  if (node.path) {
+    ttl.appendChild(document.createTextNode(" "));
+    ttl.appendChild(el("span", "path", node.path));
+  }
+  body.appendChild(ttl);
+  if (node.note) body.appendChild(el("div", "note", node.note));
+  if (node.metric) body.appendChild(el("span", "metric ok", node.metric));
+  if (node.src) {
+    const s = el("div", "src");
+    s.appendChild(document.createTextNode("src: "));
+    s.appendChild(el("code", null, node.src));
+    body.appendChild(s);
+  }
+  row.appendChild(body);
+
+  if (node.tag) row.appendChild(el("span", "tag", node.tag));
+
+  if (isGroup) {
+    const t = tally(node);
+    const chips = el("div", "chips");
+    STATUSES.forEach(s => { if (t[s]) chips.appendChild(el("span", "chip " + s, t[s])); });
+    row.appendChild(chips);
+  }
+
+  li.appendChild(row);
+
+  if (isGroup) {
+    const ul = el("ul");
+    node.children.forEach(c => ul.appendChild(renderNode(c, depth + 1)));
+    li.appendChild(ul);
+    if (node.open === false || depth >= 2) li.classList.add("collapsed");
+  }
+  return li;
+}
+
+const rootUl = document.getElementById("root");
+rootUl.appendChild(renderNode(MAP, 0));
+
+/* summary tiles */
+const totals = tally(MAP);
+const tiles = [
+  ["", totals.ok + totals.warn + totals.gap, "tracked items"],
+  ["ok", totals.ok, "working"],
+  ["warn", totals.warn, "open"],
+  ["gap", totals.gap, "missing"]
+];
+const tileBox = document.getElementById("tiles");
+tiles.forEach(([cls, n, label]) => {
+  const t = el("div", "tile " + cls);
+  t.appendChild(el("div", "n", String(n)));
+  t.appendChild(el("div", "l", label));
+  tileBox.appendChild(t);
+});
+
+/* filtering: hide leaves that do not match, and any group left with none */
+let filter = "all";
+function applyFilter() {
+  rootUl.querySelectorAll("li").forEach(li => li.classList.remove("hidden"));
+  if (filter !== "all") {
+    // deepest-first so a group sees its children's final state
+    const lis = Array.from(rootUl.querySelectorAll("li")).reverse();
+    lis.forEach(li => {
+      const kids = li.querySelectorAll(":scope > ul > li");
+      const isGroup = kids.length > 0;
+      if (isGroup) {
+        const anyVisible = Array.from(kids).some(k => !k.classList.contains("hidden"));
+        if (!anyVisible) li.classList.add("hidden"); else li.classList.remove("collapsed");
+      } else if (li.dataset.status !== filter) {
+        li.classList.add("hidden");
+      }
+    });
+  }
+}
+STATUSES.concat("all").forEach(s => {
+  const b = document.getElementById("f-" + s);
+  b.addEventListener("click", () => {
+    filter = s;
+    ["all"].concat(STATUSES).forEach(x =>
+      document.getElementById("f-" + x).setAttribute("aria-pressed", String(x === s)));
+    applyFilter();
+  });
+});
+
+document.getElementById("expand").addEventListener("click", () =>
+  rootUl.querySelectorAll("li").forEach(li => li.classList.remove("collapsed")));
+document.getElementById("collapse").addEventListener("click", () =>
+  rootUl.querySelectorAll('li').forEach(li => {
+    if (Number(li.dataset.depth) >= 1 && li.querySelector(":scope > ul")) li.classList.add("collapsed");
+  }));
+
+document.getElementById("theme").addEventListener("click", () => {
+  const cur = document.documentElement.getAttribute("data-theme");
+  const sysDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+  const next = cur ? (cur === "dark" ? "light" : "dark") : (sysDark ? "light" : "dark");
+  document.documentElement.setAttribute("data-theme", next);
+});
+
+/* ===========================================================================
+   THE DATA-FLOW DIAGRAM.  Edit FLOW_NODES / FLOW_EDGES; the SVG is generated.
+   Layout rules inherited from PIC_MCC_3D/status.html: orthogonal routing
+   only, every dogleg in its own vertical channel, and the feedback ring
+   wraps the whole diagram so it crosses nothing.
+   Here the "cycle" is ONE RHS EVALUATION — the function the BDF integrator
+   calls; the feedback ring is the integrator advancing the state.
+=========================================================================== */
+const IN_X = 24,  IN_W = 168;
+const CYC_X = 392, CYC_W = 204;
+const OUT_X = 740, OUT_W = 172;
+const H = 46;
+const cy = i => 76 + i * 70;                       // the eight RHS stages
+// feedback ring: below everything, up the far right, back across the top
+const FB = {down: 692, right: 958, up: 44, x: CYC_X + CYC_W / 2};
+
+const FLOW_NODES = [
+  // --- inputs (placed to line up with what they feed) ---------------------
+  {id:"par", lane:"in", x:IN_X, y:76, w:IN_W, label:"Parameters + mixture",
+   path:"params.engine_parameters", status:"ok",
+   detail:"Declared, validated, provenance-tracked knobs. A calibration-knob name cannot be declared (D4)."},
+  {id:"lok", lane:"in", x:IN_X, y:146, w:IN_W, label:"LOKI tables",
+   path:"MODULES/loki_tables/", status:"ok",
+   detail:"Curated LoKI-MC mixture sweeps, packaged byte-verbatim with provenance."},
+  {id:"kin", lane:"in", x:IN_X, y:216, w:IN_W, label:"KINETIC export",
+   path:"kinetic_tables/*.npz", status:"ok",
+   detail:"PIC_MCC_3D swarm rates as DATA — no import (the coupling rule). Selectable in place of LOKI."},
+  {id:"net", lane:"in", x:IN_X, y:286, w:IN_W, label:"Network rows",
+   path:"network.build_network", status:"ok",
+   detail:"86–89 tiered, cited, balance-checked Reaction rows (KrF); 40 (Chen ArF)."},
+  {id:"lx",  lane:"in", x:IN_X, y:440, w:IN_W, label:"LXCat + beam spec",
+   path:"cross_sections, BeamSpec", status:"ok",
+   detail:"Cross sections for the Spencer–Fano yields and the stopping-power march; the trapezoidal beam pulse."},
+  {id:"cav", lane:"in", x:IN_X, y:510, w:IN_W, label:"Cavity + optics",
+   path:"laser.Cavity, mode_optics", status:"ok",
+   detail:"σ_se, τ_upper, absorber inventory, resonator geometry. Grid volume must equal the cavity gain volume (enforced)."},
+
+  // --- one RHS evaluation --------------------------------------------------
+  {id:"unp",  lane:"cyc", x:CYC_X, y:cy(0), w:CYC_W, label:"1. unpack state",
+   path:"engine.Device.rhs", status:"ok",
+   detail:"Densities floored for rates, nₑ from quasineutrality (never y[0]), Te from Uₑ, T_g clipped for rate evaluation only."},
+  {id:"rat",  lane:"cyc", x:CYC_X, y:cy(1), w:CYC_W, label:"2. tier rates",
+   path:"loki_tier / kinetic_tier .k", status:"ok",
+   detail:"k(bucket, Te) vectorized over cells via ⟨ε⟩ = (3/2)Te; flat + taper below the table."},
+  {id:"flx",  lane:"cyc", x:CYC_X, y:cy(2), w:CYC_W, label:"3. network fluxes",
+   path:"chemistry.CompiledNetwork", status:"ok",
+   detail:"flux = k · Πn_heavy · nₑ^p per row; stoichiometry scattered from the row data — no hand-written term anywhere."},
+  {id:"rou",  lane:"cyc", x:CYC_X, y:cy(3), w:CYC_W, label:"4. energy routing",
+   path:"u_from_e / u_to_gas / u_rad", status:"ok",
+   detail:"Per-event energy destinations compiled from release_eV + the mechanical rules; thermal capture on electron-consuming rows."},
+  {id:"drv",  lane:"cyc", x:CYC_X, y:cy(4), w:CYC_W, label:"5. drive sources",
+   path:"beam_sources / discharge", status:"ok",
+   detail:"Deposition → pairs → mass-conserving species production + ε_sec into Uₑ + subfloor into gas; or the prescribed discharge power."},
+  {id:"pho",  lane:"cyc", x:CYC_X, y:cy(5), w:CYC_W, label:"6. photon field",
+   path:"laser.photon_rhs", status:"ok",
+   detail:"Gain-volume averages of R_STE/R_x/R_SE; the loss term split into output coupling and internal loss."},
+  {id:"tmp",  lane:"cyc", x:CYC_X, y:cy(6), w:CYC_W, label:"7. temperatures",
+   path:"elastic drag, vib, dT_g", status:"ok",
+   detail:"Signed elastic exchange (heats electrons below T_g — the conservative floor), F2 vibrational drain, dT_g = P_gas/(3/2 n k)."},
+  {id:"led",  lane:"cyc", x:CYC_X, y:cy(7), w:CYC_W, label:"8. ledger channels",
+   path:"MODULES/ledger.py", status:"ok",
+   detail:"d(drive_in, laser_out, cavity_loss, radiated_escape)/dt — integrated as state by the same BDF, so closure is integrator error."},
+
+  // --- outputs (aligned with their source) ---------------------------------
+  {id:"cmp", lane:"out", x:OUT_X, y:cy(1), w:OUT_W, label:"Tier comparison",
+   path:"compare_tiers", status:"ok",
+   detail:"KINETIC/LOKI per bucket over the tabulated overlap. The ×100 vib finding RESOLVED 2026-08-04 (LOKI-side bucket bug, fixed; post-fix ×0.84); every bucket in the pic1d ×1.6 class."},
+  {id:"tra", lane:"out", x:OUT_X, y:cy(5), w:OUT_W, label:"Traces",
+   path:"g₀, P_out, η, nₑ, Te, T_g", status:"ok",
+   detail:"Volume-averaged trajectories at every saved step; P_out from the ledgered output-coupling drain."},
+  {id:"ase", lane:"out", x:OUT_X, y:cy(6)+8, w:OUT_W, label:"ASE / parasitics",
+   path:"ase.ase_report", status:"ok",
+   detail:"Voxel-field chords on a run state: centre flux, window irradiance, saturation fixed point, path margins."},
+  {id:"bud", lane:"out", x:OUT_X, y:cy(7)+14, w:OUT_W, label:"Budget + regime",
+   path:"format_budget, regime_line", status:"ok",
+   detail:"The closure table and the no-silent-scope line, every run."},
+  {id:"sco", lane:"out", x:OUT_X, y:648, w:OUT_W, label:"Scorecard",
+   path:"scorecard.run_scorecard", status:"ok",
+   detail:"Anchors scored with misses stated; omissions listed as part of the score. Never feeds back (PLAN (26))."}
+];
+
+/* Edge geometry:
+     straight  -- same y at both ends, one horizontal run
+     ch:<x>    -- dogleg through a dedicated vertical channel at x
+     into:"bottom" -- approach the target from below (its own channel)
+     fb:true   -- the feedback ring                                        */
+const FLOW_EDGES = [
+  {from:"par", to:"unp", sy:23, ty:23, label:"validated config",
+   payload:"Mode, mixture, geometry, drive and tolerance values — each remembering its source (default/problem/file/cli/api).",
+   invariant:"Unknown names raise; out-of-range raises at assignment; a knob name matching the calibration pattern cannot exist.",
+   gate:"test_params (incl. the banned-knob teeth)",
+   symptom:"A silently-ignored misspelled override is impossible here — it raises instead."},
+  {from:"lok", to:"rat", sy:23, ty:23, label:"k(⟨ε⟩) curves",
+   payload:"Per-bucket log-log rate curves from the packaged sweeps, chosen by mode + fill (Ar- vs Ne-buffered).",
+   invariant:"Below the table: flat for 0.35 decades, then a smooth taper — never a hard zero, never a bare clamp.",
+   gate:"test_low_end_taper_not_hard_zero",
+   symptom:"BDF step collapse after the pump ends = a hard-zero rate; runaway Te cooling = a bare clamp."},
+  {from:"kin", to:"rat", ch:352, sy:23, ty:34, label:"swarm npz",
+   payload:"PIC_MCC_3D swarm rates + statistical errors + provenance meta, same bucket vocabulary.",
+   invariant:"Comparisons stay inside the tabulated overlap of both tiers.",
+   gate:"test_comparison_uses_overlap_only",
+   symptom:"A ×1e7 'discrepancy' on an excitation bucket = a clamp compared against a table (the Known-bad)."},
+  {from:"net", to:"flx", ch:368, sy:23, ty:23, label:"balanced rows",
+   payload:"Reaction rows: reactants, products, declarative rate spec, tier, cite, Tg power, energy overrides.",
+   invariant:"Element and charge balance per row; duplicate rids refused; every row cited.",
+   gate:"test_network teeth (5)",
+   symptom:"An r115-class wrong-species term cannot be written — check_reaction raises before any run exists."},
+  {from:"lx",  to:"drv", ch:336, sy:23, ty:23, label:"σ(ε), W yields",
+   payload:"Cross sections for the Spencer–Fano recursion (W emergent) and the CSDA stopping march; the beam envelope.",
+   invariant:"Cascades refuse source energies above energy_ceiling_eV; the per-pair identity W = spend + subfloor + ε_sec is exact.",
+   gate:"test_ceiling_refusal_has_teeth, test_conserving_identity_both_routes",
+   symptom:"Zero ionization from a hot cascade = above the tables, where every σ is silently zero."},
+  {from:"cav", to:"pho", ch:360, sy:23, ty:34, label:"σ_se, τ, absorbers",
+   payload:"Stimulated-emission cross section, upper-level lifetime, absorber inventory, resonator geometry.",
+   invariant:"Grid volume = cavity gain volume (the photon-energy bookkeeping requires it).",
+   gate:"test_geometry_volume_consistency_enforced",
+   symptom:"A ledger that leaks only when photons build = mismatched gain/cavity volumes."},
+
+  {from:"unp", to:"rat", cyc:true, label:"Te, T_g, nₑ per cell",
+   payload:"Electron temperature from Uₑ, gas temperature, quasineutral electron density.",
+   invariant:"nₑ = Σcations − Σanions, floored — never read from a state slot.",
+   gate:"test_ne_is_not_y0",
+   symptom:"A 20× wrong nₑ in a hand-built state = someone read y[0] (the root Known-bad)."},
+  {from:"rat", to:"flx", cyc:true, label:"k arrays",
+   payload:"Per-row rate coefficients, scalar or per-cell.",
+   invariant:"Finite and non-negative at every Te for every row.",
+   gate:"test_all_rates_evaluate_finite",
+   symptom:"NaN densities two steps later = a rate spec, not the integrator."},
+  {from:"flx", to:"rou", cyc:true, label:"flux (R,C), ddens",
+   payload:"Per-row event rates and the stoichiometric scatter into ddens.",
+   invariant:"Each chemical element conserved to ≤1e-12 of the flux scale, every evaluation.",
+   gate:"test_elemental_mass_conserved_exactly",
+   symptom:"A species drifting with no reaction to explain it = a stoichiometry bug this gate should have caught."},
+  {from:"rou", to:"drv", cyc:true, label:"dUₑ, dgas, radiated",
+   payload:"Energy flows per destination, including thermal capture on electron-consuming rows.",
+   invariant:"Δpotential + ΔUₑ + Δgas + radiated + photon terms = 0 per cell (machine precision).",
+   gate:"test_every_ev_routed_exactly",
+   symptom:"A slowly growing closure residual = an unrouted release (a 0.3 meV/event quantum mismatch was caught exactly here)."},
+  {from:"drv", to:"pho", cyc:true, label:"+sources",
+   payload:"Beam/discharge additions to species, Uₑ and gas — mass-conserving (each product eats its ground state).",
+   invariant:"The three beam outputs exhaust P_dep exactly.",
+   gate:"test_beam_sources_exhaust_p_dep",
+   symptom:"Chemistry running hotter than the drive can pay for = an over-spent beam manifold."},
+  {from:"pho", to:"tmp", cyc:true, label:"R_STE, R_x, R_SE",
+   payload:"Stimulated, absorbed and spontaneous rates; the dn_ph/dt assembled from gain-volume averages.",
+   invariant:"Output + internal loss = Chen Eq. (8) exactly; K-captured spontaneous emission is subtracted from escape.",
+   gate:"test_loss_split_reproduces_chen_eq8",
+   symptom:"laser_out + cavity_loss ≠ the Eq. (8) magnitude = a loss path double-booked."},
+  {from:"tmp", to:"led", cyc:true, label:"P_el, P_vib, dT_g",
+   payload:"Electron↔gas exchange (signed) and the vibrational drain.",
+   invariant:"The elastic term reverses below T_g — the energy-conserving floor (no non-conservative clamp).",
+   gate:"test_every_ev_routed_exactly (the exchange is inside the identity)",
+   symptom:"Te frozen exactly at T_g with a residual = a one-way drag replaced the signed exchange."},
+
+  {from:"led", to:"unp", fb:true, label:"FEEDBACK: BDF integrates dY  →  next evaluation",
+   payload:"The assembled dY (cells + photon + ledger channels) advanced by scipy BDF with block-diagonal Jacobian sparsity.",
+   invariant:"Ledger channels ride the same step controller as the physics, so budget closure = integrator error only.",
+   gate:"test_beam_mode_budget_closes (8.2e-6), test_teeth_unrouted_energy_fails_closure",
+   symptom:"Closure failing only near the pulse peak = a state-dependent unrouted term; at all times = a wrong store."},
+
+  {from:"rat", to:"cmp", sy:23, ty:23, label:"both tiers sampled"},
+  {from:"pho", to:"tra", sy:23, ty:23, label:"n_ph, g₀, P_out"},
+  {from:"tmp", to:"ase", ch:690, sy:34, ty:23, label:"final gain field"},
+  {from:"led", to:"bud", sy:23, ty:23, label:"channels + stores"},
+  {from:"led", to:"sco", ch:706, sy:34, ty:23, label:"anchors + misses"}
+];
+
+(function drawFlow(){
+  const SVG = "http://www.w3.org/2000/svg";
+  const svg = document.getElementById("flow");
+  if (!svg) return;
+  const mk = (t, a) => { const n = document.createElementNS(SVG, t);
+    for (const k in a) n.setAttribute(k, a[k]); return n; };
+  const COL = {ok:"var(--ok)", warn:"var(--warn)", gap:"var(--gap)"};
+  const BG  = {ok:"var(--ok-bg)", warn:"var(--warn-bg)", gap:"var(--gap-bg)"};
+  const byId = {}; FLOW_NODES.forEach(n => byId[n.id] = n);
+  const R = 9;                                   // corner radius
+
+  const defs = mk("defs");
+  [["arrow","var(--faint)"],["arrowsel","var(--accent)"],
+   ["arrowfb","var(--accent)"]].forEach(([id,c]) => {
+    const m = mk("marker", {id, viewBox:"0 0 10 10", refX:"9", refY:"5",
+      markerWidth:"6.5", markerHeight:"6.5", orient:"auto-start-reverse"});
+    m.appendChild(mk("path", {d:"M0,0 L10,5 L0,10 z", fill:c}));
+    defs.appendChild(m);
+  });
+  svg.appendChild(defs);
+
+  [["INPUTS", IN_X + IN_W/2], ["ONE RHS EVALUATION", CYC_X + CYC_W/2],
+   ["OUTPUTS", OUT_X + OUT_W/2]].forEach(([t, x]) => {
+    const e = mk("text", {x, y:26, "text-anchor":"middle", class:"flane"});
+    e.textContent = t; svg.appendChild(e);
+  });
+
+  // orthogonal path helper: rounded elbow through a sequence of points
+  function ortho(pts){
+    let d = `M${pts[0][0]},${pts[0][1]}`;
+    for (let i = 1; i < pts.length - 1; i++){
+      const [px,py] = pts[i-1], [x,y] = pts[i], [nx,ny] = pts[i+1];
+      const din = Math.hypot(x-px, y-py), dout = Math.hypot(nx-x, ny-y);
+      const r = Math.min(R, din/2, dout/2);
+      const ix = x - Math.sign(x-px) * r, iy = y - Math.sign(y-py) * r;
+      const ox = x + Math.sign(nx-x) * r, oy = y + Math.sign(ny-y) * r;
+      d += ` L${ix},${iy} Q${x},${y} ${ox},${oy}`;
+    }
+    const last = pts[pts.length-1];
+    d += ` L${last[0]},${last[1]}`;
+    return d;
+  }
+
+  const detail = document.getElementById("flowdetail");
+  function show(title, path, rows){
+    detail.innerHTML = "";
+    const h = document.createElement("h3"); h.textContent = title;
+    detail.appendChild(h);
+    if (path){ const c = document.createElement("code"); c.textContent = path;
+      detail.appendChild(c); }
+    rows.forEach(([k, v, cls]) => {
+      if (!v) return;
+      const kk = document.createElement("div"); kk.className = "k"; kk.textContent = k;
+      const vv = document.createElement("div"); vv.textContent = v;
+      if (cls) vv.className = cls;
+      detail.appendChild(kk); detail.appendChild(vv);
+    });
+  }
+
+  FLOW_EDGES.forEach(e => {
+    const a = byId[e.from], b = byId[e.to];
+    if (!a || !b) return;
+    let pts, lx, ly, anchor = "middle", cls = "fedge";
+
+    if (e.fb){
+      // the ring: out of the bottom of 8, under everything, up the far right,
+      // back across the top, down into the top of 1.  Crosses nothing.
+      pts = [[FB.x, a.y + H], [FB.x, FB.down], [FB.right, FB.down],
+             [FB.right, FB.up], [FB.x, FB.up], [FB.x, b.y]];
+      lx = (FB.x + FB.right) / 2; ly = FB.down - 9; cls += " fb";
+    } else if (e.cyc){
+      const x = a.x + a.w/2;
+      pts = [[x, a.y + H], [x, b.y]];
+      lx = x + 9; ly = a.y + H + (b.y - a.y - H)/2 + 3.5; anchor = "start";
+    } else if (e.vert){
+      const x = a.x + a.w/2;
+      pts = [[x, a.y + H], [x, b.y]];
+      lx = x + 9; ly = a.y + H + (b.y - a.y - H)/2 + 3.5; anchor = "start";
+    } else if (e.into === "bottom"){
+      const x0 = a.x + a.w, y0 = a.y + (e.sy || 23);
+      const bx = b.x + b.w/2;
+      pts = [[x0, y0], [bx, y0], [bx, b.y + H]];
+      lx = (x0 + bx)/2; ly = y0 - 7;
+    } else {
+      const x0 = a.x + a.w, y0 = a.y + (e.sy || 23);
+      const x1 = b.x,       y1 = b.y + (e.ty || 23);
+      if (e.ch){ pts = [[x0,y0], [e.ch,y0], [e.ch,y1], [x1,y1]]; }
+      else      { pts = [[x0,y0], [x1,y1]]; }
+      lx = (x0 + x1)/2; ly = Math.min(y0,y1) - 7;
+    }
+
+    const g = mk("g", {class:cls});
+    g.appendChild(mk("path", {d:ortho(pts),
+      "marker-end": e.fb ? "url(#arrowfb)" : "url(#arrow)"}));
+    if (e.label){
+      const t = mk("text", {x:lx, y:ly, "text-anchor":anchor});
+      t.textContent = e.label; g.appendChild(t);
+    }
+    g.addEventListener("click", () => {
+      svg.querySelectorAll(".fedge.sel").forEach(x => x.classList.remove("sel"));
+      g.classList.add("sel");
+      show(`${a.label}  →  ${b.label}`, e.label, [
+        ["what crosses", e.payload || e.label],
+        ["invariant", e.invariant],
+        ["gate", e.gate],
+        ["symptom if broken", e.symptom, "sym"]
+      ]);
+    });
+    svg.appendChild(g);
+  });
+
+  FLOW_NODES.forEach(n => {
+    const g = mk("g", {class:"fnode"});
+    g.appendChild(mk("rect", {x:n.x, y:n.y, width:n.w, height:H, rx:8,
+      fill:BG[n.status], stroke:COL[n.status]}));
+    const t1 = mk("text", {x:n.x + 11, y:n.y + 19});
+    t1.textContent = n.label; g.appendChild(t1);
+    const t2 = mk("text", {x:n.x + 11, y:n.y + 34, class:"fpath"});
+    t2.textContent = n.path; g.appendChild(t2);
+    g.addEventListener("click", () => {
+      svg.querySelectorAll(".fedge.sel").forEach(x => x.classList.remove("sel"));
+      const ins = FLOW_EDGES.filter(e => e.to === n.id)
+                            .map(e => byId[e.from].label).join(", ") || "(none)";
+      const outs = FLOW_EDGES.filter(e => e.from === n.id)
+                             .map(e => byId[e.to].label).join(", ") || "(none)";
+      show(n.label, n.path, [["what it does", n.detail],
+                             ["fed by", ins], ["feeds", outs]]);
+    });
+    svg.appendChild(g);
+  });
+})();
+
+/* view switching */
+(function views(){
+  const map = document.getElementById("view-map");
+  const flow = document.getElementById("view-flow");
+  const bm = document.getElementById("v-map"), bf = document.getElementById("v-flow");
+  function set(showFlow){
+    flow.classList.toggle("hidden", !showFlow);
+    map.classList.toggle("hidden", showFlow);
+    bm.setAttribute("aria-pressed", String(!showFlow));
+    bf.setAttribute("aria-pressed", String(showFlow));
+  }
+  bm.addEventListener("click", () => set(false));
+  bf.addEventListener("click", () => set(true));
+})();
+
+</script>
+</body>
+</html>

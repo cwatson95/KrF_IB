@@ -1,0 +1,44 @@
+{
+ "schema": "cross-section-metadata/1.1",
+ "generated_utc": "2026-07-30T05:04:50Z",
+ "source": "SIGLO database (LXCat, Chen ref 22): sum of the 3P2+3P1+1P1 levels \u2014 the 4s manifold (Ne*). Previously only the first level of each manifold was used, discarding ~half the 96%-bath excitation sink (EEDF inelastic wall + Ne* stepwise pool).",
+ "data_file": "e_Ne_excitation_1.csv",
+ "data_kind": "total",
+ "process_id": "e_Ne_excitation_1",
+ "database": "SIGLO database (LXCat), manifold sum",
+ "reaction": "E + Ne -> E + Ne*(4s: 3P2+3P1+1P1)",
+ "type": "Excitation",
+ "category": "Excitation (electronic)",
+ "family": "Electron",
+ "projectile": "e",
+ "target": "Ne",
+ "mass_ratio_m_over_M": null,
+ "ion_mass_amu": null,
+ "ion_mass_ratio": null,
+ "stat_weight_ratio": null,
+ "complete_set": true,
+ "param_raw": "E = 16.62 eV, complete set",
+ "comment": "NE 3P2 excitation. SIGLO dataset (Chen 2025, ref 22); re-sourced from crossbrowser lxcat_siglo.json, source id SIGLO__Ne__Excitation__25. Representative level: Ne 3P2 taken as the lumped Ne* metastable (arf.toml R1). Cross section stored in m^2 by SIGLO (converted to cm^2 for the CSV column).",
+ "updated": "2026-07-31",
+ "n_points": 52,
+ "threshold": 16.62,
+ "axes": {
+  "x_quantity": "Energy",
+  "y_quantity": "Cross section"
+ },
+ "units": {
+  "x": "eV",
+  "y": "cm^2"
+ },
+ "source_units": {
+  "x": "eV",
+  "y": "m^2"
+ },
+ "conversion_from_source": {
+  "x": 1,
+  "y": 10000
+ },
+ "x_min": 16.62,
+ "x_max": 147.0,
+ "y_max": 1.5529058798334327e-17
+}

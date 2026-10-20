@@ -1,0 +1,40 @@
+1D KrF Model
+
+n_e = [10^14-10^16] per cm^3
+
+Version 0 starts with Kr and F2
+
+1) e^- + Kr  \rightarrow Kr^* 5s [3/2]
+
+2) Kr* + Kr*
+Associative Ionization
+
+3) Kr* 5s + F2(v=0) \rightarrow KrF(B)
+
+
+4) KrF*  \rightarrow Kr + F + \Delta E. With \tau_{sp}^-1 \approx 4 ns
+Spontaneous Emission
+
+5) KrF (B) + Kr + M \rightarrow KrF* (4^2 \Gamma)
+Harpooning
+
+6) e^- + Kr \rightarrow Kr + e^- 
+Elastic cross section
+
+Q = k n_e[Kr] = cm^3/sec where k is \langle \sigma \nu \rangle
+
+
+Input:
+Power in W/cm^3 with a microsecond pulse 100kW/cm^3 to 500 kW/cm^3
+Do not care how the power is deposited, just that it is uniformly deposited
+n_e injection
+EM Wave injection
+
+Pressure: 0.1 - 2 atm
+
+Output: percent to Kr^+, KrF(B), Kr*, Heat, Elastic losses and emission losses
+
+Version 1 will then test Ne and Ar added into the Gain medium
+And will then relate/couple the outputs
+
+

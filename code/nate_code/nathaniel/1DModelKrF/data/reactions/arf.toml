@@ -1,0 +1,596 @@
+# ArF* (193 nm) excimer reaction network derived from Table III of
+#
+#   Jiayi Chen, Liyang Zhang, Zhihang Zhao, and Yangyang Fu,
+#   "Fluid modeling of the discharge in an ArF excimer laser with varying F2 concentration,"
+#   Phys. Plasmas 32, 113502 (2025); doi: 10.1063/5.0287524.
+#   (Table III, "Reactions involved in the model. Te is the electron temperature (eV)"; p. 113502-11.)
+#
+# R1-R41 provide the organizing baseline, but this is not a verbatim transcription. Row comments
+# document corrected products/exponents, cross-section replacements, disabled superseded branches,
+# and cited additions (including R21b/R29c). Treat per-row references and notes as authoritative.
+#
+# UNITS: Chen's Table III already reports SI values, and they are kept AS PUBLISHED here:
+#   - 2-body rate constants  -> k_units = "m3/s"   (m^3 s^-1)
+#   - 3-body rate constants  -> k_units = "m6/s"   (m^6 s^-1)
+#   - spontaneous emission   -> radiative, tau_s = 1/A  (A in s^-1)
+#   - stimulated emission cross sections -> sigma_eff_cm2 (converted to m^2 at load)
+#   - photo-absorption cross sections     -> sigma_m2 (m^2)
+# The loader's known units include m3/s, m6/s, 1/s, m2. (Contrast with krf.toml, whose values are
+# the published cgs numbers.) No cgs->SI conversion is applied to these values.
+#
+# rate_form dispatch (per project schema, see krf.toml):
+#   electron_impact : cross-section-driven electron collision; carries threshold_eV and a
+#                     cross_section file in data/cross_sections/. Chen marks these "f(sigma)".
+#   te_dependent    : analytic A * Te^p * exp(-E0/Te); carries K0, te_power, E0_eV, k_units.
+#   constant        : fixed rate constant k (2-body m3/s or 3-body m6/s).
+#   radiative       : spontaneous emission; carries tau_s and photon_mode.
+#   stimulated      : cavity stimulated emission; carries sigma_eff_cm2 and photon_mode.
+#   photo           : cavity photo-absorption; carries sigma_m2 and optional birth energy.
+#
+# REF. NUMBER -> CITATION (read off Chen 2025, References, p. 113502-12):
+#   13 = X. Ma, L. Bai, Y. Zhu, X. Jiang, Y. Wu, Plasma Sources Sci. Technol. 33, 075012 (2024).
+#   22 = "SIGLO database", www.lxcat.net.
+#   30 = H. Akashi, Y. Sakai, I. Tagashira, J. Phys. D: Appl. Phys. 28, 445 (1995).
+#   38 = J. Tennyson et al., "The 2021 release of the Quantemol database (QDB)",
+#        Plasma Sources Sci. Technol. 31, 095020 (2022).
+#   39 = S. Rauf, M. J. Kushner, J. Appl. Phys. 85, 3460 (1999).
+#   40 = F. Kannari, M. Obara, T. Fujioka, J. Appl. Phys. 57, 4309 (1985).
+#   41 = A. Demyanov, L. Feenstra, P. Peters, A. Napartovich, W. Witteman,
+#        Appl. Phys. B 72, 823 (2001).
+#
+# NETWORK NOTES:
+#   * R23 product is Ar2* and R24 product is Ne2* (excited dimers), NOT the ions — verified against
+#     the high-resolution table image. This makes R24 (Ne2* formation) distinct from R28 (Ne2+).
+#   * R39 is interpreted as the E1-allowed Ar**(4p)->Ar*(4s) cascade; the printed ground-state
+#     product is documented at that row. Ar2F* remains without a printed Table III loss channel.
+#   * R26 as printed is "Ar+ + Ar + Ne -> Ne+ + 2Ar" (1.6e-44 m6/s) — endothermic by +5.8 eV and
+#     therefore certainly a typo for the 3-body dimerization "Ar+ + Ar + Ne -> Ar2+ + Ne". The
+#     physical products are used here, cross-checked against Ma et al. (2024).
+#   * Xe+ is produced (R17) but has no loss channel anywhere in the printed Table III — the
+#     paper's own omission (trace 0.01% Xe). The loader's orphan-charge warning is expected.
+#   * Cross-section availability: the electron-impact f(sigma) rows are re-sourced from the SIGLO
+#     database (Chen ref 22) via the project crossbrowser mirror, which carries Ne/Ar/Xe/F2
+#     ground-state datasets. SIGLO now provides Ar excitation (R5) and Ar ionization (R7).
+#     The metastable-target stepwise-ionization rows are now covered too: R4 (e + Ne*) from the
+#     SIGLO Ne(3P2) metastable-ionization set, and R8 (e + Ar*) from the TRINITI Ar* set — TRINITI
+#     because SIGLO has no excited-Ar ionization channel at all (noted in that dataset's comment).
+#     R6, the second Ar excitation, is now covered as well: SIGLO carries exactly ONE Ar
+#     excitation set ("all excitation is grouped into this one level"), already used by R5, so the
+#     Ar**(4p) level is built from the NGFSRDW database (LXCat, retrieved 2026-07-30) by summing
+#     the ten state-resolved ground->4p blocks (Paschen 2p1..2p10, thresholds 12.907-13.480 eV)
+#     into e_Ar_excitation_2 — see that dataset's JSON for the per-channel provenance. Where a
+#     threshold_eV is a standard atomic constant rather than a Chen value it is noted per block.
+
+# ==================================================================================================
+# A. Electron collisions
+# ==================================================================================================
+
+[[reaction]]
+id = "R1"
+reactants = "e + Ne"
+products = "Ne* + e"
+rate_form = "electron_impact"
+threshold_eV = 16.6191            # Ne 1S5 metastable (from cross-section data)
+cross_section = "e_Ne_excitation_1"
+reference = "SIGLO database, www.lxcat.net. [Chen et al., Phys. Plasmas 32, 113502 (2025), Table III, ref 22]"
+
+[[reaction]]
+id = "R2"
+reactants = "e + Ne"
+products = "Ne** + e"
+rate_form = "electron_impact"
+threshold_eV = 18.382             # Ne 2P10 (representative higher level; from cross-section data)
+cross_section = "e_Ne_excitation_2"
+reference = "SIGLO database, www.lxcat.net. [Chen et al., Phys. Plasmas 32, 113502 (2025), Table III, ref 22]"
+
+[[reaction]]
+id = "R3"
+reactants = "e + Ne"
+products = "Ne+ + 2 e"
+rate_form = "electron_impact"
+threshold_eV = 21.565
+cross_section = "e_Ne_ionization"
+reference = "SIGLO database, www.lxcat.net. [Chen et al., Phys. Plasmas 32, 113502 (2025), Table III, ref 22]"
+
+[[reaction]]
+id = "R4"
+reactants = "e + Ne*"
+products = "Ne+ + 2 e"
+rate_form = "electron_impact"
+threshold_eV = 4.95               # est. = 21.565 - 16.62 (stepwise ionization of Ne* metastable); NOT from Chen
+cross_section = "e_Nes_ionization"
+reference = "SIGLO database, www.lxcat.net. [Chen et al., Phys. Plasmas 32, 113502 (2025), Table III, ref 22]"
+
+[[reaction]]
+id = "R5"
+reactants = "e + Ar"
+products = "Ar* + e"
+rate_form = "electron_impact"
+threshold_eV = 11.548             # lowest 4s channel (1s5) in the NGFSRDW data
+cross_section = "e_Ar_excitation_1" # SIGLO lumped total x (1 - f_BSR): SIGLO magnitude (Chen's EEDF input) apportioned to 4s by the BSR 4p/(4s+4p) branching f=0.25-0.36 in 13.5-30 eV (benchmarked R-matrix; RDW ratio reached 0.68 and over-routed to Ar**) — no double count, R5+R6 == SIGLO exactly
+reference = "SIGLO + BSR databases, www.lxcat.net, retrieved 2026-07-30 (BSR: Zatsarinny & Bartschat B-spline R-matrix). Partition of the SIGLO lumped total; no overlap. [Chen et al., Phys. Plasmas 32, 113502 (2025), Table III]"
+
+[[reaction]]
+id = "R6"
+reactants = "e + Ar"
+products = "Ar** + e"
+rate_form = "electron_impact"
+threshold_eV = 13.074             # lowest 4p channel (2p10) in the NGFSRDW data; was 13.1 (generic 4p estimate)
+cross_section = "e_Ar_excitation_2" # SIGLO lumped total x f_RDW (4p only — Chen's Ar**); unblocks R9 (two-step ionization) and R40 (UV photoabsorber); R5+R6 == SIGLO at every grid point
+reference = "SIGLO + BSR databases, www.lxcat.net, retrieved 2026-07-30 (BSR branching); SIGLO (Chen ref 22) has no second Ar excitation level. [Chen et al., Phys. Plasmas 32, 113502 (2025), Table III]"
+
+[[reaction]]
+id = "R7"
+reactants = "e + Ar"
+products = "Ar+ + 2 e"
+rate_form = "electron_impact"
+threshold_eV = 15.76              # standard Ar ionization energy; NOT from Chen
+cross_section = "e_Ar_ionization"
+reference = "SIGLO database, www.lxcat.net. [Chen et al., Phys. Plasmas 32, 113502 (2025), Table III, ref 22]"
+
+[[reaction]]
+id = "R8"
+reactants = "e + Ar*"
+products = "Ar+ + 2 e"
+rate_form = "electron_impact"
+threshold_eV = 4.21               # est. = 15.76 - 11.55 (stepwise ionization of Ar* metastable); NOT from Chen
+cross_section = "e_Ars_ionization"
+reference = "TRINITI database via LXCat, www.lxcat.net. [Chen et al., Phys. Plasmas 32, 113502 (2025), Table III, ref 22]"
+
+[[reaction]]
+id = "R9"
+reactants = "e + Ar**"
+products = "Ar+ + 2 e"
+rate_form = "te_dependent"
+K0 = 1.56e-13
+te_power = 0.71
+E0_eV = 2.63
+energy_loss_eV = 2.63
+k_units = "m3/s"
+reference = "SIGLO database, www.lxcat.net. [Chen et al., Phys. Plasmas 32, 113502 (2025), Table III, ref 22]"
+# Chen Table III R9: 1.56e-13 * Te^0.71 * exp(-2.63/Te) m^3 s^-1
+
+[[reaction]]
+id = "R10"
+reactants = "e + F2"
+products = "F- + F"
+rate_form = "electron_impact"
+threshold_eV = 0.0                # dissociative attachment (no threshold; data starts at 0 eV)
+cross_section = "e_F2_attachment"
+reference = "SIGLO database, www.lxcat.net. [Chen et al., Phys. Plasmas 32, 113502 (2025), Table III, ref 22]"
+
+[[reaction]]
+id = "R11"
+reactants = "e + F2"
+products = "F2(a3) + e"
+rate_form = "electron_impact"
+threshold_eV = 3.16               # F2(a3) (from cross-section data)
+cross_section = "e_F2_excitation_a3"
+reference = "SIGLO database, www.lxcat.net. [Chen et al., Phys. Plasmas 32, 113502 (2025), Table III, ref 22]"
+
+[[reaction]]
+id = "R12"
+reactants = "e + F2"
+products = "F2(A1) + e"
+rate_form = "electron_impact"
+threshold_eV = 4.34               # F2(A1) (from cross-section data)
+cross_section = "e_F2_excitation_A1"
+reference = "SIGLO database, www.lxcat.net. [Chen et al., Phys. Plasmas 32, 113502 (2025), Table III, ref 22]"
+
+[[reaction]]
+id = "R13"
+reactants = "e + F2(a3)"
+products = "2 F + e"
+rate_form = "te_dependent"
+K0 = 2.08e-14
+te_power = -0.51
+E0_eV = 4.69
+k_units = "m3/s"
+reference = "J. Tennyson et al., The 2021 release of the Quantemol database (QDB) of plasma chemistries and reactions, Plasma Sources Sci. Technol. 31, 095020 (2022). [Chen et al., Phys. Plasmas 32, 113502 (2025), Table III, ref 38]"
+# Chen Table III R13 PRINTS: K0 = 2.08e-8 with units "m^3 s^-1", i.e.
+#   k = 2.08e-8 * Te^-0.51 * exp(-4.69/Te) m^3/s  ->  1.4e-9 m^3/s at Te=2 eV.
+# DEVIATION FROM THE PRINTED VALUE (deliberate): that is ~1e4x above the gas-kinetic ceiling
+# (~1e-13 m^3/s) at every Te, so it is unphysical as printed and would instantly annihilate
+# F2(a3). Read as cm^3/s (the usual convention for such fits) it becomes 2.08e-14 m^3/s ->
+# 1.4e-15 m^3/s at Te=2 eV, which is physical. K0 below is therefore the printed prefactor
+# converted cm^3/s -> m^3/s (x1e-6). Re-verify against ref 38 (Quantemol QDB) if possible.
+
+[[reaction]]
+id = "R14"
+reactants = "e + F2(A1)"
+products = "2 F + e"
+rate_form = "te_dependent"
+K0 = 5.61e-15
+te_power = -0.23
+E0_eV = 4.94
+k_units = "m3/s"
+reference = "J. Tennyson et al., The 2021 release of the Quantemol database (QDB) of plasma chemistries and reactions, Plasma Sources Sci. Technol. 31, 095020 (2022). [Chen et al., Phys. Plasmas 32, 113502 (2025), Table III, ref 38]"
+# Chen Table III R14 PRINTS: K0 = 5.61e-9 with units "m^3 s^-1" -> 4.1e-10 m^3/s at Te=2 eV.
+# DEVIATION FROM THE PRINTED VALUE (deliberate), same reasoning as R13 above: ~1e4x above the
+# gas-kinetic ceiling as printed, so K0 is the printed prefactor read as cm^3/s (x1e-6).
+
+[[reaction]]
+id = "R15"
+reactants = "e + F2"
+products = "F2+ + 2 e"
+rate_form = "electron_impact"
+threshold_eV = 15.69              # F2 ionization (from cross-section data)
+cross_section = "e_F2_ionization"
+reference = "SIGLO database, www.lxcat.net. [Chen et al., Phys. Plasmas 32, 113502 (2025), Table III, ref 22]"
+
+[[reaction]]
+id = "R16"
+reactants = "e + Xe"
+products = "Xe* + e"
+rate_form = "electron_impact"
+threshold_eV = 8.315              # Xe 1S5 metastable (from cross-section data)
+cross_section = "e_Xe_excitation_1"
+reference = "SIGLO database, www.lxcat.net. [Chen et al., Phys. Plasmas 32, 113502 (2025), Table III, ref 22]"
+
+[[reaction]]
+id = "R17"
+reactants = "e + Xe"
+products = "Xe+ + 2 e"
+rate_form = "electron_impact"
+threshold_eV = 12.13
+cross_section = "e_Xe_ionization"
+reference = "SIGLO database, www.lxcat.net. [Chen et al., Phys. Plasmas 32, 113502 (2025), Table III, ref 22]"
+
+[[reaction]]
+id = "R18"
+reactants = "e + Ne2*"
+products = "Ne2+ + 2 e"
+rate_form = "te_dependent"
+K0 = 9.75e-15
+te_power = 0.71
+E0_eV = 3.4
+energy_loss_eV = 3.4
+k_units = "m3/s"
+reference = "S. Rauf and M. J. Kushner, Dynamics of a coplanar-electrode plasma display panel cell. I. Basic operation, J. Appl. Phys. 85, 3460 (1999). [Chen et al., Phys. Plasmas 32, 113502 (2025), Table III, ref 39]"
+# Chen Table III R18: 9.75e-15 * Te^0.71 * exp(-3.4/Te) m^3 s^-1
+
+[[reaction]]
+id = "R19"
+reactants = "e + Ne2+"
+products = "Ne + Ne*"
+rate_form = "te_dependent"
+K0 = 3.7e-14
+te_power = -0.5
+E0_eV = 0.0                       # no exponential term
+k_units = "m3/s"
+reference = "S. Rauf and M. J. Kushner, J. Appl. Phys. 85, 3460 (1999): 3.7e-8*Te^-0.5 cm3/s. Measured basis: Philbrick, Mehr & Biondi, Phys. Rev. 181, 271 (1969), ~1.75e-7*(300/Te)^0.43. [Chen Table III R19 prints Te^+0.5]"
+# DOCUMENTED CORRECTION, primary-verified SIGN FLIP: Chen prints 3.7e-14*Te^+0.5 — dissociative
+# recombination RISING with Te is unphysical and kills electrons ~x4 too fast at 4 eV. R&K (his
+# cited source) and the Philbrick measurement both have the falling ^-0.5-class form. Same
+# prefactor, exponent corrected.
+
+# ==================================================================================================
+# B. Penning ionization
+# ==================================================================================================
+
+[[reaction]]
+id = "R20"
+reactants = "2 Ne*"
+products = "Ne+ + Ne + e"
+rate_form = "constant"
+k = 5.0e-16
+k_units = "m3/s"
+reference = "X. Ma, L. Bai, Y. Zhu, X. Jiang, and Y. Wu, Numerical investigation of discharge evolution and breakdown characteristics of ArF excimer lasers, Plasma Sources Sci. Technol. 33, 075012 (2024). [Chen et al., Phys. Plasmas 32, 113502 (2025), Table III, ref 13]"
+
+[[reaction]]
+id = "R21"
+reactants = "Ne* + Ar"
+products = "Ar+ + Ne + e"
+rate_form = "constant"
+k = 6.5e-17
+k_units = "m3/s"
+reference = "F. Kannari, M. Obara, and T. Fujioka, An advanced kinetic model of electron-beam-excited KrF lasers, J. Appl. Phys. 57, 4309 (1985). [Chen et al., Phys. Plasmas 32, 113502 (2025), Table III, ref 40]"
+
+[[reaction]]
+id = "R21b"
+reactants = "Ne* + F2"
+products = "Ne + 2 F"
+rate_form = "constant"
+k = 4.2e-16
+k_units = "m3/s"
+# MEASURED CHANNEL ABSENT from Chen Table III and Ma Table 2: Brom, Kolts & Setser measured the
+# TOTAL Ne(3P2)+F2 quench = 4.2e-10 cm3/s (4.2e-16 m3/s) — a ~15% Ne* sink at the 0.1% F2 fill.
+# Branching among neutral dissociation (Ne+2F) and Penning of F2 (F2+ + e) is unmeasured; the
+# total is booked as the dissociative sink (no NeF* channel exists — NeF* is unbound). Do not
+# add a separate Penning branch without splitting this total.
+reference = "J. H. Brom, J. H. Kolts, D. W. Setser, Chem. Phys. Lett. 55, 44 (1978): total Ne(3P2)+F2 quench 4.2e-10 cm3/s. Absent from Chen Table III / Ma Table 2."
+
+# ==================================================================================================
+# B. Recombination   (section letter 'B' repeated in Chen Table III as printed)
+# ==================================================================================================
+
+[[reaction]]
+id = "R22"
+reactants = "F2+ + F-"
+products = "3 F"
+rate_form = "constant"
+k = 4.0e-14
+k_units = "m3/s"
+reference = "X. Ma, L. Bai, Y. Zhu, X. Jiang, and Y. Wu, Numerical investigation of discharge evolution and breakdown characteristics of ArF excimer lasers, Plasma Sources Sci. Technol. 33, 075012 (2024). [Chen et al., Phys. Plasmas 32, 113502 (2025), Table III, ref 13]"
+
+# ==================================================================================================
+# C. Three-body heavy particle collisions
+# ==================================================================================================
+
+[[reaction]]
+id = "R23"
+reactants = "Ar* + Ar + Ne"
+products = "Ar2* + Ne"
+rate_form = "constant"
+k = 1.1e-44
+k_units = "m6/s"
+reference = "X. Ma, L. Bai, Y. Zhu, X. Jiang, and Y. Wu, Plasma Sources Sci. Technol. 33, 075012 (2024), Table 2 #40. [Chen et al., Phys. Plasmas 32, 113502 (2025), Table III R23, ref 13]"
+# DOCUMENTED CORRECTION (verified against Ma 2024, Chen's cited source for this row): Chen
+# prints 2.5e-43 m6/s but Ma Table 2 #40 gives 1.1e-44 m6/s — the literature Ar*+2M three-body
+# excimer rate (~1.1e-32 cm6/s). Chen's print appears to duplicate R27's 2.5e-43. At 2.5e-43
+# the Ar* pool (the harpoon donor) drained x23 too fast.
+
+[[reaction]]
+id = "R24"
+reactants = "Ne* + 2 Ne"
+products = "Ne2* + Ne"
+rate_form = "constant"
+k = 4.0e-46
+k_units = "m6/s"
+reference = "S. Rauf and M. J. Kushner, J. Appl. Phys. 85, 3460 (1999), Table I: Ne*+Ne+Ne -> Ne2*+Ne = 4.0e-34 cm6/s. Confirmed: A. V. Phelps, Phys. Rev. 114, 1011 (1959) measured 5e-34; Lee et al. 1989 model 4.1e-34. [Chen Table III R24; Ma Table 2 #41]"
+# DOCUMENTED CORRECTION, primary-verified (triple-confirmed 4.0-5.0e-34 cm6/s): Chen prints
+# 4e-40 m6/s — a cm6->m6 multiply-instead-of-divide slip of R&K's 4.0e-34 (it gave Ne* a 0.4 ps
+# lifetime at 3.4 atm, annihilating the Penning R21 + stepwise R4 chain of the 96% Ne bath).
+# Ma Table 2 #41 prints 8.0e-46 — a third-body COLUMN TRANSPOSITION: 8.0e-34 is R&K's
+# Ne*+Ne+Xe row, x2 the Ne*+2Ne value. Adopted the R&K Ne*+2Ne primary directly.
+
+# ==================================================================================================
+# D. Charge transfer
+# ==================================================================================================
+
+[[reaction]]
+id = "R25"
+reactants = "Ne+ + Ar"
+products = "Ar+ + Ne"
+rate_form = "constant"
+k = 1.0e-17
+k_units = "m3/s"
+reference = "PRIMARY: Vitols & Oskam measured Ne+ + 2Ne -> Ne2+ + Ne = 4.4e-32 cm6/s; consistent across R&K, Ma, Chen, Lee Table I [39]. X. Ma, L. Bai, Y. Zhu, X. Jiang, and Y. Wu, Numerical investigation of discharge evolution and breakdown characteristics of ArF excimer lasers, Plasma Sources Sci. Technol. 33, 075012 (2024). [Chen et al., Phys. Plasmas 32, 113502 (2025), Table III, ref 13]"
+
+[[reaction]]
+id = "R26"
+reactants = "Ar+ + Ar + Ne"
+products = "Ar2+ + Ne"
+rate_form = "constant"
+k = 1.6e-44
+k_units = "m6/s"
+reference = "X. Ma, L. Bai, Y. Zhu, X. Jiang, and Y. Wu, Numerical investigation of discharge evolution and breakdown characteristics of ArF excimer lasers, Plasma Sources Sci. Technol. 33, 075012 (2024). [Chen et al., Phys. Plasmas 32, 113502 (2025), Table III, ref 13]"
+# DOCUMENTED DEVIATION from Chen Table III as printed. The paper prints
+#   "Ar+ + Ar + Ne -> Ne+ + 2Ar" (1.6e-44 m6/s),
+# which is endothermic by +5.8 eV (Ar IP 15.76 eV -> Ne IP 21.56 eV) — impossible as a thermal
+# 3-body process — and would leave Ar2+ formation with only the x_Ar^2-suppressed R27 channel in
+# a 96% Ne bath. The physical reading is the standard 3-body dimerization with the Ne third body,
+#   Ar+ + Ar + Ne -> Ar2+ + Ne,
+# the direct analogue of R27 (Ar third body) and R28 (Ne+ dimerization). Rate kept as printed.
+# Verification source: Ma et al., PSST 33, 075012 (2024), Chen ref. 13.
+# VERIFIED (2026-07-31) against Ma 2024 (the paper's own source, Table 2 #27): Ma prints the
+# same "Ne+ + 2Ar" products — but Ma's network FORMS Ar2+ nowhere else while consuming it twice
+# (#22, #26), so the printed products would orphan his own Ar2+ species; and Chen's Fig. 2
+# energy diagram draws the Ar+ -(2Ar)-> Ar2+ arrow explicitly. The dimerization reading
+# (Ar2+ + Ne, 1.6e-44 m6/s) is the only internally consistent one. Both papers carry the typo.
+
+[[reaction]]
+id = "R27"
+reactants = "Ar+ + 2 Ar"
+products = "Ar2+ + Ar"
+rate_form = "constant"
+k = 2.5e-43
+k_units = "m6/s"
+reference = "A. Demyanov, L. Feenstra, P. Peters, A. Napartovich, and W. Witteman, Kinetic modelling of a discharge-pumped ArF excimer laser and the effects of discharge filamentation, Appl. Phys. B 72, 823 (2001). [Chen et al., Phys. Plasmas 32, 113502 (2025), Table III, ref 41]"
+
+[[reaction]]
+id = "R28"
+reactants = "Ne+ + 2 Ne"
+products = "Ne2+ + Ne"
+rate_form = "constant"
+k = 4.4e-44
+k_units = "m6/s"
+# PRIMARY CONFIRMATION: O. J. Orient, Chem. Phys. Lett. 23, 576 (1973) measured
+# k = (4.6 +/- 0.35)e-32 cm6/s (4.6e-44 m6/s), field-independent over 5.66-28.3 Td —
+# spanning this discharge's whole E/N window — in 5% agreement with the adopted value
+# (Vitols & Oskam 4.4e-32; Dickinson et al. theory 4.0e-32).
+reference = "S. Rauf and M. J. Kushner, J. Appl. Phys. 85, 3460 (1999); confirmed by O. J. Orient, Chem. Phys. Lett. 23, 576 (1973), (4.6+/-0.35)e-32 cm6/s. [Chen et al., Phys. Plasmas 32, 113502 (2025), Table III, ref 39]"
+
+# ==================================================================================================
+# D. ArF* formation   (section letter 'D' repeated in Chen Table III as printed)
+# ==================================================================================================
+
+[[reaction]]
+id = "R29"
+reactants = "Ar* + F2"
+products = "ArF* + F"
+rate_form = "constant"
+k = 7.5e-16
+k_units = "m3/s"
+# PRIMARY-COMPILATION READING (Lee, Matsui, Kannari & Obara, IEEE Trans. Electron Devices 36,
+# 2054 (1989), Table I 'Neutral Formation', ref [50] = Velazco): the FULL measured Ar(3P2)+F2
+# quench 7.5e-10 cm3/s is booked as ArF*-forming, with NO dissociative branch — the Kannari
+# group's own reading of Velazco supersedes a branching-split interpretation that cuts ArF*
+# formation by 1.9 and laser output by 80.
+reference = "Lee-Matsui-Kannari-Obara, IEEE Trans. Electron Devices 36, 2054 (1989), Table I: Ar*+F2->ArF*+F 7.5e-10 cm3/s [their ref 50 = Velazco-Kolts-Setser, J. Chem. Phys. 65, 3468 (1976)]."
+
+[[reaction]]
+id = "R29b"
+reactants = "Ar* + F2"
+products = "Ar + F + F"
+rate_form = "constant"
+k = 3.1e-16
+k_units = "m3/s"
+enabled = false
+# DISABLED (superseded): Ma Table 2 #33 dissociative branch. Lee-Matsui-Kannari-Obara (1989)
+# Table I books Velazco's full 7.5e-10 cm3/s as ArF*-forming with no dissociative branch;
+# keeping this channel alongside R29=7.5e-16 would re-create the >total double count.
+reference = "X. Ma et al., PSST 33, 075012 (2024), Table 2 #33 — superseded by Lee et al. (1989) Table I."
+
+[[reaction]]
+id = "R29c"
+reactants = "Ar** + F2"
+products = "ArF* + F"
+rate_form = "constant"
+k = 7.5e-16
+k_units = "m3/s"
+# MISSING FROM CHEN/MA: the Ar**(4p) harpoon — Lee-Matsui-Kannari-Obara (1989) Table I,
+# 'Ar**+F2->ArF*+F 7.5e-10 cm3/s' [their ref 53]. Routes the Ar** pool (populated via R6)
+# into ArF* formation instead of only ionization (R9) / cascade (R39).
+reference = "Lee-Matsui-Kannari-Obara, IEEE Trans. Electron Devices 36, 2054 (1989), Table I [ref 53]."
+
+[[reaction]]
+id = "R30"
+reactants = "Ar+ + F-"
+products = "ArF*"
+rate_form = "constant"
+k = 2.16e-12
+k_units = "m3/s"
+# RE-SOURCED, labeled ANALOGY(KrF, measured): Mezyk, Cooper & Sherwell 1991 measured the
+# ion-ion recombination alpha = 2.16e-6 cm3/s (2.16e-12 m3/s) for Kr+ + F- by pulse
+# radiolysis — the only measured rare-gas+/F- alpha; Flannery-Yang theory gives the same
+# 1-2e-6 cm3/s scale at ~1 atm for these pairs. Chen/Akashi's 9.1e-13 sits x2.4 below the
+# measurement. Caveat: the effective 2-body alpha follows the Natanson density curve
+# (rises ~k3*N, peaks near 1 atm, Langevin roll-off) — at our 3.4 atm the true value may
+# sit below the 1-atm peak; treated as the best-available anchor.
+reference = "ANALOGY(KrF measured): S. M. Mezyk, R. Cooper, D. Sherwell, J. Phys. Chem. 95, 3152 (1991), alpha(Kr+ +F-) = 2.16e-6 cm3/s; theory M. R. Flannery, T. P. Yang 1978. [Chen Table III R30 prints 9.1e-13, ref 30 Akashi]"
+
+[[reaction]]
+id = "R31"
+reactants = "Ar2+ + F-"
+products = "ArF* + Ar"
+rate_form = "constant"
+k = 1.0e-12
+k_units = "m3/s"
+# RE-SOURCED, labeled THEORY(Flannery-Yang): effective 2-body ion-ion alpha ~1-2e-6 cm3/s
+# (1-2e-12 m3/s) at ~1 atm for rare-gas dimer-ion + halide pairs; adopted the conservative
+# 1.0e-12 lower edge. Same Natanson 3.4-atm caveat as R30. Chen/Akashi printed 9.26e-13.
+reference = "THEORY: M. R. Flannery, T. P. Yang, Appl. Phys. Lett. 32, 327/356 (1978), effective alpha 1-2e-6 cm3/s at ~1 atm. [Chen Table III R31 prints 9.26e-13, ref 30 Akashi]"
+
+# ==================================================================================================
+# E. ArF* quenching
+# ==================================================================================================
+
+[[reaction]]
+id = "R32"
+reactants = "ArF* + e"
+products = "Ar + F + e"
+rate_form = "constant"
+k = 2.0e-13
+k_units = "m3/s"
+reference = "A. Demyanov, L. Feenstra, P. Peters, A. Napartovich, and W. Witteman, Kinetic modelling of a discharge-pumped ArF excimer laser and the effects of discharge filamentation, Appl. Phys. B 72, 823 (2001). [Chen et al., Phys. Plasmas 32, 113502 (2025), Table III, ref 41]"
+
+[[reaction]]
+id = "R33"
+reactants = "ArF* + F2"
+products = "Ar + 3 F"
+rate_form = "constant"
+k = 1.9e-15
+k_units = "m3/s"
+reference = "A. Demyanov, L. Feenstra, P. Peters, A. Napartovich, and W. Witteman, Kinetic modelling of a discharge-pumped ArF excimer laser and the effects of discharge filamentation, Appl. Phys. B 72, 823 (2001). [Chen et al., Phys. Plasmas 32, 113502 (2025), Table III, ref 41]"
+
+[[reaction]]
+id = "R34"
+reactants = "ArF* + Ar"
+products = "2 Ar + F"
+rate_form = "constant"
+k = 9.0e-18
+k_units = "m3/s"
+reference = "A. Demyanov, L. Feenstra, P. Peters, A. Napartovich, and W. Witteman, Kinetic modelling of a discharge-pumped ArF excimer laser and the effects of discharge filamentation, Appl. Phys. B 72, 823 (2001). [Chen et al., Phys. Plasmas 32, 113502 (2025), Table III, ref 41]"
+
+[[reaction]]
+id = "R35"
+reactants = "ArF* + Ne"
+products = "Ar + Ne + F"
+rate_form = "constant"
+k = 1.6e-18
+k_units = "m3/s"
+reference = "X. Ma, L. Bai, Y. Zhu, X. Jiang, and Y. Wu, Numerical investigation of discharge evolution and breakdown characteristics of ArF excimer lasers, Plasma Sources Sci. Technol. 33, 075012 (2024). [Chen et al., Phys. Plasmas 32, 113502 (2025), Table III, ref 13]"
+
+[[reaction]]
+id = "R36"
+reactants = "ArF* + Ar + Ne"
+products = "Ar2F* + Ne"
+rate_form = "constant"
+k = 3.5e-43
+k_units = "m6/s"
+reference = "X. Ma, L. Bai, Y. Zhu, X. Jiang, and Y. Wu, Numerical investigation of discharge evolution and breakdown characteristics of ArF excimer lasers, Plasma Sources Sci. Technol. 33, 075012 (2024). [Chen et al., Phys. Plasmas 32, 113502 (2025), Table III, ref 13]"
+
+# ==================================================================================================
+# F. UV radiation
+# ==================================================================================================
+# DOCUMENTED CORRECTION (verified against Ma 2024, Chen's cited source for this row): Chen
+# prints 3.5e-45 m6/s; Ma Table 2 #42 gives 3.5e-43 m6/s — the literature ArF*+Ar+M -> Ar2F*
+# trimer-formation rate (~4e-31 cm6/s). Exponent typo in Chen; at 3.4 atm this channel is a
+# real ~8e7 s^-1 ArF* sink (25% of spontaneous emission), not negligible.
+
+[[reaction]]
+id = "R37"
+reactants = "ArF*"
+products = "Ar + F + hv193"
+rate_form = "radiative"
+tau_s = 4.19992e-9                # = 1 / 2.381e8 s^-1 (spontaneous emission)
+photon_mode = "hv193"
+reference = "H. Akashi, Y. Sakai, and I. Tagashira, Modelling of a self-sustained discharge-excited ArF excimer laser: The influence of photo-ionization and photodetachment by laser light on the discharge development, J. Phys. D: Appl. Phys. 28, 445 (1995). [Chen et al., Phys. Plasmas 32, 113502 (2025), Table III, ref 30]"
+# Chen Table III R37: A = 2.381e8 s^-1 (spontaneous emission)
+
+[[reaction]]
+id = "R38"
+reactants = "ArF* + hv193"
+products = "Ar + F + 2 hv193"
+rate_form = "stimulated"
+sigma_eff_cm2 = 4.0e-16           # stimulated-emission cross section = 4e-20 m^2 (Chen R38)
+photon_mode = "hv193"
+reference = "H. Akashi, Y. Sakai, and I. Tagashira, Modelling of a self-sustained discharge-excited ArF excimer laser: The influence of photo-ionization and photodetachment by laser light on the discharge development, J. Phys. D: Appl. Phys. 28, 445 (1995). [Chen et al., Phys. Plasmas 32, 113502 (2025), Table III, ref 30]"
+# Chen Table III R38: 4e-20 m^2 (stimulated emission)
+
+[[reaction]]
+id = "R39"
+reactants = "Ar**"
+products = "Ar* + hv95"
+rate_form = "radiative"
+tau_s = 1.0e-9                    # Chen's printed A = 1e9 s^-1, kept; routing corrected (see note)
+photon_mode = "hv95"
+# DOCUMENTED DEVIATION (typo-class of R26): printed products "Ar + hv95" put the 95 nm
+# resonance photon on the 4p->ground transition, which is E1-parity-forbidden (3p5 4p is
+# even like the 3p6 ground state); 95 nm belongs to Ar*(4s 1P1)->ground, and the fast 4p
+# decay is the 4p->4s cascade (~810 nm) INTO Ar*. Products read as the physical cascade;
+# the photon booking (energy exit) is unchanged. Akashi 1995 (Chen ref 30) models this
+# cascade + 4s resonance trapping explicitly.
+reference = "H. Akashi, Y. Sakai, and I. Tagashira, Modelling of a self-sustained discharge-excited ArF excimer laser: The influence of photo-ionization and photodetachment by laser light on the discharge development, J. Phys. D: Appl. Phys. 28, 445 (1995). [Chen et al., Phys. Plasmas 32, 113502 (2025), Table III, ref 30]"
+# Chen Table III R39: Ar** -> Ar + hv95, A = 1e9 s^-1 (printed reactant is Ar**, not Ar2F*)
+
+# ==================================================================================================
+# G. UV absorption (photoionization)
+# ==================================================================================================
+
+[[reaction]]
+id = "R40"
+reactants = "Ar** + hv193"
+products = "Ar+ + e"
+rate_form = "photo"
+sigma_m2 = 1.0e-22                # photoionization cross section (m^2, Chen R40)
+# Photoelectron KE = hv(193.0 nm) - binding = 6.424 - (IP 15.7596 - E(4p) ~13.1) ~ 3.76 eV.
+# Ar 3p5 4p manifold 12.90-13.48 eV and IP from NIST ASD (Kramida et al.); mean-4p reading.
+electron_energy_eV = 3.76
+photon_mode = "hv193"
+reference = "H. Akashi, Y. Sakai, and I. Tagashira, Modelling of a self-sustained discharge-excited ArF excimer laser: The influence of photo-ionization and photodetachment by laser light on the discharge development, J. Phys. D: Appl. Phys. 28, 445 (1995). [Chen et al., Phys. Plasmas 32, 113502 (2025), Table III, ref 30]"
+# Chen Table III R40: 1e-22 m^2 (photoionization of Ar**)
+
+[[reaction]]
+id = "R41"
+reactants = "F- + hv193"
+products = "F + e"
+rate_form = "photo"
+sigma_m2 = 1.0e-21                # photodetachment cross section (m^2, Chen R41)
+# Photoelectron KE = hv(193.0 nm) - EA(F) = 6.424 - 3.4012 = 3.02 eV.
+# EA(F) 3.4012 eV: C. Blondel, P. Cacciani, C. Delsart, R. Trainham, Phys. Rev. A 40, 3698 (1989).
+electron_energy_eV = 3.02
+photon_mode = "hv193"
+reference = "H. Akashi, Y. Sakai, and I. Tagashira, Modelling of a self-sustained discharge-excited ArF excimer laser: The influence of photo-ionization and photodetachment by laser light on the discharge development, J. Phys. D: Appl. Phys. 28, 445 (1995). [Chen et al., Phys. Plasmas 32, 113502 (2025), Table III, ref 30]"
+# Chen Table III R41: 1e-21 m^2 (photodetachment of F-)

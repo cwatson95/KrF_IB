@@ -1,0 +1,44 @@
+{
+  "schema": "cross-section-metadata/1.1",
+  "generated_utc": "2026-07-30T05:04:50Z",
+  "source": "LXCat, www.lxcat.net (SIGLO database). SIGLO database is the electron-impact cross-section source of Chen et al., Phys. Plasmas 32, 113502 (2025), ref 22. Re-sourced from the project crossbrowser export lxcat_siglo.json, SIGLO process id SIGLO__F2__Excitation__10.",
+  "data_file": "e_F2_excitation_A1.csv",
+  "data_kind": "total",
+  "process_id": "e_F2_excitation_A1",
+  "database": "SIGLO database (LXCat)",
+  "reaction": "E + F2 -> E + F2(A1)(4.34eV)",
+  "type": "Excitation",
+  "category": "Excitation (electronic)",
+  "family": "Electron",
+  "projectile": "e",
+  "target": "F2",
+  "mass_ratio_m_over_M": null,
+  "ion_mass_amu": null,
+  "ion_mass_ratio": null,
+  "stat_weight_ratio": null,
+  "complete_set": true,
+  "param_raw": "E = 4.34 eV, complete set",
+  "comment": "dissociation A[1]pi{u} -> 2 F. SIGLO dataset (Chen 2025, ref 22); re-sourced from crossbrowser lxcat_siglo.json, source id SIGLO__F2__Excitation__10. F2 A1 dissociative excitation (arf.toml R12). Cross section stored in m^2 by SIGLO (converted to cm^2 for the CSV column).",
+  "updated": "2010-06-24 12:25:53",
+  "n_points": 17,
+  "threshold": 4.34,
+  "axes": {
+    "x_quantity": "Energy",
+    "y_quantity": "Cross section"
+  },
+  "units": {
+    "x": "eV",
+    "y": "cm^2"
+  },
+  "source_units": {
+    "x": "eV",
+    "y": "m^2"
+  },
+  "conversion_from_source": {
+    "x": 1,
+    "y": 10000
+  },
+  "x_min": 4.34,
+  "x_max": 1000.0,
+  "y_max": 8e-18
+}

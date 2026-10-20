@@ -1,0 +1,13 @@
+# READING of Eden et al. J. Appl. Phys. 49, 5368 (1978) Fig. 4 (He) and Fig. 5 (Ne); 0.5 Torr KrF2 in each. +-3 Torr (He +-6), +-0.03e7 s^-1.
+# Linear fits of these readings: He 3.2e-13, Ne 1.63e-12 cm3/s (printed (3.3+-1.1)e-13 and (1.6+-0.4)e-12). JAP states ~15% error per point.
+gas,P_Torr,Sigma_1e7_per_s
+He,101.0,14.56
+He,201.2,14.64
+He,802.5,15.28
+He,1024.0,15.49
+He,1048.6,15.51
+Ne,20.4,14.74
+Ne,100.5,15.14
+Ne,200.2,15.66
+Ne,400.6,16.75
+Ne,598.2,17.76

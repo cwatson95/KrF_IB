@@ -1,0 +1,18 @@
+# Nakano et al., SRI MP-76-99 (1976), Fig. 4 printed p.26 (PDF 31): fluorescence yields (photons per initially produced excited state) vs Ar, F2 1 Torr, Kr 0; Febetron 706
+# survey reading of the PDF at 250 dpi; +-0.01
+band_nm,ar_atm,yield
+193,1.0,0.30
+193,2.0,0.147
+193,3.0,0.124
+193,5.0,0.036
+193,5.0,0.027
+193,7.0,0.023
+290,1.0,0.419
+290,2.0,0.381
+290,2.0,0.513
+290,3.0,0.410
+290,5.0,0.348
+290,5.0,0.308
+290,5.0,0.182
+290,7.0,0.315
+290,9.0,0.298

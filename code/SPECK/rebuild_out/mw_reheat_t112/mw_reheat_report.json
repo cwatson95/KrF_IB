@@ -1,0 +1,47 @@
+{
+  "preset": "krf_arpa_mw",
+  "baseline": {
+    "E_beam_dep_J": 554.0589943934143,
+    "E_laser_J": 11.953936609937715,
+    "eta_intrinsic": 0.021575205403938844,
+    "g0_peak_m1": 1.9541558313852203,
+    "ne_at_window_start_m3": 9.622123527952786e+20,
+    "ne_at_window_end_m3": 275822665577472.0,
+    "Tg_end_K": 354.5791956906076,
+    "regime": "mode=krf drive=beam grid=1x1x1 (1 cells, 169 reactions) 2 atm | beam yields via spencer_fano, sub-table rates = MEASURED relax curves (F-,el:Ar,el:F2,el:Kr,vib; <eps> in-coverage 100%, below it the taper extrapolates from the measured floor) | drive 5.541e+02 J, laser 1.195e+01 J (eta 2.16%) | ledger residual max 9.10e-13 | validity: ionization 3.6e-05 of N, F2 burn 43.7%, <eps> in-table 8% | wall 11.8 s | cells are independent reactors (no inter-cell transport; coarse device grid, not a PIC grid)"
+  },
+  "window_ns": [
+    112.0,
+    282.0
+  ],
+  "feed_budget_W": 1000000.0,
+  "scan": [
+    {
+      "mw_power_W": 1000000.0,
+      "E_MW_absorbed_J": 0.1599930593326917,
+      "E_MW_quad_J": 0.15999500932369426,
+      "E_injected_J": 0.16,
+      "absorbed_frac": 0.9999566208293231,
+      "en_window_start_td": 0.015610791198222911,
+      "en_window_end_td": 0.2001338377115101,
+      "E_laser_J": 11.933519317452722,
+      "dE_laser_J": -0.0204172924849928,
+      "marginal_eff": -0.1276136138039389,
+      "eta_intrinsic": 0.02153213727357217,
+      "Te_peak_window_eV": 2.4509151117633152,
+      "ne_window_end_m3": 1.401210781909248e+18,
+      "within_1MW_budget": true,
+      "validity": {
+        "mw_power_W": 1000000.0,
+        "mw_window_ns": [
+          112.0,
+          282.0
+        ],
+        "mw_en_max_td": 30.0,
+        "mw_eps_swarm_at_cap_eV": 5.74634628964935,
+        "mw_nu_over_omega_at_cap": 148.35129368032017,
+        "mw_cap_in_table": true
+      }
+    }
+  ]
+}

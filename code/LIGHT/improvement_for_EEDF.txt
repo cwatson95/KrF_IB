@@ -1,0 +1,31 @@
+Limitation: In the first nanosecond and after the pulse, v0_3 uses the steady EEDF at the electrons' mean energy rather than their true history.
+
+
+
+
+There are three ways to go, from cheapest to most complete.
+
+1. Measure whether it matters before fixing it. The steady-shape assumption holds when the EEDF relaxes faster than Te changes.
+- First nanosecond: n_e is about 1e15 cm⁻³, so e-e collisions relax the bulk in picoseconds, and Te stays below about 1.5 eV, where the 10–14 eV inelastic tail barely contributes. The bulk is then close to a Maxwellian at Te whatever its history, and only a small share of the pulse's energy is deposited in that window. So the error there is probably small, but it hasn't been measured.
+- Afterglow: e-e weakens as n_e decays, and the Penning tail has its own relaxation time, so this is the more likely place for a real error.
+
+Two cheap ways to bound it:
+- run v0_3 with a different closure in just those windows and see how far the bands move;
+- integrate a time-dependent EEDF offline at a few recorded states and compare its rates with the table's.
+
+If the bands move by less than about 1e-3, documenting it may be enough.
+
+2. A middle step: add memory to the existing solve. Put an implicit time-derivative term, √ε (F − F_prev)/(N Δt), into the current steady matrix, with F_prev the previous update's solution and Δt the time since it. This adds one diagonal and one right-hand-side term. LIGHT's mean energy stays the target, so the energy ledger stays LIGHT's. The shape then lags its history instead of jumping to each new steady state. It should also blunt the artifacts that come from forcing steady solutions on transient states: the growth term being dropped and the net lost electrons re-entering at the first cell. It is still a hybrid, though.
+
+3. The real fix: a time-dependent EEDF. Make F(ε, t) evolve:
+- Advance it between LIGHT steps with backward Euler (operator splitting), reusing the sparse matrix assembly that already exists. Lag the e-e coefficients per step or iterate them.
+- During the pulse, set the field so the Joule heating, n_e·e·E·w, equals the input power, instead of matching LIGHT's Te. After the pulse, set the field to zero, which is physical rather than a stand-in.
+- Let the electron density change explicitly, which removes the growth term along with its validity rule, the floor exits, the no-growth fallback and its first-cell artifact.
+
+The cost and the hard part:
+- Energy bookkeeping: the electrons' energy would come from the EEDF's moment rather than LIGHT's U_e equation. LIGHT's ledger closes to about 1e-15 today, while the discrete kinetic operator conserves energy only to about 1e-6–1e-4. Its energy exchanges would have to be booked explicitly as ledger flows, or the closure test would degrade.
+- Stiffness: e-e and inelastic rates reach 1e10–1e12 s⁻¹, so the time stepping must be implicit, possibly with substeps.
+
+Two tests would validate it: in the pulse body, where conditions are steady, it should converge to v0_3's current steady answer; and it should conserve energy and particles step by step.
+
+My recommendation: do option 1 first. If the transients turn out to move the bands, go straight to option 3. It removes most of v0_3's growth-term heuristics along with this limitation, and is the physically right model. I haven't measured anything here, so these are proposals; ask in the main conversation to run the bound.

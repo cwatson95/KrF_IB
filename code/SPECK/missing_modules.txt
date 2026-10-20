@@ -1,0 +1,528 @@
+################################################################################
+#  missing_modules.txt                                                         #
+#  The observables the models cannot yet predict, and the components the       #
+#  sweep exposed as overlooked.                                                #
+#                                                                              #
+#  Compiled 2026-08-05 from a full inventory of Kinetic_Modeling/ --           #
+#  REBUILD/, KrF_and_LoKI/ (unified, light_unified, phantom11, pic1d/2d),     #
+#  Argon_UI/, ARPAE/, PIC_MCC_3D/, projects/spectre -- plus                    #
+#  PLAN_physical_validity.txt, PIC_MCC_3D.txt, README_LIMITS.md,               #
+#  docs/DE-AR_targets.txt, and the argon_laser item/circuit lists.             #
+#                                                                              #
+#  THE ORGANIZING QUESTION.  The bench will carry instruments: streak          #
+#  camera, capacitance manometer + ion gauge, Rogowski coil + HV probe,        #
+#  survey CCD spectrometer, the MTL-5 CO2 probe, a pyro energy head --         #
+#  and later maybe a Thomson system.  An instrument measures a SIGNAL.         #
+#  A predictive model earns its anchors only if it forward-models that         #
+#  signal: state vector -> what the instrument records.  Today the engines     #
+#  predict plasma STATE (n_e, Te, Tg, species, g0, P_out) superbly, and        #
+#  predict almost no SIGNALS.  The phrase "synthetic diagnostic" appears       #
+#  nowhere in the tree.                                                        #
+#                                                                              #
+#  POLICY (inherited, PLAN (26), non-negotiable): predictive-only.  A          #
+#  diagnostic module's constants come from cited atomic data (NIST            #
+#  A-values, published cross sections) and instrument DATASHEETS               #
+#  (response curves, bandwidths, sweep speeds) -- never from fitting the       #
+#  signal being predicted.  Anchors score; they never steer.  Any line         #
+#  list or cross-section table added for these modules is consumed by the      #
+#  row-by-row table walk (REBUILD Known-bad: never filter a source table       #
+#  by species already in the network).                                         #
+################################################################################
+
+CONTENTS
+  1.  Missing forward models M1..M12 (the instrument layer)
+  2.  Overlooked physics/components P1..P10 exposed by the sweep
+  3.  Bench map: instrument on hand -> module -> first comparison
+  4.  Considered and dismissed (with reasons)
+  5.  Suggested build order
+
+================================================================================
+1.  MISSING FORWARD MODELS  (each: MEASURES / HAVE / BUILD / NOTES)
+================================================================================
+
+--------------------------------------------------------------------------------
+ M1  THOMSON SCATTERING  (the named miss)
+--------------------------------------------------------------------------------
+ MEASURES  n_e and the EEDF itself: the spectrum S(k,w) of probe light
+           scattered off electrons.  Amplitude -> n_e; shape -> f(v).
+ HAVE      Fragments, no spectrum: light_unified/eedf_multiterm.py
+           bulk_temperature() returns T_thomson, "what a Thomson-scattering
+           Maxwellian fit returns" (a fit-bias estimator, the closest thing
+           to a synthetic instrument in the tree); phantom11/sweeps/
+           postdischarge.py is "Route 2 -- predict the post-discharge kT
+           decay for Thomson scattering design"; and the Chow Te anchor IS
+           a Thomson measurement (FIX-A4) with a stated non-Maxwellian
+           systematic -- docs/two-region-eedf.md even admits the embedded
+           _LOKI_EPS column was hand-keyed to it (an observable consumed as
+           an input, exactly what a forward model would undo).
+ BUILD     thomson.py: S(k,w) from the model EEDF.  Non-collective branch:
+           spectrum = 1-D projection of f(v) onto k (reads the EEDF
+           directly, including the Langdon super-Gaussian and beam tails
+           from the KINETIC tier).  Collective branch: standard dielectric
+           form factor (electron feature at w_pe, ion feature) -- needs Te,
+           Ti(=Tg), Z, n_e, all already state.  Report alpha = 1/(k
+           lambda_D), the predicted spectrum through a stated instrument
+           function, AND the Maxwellian-fit temperature vs the true <eps>
+           (quantifies FIX-A4's systematic instead of stating it).
+ NOTES     Regime numbers (Te 2 eV): 532 nm at 90 deg -> alpha 0.06 at
+           n_e 1e14 cm-3, 0.57 at 1e16 -> non-collective-to-transitional:
+           the EEDF is directly visible.  A 10.6 um probe has k ~20x
+           smaller -> alpha > 1 even at 1e14: the MTL-5 itself could do
+           COLLECTIVE scattering.  Photon budget: sigma_T = 6.65e-25 cm2;
+           ~100 mJ at 532 nm, L = 1 cm, dOmega = 0.01 sr collects
+           ~1e3-1e4 photons/shot at 1e14 cm-3 -- viable gated, and worth
+           printing per run so the lab knows when TS becomes affordable.
+           WHY NOW even without hardware: it re-scores an EXISTING anchor
+           (Chow) and is the direct experimental test of the KINETIC tier.
+
+--------------------------------------------------------------------------------
+ M2  EMISSION SPECTRUM SYNTHESIS  (the spectrometer axis)
+--------------------------------------------------------------------------------
+ MEASURES  Wavelength-resolved emissivity: what the survey CCD spectrometer
+           (new_item_list.txt MEASURING addenda) records, and the spectral
+           axis any filtered camera needs.
+ HAVE      No wavelength axis anywhere.  Output exists at exactly three
+           fixed wavelengths (248 / 193 / 95 nm, phantom11/sim_0d.py);
+           REBUILD collapses ALL non-laser light into one scalar ledger
+           channel radiated_escape (ledger.py).  The seed to grow:
+           Argon_UI/emission.py already does 4 NIR Ar I lines with NIST
+           A-values + Voigt widths (vdW 20 MHz/torr + Doppler) + the Ar2*
+           126 nm continuum.  "[TODO] 248 nm spectrum / lineshape" is
+           plans.txt:2809's own admission; DE-AR asks for spectra matched
+           to 15% over 215-500 nm.
+ BUILD     spectrum.py: emissivity(lambda, t) [W/cm3/nm] assembled from
+           (a) bound-bound lines of the tracked excited manifolds -- NIST
+           line list as a cited data tier, statistical-weight splits of the
+           lumped states exactly as Argon_UI/emission.py already does for
+           Ar(4p); (b) the excimer bands: KrF B->X ~248 nm (the sum-rule
+           width Delta-lambda ~2.8 nm already derived in ase3d), KrF C->A
+           broad ~275 nm, Kr2F* broad blue ~400-450 nm, Ar2*/Kr2* second
+           continua 126/147 nm, ArF 193 nm; (c) ff+fb electron continua
+           (small at these Te -- compute once, report, likely dismissable);
+           (d) line shapes Doppler+vdW (+Stark only >1e16, see section 4);
+           (e) self-absorption/trapping on resonance columns (P2).
+           Convolve with a declared instrument function.
+ NOTES     This module is what turns the "camera for emissions" from a
+           qualitative picture into a scored anchor, and it is the direct
+           discriminator PLAN (44)/(38)/(37) keeps asking for (the high-F2
+           fluorescence observable).  Line-list ingestion must follow the
+           table-walk rule.
+
+--------------------------------------------------------------------------------
+ M3  CAMERA / STREAK / SIDELIGHT IMAGING  (the camera)
+--------------------------------------------------------------------------------
+ MEASURES  (a) sidelight fluorescence waveform through a window (fast
+           photodiode / streak: DE-AR's own gain proxy -- "248.5 nm
+           fluorescence intensity is proportional to small-signal gain");
+           (b) time-resolved 1-D streak image (slit x sweep);
+           (c) gated 2-D images of the discharge / afterglow.
+ HAVE      All the raw material, no projection step: REBUILD/MODULES/ase.py
+           already carries the voxel ray machinery (Amanatides-Woo
+           _segments, ray_intensity chord transfer, path_gain) but uses it
+           only for ASE/parasitics; phantom11/spatial/sim_2d.py produces
+           kT/P_IB/E-over-N 2-D field slices with nothing that images
+           them; Argon_UI/emission.py computes "streak-planning" photon
+           budgets (P_nir_W, P_vuv126_W, trapped resonance VUV) but no
+           time-resolved instrument trace.  argon_laser/optimize.txt s10
+           asserts "predicted n_e(t) and kT(t) directly overlay the streak
+           data" -- today NO code converts state into a streak signal, and
+           the streak sees LIGHT, not n_e.
+ BUILD     imaging.py on top of M2's emissivity: line-of-sight integration
+           over the device grid (reuse ase.py chords; REBUILD keeps only
+           y_final spatially resolved -- add a save-times hook for the
+           emissivity field), times window transmission, relay etendue
+           (A*Omega), photocathode radiant sensitivity(lambda) from the
+           streak datasheet, sweep-speed mapping and trigger-jitter
+           convolution.  Deliverables: photodiode trace [A], streak image
+           [counts(y,t)], gated frame [counts(x,y)], and the sidelight
+           g0-proxy waveform scored against P_out(t).
+ NOTES     Photocathode trap already flagged in new_item_list.txt s8: S-20
+           dies ~850-900 nm, the Ar NIR lines sit at 750-912 nm -- the
+           forward model should carry the QE curve so this shows up as a
+           predicted signal level, not a surprise.  Far-field/divergence is
+           deliberately NOT here (see M11).
+
+--------------------------------------------------------------------------------
+ M4  ELECTRICAL WAVEFORMS AS THE SCOPE SEES THEM
+--------------------------------------------------------------------------------
+ MEASURES  V(t) at the HV probe, I(t) at the Rogowski/CVR, dI/dt, ring
+           period, reversal fraction, and the inferred L_loop -- the FIRST
+           data the bench will ever produce (optimize.txt s9 measurement
+           ladder step 1 is a dummy-load ring-down).
+ HAVE      The physics exists, the observable does not: unified/drives.py
+           EnergyConservingCircuit integrates V_cap(t) as a real ODE state
+           and exposes current_A() (nothing plots either);
+           light_unified/circuit.py + pfl.py carry a discharge circuit and
+           an N-section Guillemin PFN with real source impedance; REBUILD
+           circuit.py produces U_gap/I1/I2/E-over-N traces (returned,
+           0-D mode only).  Argon_UI/circuit.py -- the one facing the
+           actual bench -- is SCALAR algebra only (I_pk = V/R, ring period
+           as a closed form; no time-domain solve).  CIRCUIT.txt predicts
+           25-33 kA and 2.4-3.2 us ring by hand.  No spark gap, no probe
+           response, no jitter anywhere (P5).
+ BUILD     scope.py + a time-domain RLC solve for the argon driver (port
+           light_unified/circuit.py rather than re-derive): states ->
+           predicted probe records: CVR = R*I; Rogowski = M*dI/dt through
+           the integrator droop RC from the PEM CWT datasheet; HV probe
+           through its bandwidth (P6015A ~75 MHz); report ring period,
+           reversal fraction (the HURON-lifetime damping-resistor decision
+           hangs on it, new_item_list CIRCUIT addenda), and L_loop
+           recovered from the ring exactly as the bench will recover it.
+           Add plasma impedance Z(t) = V_gap/I as a first-class output
+           (REBUILD computes conduction current inline and never returns
+           sigma or Z).
+ NOTES     Cheapest module on this list and the first one falsifiable with
+           hardware already ordered.  Also the natural home for the
+           spark-gap closure model (P5).
+
+--------------------------------------------------------------------------------
+ M5  PRESSURE GAUGE + ACOUSTIC OBSERVABLES  (the pressure gauge)
+--------------------------------------------------------------------------------
+ MEASURES  (a) static fill (capacitance manometer -- trivial, an input);
+           (b) the PROMPT pressure jump after a shot; (c) acoustic ringing
+           of the chamber; (d) the slow decay back as heat hits the walls.
+ HAVE      Nothing.  Pressure is an input everywhere; REBUILD freezes n_tot
+           at t=0 even while integrating T_g as state; gas_temp.py and
+           reprate.py explicitly neglect acoustics by timescale argument;
+           plans.txt T3.10 plans "acoustic/rarefaction -> refractive index
+           -> optical path" but nothing is built.
+ BUILD     pressure.py: Delta-p = (gamma-1) * E_thermalized / V (gamma =
+           5/3 monatomic) with E_thermalized read STRAIGHT FROM THE LEDGER
+           (gas_thermal store) -- i.e. the pressure jump is ledger
+           calorimetry, an independent closure check on deposited energy;
+           acoustic arrival/ring from chamber geometry (c_s(Ar, 300 K) ~
+           320 m/s -> first wall arrival ~0.5 ms, kHz-class modes);
+           chemistry term (F2 -> 2F transient in KrF mixes; none in pure
+           Ar); wall-conduction decay [s-class].  Output: p(t) at the
+           gauge port at manometer bandwidth + an optional piezo waveform.
+ NOTES     Magnitude check: even 20 J thermalized into the whole 35 L
+           chamber gives ~380 Pa ~ 2.9 Torr -- fat against a 1000-Torr
+           head's ~0.5 Torr floor; localized in a ~5 cm3 discharge channel
+           it is tens of atm before mixing (the "loud" in the safety
+           addenda).  This is the cheapest CALORIMETER the lab will own:
+           it scores the ledger's E_dep without any optics.  Feeds P1.
+
+--------------------------------------------------------------------------------
+ M6  CO2 PROBE AS A DIAGNOSTIC (TRANSMISSION + PHASE / INTERFEROMETRY)
+--------------------------------------------------------------------------------
+ MEASURES  (a) transmitted 10.6 um energy/waveform through the plasma
+           (pyro head / photon-drag detector, both on the addenda list);
+           (b) probe phase shift = line-integrated n_e (interferometry);
+           (c) beam deflection from gradients (schlieren-class).
+ HAVE      The probe exists in the model ONLY as a heater: Argon_UI injects
+           MTL-5 inverse-bremsstrahlung heating and predicts the Te reheat
+           and the DR stall (the delay-scan discriminator, PLAN (67)/(68))
+           -- but never predicts the probe's own absorbed fraction on the
+           argon path.  The AIR twin has the one-liner (airkinetics.py
+           f_abs = 1 - exp(-alpha*L)).  unified/optics.py ray-traces the
+           10.6 um beam through n_e(x,y) with the critical-density contour
+           -- for deposition, not as a measured trace.
+ BUILD     Expose f_abs(t) on the argon path (the alpha_ib is already
+           computed -- one line); add phase: delta-phi = (pi L / lambda) *
+           (n_e / n_c) with n_c(10.6 um) = 9.8e18 cm-3, plus the NEUTRAL
+           term (n-1 = 2.8e-4 at 1 atm Ar) with its opposite sign and its
+           acoustic (us-class) time signature -- report both so a future
+           two-color or time-gated measurement can split them; deflection
+           angle from transverse gradients along the chord.
+ NOTES     Sensitivity: n_e = 1e15 cm-3 over 10 cm -> ~3 rad at 10.6 um
+           (easily fringe-countable); 1e13 -> 0.03 rad (needs care).  A 1%
+           density rarefaction over the same path gives ~0.2 rad -- same
+           order as small n_e signals: quoting both terms is what makes
+           the module honest.  Zero new hardware: laser and detectors are
+           already on the list.
+
+--------------------------------------------------------------------------------
+ M7  ABSORPTION COLUMNS: F2 BURNUP, METASTABLE TDLAS, PER-ABSORBER ALPHA
+--------------------------------------------------------------------------------
+ MEASURES  (a) F2 column via its broadband UV absorption -- the shot-to-
+           shot halogen burnup a transmission monitor sees; (b) Ar*/Kr*
+           metastable column + gas temperature via a narrow diode probe on
+           811.5 nm (TDLAS); (c) the 248 nm probe transmission exp[(g0 -
+           alpha)L] -- the g0/alpha measurement itself, decomposed.
+ HAVE      f2_audit.py ledgers F2 fate internally (flags ~99.7% burn in
+           anchor-class runs; PLAN (28) says 30-99% depletion breaks the
+           fixed-mix EEDF tables) but nothing converts it to a
+           transmission trace.  The 248 nm absorber cross-section set
+           (F-, F2, Kr*/Kr** photoionization...) already sits in
+           unified/ebeam.py and in REBUILD network.py PHOTO_* -- but
+           REBUILD folds every absorber into ONE aggregate r_x
+           (chemistry.py) and never reports the split.  Argon_UI has the
+           811.5 nm A-value and Voigt width already.
+ BUILD     columns.py: per-species line-of-sight optical depths tau_i(t) =
+           sigma_i * integral(n_i ds) for declared probe wavelengths;
+           TDLAS profile (absorption lineshape -> T_gas from the width,
+           column from the area -- sigma_0 at 811.5 nm is ~8e-13 cm2, so
+           even 1e10 cm-3 metastables over 10 cm give tau ~ 0.08:
+           exquisitely sensitive, THE afterglow instrument for the
+           prototype); and the per-absorber breakdown of alpha_248(t).
+ NOTES     The alpha decomposition is directly load-bearing NOW: the open
+           REBUILD warn (g0/alpha 2.4-2.9 vs empirical 4-12, scorecard
+           OMISSIONS) needs to know WHICH absorber is overweight, and the
+           omitted ArKr+ manifold carries a 1.5e-17 cm2 photoabsorption
+           that lands exactly there when it goes in (P3).
+
+--------------------------------------------------------------------------------
+ M8  VUV CHANNEL SIGNAL (126 / 147 nm)
+--------------------------------------------------------------------------------
+ MEASURES  Ar2* / Kr2* second-continuum power through a MgF2/LiF window
+           onto a solar-blind detector.
+ HAVE      The emitted power exists (Argon_UI P_vuv126_W; REBUILD KR2_RAD/
+           AR2_RAD rows) -- but REBUILD lets VUV escape freely with no
+           trapping (P2) and no window/detector mapping exists.  Hardware
+           side already flagged (new_item_list s8: fused silica is opaque
+           at 126 nm; needs MgF2/LiF + evacuated path + right
+           photocathode).
+ BUILD     Thin layer on M2/M3: band-integrated VUV power through declared
+           window transmission + detector response; trapped-column
+           correction from P2.
+ NOTES     Decide-before-buying input: whether the prototype pins NIR vs
+           126 nm lasing changes the whole optics purchase (new_item_list
+           DESIGN DECISIONS s1) -- this module prices the 126 nm signal
+           the streak would actually get.
+
+--------------------------------------------------------------------------------
+ M9  IN-AIR CALIBRATION OBSERVABLES  (first light on the bench)
+--------------------------------------------------------------------------------
+ MEASURES  The HV + streak calibration shots happen IN AIR (item_list:
+           In-Air Calibration Experiment).  First light the streak sees is
+           the N2 second-positive system (C->B, 337 nm), self-terminating;
+           plus the acoustic crack of the channel.
+ HAVE      airkinetics.py carries the Kossyi air afterglow + f_abs and the
+           delay-scan discriminator; PLAN (68) explicitly scoped N2 337 nm
+           OUT ("discharge-phase, self-terminating") -- correct for the
+           afterglow physics, but it is exactly what the calibration shots
+           will photograph.  The validated 1-atm air LoKI swarm tables
+           (N2/O2/CO2) already exist in-tree.
+ BUILD     n2_sps.py: N2(C) excitation from the air tables' rates during
+           the current pulse -> 337 nm band waveform (ns-class,
+           self-terminating) -> through M3's streak/photodiode response.
+           Optionally the cylindrical blast-wave arrival time at a wall
+           (energy-in-channel cross-check with M4/M5).
+ NOTES     Small module, big leverage: it makes the ENTIRE calibration
+           campaign quantitative (streak sweep speed, trigger delay, HV
+           timing all get scored against a predicted waveform, not a
+           guessed one) before a single argon fill.
+
+--------------------------------------------------------------------------------
+ M10 MICROWAVE S-PARAMETERS (S11/S21) FOR THE DE-AR DIAGNOSTIC
+--------------------------------------------------------------------------------
+ MEASURES  The program's named microwave diagnostic: S11/S21 transmission
+           through the e-beam-pumped KrF plasma, expected alpha ~ 0.2 /cm
+           at n_e 1e13 cm-3, 100 GHz (DE-AR_targets.txt).
+ HAVE      ARPAE/pic3d already measures R/T/A fractions against a vacuum
+           reference with a noise floor, inverts alpha from T, and carries
+           the 100 GHz alpha anchor + far-field horn cuts.
+           light_unified/microwave.py has alpha and n_crit.  What is
+           missing is only the FORMAT the instrument speaks: swept-
+           frequency S11(f)/S21(f) referenced to the waveguide ports, and
+           the same quantities emitted from the DEVICE engines (REBUILD /
+           spectre n_e(t) -> slab R/T/A(t)) so a network-analyzer trace
+           can score a kinetics run, not just the PIC box.
+ BUILD     sparams.py: thin wrapper -- slab/Drude R,T,A -> S11/S21 in dB
+           vs f and vs t at fixed f, port-referenced, with the ARPAE
+           anchor as its gate.
+ NOTES     Mostly bookkeeping, and it discharges a literal DE-AR milestone
+           (M2.6 quantifies the microwave-boost effect; sim<->experiment
+           15%).
+
+--------------------------------------------------------------------------------
+ M11 LASER-OUTPUT BEAM OBSERVABLES BEYOND P(t)
+--------------------------------------------------------------------------------
+ MEASURES  Near/far-field profile, divergence, pointing -- what a beam
+           camera and two irises measure; plus the output SPECTRUM
+           (which M2's 248 nm lineshape covers).
+ HAVE      P_out(t) and pulse energy exist in every engine; transverse
+           gain slices exist (light_unified/realistic.py g0(y),
+           sim_2d mode_profile); ase3d has per-chord geometry.  Nothing
+           computes a far field.  plans.txt Tier-3 "gas dynamics -> beam
+           quality" names it; thermal-gradient optical path (T3.10) is the
+           physical driver at rep rate.
+ BUILD     A modest geometric version first: aperture + gain-sheet
+           diffraction estimate (lambda/D floor), pointing/divergence from
+           transverse gain + index gradients (consumes M5/P1 density
+           fields).  Full wave optics is NOT proposed.
+ NOTES     Lowest priority of the M-list for the current bench; matters
+           for the DE-AR optical deliverables and any amplifier chain.
+
+--------------------------------------------------------------------------------
+ M12 INSTRUMENT-RESPONSE + ABSOLUTE-PHOTOMETRY LAYER  (cross-cutting)
+--------------------------------------------------------------------------------
+ MEASURES  Nothing itself -- it is the declared-instrument abstraction the
+           others plug into: etendue (A*Omega), spectral response/QE,
+           bandwidth/droop, sweep mapping, trigger offset, absolute
+           calibration factors.
+ HAVE      Nothing tree-wide (the concept is absent).  Argon_UI's photon
+           budgets stop at "W into 4pi".
+ BUILD     instruments.py: small dataclasses (Photodiode, Streak,
+           Spectrometer, RogowskiCoil, HVProbe, PressureHead, PyroHead)
+           each built VERBATIM from its datasheet numbers (the datasheets
+           are already in argon_laser/docs/), consumed by M2-M9.  Every
+           instrument constant carries provenance like a rate row.
+ NOTES     This is what keeps the diagnostic layer inside the
+           predictive-only policy: datasheet numbers are citations, and
+           the absolute-vs-relative question (can we score COUNTS, not
+           just shapes?) becomes explicit per instrument.
+
+================================================================================
+2.  OVERLOOKED PHYSICS / COMPONENTS EXPOSED BY THE SWEEP
+================================================================================
+
+ P1  PRESSURE/DENSITY FEEDBACK + Tg-DEPENDENT RATES.  REBUILD integrates
+     T_g as state but freezes n_tot at t=0: no thermal expansion, no
+     E/N drift from density, and quench rates are evaluated at fill
+     temperature (PLAN (11) flagged Orestes' k28 ~ Tg^-3.9 scaling as
+     unmodeled).  gas_dynamics.py / gas_temp.py / pic1d gas_heating carry
+     the pieces (rarefaction factor, const-P/const-V EOS) -- none of it
+     reached REBUILD.  Feeds M5, M6, M11.
+
+ P2  RADIATION TRAPPING IN REBUILD.  Holstein imprisonment exists in
+     light_unified/light_chem.py (Ar 106 nm) and Argon_UI (resonance VUV
+     photon budget), but REBUILD's VUV radiative rows (KR2_RAD 147 nm,
+     AR2_RAD 126 nm, R39) escape freely -- overcounts radiative loss and
+     miscolors M8.  Port the escape-factor treatment with citations.
+
+ P3  PER-CHANNEL PHOTON-FATE LEDGER (and the ArKr+ manifold's absorber).
+     Photodetachment (F- + hv) and excited-state photoionization ARE in
+     the networks -- but REBUILD aggregates all absorbers into one r_x and
+     the ledger books one radiated_escape scalar.  Expose per-channel
+     photon fates (who absorbed, who emitted, at what wavelength): it is
+     free bookkeeping at RHS-assembly level, it feeds M2/M7 directly, and
+     it is where the omitted ArKr+ photoabsorption (1.5e-17 cm2, scorecard
+     OMISSIONS, leading suspect for the x0.60 Kannari warn) will land.
+
+ P4  HIBACHI / FOIL PHYSICS.  The empty HIBACHI/ directory at repo root is
+     the tell.  REBUILD reduces the foil to a scalar transmission
+     (beam.py); unified/ebeam.py already carries multi-pass geometry
+     (sides, backscatter, foil transmission) that never migrated; the
+     Johnson-Hunter x2.4 thin-cell backscatter enhancement is explicitly
+     unmodeled (PLAN 2026-07-01 entry).  Missing: foil energy deposition /
+     heating limit, rib shadowing (-> deposition stripes a camera SEES --
+     ties to M3), pressure-foil loading.  This is the component an e-beam
+     KrF device lives or dies by (Electra's hibachi is half the
+     engineering).
+
+ P5  PULSER + BREAKDOWN AS PHYSICS: spark-gap closure and jitter.  No
+     spark gap model anywhere; the first-principles circuit "does not
+     break down" (PLAN (41)/(39) carried limitation); jitter appears in no
+     module.  The gap's time-varying channel resistance (Rompe-Weizel /
+     Braginskii class, cited) is the source impedance the M4 waveforms
+     need, and formative-lag statistics are what the streak's trigger
+     scatter will measure.  gui_v2's "no simulated pulser BY SCOPE" was a
+     0-D-cell decision -- the bench makes it load-bearing.
+
+ P6  MAGNETIC / EM FIELDS.  "[TODO] EM / magnetic fields -- electrostatic
+     only everywhere" (plans.txt).  Matters twice: e-beam guide field
+     (Electra-class transport) and the ARPAE EM instrument is the only EM
+     code in the tree.  Known scope decision -- recorded here because the
+     e-beam mode's deposition symmetry quietly assumes it.
+
+ P7  IMPURITY / WALL / WINDOW CHEMISTRY.  No impurity species exists in
+     any network (HF appears only as a heat-capacity table entry); no
+     H2O/O2/N2-in-Ar quenching, no HF formation, no wall F loss /
+     recombination beyond ambipolar diffusion, no electrode sputtering, no
+     window color-center/damage model even though ase3d already computes
+     window fluence J/cm2 (compare against cited damage thresholds -- one
+     line).  The new_item_list gas-handling section literally asks
+     "(OPTIONAL) inert-gas purifier if impurity quenching matters to the
+     kinetics" -- an impurity tier answers that purchasing question, and
+     the air-vs-argon discriminator scan is already its first anchor.
+
+ P8  ELECTRON-ELECTRON COLLISIONS / CR CLOSURE.  Already on the boards
+     (REBUILD scorecard omission; T1.2 cold-Te CR balance; two-region
+     open item 4) -- repeated here only because it changes M1's predicted
+     Thomson spectrum (e-e Maxwellianizes the tail) and M2's line ratios.
+
+ P9  PIC-SIDE DEVICE GAPS (pointer).  PIC_MCC_3D.txt s2.1's own nine: ion-
+     neutral collisions/charge exchange, electrodes + external circuit +
+     surface charge, secondary emission, Coulomb collisions, implicit
+     mover, merge/split, foil injection; README_LIMITS s2.2 isotropic-
+     scattering EEDF bias (~10x hot tail).  Tracked there; not duplicated.
+
+ P10 UNCERTAINTY PROPAGATION INTO OBSERVABLES.  EST-row brackets (x1/3..
+     x3) already sweep g0/eta in REBUILD -- extend the same sweep through
+     the M-modules so every synthetic signal carries an error band.
+     DE-AR's 10%/15% agreement milestones are meaningless without it, and
+     it is the predictive-only answer to "how wrong could the trace be".
+
+================================================================================
+3.  BENCH MAP  (instrument -> module -> first comparison)
+================================================================================
+
+  INSTRUMENT (status)             MODULE   FIRST SCORED COMPARISON
+  ------------------------------  -------  --------------------------------
+  Rogowski/CVR + HV probe (buy)   M4,P5    dummy-load ring-down: period,
+                                           reversal, L_loop vs CIRCUIT.txt
+  Streak camera (OWNED)           M3,M9    in-air 337 nm waveform; then Ar
+                                           afterglow NIR lines; then the
+                                           PLAN (67) stall-reversal streak
+  Survey CCD spectrometer (buy)   M2       line ID air vs argon; NIR line
+                                           group ratios vs predicted
+  Capacitance manometer (buy)     M5,P1    post-shot delta-p vs ledger
+                                           E_dep (calorimetric closure)
+  MTL-5 CO2 laser (OWNED)         M6       transmitted-energy dip vs delay
+                                           (the existing delay-scan
+                                           discriminator, now with f_abs)
+  Pyro energy head (buy)          exists   E_out already predicted; score
+  Fast photodiode + 10.6 um det.  M3,M6    discharge-light waveform; probe
+  (buy)                                    transmission waveform
+  Thomson system (future)         M1       postdischarge.py already designs
+                                           it; M1 prices photons/shot
+  95-100 GHz horn (DE-AR)         M10      S11/S21 vs the 0.2 /cm anchor
+  RGA (NOT on any list)           P7       impurity audit -- consider
+                                           adding to item_list MEASURING
+
+================================================================================
+4.  CONSIDERED AND DISMISSED (so they are not re-derived later)
+================================================================================
+
+  - LANGMUIR PROBES at 1 atm: collisional sheaths um-thick, probe theory
+    invalid mid-pulse, arc hazard on a 15 kV bench.  The afterglow
+    electron density is better served by M6 (CO2 phase/absorption) and,
+    later, a microwave hairpin/cutoff probe (M10 machinery).
+  - STARK-BROADENING n_e below ~1e16 cm-3: at 1 atm the vdW width
+    (~15 GHz ~ 0.03 nm at 811 nm) buries Stark widths for n_e <= 1e15.
+    Keep as an M2 by-product above 1e16, never a primary diagnostic.
+    (Seeding H2 for H-beta would poison the purity the prototype exists
+    to test.)
+  - EMITTED BREMSSTRAHLUNG / X-RAY dose on the 15 kV bench: endpoint
+    15 keV, thin windows, negligible signal -- and REBUILD's beam.py
+    already documents <1% loss below 1 MeV.  Revisit only for a real
+    600 kV e-beam machine (then it is the standard beam-uniformity
+    monitor).
+  - IN-CELL SRS/SBS/filamentation at MW/cm2-class intracavity intensity
+    and 1 atm: far below thresholds; plans.txt already parks it.  The
+    real optical-path physics at rep rate is thermal (T3.10 -> M11/P1).
+    (External SBS phase-conjugate cells are a different project.)
+
+================================================================================
+5.  SUGGESTED BUILD ORDER (risk retired per unit work, bench-first)
+================================================================================
+
+  1. M4 + P5   scope traces + gap closure     (first falsifiable data;
+                                               all solver pieces exist)
+  2. M9        N2 337 nm calibration signal   (makes the first campaign
+                                               quantitative; air tables
+                                               already validated)
+  3. M12       instrument layer               (small; unblocks M2/M3/M5)
+  4. M5 + P1   pressure jump + density        (ledger calorimetry; feeds
+               feedback                        E/N drift honesty)
+  5. M2-lite   Ar NIR + 126 nm spectrum from  (extends emission.py; the
+               Argon_UI states                 streak/spectrometer axis)
+  6. M6        CO2 f_abs + phase on Ar path   (one-line physics exposure,
+                                               instrument already owned)
+  7. M7 + P3   absorption columns + photon    (directly interrogates the
+               fate ledger                     open g0/alpha x0.60 warn)
+  8. M3        full LOS imaging/streak        (reuses REBUILD ase chords)
+  9. M1        Thomson S(k,w)                 (re-scores Chow; tests the
+                                               KINETIC tier EEDF)
+ 10. M10, M8, M2-full, M11, P2, P4, P7, P10  as the device work pulls
+     them in (P4 hibachi becomes urgent the moment e-beam hardware is
+     real; P2 before any VUV claim; P10 before any DE-AR 10%/15% claim).
+
+--------------------------------------------------------------------------------
+Provenance note: every HAVE claim above was verified against the tree on
+2026-08-05 (file references inline).  Policy reminder for whoever builds
+these: instrument constants are citations (datasheets in argon_laser/docs/),
+atomic data enters via the row-by-row table walk, and no module may contain
+a factor fitted to the signal it predicts.  Anchors score; they never steer.
+--------------------------------------------------------------------------------

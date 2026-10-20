@@ -1,0 +1,13 @@
+# Chen and Payne, IEEE JQE 15, 149 (1979) p.155. Fig.16: 1/I(193.3) vs F2 at P_Ar 600 Torr. Fig.17: 1/I(193.3) vs P_Ar^2 (1e5 Torr^2) at P_F2 0.84 Torr
+# survey reading of the PDF at 300 dpi
+figure,x,x_unit,inv_I
+16,1.202,torr_F2,15.67
+16,2.196,torr_F2,18.27
+16,3.733,torr_F2,22.34
+16,4.876,torr_F2,23.61
+16,5.848,torr_F2,25.92
+17,0.397,1e5_torr2_Ar,2.983
+17,1.114,1e5_torr2_Ar,2.939
+17,1.592,1e5_torr2_Ar,3.245
+17,2.572,1e5_torr2_Ar,3.842
+17,3.724,1e5_torr2_Ar,4.332

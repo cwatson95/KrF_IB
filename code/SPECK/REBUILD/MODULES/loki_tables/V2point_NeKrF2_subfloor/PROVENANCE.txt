@@ -1,0 +1,22 @@
+V2point_NeKrF2_subfloor — the sub-0.5 Td extension (REBUILD 0.1.39)
+===================================================================
+Ne/Kr/F2 = 0.949/0.05/0.001, 300 K, LoKI-MC boltzmannMC, 2e4 electrons,
+gasTemperatureEffect smartActivation, ionizationOperatorType equalSharing.
+Cross sections: Kr Biagi-v7.1, F2 SIGLO, Ne Biagi (Magboltz 8.9) (the same files the
+base and _lowEN sets were computed against; www.lxcat.net, see the parent
+README.txt for the citation requirement).
+
+Generated 2026-09-04 on this machine by four SINGLE-POINT runs at
+E/N = 0.1, 0.3, 0.5 Td (setups
+LoKI-MC/Code/Input/krf0d/{sub_ne_0p1,sub_ne_0p3,sub_ne_0p5}.in
+), wall clock 28-51 min each. A single-E/N
+run writes swarmParameters.txt / rateCoefficients.txt rather than the
+lookUpTable* files a multi-point sweep produces, so these two files were
+ASSEMBLED from those outputs, byte-for-byte in value, by
+tmp/assemble_tables.py. The columns kept are the ones the reader indexes
+(RedElecField, BulkV_z, MeanE) plus EleTemp/AttCoeff/MomTransfFreq/
+EnergyRelFreq for context; the full LoKI column set is in the per-point
+output dirs under LoKI-MC/Code/Output/.
+
+E/N grid is DISJOINT from the base (5-300 Td) and _lowEN (1-3 Td) sets
+by construction, as LokiRates' cross-directory overlap guard requires.

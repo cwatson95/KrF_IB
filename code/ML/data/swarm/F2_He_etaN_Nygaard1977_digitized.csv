@@ -1,0 +1,48 @@
+# F2 diluted in helium: electron attachment coefficient per F2 molecule, eta/N_F2, versus E/N
+# (MEASURED; values READ FROM A FIGURE by pixel digitization)
+# Source: K. J. Nygaard, S. R. Hunter, J. Fletcher and S. R. Foltyn, "Electron attachment in dilute fluorine-helium
+#   mixtures", Part A of K. J. Nygaard, "Attachment rates in rare gas-halide lasers", Annual Technical Report
+#   (ONR contract N00014-77-C-0100), University of Missouri-Rolla, 31 Dec 1977, DTIC AD-A048764, Fig. 3 (report page 9).
+#   Published as Appl. Phys. Lett. 32, 351 (1978), doi:10.1063/1.90055 (paywalled; not consulted).
+#   Report fetched from the Internet Archive DTIC mirror: https://archive.org/download/DTIC_ADA048764/DTIC_ADA048764.pdf
+# Gas / conditions: 1.0 % F2 in helium, total pressure 10 Torr (Fig. 3 caption); room temperature (not stated).
+#   E/N refers to the total gas density N; eta/N_F2 = attachment coefficient eta (cm^-1) divided by the F2 density N'.
+#   eta/N_total for this mixture = 0.01 * eta/N_F2.
+# Method: pulsed photoelectron (Xe-ion laser, 231.5 nm) drift gap; eta from the ratio of the integrated electron and
+#   negative-ion current transients (absolute, no normalization). Electrode gap 0.5-3 cm.
+# Units: E/N in Td; eta/N_F2 in cm^2.
+# Uncertainty (stated in the report): overall accuracy of eta/N' +-12 %.
+#   Digitization: linear axes calibrated on 8 x-ticks and 6 y-ticks (residuals <= 0.011 Td, <= 0.01 in 1e-16 cm^2);
+#   estimated reading error +-0.03 Td and +-0.03e-16 cm^2. Where two markers overlap, each centre was taken 13.5 px
+#   (half a marker height) inside the merged outline, so those pairs carry about +-0.05e-16 cm^2 extra error.
+# Derived result printed in the report (abstract): rate coefficient k_a = (7.5 +- 1.5)e-10 cm^3/s at an estimated
+#   mean electron energy of 5 eV (k_a = (eta/N') * W with measured W; the energy is an upper-bound estimate).
+E_N_Td,eta_over_N_F2_cm2
+2.88,6.32e-16
+2.88,6.25e-16
+2.89,5.96e-16
+3.72,5.79e-16
+3.77,5.43e-16
+4.40,4.77e-16
+4.51,5.06e-16
+5.20,4.07e-16
+5.22,4.33e-16
+6.03,3.61e-16
+6.07,3.84e-16
+6.77,2.61e-16
+7.54,2.69e-16
+7.55,2.94e-16
+7.55,2.86e-16
+9.07,2.06e-16
+9.07,2.19e-16
+9.93,2.41e-16
+9.95,2.07e-16
+10.57,2.18e-16
+12.09,1.84e-16
+12.09,1.73e-16
+13.59,1.43e-16
+13.59,1.33e-16
+15.21,1.57e-16
+15.23,1.78e-16
+16.69,1.34e-16
+16.70,1.57e-16

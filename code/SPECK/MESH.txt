@@ -1,0 +1,1 @@
+Add an adaptive Mesh refinement that adjusts to the density of the material

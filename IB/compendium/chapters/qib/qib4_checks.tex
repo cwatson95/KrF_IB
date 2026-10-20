@@ -1,0 +1,284 @@
+1 & \texttt{K.\allowbreak rows\_\allowbreak added} & the added rows are on: the 5p manifold's radiative decay among the rows, the return band & V4 True, PRAD rows [('DZIERZEGA', 'PRAD')], KPS\_\allowbreak{}Kr band \{'default': 1e-16, 'lo': 3e-17, 'hi': 1.7e-16, 'unit': 'm3/s', 'marks': ((1.7e-16, "Gazeli 2021, the ... & pass \\
+2 & \texttt{K.\allowbreak fit\_\allowbreak maxwell} & each fitted process on Maxwellians (T 1, 2, 4 eV) = the source's printed rate x exp(-(onset - E)/T), onset max(E, gap), the electron losing the ledger's gap (three fills, Kannari's stepwise fit) & 10 processes, largest 2.5e-05 at ('Ar', 'KSTEP', 1.0), wrong energies [] & pass \\
+3 & \texttt{K.\allowbreak jung\_\allowbreak tables} & the measured 5s $\to$ 5p cross sections: the tables read back at the tabulated energies, the lowest threshold against the ledger's gap, the fit's pseudo cross section returning the fit & Table II read back at the tabulated energies: [np.\allowbreak{}float64(27.0), np.\allowbreak{}float64(47.0), np.\allowbreak{}float64(52.0), np.\allowbreak{}float64(52.0), np.\allowbreak{}float64(51.0), np.\allowbreak{}float64(49.0)]; T... & pass \\
+4 & \texttt{K.\allowbreak jung\_\allowbreak lumped} & the solver's K76 at 3 eV = the tables' sums weighted 8:4 by hand (1e-16 cm\^{}2), a measured cross section above the ledger's gap & 99.19 vs 99.19, gap 1.385 & pass \\
+5 & \texttt{K.\allowbreak jung\_\allowbreak rate} & the solver's rate of the measured K76 on Maxwellians (1, 2, 4 eV) = the module's own integral & largest relative difference 2.4e-05 & pass \\
+6 & \texttt{K.\allowbreak jung\_\allowbreak reverse} & its reverse by detailed balance at 2 eV: k\_\allowbreak{}down/k\_\allowbreak{}up = g\_\allowbreak{}5s/g\_\allowbreak{}5p exp(gap/T) & 0.66624 vs 0.66624 & pass \\
+7 & \texttt{K.\allowbreak down\_\allowbreak db} & every de-excitation (Kr* and the four Ar levels to the ground, Kr** to Kr*) is its excitation's detailed balance on Maxwellians, at the energy the excitation takes & 30 values, largest relative difference 1.8e-06 & pass \\
+8 & \texttt{K.\allowbreak const} & ArKr* + e $\to$ Ar + Kr + e as sigma = k/(gamma sqrt(eps)) gives the printed constant on Maxwellians & k 1.000e-13 m\^{}3/s, largest relative difference 4.4e-16 & pass \\
+9 & \texttt{K.\allowbreak ledger} & every process the solver carries takes the ledger's energy of its row (the Ar superelastic rows give each level's own, above the lumped Ar*), and every lumped excited atom stands at or below the lowest field excitation booked into it & off the ledger [], Ar levels above Ar* by [-0.0, 0.075, 0.175, 0.28] eV, level vs lowest excitation \{'Ar*': (11.548, 11.548), 'Kr*': (9.915, 9.915), 'Kr**': ... & pass \\
+10 & \texttt{K.\allowbreak prad} & Kr** $\to$ Kr* + light: a one-body row at 1/29.0 ns, the 2J+1-weighted mean decay rate of the ten semi-empirical 5p lifetimes of Dzierzega et al. (their Table 2, 23.1 to 38.1 ns; the row's energy on the ledger leaves as light) & row 3.4483e+07 /s = 1/29.00 ns, the ten give 29.04 ns & pass \\
+11 & \texttt{K.\allowbreak kps\_\allowbreak band} & the 5p $\to$ 5s return in collisions with Kr: Kannari's estimate 1.0e-10 cm\^{}3/s as the default, Gazeli et al.'s measured total loss 1.7e-10 as the band's top, and the four scans' settings (the reference with the measured K76, the fit, the 5p rows out, the return at the top) & default 1.00e-16, at the top 1.70e-16 m\^{}3/s; \{'jung': ('kannari', \{'k76': 'jung'\}), 'kannari': ('kannari', \{\}), 'jung\_\allowbreak{}no5p': ('kannari', \{'k76': 'jung', 'no5... & pass \\
+12 & \texttt{K.\allowbreak kr\_\allowbreak fill} & the Kr fill: Kr 0.995, F2 0.005, the cations Kr+ and Kr2+, the beam's pairs shared by the stopping powers, 0.28 Kr* per pair made in krypton, its energy per pair & [('Kr', 0.995), ('F2', 0.005)], cations ('Kr+', 'Kr2+'), pairs \{'Kr+': 0.9978230972792193, 'F2+': 0.0021769027207806492\}, Kr* per pair \{'Kr*': 0.279390467238... & pass \\
+13 & \texttt{K.\allowbreak energy\_\allowbreak rows\_\allowbreak Kr2\_\allowbreak 1e+16} & the ladder's net energy from the electrons = the sum over the solver's processes of the ladder's events x the energy each takes, and every electron row on an excited species is a process of the solver (the Kr fill, the state without excited atoms, kinetic rates, the measured K76) & p\_\allowbreak{}net/P 34.5379 vs 34.5379, rows not carried [] & pass \\
+14 & \texttt{C.\allowbreak jung} & the scan 'jung': 75 cells x 13 frequencies (errors only at the Kr fill's 0.5 atm 1e14 cell), every point closed the same way for the electrons and the ions (residual against the point's largest particle rate below the loop's tolerance), the solver's net power to the excited gases against the ladder's, the residuals, the rounds, the boundary and floor points & 75 cells, 971 points, 4 errors at ['Kr 0.5 atm 1e14'], closure off at 0 [], closure residual 2.2e-04 held / 1.2e-04 growing, energy 8.2e-03, solver 3.6e-05, ... & pass \\
+15 & \texttt{C.\allowbreak kannari} & the scan 'kannari': 75 cells x 13 frequencies (errors only at the Kr fill's 0.5 atm 1e14 cell), every point closed the same way for the electrons and the ions (residual against the point's largest particle rate below the loop's tolerance), the solver's net power to the excited gases against the ladder's, the residuals, the rounds, the boundary and floor points & 75 cells, 967 points, 8 errors at ['Kr 0.5 atm 1e14'], closure off at 0 [], closure residual 2.5e-04 held / 1.3e-04 growing, energy 5.9e-03, solver 3.6e-05, ... & pass \\
+16 & \texttt{C.\allowbreak jung\_\allowbreak no5p} & the scan 'jung\_\allowbreak{}no5p': 75 cells x 13 frequencies (errors only at the Kr fill's 0.5 atm 1e14 cell), every point closed the same way for the electrons and the ions (residual against the point's largest particle rate below the loop's tolerance), the solver's net power to the excited gases against the ladder's, the residuals, the rounds, the boundary and floor points & 75 cells, 975 points, 0 errors at [], closure off at 0 [], closure residual 2.6e-04 held / 1.6e-04 growing, energy 4.7e-03, solver 3.4e-05, ladder 6.6e-16, $|$... & pass \\
+17 & \texttt{C.\allowbreak jung\_\allowbreak kpshi} & the scan 'jung\_\allowbreak{}kpshi': 75 cells x 13 frequencies (errors only at the Kr fill's 0.5 atm 1e14 cell), every point closed the same way for the electrons and the ions (residual against the point's largest particle rate below the loop's tolerance), the solver's net power to the excited gases against the ladder's, the residuals, the rounds, the boundary and floor points & 75 cells, 974 points, 1 errors at ['Kr 0.5 atm 1e14'], closure off at 0 [], closure residual 2.5e-04 held / 1.3e-04 growing, energy 6.3e-03, solver 3.6e-05, ... & pass \\
+18 & \texttt{C.\allowbreak recompute} & the Kr fill, 1 atm, 1e15, first frequency, solved again in a fresh process (the measured K76) & $<$eps$>$ 2.842079513 vs 2.842079513, x\_\allowbreak{}Kr* 5.129746938e-05 vs 5.129746938e-05 & pass \\
+19 & \texttt{C.\allowbreak same\_\allowbreak rates} & there, the solver's rate of every excited process = the same integral over its distribution, and the excited atoms' rates (the round before) within the loop's tolerance & solver vs the integral 2.2e-16, excited atoms vs solver 4.1e-03 & pass \\
+20 & \texttt{B.\allowbreak complete} & a best frequency at every cell but the incomplete one & 75 cells, incomplete ['Kr 0.5 atm 1e14'] & pass \\
+21 & \texttt{B.\allowbreak recompute} & the Kr fill, 1 atm, 1e15 analysed again from the scan (f\_\allowbreak{}best, T\_\allowbreak{}e, the marks) & 8.64033e+12 vs 8.64033e+12 Hz, T\_\allowbreak{}e 1.5604 & pass \\
+22 & \texttt{L.\allowbreak solvers} & the two kinetic solvers at the seven stored states: mean energy, the wave's absorbed power and the net frequency, second over first, and the ions' share at 0.1 atm, 1e16, 95 GHz & 7 states, $|$mean - 1$|$ 1.6e-03, $|$power - 1$|$ 1.6e-03, $|$nu - 1$|$ 5.8e-03, shares 0.1928 / 0.1719, power there 1.00019, quant\_\allowbreak{}IB residual 1.3e-04 & pass \\
+23 & \texttt{L.\allowbreak recompute} & quant\_\allowbreak{}IB's side at 1 atm, 1e15, 3 kV/cm, 1 THz solved again in this process (the scans' electron-ion model) & $<$eps$>$ 2.5932833 vs stored 2.5932833 & pass \\
+24 & \texttt{L.\allowbreak optics} & the optics on the second solver's distributions at the seven states against quant\_\allowbreak{}IB's (alpha, R), the power its mobility implies against its own, and quant\_\allowbreak{}IB's alpha at one state recomputed here & $|$alpha - 1$|$ 1.6e-03, $|$R - 1$|$ 3.4e-03, $|$P - 1$|$ 1.3e-04; alpha 551.245 vs stored 551.245 & pass \\
+25 & \texttt{L.\allowbreak cold} & the two full models from the same cold start (Kr fill, 1 atm, 1e15 seed, 38.9 kV/cm at 10 THz, no beam): the decay rate of n\_\allowbreak{}e (the second solver 10 to 100 ns, the march 40 to 100 ns), T\_\allowbreak{}e at 100 ns, the F2 burnt & decay 2.1695e+08 / 2.1496e+08 /s, T\_\allowbreak{}e 1.7469 / 1.7416 eV, F2 burnt 0.0086 / 0.0144, T\_\allowbreak{}g 303.4 K & pass \\
+26 & \texttt{P.\allowbreak Kr15} & the pulse Kr15: quasineutral (n\_\allowbreak{}e = cations - F-), F2 never rising, time increasing to 1 us, the renewal rule (at most dt or a twentieth of the time elapsed), the wave's absorbed power at the target at every renewal, the closure, the checkpoints' 13-frequency scans & 86 renewals, quasineutral to 0.0e+00, F2 monotone True, t monotone True, rule True, $|$P/P* - 1$|$ 1.0e-04, closures ['source+loss'], checkpoints [0, 100, 300, 1... & pass \\
+27 & \texttt{P.\allowbreak Ar15} & the pulse Ar15: quasineutral (n\_\allowbreak{}e = cations - F-), F2 never rising, time increasing to 1 us, the renewal rule (at most dt or a twentieth of the time elapsed), the wave's absorbed power at the target at every renewal, the closure, the checkpoints' 13-frequency scans & 87 renewals, quasineutral to 0.0e+00, F2 monotone True, t monotone True, rule True, $|$P/P* - 1$|$ 9.7e-05, closures ['source+loss'], checkpoints [0, 100, 300, 1... & pass \\
+28 & \texttt{P.\allowbreak Kr16} & the pulse Kr16: quasineutral (n\_\allowbreak{}e = cations - F-), F2 never rising, time increasing to 1 us, the renewal rule (at most dt or a twentieth of the time elapsed), the wave's absorbed power at the target at every renewal, the closure, the checkpoints' 13-frequency scans & 103 renewals, quasineutral to 0.0e+00, F2 monotone True, t monotone True, rule True, $|$P/P* - 1$|$ 9.6e-05, closures ['source+loss'], checkpoints [0, 30, 100, 3... & pass \\
+29 & \texttt{N.\allowbreak cells} & the reference's cells: three fills x 5 pressures x 5 densities, those complete, those not & 75 cells, 74 complete, incomplete ['Kr 0.5 atm 1e14'] & pass \\
+30 & \texttt{N.\allowbreak fills} & per fill: T\_\allowbreak{}e at f\_\allowbreak{}best, the marks, the net energy the excited atoms take over P & \{'Ne': ('T\_\allowbreak{}e 1.396-4.694', \{'': 5, 'a': 15, 'b': 5, 'ab': 0\}, 'p\_\allowbreak{}net/P 0.007-2.9'), 'Ar': ('T\_\allowbreak{}e 0.874-2.646', \{'': 8, 'a': 8, 'b': 9, 'ab': 0\}, 'p\_\allowbreak{}net/P 0.01... & pass \\
+31 & \texttt{N.\allowbreak kr\_\allowbreak over\_\allowbreak ar} & the Kr fill's best frequency over the Ar fill's at the same p and n\_\allowbreak{}e & 24 cells, 1.0394 (at Kr 0.2 atm 3e14) to 1.2013 (at Kr 2 atm 3e15) & pass \\
+32 & \texttt{N.\allowbreak kr\_\allowbreak over\_\allowbreak ar\_\allowbreak mech} & the effective momentum-transfer frequency (omega mu\_\allowbreak{}r/mu\_\allowbreak{}i at f\_\allowbreak{}best) of the Kr fill over the Ar fill's at the same cell, and how far its square root lies from the ratio of the best frequencies & nu ratio 1.081 to 1.521, sqrt vs f ratio within 0.035 & pass \\
+33 & \texttt{N.\allowbreak sigma\_\allowbreak m} & the momentum-transfer cross section of krypton over argon's at 1 to 3 eV & 0.54 to 1.55 & pass \\
+34 & \texttt{N.\allowbreak band\_\allowbreak kannari} & the best frequency with the case 'kannari' against the reference, by fill (the cells complete in both) & \{'Ne': (25, '0.9999-1.0099', 'Ne 1 atm 3e14'), 'Ar': (25, '0.9999-1.0467', 'Ar 2 atm 1e16'), 'Kr': (24, '0.9999-1.0491', 'Kr 2 atm 1e16')\} & pass \\
+35 & \texttt{N.\allowbreak band\_\allowbreak jung\_\allowbreak no5p} & the best frequency with the case 'jung\_\allowbreak{}no5p' against the reference, by fill (the cells complete in both) & \{'Ne': (25, '0.9995-1.0541', 'Ne 1 atm 1e15'), 'Ar': (25, '1.0035-1.4596', 'Ar 2 atm 1e16'), 'Kr': (24, '1.0056-1.4362', 'Kr 2 atm 1e16')\} & pass \\
+36 & \texttt{N.\allowbreak band\_\allowbreak jung\_\allowbreak kpshi} & the best frequency with the case 'jung\_\allowbreak{}kpshi' against the reference, by fill (the cells complete in both) & \{'Ne': (25, '0.9990-1.0000', 'Ne 2 atm 1e16'), 'Ar': (25, '0.9509-0.9999', 'Ar 1 atm 1e16'), 'Kr': (24, '0.8685-0.9998', 'Kr 0.5 atm 1e16')\} & pass \\
+37 & \texttt{N.\allowbreak step\_\allowbreak band} & stepwise ionization at the template (2.1 to 2.3 x Kannari's fit) or at none against Kannari's fit, in the calculation with his 5s $\to$ 5p fit (Ne and Ar, 50 cells each): the largest move of f\_\allowbreak{}best & 0.0144 & pass \\
+38 & \texttt{N.\allowbreak jung} & Jung et al.'s lumped 5s $\to$ 5p cross section over Kannari's fit on Maxwellians at the reference's lowest and highest T\_\allowbreak{}e & 1.358 at 0.874 eV, 0.920 at 4.694 eV & pass \\
+39 & \texttt{N.\allowbreak nist} & the atomic levels and ionization limits of the ledger against the NIST database & \{'Kr*': 0.0002, 'Kr**': 0.0035, 'Kr+': 0.0036, 'Ar*': 0.0004, 'Ar+': 0.0004, 'Ne*': 0.0001, 'Ne+': 0.0045\} & pass \\
+40 & \texttt{N.\allowbreak prad} & the 5p manifold's lifetime: the 2J+1-weighted mean decay rate of the ten level lifetimes against the row's 29.0 ns & 29.04 ns from 23.1 to 38.1 ns, the row 29.0 ns & pass \\
+41 & \texttt{N.\allowbreak loop} & the reference scan's points, the loop's rounds, the growth rate over the momentum-transfer frequency at the growing points, the points accepted at a flipping boundary and at the pulse floor & 971 points, 3 to 72 rounds, g/nu up to 2.83e-03 (394 growing), boundary 5, floor 0 & pass \\
+42 & \texttt{N.\allowbreak return\_\allowbreak 5p} & how the 5p manifold returns to 5s at the Kr fill, 1 atm, 1e15, 10 THz (the events) & \{'collisions': '0.838', 'superelastic': '0.150', 'radiation': '0.012'\} & pass \\
+43 & \texttt{N.\allowbreak f2\_\allowbreak burn} & the time attachment alone takes the F2 down e-fold at f\_\allowbreak{}best, and the slowest excited species' relaxation time & F2: 24.4 to 56.2 ns at 1e16, 436 to 974 ns at 1e15; excited atoms within 212 ns & pass \\
+44 & \texttt{N.\allowbreak pulse\_\allowbreak Kr15} & the pulse Kr15: F2 below 1 \% of its fill, n\_\allowbreak{}e steady ($|$g$|$ $<$ 1e6/s), the rise of n\_\allowbreak{}e, the fall of T\_\allowbreak{}e, the field, the best frequency of the frozen state at the checkpoints & F2 $<$ 1 \% at 365 ns (half at 134.0), g \textasciitilde{} 0 at 443 ns, n\_\allowbreak{}e x3.75, T\_\allowbreak{}e 1.560 $\to$ 0.535, E 38.9 $\to$ 47.6 kV/cm, f\_\allowbreak{}best 0 ns 8.64, 100 ns 8.80, 300 ns 7.18, 1000 ns... & pass \\
+45 & \texttt{N.\allowbreak pulse\_\allowbreak Ar15} & the pulse Ar15: F2 below 1 \% of its fill, n\_\allowbreak{}e steady ($|$g$|$ $<$ 1e6/s), the rise of n\_\allowbreak{}e, the fall of T\_\allowbreak{}e, the field, the best frequency of the frozen state at the checkpoints & F2 $<$ 1 \% at 383 ns (half at 134.0), g \textasciitilde{} 0 at 465 ns, n\_\allowbreak{}e x3.95, T\_\allowbreak{}e 1.519 $\to$ 0.542, E 34.6 $\to$ 37.0 kV/cm, f\_\allowbreak{}best 0 ns 7.48, 100 ns 7.71, 300 ns 6.89, 1000 ns... & pass \\
+46 & \texttt{N.\allowbreak pulse\_\allowbreak Kr16} & the pulse Kr16: F2 below 1 \% of its fill, n\_\allowbreak{}e steady ($|$g$|$ $<$ 1e6/s), the rise of n\_\allowbreak{}e, the fall of T\_\allowbreak{}e, the field, the best frequency of the frozen state at the checkpoints & F2 $<$ 1 \% at 35 ns (half at 11.0), g \textasciitilde{} 0 at 92 ns, n\_\allowbreak{}e x6.83, T\_\allowbreak{}e 0.943 $\to$ 0.532, E 33.6 $\to$ 12.1 kV/cm, f\_\allowbreak{}best 0 ns 19.19, 30 ns 29.11, 100 ns 52.86, 300 ns 5... & pass \\
+47 & \texttt{N.\allowbreak recorded} & the note's numbers computed from the scans, the best frequencies and the pulses & 13 of 13 groups recorded & pass \\
+48 & \texttt{N.\allowbreak inc\_\allowbreak cell} & the incomplete cell's frequencies closed in the reference and those accepted at the flipping boundary, and the cell with the most rounds & \{'records': 9, 'boundary': 4\}, most rounds at Kr 0.5 atm 1e14 (72) & pass \\
+49 & \texttt{E.\allowbreak third} & claim: the binding of Kr* over Kr's ionization energy is under a third (0.292) &  & pass \\
+50 & \texttt{E.\allowbreak table75} & claim: three fills, 75 points, the krypton fill with 0.5 \% F2 ([('Kr', 0.995), ('F2', 0.005)]) &  & pass \\
+51 & \texttt{E.\allowbreak ans\_\allowbreak kr\_\allowbreak lo} & printed 1.04: the Kr fill's f\_\allowbreak{}best over the Ar fill's, smallest & 1.03944 & pass \\
+52 & \texttt{E.\allowbreak ans\_\allowbreak kr\_\allowbreak hi} & printed 1.2: the same, largest & 1.20134 & pass \\
+53 & \texttt{E.\allowbreak ans\_\allowbreak f01\_\allowbreak lo} & printed 1.05: the Kr fill's f\_\allowbreak{}best at 0.1 atm, lowest [THz] & 1.04983 & pass \\
+54 & \texttt{E.\allowbreak ans\_\allowbreak f01\_\allowbreak hi} & printed 8.8: the same, highest & 8.81888 & pass \\
+55 & \texttt{E.\allowbreak ans\_\allowbreak f2\_\allowbreak lo} & printed 3.8: at 2 atm, lowest & 3.75663 & pass \\
+56 & \texttt{E.\allowbreak ans\_\allowbreak f2\_\allowbreak hi} & printed 26.9: at 2 atm, highest & 26.8752 & pass \\
+57 & \texttt{E.\allowbreak ans\_\allowbreak te\_\allowbreak lo} & printed 0.94: the Kr fill's T\_\allowbreak{}e, lowest & 0.940115 & pass \\
+58 & \texttt{E.\allowbreak ans\_\allowbreak te\_\allowbreak hi} & printed 2.44: the same, highest & 2.43674 & pass \\
+59 & \texttt{E.\allowbreak ans\_\allowbreak b11} & claim: the beam holds 11 of the Kr fill's cells (b marks \{'': 7, 'a': 6, 'b': 11, 'ab': 0\}) &  & pass \\
+60 & \texttt{E.\allowbreak ans\_\allowbreak ne\_\allowbreak lo} & printed 0.933: the Ne fill over the calculation without excited atoms, smallest & 0.932873 & pass \\
+61 & \texttt{E.\allowbreak ans\_\allowbreak ne\_\allowbreak hi} & printed 0.997: the same, largest & 0.996997 & pass \\
+62 & \texttt{E.\allowbreak ans\_\allowbreak ar\_\allowbreak lo} & printed 0.646: the Ar fill, smallest & 0.646198 & pass \\
+63 & \texttt{E.\allowbreak ans\_\allowbreak ar\_\allowbreak hi} & printed 0.995: the Ar fill, largest & 0.995163 & pass \\
+64 & \texttt{E.\allowbreak ans\_\allowbreak fit} & printed 5: Kannari's fit in place of the measurement raises f\_\allowbreak{}best by up to (\%) & 4.91307 & pass \\
+65 & \texttt{E.\allowbreak ans\_\allowbreak no5p} & printed 1.46: the 5p rung's electron rows left out, up to & 1.45957 & pass \\
+66 & \texttt{E.\allowbreak ans\_\allowbreak kps} & printed 13: the return at the measured bound lowers f\_\allowbreak{}best by up to (\%) & 13.1509 & pass \\
+67 & \texttt{E.\allowbreak ans\_\allowbreak kps\_\allowbreak te} & printed 19: and T\_\allowbreak{}e there by (\%) & 19.0497 & pass \\
+68 & \texttt{E.\allowbreak ans\_\allowbreak kps\_\allowbreak where} & claim: the most at Kr 0.5 atm 1e16 (a dense krypton point) &  & pass \\
+69 & \texttt{E.\allowbreak ans\_\allowbreak hold15} & claim: at 1e15 the frozen state's f\_\allowbreak{}best at 100 ns within 3 \% of the start (1.0189, 1.0306) &  & pass \\
+70 & \texttt{E.\allowbreak ans\_\allowbreak f2\_\allowbreak 15lo} & printed 0.36: F2 below 1 \% of its fill at 1e15, earliest [us] & 0.364652 & pass \\
+71 & \texttt{E.\allowbreak ans\_\allowbreak f2\_\allowbreak 15hi} & printed 0.38: the same, latest & 0.382884 & pass \\
+72 & \texttt{E.\allowbreak ans\_\allowbreak f2\_\allowbreak 16} & printed 35: at 1e16 [ns] & 34.7287 & pass \\
+73 & \texttt{E.\allowbreak ans\_\allowbreak ne\_\allowbreak rise\_\allowbreak lo} & printed 3.7: n\_\allowbreak{}e runs up, least & 3.74961 & pass \\
+74 & \texttt{E.\allowbreak ans\_\allowbreak ne\_\allowbreak rise\_\allowbreak hi} & printed 6.8: the same, most & 6.83088 & pass \\
+75 & \texttt{E.\allowbreak ans\_\allowbreak te\_\allowbreak cool\_\allowbreak lo} & printed 0.53: the electrons cool to, lowest [eV] & 0.531929 & pass \\
+76 & \texttt{E.\allowbreak ans\_\allowbreak te\_\allowbreak cool\_\allowbreak hi} & printed 0.54: the same, highest & 0.541683 & pass \\
+77 & \texttt{E.\allowbreak ans\_\allowbreak fmove\_\allowbreak kr} & printed -18: f\_\allowbreak{}best at 1 us over the start, the Kr fill at 1e15 (\%) & -17.9178 & pass \\
+78 & \texttt{E.\allowbreak ans\_\allowbreak fmove\_\allowbreak ar} & printed -6: the Ar fill (\%) & -6.09407 & pass \\
+79 & \texttt{E.\allowbreak ans\_\allowbreak fmove\_\allowbreak 16} & printed 2.8: the Kr fill at 1e16, times & 2.75057 & pass \\
+80 & \texttt{E.\allowbreak ans\_\allowbreak seven} & claim: seven states from 1e12 to 1e16 (7, (1000000000000.0, 1e+16)) &  & pass \\
+81 & \texttt{E.\allowbreak ans\_\allowbreak 02} & claim: within 0.2 \% in mean energy (1.65e-03) and power (1.64e-03) &  & pass \\
+82 & \texttt{E.\allowbreak ans\_\allowbreak cold} & claim: the two full models' decay rates 1 \% apart (2.1695e+08 vs 2.1496e+08) and T\_\allowbreak{}e 0.2 \% apart (1.7469 vs 1.7416) &  & pass \\
+83 & \texttt{E.\allowbreak fills} & claim: the fills' mole fractions \{'Ne': [('Ne', 0.948), ('Kr', 0.05), ('F2', 0.002)], 'Ar': [('Ar', 0.597), ('Kr', 0.4), ('F2', 0.003)], 'Kr': [('Kr', 0.995), ('F2', 0.005)]\} &  & pass \\
+84 & \texttt{E.\allowbreak grid} & claim: pressures (0.1, 0.2, 0.5, 1.0, 2.0), densities (100000000000000.0, 300000000000000.0, 1000000000000000.0, 3000000000000000.0, 1e+16) &  & pass \\
+85 & \texttt{E.\allowbreak freqs} & claim: 13 frequencies, five per decade, 0.1 to 25.12 THz &  & pass \\
+86 & \texttt{E.\allowbreak rmax} & claim: R\_\allowbreak{}max 0.05 &  & pass \\
+87 & \texttt{E.\allowbreak cations} & claim: the cations \{'Ne': ('Ne+', 'Ne2+', 'NeKr+', 'Kr+', 'Kr2+'), 'Ar': ('Ar+', 'Ar2+', 'ArKr+', 'Kr+', 'Kr2+'), 'Kr': ('Kr+', 'Kr2+')\} &  & pass \\
+88 & \texttt{E.\allowbreak epssec} & printed 4.506: the mean energy of the beam's slow secondaries & 4.506 & pass \\
+89 & \texttt{E.\allowbreak tau} & claim: the pulse 1e-06 s &  & pass \\
+90 & \texttt{E.\allowbreak kr915} & printed 9.915: Kr* on the ledger & 9.915 & pass \\
+91 & \texttt{E.\allowbreak kr1130} & printed 11.3: Kr** on the ledger & 11.3 & pass \\
+92 & \texttt{E.\allowbreak ar11548} & printed 11.548: Ar* on the ledger & 11.548 & pass \\
+93 & \texttt{E.\allowbreak ne16619} & printed 16.619: Ne* on the ledger & 16.619 & pass \\
+94 & \texttt{E.\allowbreak kr\_\allowbreak species} & claim: the Kr fill carries Kr*, Kr** and Kr2* &  & pass \\
+95 & \texttt{E.\allowbreak nist} & claim: the atoms' levels within 0.005 eV of NIST (largest 0.0045 eV) &  & pass \\
+96 & \texttt{E.\allowbreak bethe} & claim: the stopping share at 600 keV (6.0e5 eV in the code) &  & pass \\
+97 & \texttt{E.\allowbreak beam} & claim: the beam's energies per pair and excited atoms per pair as the calculation uses them &  & pass \\
+98 & \texttt{E.\allowbreak harp} & printed 8.47e-10: Kr* + F2, all channels, cm3/s & 8.47e-10 & pass \\
+99 & \texttt{E.\allowbreak yield} & printed 0.9: the KrF* yield of Kr* + F2 & 0.9 & pass \\
+100 & \texttt{E.\allowbreak jung\_\allowbreak meas} & claim: Jung's tables: 2 to 300 eV, +-35 \% (1s5), +-40 \% (1s3), the ten 5p levels &  & pass \\
+101 & \texttt{E.\allowbreak jung\_\allowbreak weights} & claim: the 5s manifold lumped 5:3:1:3 (weights \{'1s5': 0.6666666666666666, '1s3': 0.3333333333333333\}) &  & pass \\
+102 & \texttt{E.\allowbreak gap} & printed 1.385: the ledger's gap Kr* $\to$ Kr** [eV] & 1.385 & pass \\
+103 & \texttt{E.\allowbreak jung\_\allowbreak lo} & printed 1.36: the measured lumped rate over Kannari's fit at the table's coldest T\_\allowbreak{}e & 1.35791 & pass \\
+104 & \texttt{E.\allowbreak jung\_\allowbreak tlo} & printed 0.87: that T\_\allowbreak{}e [eV] & 0.873805 & pass \\
+105 & \texttt{E.\allowbreak jung\_\allowbreak hi} & printed 0.92: the same at the hottest & 0.919652 & pass \\
+106 & \texttt{E.\allowbreak jung\_\allowbreak thi} & printed 4.69: that T\_\allowbreak{}e [eV] & 4.69366 & pass \\
+107 & \texttt{E.\allowbreak jung\_\allowbreak cal} & claim: both ratios within the measurement's 35 to 40 \% &  & pass \\
+108 & \texttt{E.\allowbreak tau5p\_\allowbreak lo} & printed 23.1: the ten 5p lifetimes, shortest [ns] & 23.1 & pass \\
+109 & \texttt{E.\allowbreak tau5p\_\allowbreak hi} & printed 38.1: the same, longest & 38.1 & pass \\
+110 & \texttt{E.\allowbreak tau5p} & printed 29.0: the 2J+1 mean [ns] & 29.0377 & pass \\
+111 & \texttt{E.\allowbreak gap\_\allowbreak light} & printed 1.385: the energy that leaves as light & 1.385 & pass \\
+112 & \texttt{E.\allowbreak kps} & printed 1e-10: the return by collisions, the default [cm3/s] & 1e-10 & pass \\
+113 & \texttt{E.\allowbreak gazeli} & claim: Gazeli's measured total loss, the band's top: 1.70e-10 cm3/s &  & pass \\
+114 & \texttt{E.\allowbreak ret\_\allowbreak coll} & printed 84: the 5p manifold's return by collisions at Kr 1 atm 1e15 10 THz (\%) & 83.7806 & pass \\
+115 & \texttt{E.\allowbreak ret\_\allowbreak super} & printed 15: superelastically (\%) & 15.0325 & pass \\
+116 & \texttt{E.\allowbreak ret\_\allowbreak rad} & printed 1.2: by radiation (\%) & 1.18689 & pass \\
+117 & \texttt{E.\allowbreak kstepA} & printed 7e-08: Kannari's stepwise fit, A [cm3/s] & 7e-08 & pass \\
+118 & \texttt{E.\allowbreak kstepB} & printed 0.68: its exponent B & 0.68 & pass \\
+119 & \texttt{E.\allowbreak kstepE} & printed 4.04: its activation E [eV] & 4.04 & pass \\
+120 & \texttt{E.\allowbreak jh49} & claim: Johnson \& Hunter's row 49, 4.8e-8 from Vriens &  & pass \\
+121 & \texttt{E.\allowbreak tmpl\_\allowbreak lo} & printed 2.1: the template over Kannari's fit at the table's temperatures, smallest & 2.09613 & pass \\
+122 & \texttt{E.\allowbreak tmpl\_\allowbreak hi} & printed 2.3: the same, largest & 2.30965 & pass \\
+123 & \texttt{E.\allowbreak step\_\allowbreak band} & claim: the stepwise band moved f\_\allowbreak{}best by less than 1.5 \% (largest 0.0144) &  & pass \\
+124 & \texttt{E.\allowbreak box} & printed 0.2: the width of a Penning electron's line & 0.2 & pass \\
+125 & \texttt{E.\allowbreak pen\_\allowbreak lo} & printed 2.1: the lowest Penning release energy & 2.104 & pass \\
+126 & \texttt{E.\allowbreak pen\_\allowbreak hi} & printed 12.0: the highest & 12 & pass \\
+127 & \texttt{E.\allowbreak gnu} & claim: g/nu\_\allowbreak{}m below 3e-3 at every growing point (largest 2.830e-03) &  & pass \\
+128 & \texttt{E.\allowbreak tol} & claim: the loop's tolerance 0.002 &  & pass \\
+129 & \texttt{E.\allowbreak floor} & claim: the pulse floor 1000000.0 /s &  & pass \\
+130 & \texttt{E.\allowbreak bnd\_\allowbreak rule} & claim: the boundary rule: within 10.0 tolerances, three flips &  & pass \\
+131 & \texttt{E.\allowbreak rounds} & claim: the loop took 3 to 72 rounds, the most at Kr 0.5 atm 1e14 &  & pass \\
+132 & \texttt{E.\allowbreak inc\_\allowbreak cell} & claim: the incomplete cell: \{'records': 9, 'boundary': 4\} &  & pass \\
+133 & \texttt{E.\allowbreak kr\_\allowbreak lo} & printed 1.04: the Kr fill over the Ar fill, smallest & 1.03944 & pass \\
+134 & \texttt{E.\allowbreak kr\_\allowbreak hi} & printed 1.2: the same, largest & 1.20134 & pass \\
+135 & \texttt{E.\allowbreak kr\_\allowbreak where} & claim: the least at Kr 0.2 atm 3e14, the most at Kr 2 atm 3e15 &  & pass \\
+136 & \texttt{E.\allowbreak nu\_\allowbreak lo} & printed 1.08: nu\_\allowbreak{}m of the Kr fill over the Ar fill's at f\_\allowbreak{}best, smallest & 1.08116 & pass \\
+137 & \texttt{E.\allowbreak nu\_\allowbreak hi} & printed 1.52: the same, largest & 1.52106 & pass \\
+138 & \texttt{E.\allowbreak nu\_\allowbreak sqrt} & printed 3.5: sqrt of the nu ratio against the f ratio, largest difference (\%) & 3.46553 & pass \\
+139 & \texttt{E.\allowbreak sm\_\allowbreak lo} & printed 0.54: sigma\_\allowbreak{}m(Kr)/sigma\_\allowbreak{}m(Ar) at 1 eV & 0.536335 & pass \\
+140 & \texttt{E.\allowbreak sm\_\allowbreak hi} & printed 1.55: the same at 3 eV & 1.54808 & pass \\
+141 & \texttt{E.\allowbreak ar40} & claim: the argon fill is 40 \% krypton &  & pass \\
+142 & \texttt{E.\allowbreak te\_\allowbreak kr\_\allowbreak lo} & printed 0.94: the Kr fill's T\_\allowbreak{}e, lowest & 0.940115 & pass \\
+143 & \texttt{E.\allowbreak te\_\allowbreak kr\_\allowbreak hi} & printed 2.44: highest & 2.43674 & pass \\
+144 & \texttt{E.\allowbreak te\_\allowbreak ar\_\allowbreak lo} & printed 0.87: the Ar fill's T\_\allowbreak{}e, lowest & 0.873805 & pass \\
+145 & \texttt{E.\allowbreak te\_\allowbreak ar\_\allowbreak hi} & printed 2.65: highest & 2.64608 & pass \\
+146 & \texttt{E.\allowbreak te\_\allowbreak ne\_\allowbreak lo} & printed 1.4: the Ne fill's T\_\allowbreak{}e, lowest & 1.39604 & pass \\
+147 & \texttt{E.\allowbreak te\_\allowbreak ne\_\allowbreak hi} & printed 4.69: highest & 4.69366 & pass \\
+148 & \texttt{E.\allowbreak flags\_\allowbreak a} & claim: a marks [15, 8, 6] &  & pass \\
+149 & \texttt{E.\allowbreak flags\_\allowbreak b} & claim: b marks [5, 9, 11] &  & pass \\
+150 & \texttt{E.\allowbreak pnet\_\allowbreak ne\_\allowbreak lo} & printed 0.007: p\_\allowbreak{}net/P in the Ne fill, smallest & 0.0070093 & pass \\
+151 & \texttt{E.\allowbreak pnet\_\allowbreak ne\_\allowbreak hi} & printed 2.9: largest & 2.89352 & pass \\
+152 & \texttt{E.\allowbreak pnet\_\allowbreak ar\_\allowbreak lo} & printed 0.012: the Ar fill, smallest & 0.0119025 & pass \\
+153 & \texttt{E.\allowbreak pnet\_\allowbreak ar\_\allowbreak hi} & printed 15.0: largest & 15.0481 & pass \\
+154 & \texttt{E.\allowbreak pnet\_\allowbreak kr\_\allowbreak lo} & printed 0.017: the Kr fill, smallest & 0.0173269 & pass \\
+155 & \texttt{E.\allowbreak pnet\_\allowbreak kr\_\allowbreak hi} & printed 23.5: largest & 23.4638 & pass \\
+156 & \texttt{E.\allowbreak pnet\_\allowbreak where} & claim: the most at 2 atm 1e16 in each: ['Ne 2 atm 1e16', 'Ar 2 atm 1e16', 'Kr 2 atm 1e16'] &  & pass \\
+157 & \texttt{E.\allowbreak vs\_\allowbreak ne\_\allowbreak lo} & printed 0.933: the Ne fill over the calculation without excited atoms, smallest & 0.932873 & pass \\
+158 & \texttt{E.\allowbreak vs\_\allowbreak ne\_\allowbreak hi} & printed 0.997: largest & 0.996997 & pass \\
+159 & \texttt{E.\allowbreak vs\_\allowbreak ar\_\allowbreak lo} & printed 0.646: the Ar fill, smallest & 0.646198 & pass \\
+160 & \texttt{E.\allowbreak vs\_\allowbreak ar\_\allowbreak hi} & printed 0.995: largest & 0.995163 & pass \\
+161 & \texttt{E.\allowbreak falls} & claim: falling at every point (25 + 25) &  & pass \\
+162 & \texttt{E.\allowbreak vs\_\allowbreak where} & claim: the most at Ar 2 atm 1e16 &  & pass \\
+163 & \texttt{E.\allowbreak f0} & printed 34.9: f\_\allowbreak{}best there without the excited atoms [THz] & 34.8906 & pass \\
+164 & \texttt{E.\allowbreak f1} & printed 22.5: and with them & 22.5463 & pass \\
+165 & \texttt{E.\allowbreak tev\_\allowbreak ar\_\allowbreak lo} & printed 0.55: T\_\allowbreak{}e over without, the Ar fill, smallest & 0.546861 & pass \\
+166 & \texttt{E.\allowbreak tev\_\allowbreak ar\_\allowbreak hi} & printed 0.99: largest & 0.990902 & pass \\
+167 & \texttt{E.\allowbreak tev\_\allowbreak ne\_\allowbreak lo} & printed 0.83: the Ne fill, smallest & 0.831089 & pass \\
+168 & \texttt{E.\allowbreak tev\_\allowbreak ne\_\allowbreak hi} & printed 0.99: largest & 0.992994 & pass \\
+169 & \texttt{E.\allowbreak bcells} & claim: every band at 74 cells &  & pass \\
+170 & \texttt{E.\allowbreak bk\_\allowbreak lo} & printed 1.0: Kannari's fit over the reference, smallest & 0.999887 & pass \\
+171 & \texttt{E.\allowbreak bk\_\allowbreak hi} & printed 1.049: largest & 1.04913 & pass \\
+172 & \texttt{E.\allowbreak bk\_\allowbreak ne} & printed 1.01: the Ne fill, largest & 1.00989 & pass \\
+173 & \texttt{E.\allowbreak bk\_\allowbreak ar} & printed 1.047: the Ar fill, largest & 1.04674 & pass \\
+174 & \texttt{E.\allowbreak bk\_\allowbreak kr} & printed 1.049: the Kr fill, largest & 1.04913 & pass \\
+175 & \texttt{E.\allowbreak bk\_\allowbreak where} & claim: the most at Kr 2 atm 1e16 &  & pass \\
+176 & \texttt{E.\allowbreak bk\_\allowbreak f0} & printed 26.9: f\_\allowbreak{}best there, the reference [THz] & 26.8752 & pass \\
+177 & \texttt{E.\allowbreak bk\_\allowbreak f1} & printed 28.2: with the fit & 28.1956 & pass \\
+178 & \texttt{E.\allowbreak bk\_\allowbreak te} & printed 6.7: the electrons hotter by at most (\%) & 6.67175 & pass \\
+179 & \texttt{E.\allowbreak b5p\_\allowbreak lo} & printed 1.0: the 5p rows out over the reference, smallest & 0.999536 & pass \\
+180 & \texttt{E.\allowbreak b5p\_\allowbreak hi} & printed 1.46: largest & 1.45957 & pass \\
+181 & \texttt{E.\allowbreak b5p\_\allowbreak ne} & printed 1.054: the Ne fill & 1.05409 & pass \\
+182 & \texttt{E.\allowbreak b5p\_\allowbreak ar} & printed 1.46: the Ar fill & 1.45957 & pass \\
+183 & \texttt{E.\allowbreak b5p\_\allowbreak kr} & printed 1.436: the Kr fill & 1.43624 & pass \\
+184 & \texttt{E.\allowbreak b5p\_\allowbreak where} & claim: the most at Ar 2 atm 1e16 &  & pass \\
+185 & \texttt{E.\allowbreak b5p\_\allowbreak f} & printed 32.9: f\_\allowbreak{}best there with the 5p rows out [THz] & 32.9078 & pass \\
+186 & \texttt{E.\allowbreak br\_\allowbreak lo} & printed 0.868: the return at the measured bound over the reference, smallest & 0.868491 & pass \\
+187 & \texttt{E.\allowbreak br\_\allowbreak hi} & printed 1.0: largest & 0.999997 & pass \\
+188 & \texttt{E.\allowbreak br\_\allowbreak ne} & printed 0.999: the Ne fill, smallest & 0.999023 & pass \\
+189 & \texttt{E.\allowbreak br\_\allowbreak ar} & printed 0.951: the Ar fill, smallest & 0.950916 & pass \\
+190 & \texttt{E.\allowbreak br\_\allowbreak kr} & printed 0.868: the Kr fill, smallest & 0.868491 & pass \\
+191 & \texttt{E.\allowbreak br\_\allowbreak where} & claim: the most at Kr 0.5 atm 1e16 &  & pass \\
+192 & \texttt{E.\allowbreak br\_\allowbreak f0} & printed 15.6: f\_\allowbreak{}best there, the reference [THz] & 15.5601 & pass \\
+193 & \texttt{E.\allowbreak br\_\allowbreak f1} & printed 13.5: at the bound & 13.5138 & pass \\
+194 & \texttt{E.\allowbreak br\_\allowbreak te} & printed 0.81: T\_\allowbreak{}e there over the reference & 0.809503 & pass \\
+195 & \texttt{E.\allowbreak br\_\allowbreak 13} & printed 13: the return rate's uncertainty in f\_\allowbreak{}best (\%) & 13.1509 & pass \\
+196 & \texttt{E.\allowbreak br\_\allowbreak 19} & printed 19: in T\_\allowbreak{}e (\%) & 19.0497 & pass \\
+197 & \texttt{E.\allowbreak arspread} & printed 0.28: the Ar levels above the lumped Ar*, largest (eV) & 0.28 & pass \\
+198 & \texttt{E.\allowbreak gnu2} & claim: the same g/nu\_\allowbreak{}m bound &  & pass \\
+199 & \texttt{E.\allowbreak nbnd} & claim: one boundary point of the Ar fill ([('Ar 0.5 atm 3e14', 630957000000.0)]) &  & pass \\
+200 & \texttt{E.\allowbreak settle} & claim: the excited atoms settle within 220 ns (slowest 211.5 ns) &  & pass \\
+201 & \texttt{E.\allowbreak tf2\_\allowbreak 16lo} & printed 24: attachment's F2 e-folding at 1e16, shortest [ns] & 24.4416 & pass \\
+202 & \texttt{E.\allowbreak tf2\_\allowbreak 16hi} & printed 56: longest & 56.1545 & pass \\
+203 & \texttt{E.\allowbreak tf2\_\allowbreak 15lo} & printed 0.44: at 1e15, shortest [us] & 0.435913 & pass \\
+204 & \texttt{E.\allowbreak tf2\_\allowbreak 15hi} & printed 0.97: longest & 0.973668 & pass \\
+205 & \texttt{E.\allowbreak march\_\allowbreak rule} & claim: the drift 0.02, the renewal floor in the code &  & pass \\
+206 & \texttt{E.\allowbreak march\_\allowbreak held} & claim: T\_\allowbreak{}g 300 K held, the excimers sinks &  & pass \\
+207 & \texttt{E.\allowbreak pulse\_\allowbreak points} & claim: the three pulses' points and frequencies &  & pass \\
+208 & \texttt{E.\allowbreak pulse\_\allowbreak f} & claim: the wave's frequencies [10000000000000.0, 7700000000000.0, 19150000000000.0] and the points &  & pass \\
+209 & \texttt{E.\allowbreak burn\_\allowbreak lo} & printed 300000000.0: F2 molecules burnt per electron per second at t = 0, least & 3.18072e+08 & pass \\
+210 & \texttt{E.\allowbreak burn\_\allowbreak hi} & printed 600000000.0: most & 6.43812e+08 & pass \\
+211 & \texttt{E.\allowbreak half15} & printed 134: half the F2 gone at 1e15 [ns] (both fills) & 134.01 & pass \\
+212 & \texttt{E.\allowbreak half15\_\allowbreak ar} & claim: the same in the Ar fill &  & pass \\
+213 & \texttt{E.\allowbreak gone\_\allowbreak kr} & printed 365: F2 below 1 \%, the Kr fill [ns] & 364.652 & pass \\
+214 & \texttt{E.\allowbreak gone\_\allowbreak ar} & printed 383: the Ar fill [ns] & 382.884 & pass \\
+215 & \texttt{E.\allowbreak rise\_\allowbreak kr} & printed 3.75: n\_\allowbreak{}e runs up, the Kr fill & 3.74961 & pass \\
+216 & \texttt{E.\allowbreak rise\_\allowbreak ar} & printed 3.95: the Ar fill & 3.95174 & pass \\
+217 & \texttt{E.\allowbreak gzero\_\allowbreak lo} & printed 0.44: n\_\allowbreak{}e steady ($|$g$|$ $<$ 1e6/s) by, earliest [us] & 0.443237 & pass \\
+218 & \texttt{E.\allowbreak gzero\_\allowbreak hi} & printed 0.47: latest & 0.465398 & pass \\
+219 & \texttt{E.\allowbreak te0\_\allowbreak kr} & printed 1.56: T\_\allowbreak{}e at t = 0, the Kr fill & 1.5596 & pass \\
+220 & \texttt{E.\allowbreak te0\_\allowbreak ar} & printed 1.52: the Ar fill & 1.51863 & pass \\
+221 & \texttt{E.\allowbreak te1\_\allowbreak kr} & printed 0.535: at 1 us, the Kr fill & 0.53494 & pass \\
+222 & \texttt{E.\allowbreak te1\_\allowbreak ar} & printed 0.542: the Ar fill & 0.541683 & pass \\
+223 & \texttt{E.\allowbreak xkr\_\allowbreak kr} & printed 10: Kr* accumulates, the Kr fill (times) & 10.3634 & pass \\
+224 & \texttt{E.\allowbreak xkr\_\allowbreak ar} & printed 8: the Ar fill & 8.08276 & pass \\
+225 & \texttt{E.\allowbreak E0\_\allowbreak kr} & printed 38.9: the field at t = 0, the Kr fill [kV/cm] & 38.8871 & pass \\
+226 & \texttt{E.\allowbreak E1\_\allowbreak kr} & printed 47.6: at 1 us & 47.6354 & pass \\
+227 & \texttt{E.\allowbreak f100\_\allowbreak kr} & printed 2: f\_\allowbreak{}best at 100 ns over the start, the Kr fill (\%) & 1.88791 & pass \\
+228 & \texttt{E.\allowbreak f100\_\allowbreak ar} & printed 3: the Ar fill (\%) & 3.05967 & pass \\
+229 & \texttt{E.\allowbreak fend\_\allowbreak kr} & printed 0.82: at 1 us over the start, the Kr fill & 0.820822 & pass \\
+230 & \texttt{E.\allowbreak fend\_\allowbreak ar} & printed 0.94: the Ar fill & 0.939059 & pass \\
+231 & \texttt{E.\allowbreak ne100\_\allowbreak kr} & printed 25: n\_\allowbreak{}e at 100 ns over the start, the Kr fill (\%) & 25.0987 & pass \\
+232 & \texttt{E.\allowbreak ne100\_\allowbreak ar} & printed 28: the Ar fill (\%) & 27.7966 & pass \\
+233 & \texttt{E.\allowbreak te100\_\allowbreak kr} & printed 1.37: T\_\allowbreak{}e at 100 ns, the Kr fill & 1.37008 & pass \\
+234 & \texttt{E.\allowbreak te100\_\allowbreak ar} & printed 1.34: the Ar fill & 1.33598 & pass \\
+235 & \texttt{E.\allowbreak f2100\_\allowbreak kr} & printed 0.61: F2 at 100 ns over its fill, the Kr fill & 0.612692 & pass \\
+236 & \texttt{E.\allowbreak f2100\_\allowbreak ar} & printed 0.6: the Ar fill & 0.600919 & pass \\
+237 & \texttt{E.\allowbreak hold3} & claim: within 3 \% in f\_\allowbreak{}best at 100 ns (1.0189, 1.0306) &  & pass \\
+238 & \texttt{E.\allowbreak half16} & printed 11: half the F2 gone at 1e16 [ns] & 11 & pass \\
+239 & \texttt{E.\allowbreak gone16} & printed 35: below 1 \% [ns] & 34.7287 & pass \\
+240 & \texttt{E.\allowbreak rise16} & printed 6.8: n\_\allowbreak{}e runs up (times) & 6.83088 & pass \\
+241 & \texttt{E.\allowbreak gzero16} & printed 92: n\_\allowbreak{}e steady by [ns] & 92.1457 & pass \\
+242 & \texttt{E.\allowbreak te0\_\allowbreak 16} & printed 0.94: T\_\allowbreak{}e at t = 0 & 0.942549 & pass \\
+243 & \texttt{E.\allowbreak te1\_\allowbreak 16} & printed 0.53: at 1 us & 0.531929 & pass \\
+244 & \texttt{E.\allowbreak E0\_\allowbreak 16} & printed 33.6: the field at t = 0 [kV/cm] & 33.5685 & pass \\
+245 & \texttt{E.\allowbreak E1\_\allowbreak 16} & printed 12.1: at 1 us & 12.0529 & pass \\
+246 & \texttt{E.\allowbreak a0\_\allowbreak 16} & printed 10.0: alpha at t = 0 [1/m] & 10.0409 & pass \\
+247 & \texttt{E.\allowbreak a1\_\allowbreak 16} & printed 78: at 1 us & 78.3845 & pass \\
+248 & \texttt{E.\allowbreak depth16} & printed 1.3: 1/alpha at 1 us [cm] & 1.27576 & pass \\
+249 & \texttt{E.\allowbreak f30\_\allowbreak 16} & printed 1.52: f\_\allowbreak{}best at 30 ns over the start & 1.51723 & pass \\
+250 & \texttt{E.\allowbreak fend\_\allowbreak 16} & printed 2.75: at 1 us over the start & 2.75057 & pass \\
+251 & \texttt{E.\allowbreak fend\_\allowbreak 16\_\allowbreak thz} & printed 53: f\_\allowbreak{}best at 1 us [THz] & 52.7725 & pass \\
+252 & \texttt{E.\allowbreak f100\_\allowbreak 16} & claim: from 100 ns on: 100, 300 and 1000 ns within 0.3 \% of each other (\{'0': 19186025949982.11, '30': 29109668959022.47, '100': 52856943530711.71, '300': 52825798062356.71, '1000': 52772522820037.086\}) &  & pass \\
+253 & \texttt{E.\allowbreak ne10\_\allowbreak 16} & printed 32: n\_\allowbreak{}e at 10 ns over the start (\%) & 31.6008 & pass \\
+254 & \texttt{E.\allowbreak f210\_\allowbreak 16} & printed 0.54: F2 at 10 ns over its fill & 0.53612 & pass \\
+255 & \texttt{E.\allowbreak sv\_\allowbreak range} & claim: seven states: n\_\allowbreak{}e (1000000000000.0, 1e+16), p (0.1, 1.0), f (95000000000.0, 10000000000000.0), ions' share up to 0.250 &  & pass \\
+256 & \texttt{E.\allowbreak sv\_\allowbreak agree} & claim: mean energy within 0.2 \% (1.65e-03), power within 0.2 \% (1.64e-03), nu within 0.6 \% (5.77e-03) &  & pass \\
+257 & \texttt{E.\allowbreak sv\_\allowbreak share1} & printed 0.19: the ions' share at 0.1 atm 1e16 95 GHz, first solver & 0.192773 & pass \\
+258 & \texttt{E.\allowbreak sv\_\allowbreak share2} & printed 0.17: second solver & 0.171885 & pass \\
+259 & \texttt{E.\allowbreak sv\_\allowbreak p95} & printed 0.02: the total power there, $|$ratio - 1$|$ (\%) & 0.0191881 & pass \\
+260 & \texttt{E.\allowbreak opt\_\allowbreak agree} & claim: alpha within 0.2 \% (1.59e-03), R within 0.3 \% (3.37e-03), the mobility's power within 1e-4 of the second solver's own (1.35e-04) &  & pass \\
+261 & \texttt{E.\allowbreak opt\_\allowbreak a\_\allowbreak lo} & printed 2.3: alpha over the seven states, smallest [1/m] & 2.26871 & pass \\
+262 & \texttt{E.\allowbreak opt\_\allowbreak a\_\allowbreak hi} & printed 34000.0: largest & 33681.1 & pass \\
+263 & \texttt{E.\allowbreak opt\_\allowbreak r\_\allowbreak lo} & printed 3e-08: R, smallest & 2.50963e-08 & pass \\
+264 & \texttt{E.\allowbreak opt\_\allowbreak r\_\allowbreak hi} & printed 0.91: largest & 0.907518 & pass \\
+265 & \texttt{E.\allowbreak opt\_\allowbreak p} & claim: the mobility's power = the second solver's own to 1e-4 (1.35e-04) &  & pass \\
+266 & \texttt{E.\allowbreak cold\_\allowbreak state} & claim: the cold start: the march's field 38900.0 V/cm, its closure ['growth'], both run 100 ns, no beam &  & pass \\
+267 & \texttt{E.\allowbreak cold\_\allowbreak g2} & printed 217000000.0: the second model's decay rate, 10 to 100 ns [1/s] & 2.16952e+08 & pass \\
+268 & \texttt{E.\allowbreak cold\_\allowbreak g1} & printed 215000000.0: the march's, 40 to 100 ns & 2.14962e+08 & pass \\
+269 & \texttt{E.\allowbreak cold\_\allowbreak g\_\allowbreak apart} & printed 1: the two apart (\%) & 0.925893 & pass \\
+270 & \texttt{E.\allowbreak cold\_\allowbreak te2} & printed 1.747: T\_\allowbreak{}e at 100 ns, the second model & 1.74692 & pass \\
+271 & \texttt{E.\allowbreak cold\_\allowbreak te1} & printed 1.742: the march & 1.74164 & pass \\
+272 & \texttt{E.\allowbreak cold\_\allowbreak te\_\allowbreak apart} & printed 0.3: apart (\%) & 0.302988 & pass \\
+273 & \texttt{E.\allowbreak cold\_\allowbreak decades} & claim: the second model loses three decades of n\_\allowbreak{}e in its first 10 ns (3.29) &  & pass \\
+274 & \texttt{E.\allowbreak cold\_\allowbreak f2\_\allowbreak 2} & printed 0.9: F2 burnt in 100 ns, the second model (\%) & 0.861654 & pass \\
+275 & \texttt{E.\allowbreak cold\_\allowbreak f2\_\allowbreak 1} & printed 1.4: the march (\%) & 1.43963 & pass \\
+276 & \texttt{E.\allowbreak cold\_\allowbreak tg} & printed 3.4: the gas warms by [K] & 3.41622 & pass \\
+277 & \texttt{E.\allowbreak st\_\allowbreak 13} & printed 13: the return rate's uncertainty in f\_\allowbreak{}best (\%) & 13.1509 & pass \\
+278 & \texttt{E.\allowbreak st\_\allowbreak 19} & printed 19: in T\_\allowbreak{}e (\%) & 19.0497 & pass \\
+279 & \texttt{E.\allowbreak st\_\allowbreak hold} & claim: the first 100 ns at 1e15 and 10 ns at 1e16 &  & pass \\
+280 & \texttt{E.\allowbreak st\_\allowbreak 02} & claim: the solvers to 0.2 \% &  & pass \\
+281 & \texttt{S.\allowbreak semicolon} & no semicolon in the prose & 0 found & pass \\
+282 & \texttt{S.\allowbreak emdash} & no em-dash in the prose & 0 found & pass \\
+283 & \texttt{S.\allowbreak placeholders} & no unfilled placeholder & 0 found [] & pass \\
+284 & \texttt{S.\allowbreak self\_\allowbreak contained} & no local file, path, model or unpublished note named in the printed source, the generated tables or the PDF's text & source [], PDF [] & pass \\

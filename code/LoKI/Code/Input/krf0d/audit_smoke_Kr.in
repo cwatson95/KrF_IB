@@ -1,0 +1,61 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%   BUILD SMOKE TEST: pure Kr, single E/N point, small ensemble
+%   (reduced copy of Krypton/Kr_swarm_setup.in -- not for physics)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% --- configuration of the working conditions ---
+workingConditions:
+  gasPressure: 133.32                         % in Pa
+  gasTemperature: 300                         % in K
+  reducedElecField: [50]                      % in Td
+  reducedMagField: 0                          % in Hx
+  elecFieldAngle: 180                         % in degrees
+  excitationFrequency: 0                      % in Hz
+
+% --- configuration of the electron kinetics ---
+electronKinetics:
+  isOn: true
+  eedfType: boltzmannMC
+  ionizationOperatorType: equalSharing
+  LXCatFiles:
+    - Krypton/Kr_LXCat.txt
+  gasProperties:
+    mass: Databases/masses.txt
+    fraction:
+      - Kr = 1
+    harmonicFrequency: Databases/harmonicFrequencies.txt
+    anharmonicFrequency: Databases/anharmonicFrequencies.txt
+    rotationalConstant: Databases/rotationalConstants.txt
+    electricQuadrupoleMoment: Databases/quadrupoleMoment.txt
+    OPBParameter: Databases/OPBParameter.txt
+  stateProperties:
+    population:
+      - Kr(1S0) = 1
+    statisticalWeight:
+      - Kr(1S0) = 1
+  numericsMC:
+    nElectrons: 2E3
+    gasTemperatureEffect: smartActivation
+    nIntegrationPoints: 2E3
+    nIntegratedSSTimes: 3
+
+% --- configuration for the heavy species kinetics ---
+chemistry:
+  isOn: false
+
+% --- configuration of the graphical user interface ---
+gui:
+  isOn: false
+  terminalDisp:
+    - setup
+    - MCStatus
+
+% ---  configuration of the output files ---
+output:
+  isOn: true
+  folder: audit_smoke_Kr
+  dataFiles:
+    - swarmParameters
+    - rateCoefficients
+    - powerBalance
+    - lookUpTable

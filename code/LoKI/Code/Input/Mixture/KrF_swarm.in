@@ -1,0 +1,42 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%   SWARM ANALYSIS Kr/F2   %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+workingConditions:
+  gasPressure: 133.32
+  gasTemperature: 300
+  reducedElecField: [20,50,100,300,1000]
+  reducedMagField: 0
+  elecFieldAngle: 180
+  excitationFrequency: 0
+
+electronKinetics:
+  isOn: true
+  eedfType: boltzmannMC
+  ionizationOperatorType: equalSharing
+  LXCatFiles:
+    - Krypton/Kr_LXCat.txt
+    - F2/F2_LXCat.txt
+
+  gasProperties:
+    mass: Databases/masses.txt
+    fraction:
+      - Kr = 0.9
+      - F2 = 0.1
+
+  stateProperties:
+    population:
+      - Kr = 1
+      - F2 = 1
+    statisticalWeight:
+      - Kr = 1
+      - F2 = 1
+
+  numericsMC:
+    nElectrons: 2E4
+    gasTemperatureEffect: smartActivation
+    nIntegrationPoints: 1E4
+    nIntegratedSSTimes: 3
+
+chemistry:
+  isOn: false

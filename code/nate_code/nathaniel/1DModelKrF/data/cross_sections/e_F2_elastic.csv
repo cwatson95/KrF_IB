@@ -1,0 +1,43 @@
+# Cross-Section Browser export — 2026-07-30T15:18:05Z
+# source: LXCat, www.lxcat.net (SIGLO database). SIGLO database is the electron-impact cross-section source of Chen et al., Phys. Plasmas 32, 113502 (2025), ref 22. Re-sourced from the project crossbrowser export lxcat_siglo.json, SIGLO process id SIGLO__F2__Effective__04.
+# database: SIGLO database (LXCat)
+# process_id: e_F2_elastic
+# reaction: E + F2 -> E + F2
+# type: Elastic   |   category: Elastic   |   family: Electron
+# data_kind: total
+# species: e / F2
+# mass_ratio_m_over_M: 0.0000143
+# param: m/M = 0.0000143, complete set
+# comment: Total momentum transfer Morgan Qm + att at low energy. Extrapolation > 20 eV using ln(e)/e. Needs to be checked. SIGLO dataset (Chen 2025, ref 22); re-sourced from crossbrowser lxcat_siglo.json, source id SIGLO__F2__Effective__04. PROVENANCE: the SIGLO source type/category for SIGLO__F2__Effective__04 is "Effective" (total momentum transfer, i.e. the elastic momentum-transfer cross section with the inelastic channels folded in). It is recorded here as type/category "Elastic" because reaction_kind_from_metadata (src/reactions/types.py) has no "effective" branch and would map it to ReactionKind.OTHER, which every downstream filter drops. The tabulated numbers, threshold, mass ratio and updated stamp are unchanged from the source. Electron momentum-transfer channel for ground-state F2. SIGLO export used for electron transport (the two-term Boltzmann solve that supplies mu_e/D_e and the electron-impact rate coefficients), Chen et al. Phys. Plasmas 32, 113502 (2025), ref 22. Cross section stored in m^2 by SIGLO (converted to cm^2 for the CSV column).
+# updated: 2012-04-13 18:35:19
+# n_points: 28
+# columns: energy [eV], cross_section [cm^2]
+energy_eV,cross_section_cm2
+0.000000e+00,1.600000e-14
+1.000000e-2,8.880000e-15
+2.000000e-2,5.000000e-15
+5.000000e-2,1.500000e-15
+1.091000e-1,1.028000e-15
+2.821000e-1,1.052000e-15
+4.708000e-1,1.111000e-15
+6.806000e-1,1.268000e-15
+1.010000e+0,1.662000e-15
+1.248000e+0,2.155000e-15
+1.452000e+0,3.259000e-15
+1.494000e+0,3.562000e-15
+1.527000e+0,3.621000e-15
+1.560000e+0,3.621000e-15
+1.622000e+0,3.538000e-15
+2.155000e+0,2.434000e-15
+2.570000e+0,1.989000e-15
+3.580000e+0,1.623000e-15
+6.195000e+0,1.222000e-15
+9.887000e+0,1.011000e-15
+1.629000e+1,8.125000e-16
+2.448000e+1,6.242000e-16
+3.930000e+1,4.470000e-16
+7.096000e+1,2.870000e-16
+1.197000e+2,1.910000e-16
+2.180000e+2,1.180000e-16
+3.793000e+2,7.400000e-17
+9.527000e+2,3.400000e-17

@@ -1,0 +1,24 @@
+# 1D-fluid model dependencies.
+#
+# NumPy is installed from a standard wheel; custom OpenBLAS source builds provide no measured
+# hot-path benefit (see the setup scripts).
+# Full setup (creates .venv, then installs this file):
+#   ./MacOS-setup.sh        (macOS)
+#   ./Unix-setup.sh         (Linux)
+#   .\Windows-setup.ps1     (Windows)
+
+numpy==2.4.6
+h5py==3.16.0
+matplotlib==3.10.8
+numba==0.65.1
+scipy==1.17.1
+
+# Optional: Intel TBB work-stealing threading layer for Numba. The src/backend/
+# module auto-detects and prefers it when importable (better scaling on many-core
+# and heterogeneous HPC nodes); without it, Numba's built-in 'workqueue' layer is
+# used. No wheel exists on some platforms (e.g. macOS arm64 / Python 3.14), so it
+# is gated by marker and silently skipped there.
+tbb; platform_system == "Linux"
+
+# Development and type-checking
+scipy-stubs==1.17.1.5

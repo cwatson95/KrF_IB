@@ -1,0 +1,909 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Complete codebase guide for the F2-sweep-KrF one-dimensional excimer-laser fluid model.">
+  <title>F2-sweep-KrF codebase guide</title>
+  <style>
+    :root {
+      color-scheme: light dark;
+      --page: #f5f7f8;
+      --panel: #ffffff;
+      --soft: #edf2f4;
+      --ink: #172125;
+      --muted: #526168;
+      --line: #cbd5d9;
+      --accent: #006b73;
+      --accent-soft: #dff3f3;
+      --warn: #8a5200;
+      --warn-soft: #fff0cf;
+      --code: #eef3f5;
+      --shadow: 0 8px 26px rgb(19 42 50 / 8%);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+        "Segoe UI", sans-serif;
+      font-size: 16px;
+      line-height: 1.6;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --page: #101619;
+        --panel: #182126;
+        --soft: #202c31;
+        --ink: #e8f0f2;
+        --muted: #adbdc3;
+        --line: #3a4c53;
+        --accent: #73dbe0;
+        --accent-soft: #173c40;
+        --warn: #ffcb72;
+        --warn-soft: #4a3415;
+        --code: #111b1f;
+        --shadow: none;
+      }
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { margin: 0; background: var(--page); color: var(--ink); }
+    a { color: var(--accent); text-underline-offset: 0.16em; }
+    a:hover { text-decoration-thickness: 0.14em; }
+    :focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+
+    .skip-link {
+      position: absolute;
+      left: 1rem;
+      top: -5rem;
+      z-index: 10;
+      padding: 0.7rem 1rem;
+      background: var(--panel);
+      border: 2px solid var(--accent);
+      border-radius: 0.4rem;
+    }
+    .skip-link:focus { top: 1rem; }
+
+    .masthead {
+      border-bottom: 1px solid var(--line);
+      background: linear-gradient(135deg, var(--panel), var(--accent-soft));
+    }
+    .masthead-inner {
+      width: min(1180px, calc(100% - 2rem));
+      margin: 0 auto;
+      padding: 3.2rem 0 2.5rem;
+    }
+    .eyebrow {
+      margin: 0 0 0.45rem;
+      color: var(--accent);
+      font-size: 0.78rem;
+      font-weight: 750;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+    h1, h2, h3 { line-height: 1.2; letter-spacing: -0.018em; }
+    h1 { margin: 0; font-size: clamp(2.25rem, 6vw, 4rem); }
+    h2 { margin: 0 0 1rem; font-size: clamp(1.55rem, 3vw, 2.15rem); }
+    h3 { margin: 1.7rem 0 0.65rem; font-size: 1.18rem; }
+    .lede { max-width: 850px; margin: 0.8rem 0 0; font-size: 1.14rem; }
+    .scope-line { max-width: 850px; color: var(--muted); }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 235px minmax(0, 1fr);
+      gap: 2rem;
+      width: min(1180px, calc(100% - 2rem));
+      margin: 0 auto;
+      padding: 2rem 0 5rem;
+    }
+    .toc {
+      position: sticky;
+      top: 1rem;
+      align-self: start;
+      max-height: calc(100vh - 2rem);
+      overflow-y: auto;
+      padding: 1rem;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 0.65rem;
+      box-shadow: var(--shadow);
+    }
+    .toc strong { display: block; margin-bottom: 0.4rem; }
+    .toc ul { list-style: none; margin: 0; padding: 0; }
+    .toc li + li { margin-top: 0.18rem; }
+    .toc a { display: block; padding: 0.23rem 0; font-size: 0.9rem; text-decoration: none; }
+    .toc a:hover { text-decoration: underline; }
+
+    main { min-width: 0; }
+    section {
+      scroll-margin-top: 1rem;
+      margin: 0 0 1.5rem;
+      padding: clamp(1.1rem, 3vw, 2rem);
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 0.75rem;
+      box-shadow: var(--shadow);
+    }
+    p, ul, ol { max-width: 78ch; }
+    li + li { margin-top: 0.3rem; }
+    code, pre, kbd {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.92em;
+    }
+    code { padding: 0.08em 0.26em; background: var(--code); border-radius: 0.25rem; }
+    pre {
+      max-width: 100%;
+      overflow-x: auto;
+      padding: 1rem;
+      background: var(--code);
+      border: 1px solid var(--line);
+      border-radius: 0.55rem;
+      line-height: 1.48;
+    }
+    pre code { padding: 0; background: transparent; }
+    .table-wrap { max-width: 100%; overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.93rem; }
+    caption { padding: 0 0 0.6rem; text-align: left; color: var(--muted); font-weight: 650; }
+    th, td { padding: 0.65rem 0.7rem; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
+    th { background: var(--soft); font-weight: 700; }
+    tbody tr:last-child td { border-bottom: 0; }
+    .note, .warning {
+      margin: 1rem 0;
+      padding: 0.85rem 1rem;
+      border-left: 0.28rem solid var(--accent);
+      background: var(--accent-soft);
+    }
+    .warning { border-color: var(--warn); background: var(--warn-soft); }
+    .badge {
+      display: inline-block;
+      padding: 0.08rem 0.45rem;
+      border: 1px solid currentColor;
+      border-radius: 99rem;
+      color: var(--accent);
+      font-size: 0.76rem;
+      font-weight: 750;
+      letter-spacing: 0.025em;
+      white-space: nowrap;
+    }
+    .badge.diag { color: #7a4ca0; }
+    .badge.valid { color: var(--warn); }
+    .flow {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.7rem;
+      margin: 1.1rem 0;
+      padding: 0;
+      list-style: none;
+      counter-reset: flow;
+    }
+    .flow li {
+      position: relative;
+      min-height: 7.2rem;
+      margin: 0;
+      padding: 2.1rem 0.85rem 0.8rem;
+      background: var(--soft);
+      border: 1px solid var(--line);
+      border-radius: 0.55rem;
+      counter-increment: flow;
+    }
+    .flow li::before {
+      content: counter(flow);
+      position: absolute;
+      top: 0.55rem;
+      left: 0.75rem;
+      display: grid;
+      place-items: center;
+      width: 1.25rem;
+      height: 1.25rem;
+      color: var(--panel);
+      background: var(--accent);
+      border-radius: 50%;
+      font-size: 0.72rem;
+      font-weight: 800;
+    }
+    .columns { columns: 2 18rem; column-gap: 2rem; }
+    .columns li { break-inside: avoid; }
+    .fine { color: var(--muted); font-size: 0.9rem; }
+    footer { width: min(1180px, calc(100% - 2rem)); margin: 0 auto; padding: 0 0 3rem; color: var(--muted); }
+
+    @media (max-width: 820px) {
+      .layout { display: block; }
+      .toc { position: static; max-height: none; margin-bottom: 1rem; }
+      .toc ul { columns: 2 13rem; }
+      .flow { grid-template-columns: 1fr; }
+    }
+    @media print {
+      :root { color-scheme: light; }
+      .toc, .skip-link { display: none; }
+      .layout { display: block; width: 100%; }
+      section { break-inside: avoid; box-shadow: none; }
+      a { color: inherit; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#content">Skip to main content</a>
+  <header class="masthead">
+    <div class="masthead-inner">
+      <p class="eyebrow">Codebase documentation</p>
+      <h1>F2-sweep-KrF</h1>
+      <p class="lede">A one-dimensional charged-fluid, chemistry, circuit, and electron-energy
+        model for discharge-pumped KrF* at 248 nm and ArF* at 193 nm, coupled to a transverse
+        zero-dimensional optical cavity and production-oriented F2 concentration sweeps.</p>
+      <p class="scope-line">This page describes the current repository: its data contracts,
+        runtime flow, numerical ownership, public interfaces, outputs, and known limits.</p>
+    </div>
+  </header>
+
+  <div class="layout">
+    <nav class="toc" aria-label="Page contents">
+      <strong>On this page</strong>
+      <ul>
+        <li><a href="#orientation">Orientation</a></li>
+        <li><a href="#architecture">Architecture and flow</a></li>
+        <li><a href="#api-example">Declarative API</a></li>
+        <li><a href="#species-units">Species and units</a></li>
+        <li><a href="#reaction-data">Reaction data</a></li>
+        <li><a href="#cross-sections">Cross sections</a></li>
+        <li><a href="#ion-transport">Ion mobility</a></li>
+        <li><a href="#coefficients">Electron coefficients</a></li>
+        <li><a href="#chemistry">Chemistry and energy</a></li>
+        <li><a href="#transport-field">Transport, field, and MPC</a></li>
+        <li><a href="#optics">Optics and energetics</a></li>
+        <li><a href="#diagnostics">Diagnostics and plots</a></li>
+        <li><a href="#progress-sweeps">Progress and sweeps</a></li>
+        <li><a href="#public-api">Public API</a></li>
+        <li><a href="#outputs">Output layout</a></li>
+        <li><a href="#development">Development and checks</a></li>
+        <li><a href="#limitations">Limits and interpretation</a></li>
+        <li><a href="#references">Repository references</a></li>
+      </ul>
+    </nav>
+
+    <main id="content">
+      <section id="orientation" aria-labelledby="orientation-title">
+        <h2 id="orientation-title">Orientation</h2>
+        <p>The simulated spatial axis is the electrode gap. Charged species and electron energy
+          occupy cell-centred one-dimensional fields; electric fluxes live naturally on faces.
+          The optical gain axis is transverse and is not spatially resolved. Its state is one
+          cavity-averaged photon density. This is therefore a <strong>1D discharge + 0D cavity</strong>
+          model, not a multidimensional radiation-hydrodynamics code.</p>
+        <div class="table-wrap">
+          <table>
+            <caption>Live subsystem ownership</caption>
+            <thead><tr><th scope="col">Subsystem</th><th scope="col">Current implementation</th><th scope="col">Primary modules</th></tr></thead>
+            <tbody>
+              <tr><td>Experiment composition</td><td>Frozen validated specs assembled by <code>Simulation</code>.</td><td><a href="../src/Fluid1D/components.py"><code>components.py</code></a>, <a href="../src/Fluid1D/simulation.py"><code>simulation.py</code></a></td></tr>
+              <tr><td>Charged fluid</td><td>Scharfetter-Gummel electron/ion continuity plus an electron-energy density equation.</td><td><a href="../src/Fluid1D/plasma_model.py"><code>plasma_model.py</code></a>, <a href="../src/Fluid1D/transport.py"><code>transport.py</code></a>, <a href="../src/Fluid1D/transport_kernel.py"><code>transport_kernel.py</code></a></td></tr>
+              <tr><td>Electrostatics and driver</td><td>Cell-centred Poisson, face-native E, semi-implicit conductivity response, fixed voltage or seven-state MPC.</td><td><a href="../src/Fluid1D/field.py"><code>field.py</code></a></td></tr>
+              <tr><td>Electron coefficients</td><td>Cached lookup tables from the in-tree two-term solver, Maxwellian moment solver, or analytic test stub.</td><td><a href="../src/Fluid1D/boltzmann.py"><code>boltzmann.py</code></a>, <a href="../src/Fluid1D/two_term.py"><code>two_term.py</code></a>, <a href="../src/Fluid1D/eedf_solver.py"><code>eedf_solver.py</code></a></td></tr>
+              <tr><td>Chemistry</td><td>Layer-routed reaction network, combined charged/neutral mass action, and per-cell linearly implicit integration.</td><td><a href="../src/reactions/network.py"><code>reactions/</code></a>, <a href="../src/kinetics/chemistry.py"><code>kinetics/</code></a></td></tr>
+              <tr><td>Optics</td><td>Exact frozen-coefficient photon fluence, saturated upper-state depletion, PHOTO feedback, cavity loss, and interval power.</td><td><a href="../src/optics/photon_density.py"><code>photon_density.py</code></a>, <a href="../src/optics/gain.py"><code>gain.py</code></a></td></tr>
+              <tr><td>Observability</td><td>Opt-in numeric collectors, one HDF5 archive, run-owned static plots, terminal reports, and JSON heartbeats.</td><td><a href="../src/Fluid1D/diagnostics.py"><code>diagnostics.py</code></a>, <a href="../src/diagnostics/archive.py"><code>diagnostics/</code></a>, <a href="../src/Fluid1D/progress.py"><code>progress.py</code></a></td></tr>
+              <tr><td>Parameter sweep</td><td>Process-parallel F2 points with fresh runtime state, isolated failures, parent-side progress rollups, and shared ArF/KrF presentation presets.</td><td><a href="../src/Fluid1D/sweep.py"><code>sweep.py</code></a>, <a href="../src/Fluid1D/sweep_status.py"><code>sweep_status.py</code></a>, <a href="../src/Fluid1D/sweep_presets.py"><code>sweep_presets.py</code></a></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="architecture" aria-labelledby="architecture-title">
+        <h2 id="architecture-title">Architecture and runtime flow</h2>
+        <ol class="flow" aria-label="Simulation data flow">
+          <li><strong>Validate specs.</strong><br><code>Grid1D</code>, gas, plasma, preionization, cavity, circuit, coefficient, and numeric settings fail early on invalid ranges.</li>
+          <li><strong>Build state.</strong><br>Create the SI mesh, seed neutral and charged fluids, enforce initial quasi-neutrality, and compile the selected network.</li>
+          <li><strong>Prepare data.</strong><br>Validate reaction-bound cross sections, build or load the coefficient LUT, load ion mobility, and partition chemistry.</li>
+          <li><strong>Exchange each step.</strong><br>Advance the circuit, solve the field, transport charged species and electron energy, and return current/conductance to the driver.</li>
+          <li><strong>Advance sources.</strong><br>Resolve electron sources and energy together; at the fluid cadence advance heavy chemistry and the scalar optical cavity.</li>
+          <li><strong>Observe and export.</strong><br>Record requested diagnostics and progress, flush the final partial cadence, then write HDF5 and declared plots.</li>
+        </ol>
+        <p>The orchestrator owns ordering. Transport does not independently integrate chemistry,
+          chemistry does not own radiative or stimulated rows, and diagnostic collectors do not
+          select figures. These ownership boundaries keep charge, particle, photon, and energy
+          bookkeeping attached to the operation that changes each inventory.</p>
+
+        <h3>Package map</h3>
+        <div class="table-wrap">
+          <table>
+            <caption>Source directories and responsibilities</caption>
+            <thead><tr><th scope="col">Path</th><th scope="col">Responsibility</th></tr></thead>
+            <tbody>
+              <tr><td><code>src/Fluid1D/</code></td><td>Public composition API; mesh and charged state; simulation orchestration; field/circuit; electron coefficients; NumPy and Numba transport; progress, sweeps, convergence, and collectors.</td></tr>
+              <tr><td><code>src/reactions/</code></td><td>TOML loading, operand parsing, SI conversion, layer compilation, photon-channel extraction, cross-section import/validation, and ion-mobility data.</td></tr>
+              <tr><td><code>src/kinetics/</code></td><td>Neutral storage, combined mass-action operators, Numba linearly implicit cell integration, SciPy reference integration, and pulse energy accounting.</td></tr>
+              <tr><td><code>src/optics/</code></td><td>Scalar photon-density equation and gain-cavity co-integration with species feedback.</td></tr>
+              <tr><td><code>src/particles/</code></td><td>Shared physical constants, immutable species metadata, and ordered registries.</td></tr>
+              <tr><td><code>src/diagnostics/</code></td><td>HDF5 writer and archive-backed line/heatmap rendering primitives.</td></tr>
+              <tr><td><code>src/backend/</code></td><td>CPU topology detection, Numba threading-layer selection, and process-local thread configuration.</td></tr>
+              <tr><td><code>data/</code></td><td>Reaction networks, paired cross-section exports, cited ion mobility, and deliberately test-scoped fixtures.</td></tr>
+              <tr><td><code>examples/</code></td><td>ArF/KrF single runs, parallel sweeps, convergence gates, and closure probes.</td></tr>
+              <tr><td><code>tests/</code></td><td>Unit, analytic, conservation, bounds, NumPy/Numba parity, archive, reporting, sweep, and smoke coverage.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="api-example" aria-labelledby="api-example-title">
+        <h2 id="api-example-title">Declarative API</h2>
+        <p>An experiment is configuration plus opt-in observations. The production combination is
+          a mean-energy-keyed two-term table, MPC circuit, source-coupled electron energy, and
+          parallel sweeps when scanning F2.</p>
+        <pre><code>from Fluid1D import (
+    BoltzmannSpec, Cavity, CircuitSpec, DataRef, GasMixture, Grid1D,
+    LinePlot, Numerics, OpticalGain, Plasma, Preionization,
+    ProgressReport, Simulation,
+)
+
+sim = Simulation(
+    name="arf_baseline",
+    grid=Grid1D(cells=256, length=12e-3, area_m2=90e-4),
+    gas=GasMixture(
+        {"Ne": 0.9639, "Ar": 0.035, "F2": 0.001, "Xe": 0.0001},
+        pressure_atm=3.4,
+    ),
+    plasma=Plasma(
+        density=1e16,
+        ion="Ne+",
+        electron_mean_energy_ev=2.0,
+        secondary_emission_gamma=0.05,
+    ),
+    preionization=Preionization(
+        mode="tanh", amplitude=1e14, floor=1e13, steepness=100.0,
+    ),
+    cavity=Cavity(wavelength_nm=193.0, r_out=0.08, r_back=0.99),
+    boltzmann=BoltzmannSpec(
+        backend="two_term",
+        key_kind="mean_energy_eV",
+        cache_dir="runs/lut_cache",
+    ),
+    circuit=CircuitSpec(backend="mpc", v0_v=-18e3),
+    reactions="data/reactions/arf.toml",
+    diagnostics=[OpticalGain()],
+    plots=[LinePlot(
+        filename="gain_history.png",
+        x=DataRef("optical_gain/times_ps", "time (ns)", scale=1e-3),
+        y=(DataRef("optical_gain/gain_per_m", "net gain"),),
+        ylabel="optical gain (1/m)",
+    )],
+)
+
+sim.run(
+    Numerics(
+        steps=4000,
+        dt=50e-12,
+        fluid_every=20,
+        electron_energy_closure="source_coupled",
+    ),
+    progress=ProgressReport(every=None),
+)</code></pre>
+        <p><code>Simulation.run</code> builds fresh mutable state, advances exactly the requested
+          number of steps, flushes any chemistry/optics remainder, exports the selected
+          diagnostics, renders the selected plots, and returns <code>output_dir/name</code>.</p>
+      </section>
+
+      <section id="species-units" aria-labelledby="species-units-title">
+        <h2 id="species-units-title">Species, state, and units</h2>
+        <p><code>Species</code> is immutable metadata: name, mass, signed integer charge,
+          category, constituents, excitation energy, metastability/relaxation metadata, and an
+          optional photon wavelength. <code>SpeciesRegistry</code> preserves insertion order and
+          supplies category, charged, and excited selections. The full excimer registry contains
+          45 identities:</p>
+        <ul class="columns">
+          <li><strong>Electron:</strong> <code>e-</code></li>
+          <li><strong>Ground atoms/buffers:</strong> <code>Kr</code>, <code>F</code>, <code>Ne</code>, <code>He</code>, <code>Ar</code>, <code>Xe</code></li>
+          <li><strong>Atomic excited states:</strong> <code>Kr*</code>, <code>Kr**</code>, <code>Ne*</code>, <code>Ne**</code>, <code>He*</code>, <code>Ar*</code>, <code>Ar**</code>, <code>Xe*</code></li>
+          <li><strong>Charged atoms/lumped ion:</strong> <code>Kr+</code>, <code>F-</code>, <code>Ne+</code>, <code>He+</code>, <code>Ar+</code>, <code>Xe+</code>, <code>M+</code></li>
+          <li><strong>Ground molecular/charged dimers:</strong> <code>F2</code>, <code>F2+</code>, <code>Kr2+</code>, <code>Ne2+</code>, <code>Ar2+</code>, <code>ArKr+</code></li>
+          <li><strong>Excited molecules and excimers:</strong> <code>F2*</code>, <code>F2(a3)</code>, <code>F2(A1)</code>, <code>KrF*</code>, <code>Kr2*</code>, <code>Kr2F*</code>, <code>Ne2*</code>, <code>Ar2*</code>, <code>ArF*</code>, <code>Ar2F*</code>, <code>ArKrF*</code></li>
+          <li><strong>Photon modes:</strong> <code>hv80</code>, <code>hv95</code>, <code>hv147</code>, <code>hv193</code>, <code>hv248</code>, <code>hv415</code></li>
+        </ul>
+        <p>Neutral and charged fluids store per-cell number-density arrays keyed by the shared
+          registry. Photon modes are registry identities but the lasing mode inventory is the
+          scalar cavity state. Initial electrons are balanced only with a registered positive ion,
+          using <code>n_i = n_e / z_i</code>.</p>
+
+        <h3>Unit contract</h3>
+        <p>Runtime arrays and coupling constants are SI: metres, square metres, cubic metres,
+          seconds, volts, amperes, joules, pascals, kelvin, <code>m^-3</code>, and <code>m^2</code>.
+          Electron energies and temperatures use eV; reduced field uses townsend. Reaction and
+          cross-section loaders convert tagged source units once at ingestion.</p>
+        <p><code>Units(volume="m" | "cm")</code> changes only the user-facing spatial/volumetric
+          convention. Length, area, seed density, gain/absorption inverse length, and diagnostic
+          density labels are converted at the boundary. Electrical, thermal, eV, and E/N values
+          are unchanged.</p>
+      </section>
+
+      <section id="reaction-data" aria-labelledby="reaction-data-title">
+        <h2 id="reaction-data-title">Reaction networks and TOML schema</h2>
+        <p><code>load_reaction_network</code> parses the selected TOML into declarations;
+          <code>ReactionNetwork.compile</code> validates every species and routes active rows by
+          reactants. A photon reactant selects the photon layer, otherwise any charged reactant
+          selects the kinetic layer, and an all-neutral row selects the fluid layer. It then builds
+          reactant-order and net-stoichiometry matrices in registry order.</p>
+        <div class="table-wrap">
+          <table>
+            <caption>Current network inventory</caption>
+            <thead><tr><th scope="col">File</th><th scope="col">Declared/active</th><th scope="col">Compiled layers: fluid / kinetic / photon</th><th scope="col">Role</th></tr></thead>
+            <tbody>
+              <tr><td><a href="../data/reactions/krf.toml"><code>krf.toml</code></a></td><td>45 / 45</td><td><strong>18 / 23 / 4</strong></td><td>Production reduced Ne/Kr/F2 KrF network.</td></tr>
+              <tr><td><a href="../data/reactions/arf.toml"><code>arf.toml</code></a></td><td>44 / 43</td><td><strong>13 / 27 / 3</strong></td><td>Production Chen-derived ArF network; disabled <code>R29b</code> remains documented in the file.</td></tr>
+              <tr><td><a href="../data/reactions/arf_chen_2025.toml"><code>arf_chen_2025.toml</code></a></td><td>41 active after overlay expansion</td><td><strong>11 / 27 / 3</strong></td><td>Reproduction-only printed-value overlay; it disables <code>R21b</code> and <code>R29c</code> and applies ten row overrides.</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>Row fields</h3>
+        <div class="table-wrap">
+          <table>
+            <caption><code>[[reaction]]</code> data contract</caption>
+            <thead><tr><th scope="col">Field</th><th scope="col">Meaning</th></tr></thead>
+            <tbody>
+              <tr><td><code>id</code>, <code>reactants</code>, <code>products</code></td><td>Stable row identifier and reaction operands. Terms accept explicit integer multiplicity; the separator is whitespace-delimited <code> + </code> so charge signs remain part of species names.</td></tr>
+              <tr><td><code>rate_form</code></td><td>One of <code>constant</code>, <code>te_dependent</code>, <code>electron_impact</code>, <code>radiative</code>, <code>stimulated</code>, or <code>photo</code>.</td></tr>
+              <tr><td><code>reference</code>, <code>enabled</code>, <code>photon_mode</code></td><td>Row provenance, active-state switch, and optical-mode binding where relevant.</td></tr>
+              <tr><td><code>k</code>, <code>k_units</code></td><td>Fixed two-/three-body coefficient for <code>constant</code> rows. Supported cgs/SI tags are normalized to SI.</td></tr>
+              <tr><td><code>K0</code>, <code>te_power</code>, <code>E0_eV</code></td><td>Analytic <code>K0 * Te^p * exp(-E0/Te)</code> coefficient for <code>te_dependent</code> rows. <code>E0_eV</code> controls the rate expression; it is not automatically an energy debit.</td></tr>
+              <tr><td><code>cross_section</code>, <code>threshold_eV</code></td><td>Process identifier and threshold for <code>electron_impact</code> rows. Runtime coefficients come from the electron table.</td></tr>
+              <tr><td><code>energy_loss_eV</code></td><td>Explicit electron-energy transfer used by the canonical energy-cost table. It stays distinct from rate-fit activation parameters.</td></tr>
+              <tr><td><code>tau_s</code></td><td>Radiative lifetime; the compiled rate is <code>1/tau_s</code>. Optics owns photon-producing decay.</td></tr>
+              <tr><td><code>sigma_eff_cm2</code></td><td>Stimulated-emission cross section, stored with an SI companion during load.</td></tr>
+              <tr><td><code>sigma_m2</code>, <code>electron_energy_eV</code></td><td>PHOTO absorption cross section and optional fixed photoelectron birth energy.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>An overlay supplies <code>base_network</code>, <code>disable_reactions</code>, and
+          <code>[[override]]</code> patches keyed by row ID. Cycles and unknown IDs fail during
+          loading. Active charged products with no consuming row raise a visible orphan-charge
+          warning; the current ArF network documents its inherited <code>Xe+</code> orphan.</p>
+      </section>
+
+      <section id="cross-sections" aria-labelledby="cross-sections-title">
+        <h2 id="cross-sections-title">Cross-section data and coefficient binding</h2>
+        <p>Every live process in <code>data/cross_sections/</code> is a JSON+CSV pair. JSON carries
+          schema and provenance; CSV carries comments, a unit-bearing header, and numeric samples.
+          All 26 shipped live pairs are total electron cross sections:</p>
+        <div class="table-wrap">
+          <table>
+            <caption>All live JSON+CSV cross-section pairs</caption>
+            <thead><tr><th scope="col">Use</th><th scope="col">Count</th><th scope="col">Process IDs</th></tr></thead>
+            <tbody>
+              <tr>
+                <td>Reaction-bound electron impact</td><td>17</td>
+                <td><code>e_Ne_excitation_1</code>, <code>e_Ne_excitation_2</code>, <code>e_Ne_ionization</code>, <code>e_Nes_ionization</code>;<br>
+                  <code>e_Krs_1s</code>, <code>e_Krs_2s</code>, <code>e_Kr_ionization</code>;<br>
+                  <code>e_Ar_excitation_1</code>, <code>e_Ar_excitation_2</code>, <code>e_Ar_ionization</code>, <code>e_Ars_ionization</code>;<br>
+                  <code>e_F2_attachment</code>, <code>e_F2_excitation_a3</code>, <code>e_F2_excitation_A1</code>, <code>e_F2_ionization</code>;<br>
+                  <code>e_Xe_excitation_1</code>, <code>e_Xe_ionization</code>.</td>
+              </tr>
+              <tr>
+                <td>Elastic/effective momentum transfer, discovered by neutral target</td><td>5</td>
+                <td><code>e_Ne_elastic</code>, <code>e_Kr_elastic</code>, <code>e_Ar_elastic</code>, <code>e_Xe_elastic</code>, <code>e_F2_elastic</code>.</td>
+              </tr>
+              <tr>
+                <td>F2 vibrational energy-loss channels included in real coefficient builds</td><td>4</td>
+                <td><code>e_F2_vib_1</code>, <code>e_F2_vib_2</code>, <code>e_F2_vib_3</code>, <code>e_F2_vib_4</code>.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>Pair schema and validation</h3>
+        <ul>
+          <li>JSON schema <code>cross-section-metadata/1.1</code> names <code>data_file</code>,
+            <code>data_kind</code>, <code>process_id</code>, reaction text, type/category,
+            projectile, target, threshold, axes, CSV units, source units, conversion provenance,
+            source/database citation, comments, and sample bounds.</li>
+          <li>CSV comments mirror key provenance. Live total tables use energy and cross-section
+            columns; loader-side unit factors convert them to eV and <code>m^2</code>. The
+            provenance-only <code>conversion_from_source</code> field is not applied again.</li>
+          <li>The loader rejects unsupported schemas/units, malformed shapes, and negative or
+            non-finite values. Energies are sorted, duplicate energies are deterministically
+            averaged, interpolation is linear between samples, and values clamp to measured
+            endpoints instead of extrapolating. Threshold behavior remains zero below threshold.</li>
+          <li>Reaction import verifies projectile, target, process kind, and declared
+            stoichiometry. <code>Simulation</code> retains a per-row import report and warns on
+            failures before time integration.</li>
+          <li>The general loader also understands differential tables, and tests exercise that
+            interpolation surface; no differential dataset is part of the live 26-pair
+            production inventory.</li>
+        </ul>
+      </section>
+
+      <section id="ion-transport" aria-labelledby="ion-transport-title">
+        <h2 id="ion-transport-title">Ion mobility and diffusion</h2>
+        <p><a href="../data/ion_transport/ion_mobility.toml"><code>ion_mobility.toml</code></a>
+          stores ten cited or explicitly estimated ion/background pairs as standard reduced
+          mobility <code>K0</code> in <code>cm^2/(V s)</code>, referenced to the Loschmidt density.
+          Loading converts each record to the invariant <code>mu*N = K0*N0</code>.</p>
+        <ul>
+          <li>Available mixture pairs combine through Blanc's law. Fractions are renormalized
+            over only the represented background gases.</li>
+          <li>If an ion has records but none match the mixture, the record for its most abundant
+            represented gas is used.</li>
+          <li>If the ion itself has no table entry, charged transport emits a warning and uses the
+            visible generic invariant corresponding to approximately <code>1 cm^2/(V s)</code>
+            at Loschmidt density.</li>
+          <li>Local mobility is <code>mu = (mu*N)/N_gas</code>; diffusion follows the thermal
+            Einstein relation <code>D = mu*kB*Tgas/e</code>.</li>
+        </ul>
+        <p>Electron transport never comes from this table; it comes from the selected electron
+          coefficient solver.</p>
+      </section>
+
+      <section id="coefficients" aria-labelledby="coefficients-title">
+        <h2 id="coefficients-title">Electron coefficients and LUT cache</h2>
+        <div class="table-wrap">
+          <table>
+            <caption>Coefficient backends</caption>
+            <thead><tr><th scope="col">Backend</th><th scope="col">Role</th><th scope="col">Behavior</th></tr></thead>
+            <tbody>
+              <tr><td><code>two_term</code></td><td><span class="badge">Production</span></td><td>In-tree two-term energy-space Boltzmann solve over shipped elastic and inelastic cross sections. Produces tail-sensitive transport, mean energy, and electron-impact rates.</td></tr>
+              <tr><td><code>eedf</code></td><td><span class="badge diag">Diagnostic</span></td><td>Maxwellian EEDF moments over the same measured data. Faster, but the assumed tail can overpopulate threshold processes.</td></tr>
+              <tr><td><code>stub</code></td><td><span class="badge valid">Validation</span></td><td>Deterministic analytic scaling for tests and tiny smoke runs. It is not a physical coefficient source.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p><code>CoefficientTable</code> stores reduced electron mobility/diffusion, drift speed,
+          mean energy, electron temperature, optional energy-transport coefficients, the paired
+          E/N relation, and rate arrays keyed by reaction ID. Its lookup axis is declared as
+          <code>EN_Td</code> or <code>mean_energy_eV</code>, must be finite and strictly increasing,
+          and clamps queries outside the sampled interval. Re-keying preserves the paired
+          steady-state relationship. The production LMEA path uses local mean energy.</p>
+        <p>Disk cache identity covers the complete E/N sample vector, normalized mixture, gas
+          temperature, key kind, solver configuration, dynamic reaction signature, and real
+          solver cross-section contents. Cache files are <code>.npz</code> tables under the
+          configured <code>BoltzmannSpec.cache_dir</code>.</p>
+      </section>
+
+      <section id="chemistry" aria-labelledby="chemistry-title">
+        <h2 id="chemistry-title">Chemistry, integration, and electron-energy closure</h2>
+        <p><code>FluidChemistry</code> assembles the combined neutral and charged mass-action
+          system. For reaction <code>r</code>, its rate of progress and density source are:</p>
+        <pre><code>R[r] = k[r] * product_s(n[s] ** O[s, r])
+dn/dt = nu @ R</code></pre>
+        <p>The compiler retains padded reactant tables, analytic Jacobian structure, heavy-atom
+          composition, reaction IDs, dynamic-rate masks, charged/electron-changing masks, and one
+          explicit reaction-energy-cost vector. Zero-safe products avoid dividing by initially
+          absent excited species.</p>
+
+        <h3>Partitions and cadence</h3>
+        <ul>
+          <li>The <strong>electron-source partition</strong> includes electron-impact and analytic
+            Te-dependent rows, net-electron-changing rows, and explicitly energy-consuming rows.
+            Its per-cell coefficients are refreshed from live mean energy.</li>
+          <li>The <strong>heavy-source partition</strong> contains the remaining chemistry and is
+            graded on reactions that change any charged species, not only electrons.</li>
+          <li>The orchestrator tightens chemistry cadence when the fastest fractional progress
+            would exceed its e-fold target. Internal cell substeps are likewise sized by stiffness
+            and available electron energy.</li>
+          <li><code>FluidIntegrator</code> is the Numba-parallel linearly implicit production path.
+            <code>FluidChemistry.integrate_reference</code> is the single-cell SciPy Radau oracle
+            used for validation.</li>
+        </ul>
+
+        <h3>Production energy identity</h3>
+        <p><code>Numerics(electron_energy_closure="source_coupled")</code> is the production
+          closure. Transport ledgers field work and elastic exchange; the orchestrator rectifies
+          the unresolved negative sub-Debye sheath contribution and delivers the usable local
+          heating inside the augmented electron-source stage. Reaction extent and its energy debit
+          are accepted from the same implicit trial. Per cell, the stage preserves:</p>
+        <pre><code>E_final + E_cost - E_bound_adjustment - E_delivered = E_initial</code></pre>
+        <p>Field work, elastic transfer, accepted cost, delivered source, discarded/undelivered
+          work, coefficient-bound adjustment, residuals, and limiter activity remain separately
+          visible. Positivity reduction scales reaction progress along its stoichiometric direction
+          rather than independently clipping species.</p>
+        <div class="warning"><strong>Diagnostic closure:</strong>
+          <code>continuous_reconciled</code> applies a provisional continuous inelastic sink in
+          transport and refunds it as an in-stage rate while recording a signed reconciliation.
+          Its archive is marked diagnostic-only and must not be described as a production-
+          conservative result.</div>
+      </section>
+
+      <section id="transport-field" aria-labelledby="transport-field-title">
+        <h2 id="transport-field-title">Charged transport, field solve, and MPC circuit</h2>
+        <p>The charged model advances continuity with flux
+          <code>Gamma = -D*grad(n) + z*mu*n*E</code>. Interior faces use exponential-fitted
+          Scharfetter-Gummel fluxes, with centered behavior at small Péclet number and stable
+          drift-dominated behavior at large Péclet number. Electrode faces include drift-limited
+          loss and cathode secondary electron emission. The energy flux uses its own mobility and
+          diffusion pair.</p>
+        <ul>
+          <li><strong>Poisson:</strong> finite-volume, cell-centred potential with Dirichlet
+            electrodes and E native on <code>N+1</code> faces. Cell E is the adjacent-face average.</li>
+          <li><strong>Semi-implicit conduction:</strong> the field solve uses
+            <code>epsilon0 + h*sigma</code> so ohmic current responds to the new field while
+            explicit diffusive current remains on the right-hand side. This removes the explicit
+            dielectric-relaxation limit in the conducting phase.</li>
+          <li><strong>Prescribed drive:</strong> a duck-typed <code>at_batch(positions, t)</code>
+            provider is superposed at both cells and faces.</li>
+          <li><strong>MPC:</strong> state
+            <code>[V_C0, I_m, V_p, I_s, V_b, I_f, V_Cf]</code> represents the storage capacitor,
+            magnetic switch, peaking capacitor, stray loop, finite gap capacitance, and R-L-C
+            snubber. Frozen linear subflows advance by an augmented matrix exponential.</li>
+          <li><strong>Gap coupling:</strong> production uses a first-order Lie split. The MPC
+            network advances with the plasma gap open, transport advances finite-capacitance gap
+            draw, and the resulting node-B voltage is pinned back into the circuit. Booked gap
+            energy is bounded by capacitor stored-energy change.</li>
+        </ul>
+
+        <h3>NumPy and Numba paths</h3>
+        <p>The readable NumPy implementation is the arithmetic reference. The production Numba
+          kernel performs the coupled field/transport substep loop—including coefficient lookup,
+          SG fluxes, wall fluxes, tridiagonal solve, and electron energy—in one compiled call.
+          Kernel changes are required to retain NumPy parity and pass with
+          <code>NUMBA_BOUNDSCHECK=1</code>. Parallel F2 workers set one Numba thread because
+          process-level sweep concurrency is the outer parallel axis.</p>
+      </section>
+
+      <section id="optics" aria-labelledby="optics-title">
+        <h2 id="optics-title">Scalar cavity, PHOTO feedback, and energetics</h2>
+        <p><code>PhotonDensity</code> evolves the scalar cavity average as a linear frozen-
+          coefficient equation <code>dn_ph/dt = a*n_ph + b</code>, using an exact exponential
+          update and exact time-integrated photon fluence. <code>GainCavity</code> subcycles when
+          gain, stimulated depletion, spontaneous decay, or photoabsorption hazards become large,
+          re-reading upper-state and absorber densities during the call.</p>
+        <ul>
+          <li>Net gain is <code>n_upper*sigma_STE - sum(n_absorber*sigma_abs)</code>; round-trip
+            loss includes the output coupler, rear mirror, and configured F2-dependent optical loss.</li>
+          <li>Spontaneous and stimulated hazards share the exact booked upper-state loss, and all
+            declared product multiplicities are applied. <code>last_se_sink_m3</code> and
+            <code>last_ste_sink_m3</code> expose the attribution.</li>
+          <li>PHOTO reactions consume the absorber, apply declared products, and remove one cavity
+            photon per physical extent after gain/cavity-volume conversion. Their exponential
+            hazard is driven by the same frozen fluence that attenuates the field.</li>
+          <li>ArF R40/R41 create photoelectrons at fixed row-declared energies
+            <strong>3.76 eV</strong> and <strong>3.02 eV</strong>. KrF R43/R44 use
+            <strong>3.10 eV</strong> and <strong>1.60 eV</strong>. The added electron energy is
+            ledgered and the transport-owned electron energy density is resynchronized after optics.</li>
+          <li>Photon inventory occupies the full cavity volume <code>l_c*S</code>. Upper-state
+            inventory occupies the pumped gain volume <code>l_g*S</code>.</li>
+          <li>Output power is the interval average obtained from integrated fluence. Input power is
+            also recorded per interval. <code>LaserEnergetics</code> integrates both as
+            <code>sum(P_average*dt_interval)</code>, including first and final partial intervals.</li>
+        </ul>
+      </section>
+
+      <section id="diagnostics" aria-labelledby="diagnostics-title">
+        <h2 id="diagnostics-title">Diagnostics, public read access, and plot ownership</h2>
+        <p>A collector implements <code>record(sim, step, t)</code> and
+          <code>export(sim, archive)</code>. Collectors decide only what numeric state to sample;
+          they do not choose image filenames, axes, or plot composition. At run end, all selected
+          collectors write one <code>diagnostics.h5</code>. The experiment's <code>LinePlot</code>
+          and <code>HeatmapPlot</code> declarations then select HDF5 datasets through
+          <code>DataRef</code>.</p>
+        <div class="table-wrap">
+          <table>
+            <caption>Collector groups and content</caption>
+            <thead><tr><th scope="col">Collector</th><th scope="col">Archive group / content</th><th scope="col">Public in-memory access</th></tr></thead>
+            <tbody>
+              <tr><td><code>EnergyClosure</code></td><td><code>energy_closure</code>: interval energy terms, residuals, limiter activity, closure metadata, and run totals.</td><td><code>times_ps</code>, <code>series_names</code>, <code>series(name)</code>, <code>totals</code>, accepted cost and bound-adjustment properties.</td></tr>
+              <tr><td><code>EEDF</code></td><td><code>eedf</code>: energy grid and normalized qualitative Maxwellian curve at the sampled domain-mean temperature.</td><td>Configured sampling step and energy grid; runtime state is not a resolved EEDF.</td></tr>
+              <tr><td><code>SpeciesDensities</code></td><td><code>species_densities</code>: domain-mean histories in the experiment's density units.</td><td><code>times_ps</code>, <code>series_names</code>, <code>series(name)</code>.</td></tr>
+              <tr><td><code>OpticalGain</code>, <code>Absorption</code></td><td><code>optical_gain</code>, <code>absorption</code>: inverse-length histories.</td><td>Archive datasets selected by run-owned plots.</td></tr>
+              <tr><td><code>LaserOutput</code>, <code>Efficiency</code></td><td><code>laser_output</code>, <code>efficiency</code>: spontaneous/stimulated/total output, input power, and cumulative efficiency.</td><td>Run-level scalar energy remains available from <code>sim.energetics</code>.</td></tr>
+              <tr><td><code>FieldLine</code></td><td><code>field_line</code>: final axial position, E magnitude, charge density, and requested species profiles.</td><td>Final-step archive profile.</td></tr>
+              <tr><td><code>ChargedDensityXT</code></td><td><code>charged_density_xt</code>: time, position, and separate time-by-cell charged density blocks.</td><td>Heatmap-ready archive datasets.</td></tr>
+              <tr><td><code>PlasmaScalarTraces</code></td><td><code>plasma_scalars</code>: mean electron density, E/N, Te, discharge/laser power density, plus energy attributes.</td><td><code>times_ns</code>, <code>series_names</code>, <code>series(name)</code>.</td></tr>
+              <tr><td><code>CircuitWaveforms</code></td><td><code>circuit_waveforms</code>: gap/storage voltage and discharge current for MPC runs.</td><td><code>times_ns</code>, <code>series_names</code>, <code>series(name)</code>, <code>current_a</code>.</td></tr>
+              <tr><td><code>ExcimerRates</code></td><td><code>excimer_rates_formation</code> and <code>excimer_rates_quenching</code>, with optics-owned <code>SE</code>/<code>STE</code> sinks.</td><td><code>times_ns</code>, <code>formation_rates()</code>, <code>quenching_rates()</code>.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>Public diagnostic accessors return independent arrays or mappings, so analysis code does
+          not mutate collector state. <code>Simulation</code> also exposes domain-mean electron
+          temperature, per-cell mean energy, mean reaction rates, species totals, gain coefficient,
+          and the latest energy-closure snapshot through named read methods.</p>
+        <p>Unpinned plot axes fit finite visible data with small padding. Linear, log, and symlog
+          axes are available; heatmaps use coordinate edges derived from strictly increasing
+          centres. Sweep overlay helpers read only surviving per-point archives and support both
+          single-axis and multi-panel figures.</p>
+      </section>
+
+      <section id="progress-sweeps" aria-labelledby="progress-sweeps-title">
+        <h2 id="progress-sweeps-title">Live reporting, heartbeats, and F2 sweeps</h2>
+        <h3>Single-run reporting</h3>
+        <p><code>Simulation.run(progress=ProgressReport(...))</code> reports independently of
+          <code>verbose</code>. The final step always emits even when the cadence is uneven.
+          Default fields are system-aware: <code>excimer</code> resolves to the compiled stimulated
+          channel's upper state. Available fields are:</p>
+        <ul class="columns">
+          <li><code>total:&lt;species&gt;</code></li>
+          <li><code>density:&lt;species&gt;</code></li>
+          <li><code>temp:&lt;species&gt;</code> (electron Te; other species report unavailable)</li>
+          <li><code>excimer</code></li>
+          <li><code>photons</code></li>
+          <li><code>gain</code></li>
+          <li><code>p_in</code>, <code>p_out</code></li>
+          <li><code>efficiency</code></li>
+        </ul>
+        <p>Style is percent or step count. Timing adds wall elapsed/ETA. Terminal output flushes
+          immediately. With <code>heartbeat=True</code>, the reporter atomically replaces
+          <code>progress.json</code> with schema-1 status, step, percentage, simulated time, wall
+          time, timestamp, and formatted fields. Heartbeat write failure warns once and disables
+          that sink without stopping physics.</p>
+
+        <h3>Parallel sweep contract</h3>
+        <p><code>sweep_f2_parallel</code> is the production sweep entry point. It accepts either an
+          inclusive <code>start/stop/step</code> range or an explicit unique value sequence in
+          <code>[0, 1]</code>, never both. Every point receives a fresh <code>Simulation</code> with
+          the base grid, plasma, preionization, cavity, reaction path, Boltzmann and circuit specs,
+          units, drive, output root, cross-section path, and ion-mobility path preserved. Only the
+          F2 fraction and selected rebalance gas change.</p>
+        <ul>
+          <li><code>diagnostics_factory(f2)</code> and <code>plots_factory(f2)</code> create fresh
+            per-point observations. Parallel factories must be picklable.</li>
+          <li>An injected mutable plasma model or coefficient table is never silently reused.
+            A base simulation containing one requires a corresponding picklable
+            <code>plasma_model_factory(f2)</code> or <code>coeff_table_factory(f2)</code>.</li>
+          <li>Workers are pinned to one Numba thread. The parent prints start, completion/failure,
+            periodic running/queued rollup, ETA, and final summary lines when progress is enabled.</li>
+          <li>Worker exceptions become <code>SweepFailure</code> records containing the message,
+            traceback, point directory, and wall time. Other points continue. Abrupt pool death is
+            folded into failure records for all uncollected points.</li>
+          <li>Successful points are sorted by F2 and expose output energy and intrinsic efficiency.
+            Failed points remain separately sorted in <code>SweepResult.failures</code>.</li>
+        </ul>
+        <p><code>sweep_f2</code> follows the same configuration/factory contract serially and is the
+          validation path. An explicitly supplied solver overrides the base coefficient backend;
+          it is never substituted implicitly.</p>
+        <pre><code># Watch worker heartbeats from another terminal.
+python -m Fluid1D.sweep_status runs/krf_f2_sweep --watch 5 --stale 120</code></pre>
+        <p>The status reader marks old running heartbeats as <code>stalled</code>, shows missing data,
+          and retains failed tracebacks in per-point JSON for post-mortem inspection.</p>
+      </section>
+
+      <section id="public-api" aria-labelledby="public-api-title">
+        <h2 id="public-api-title">Public API by intended role</h2>
+        <p>Labels identify the primary supported use, not Python visibility. Advanced users can
+          compose lower-level packages directly, but production experiments normally begin with
+          the top-level <code>Fluid1D</code> exports.</p>
+        <div class="table-wrap">
+          <table>
+            <caption>Top-level and supporting interfaces</caption>
+            <thead><tr><th scope="col">Role</th><th scope="col">Public names</th><th scope="col">Use</th></tr></thead>
+            <tbody>
+              <tr><td><span class="badge">Production</span></td><td><code>Simulation</code>; <code>Grid1D</code>, <code>GasMixture</code>, <code>Plasma</code>, <code>Preionization</code>, <code>Cavity</code>, <code>BoltzmannSpec</code>, <code>CircuitSpec</code>, <code>Numerics</code>, <code>ProgressReport</code>, <code>Units</code></td><td>Validated declarative composition and run control.</td></tr>
+              <tr><td><span class="badge">Production</span></td><td><code>sweep_f2_parallel</code>, <code>SweepResult</code>, <code>SweepPoint</code>, <code>SweepFailure</code></td><td>F2 scan, successful scalar results, and isolated point failures.</td></tr>
+              <tr><td><span class="badge">Production</span></td><td><code>CoefficientTable</code>, <code>BoltzmannSolver</code>, <code>build_lut</code></td><td>Coefficient lookup and cache extension seam. The production concrete solver is <code>TwoTermBoltzmannSolver</code> in <code>Fluid1D.two_term</code>.</td></tr>
+              <tr><td><span class="badge">Production</span></td><td><code>DriftDiffusionPlasmaModel</code>, <code>PlasmaModel</code>, <code>StepReport</code>, <code>Mesh1D</code>, <code>ChargedFluid</code></td><td>Charged transport interface and lower-level state building blocks.</td></tr>
+              <tr><td><span class="badge">Production</span></td><td><code>DischargeCircuit</code>, <code>Poisson1DSolver</code>, <code>SemiImplicitField</code></td><td>Field/circuit extension points and coupled field solution.</td></tr>
+              <tr><td><span class="badge diag">Diagnostic</span></td><td><code>EEDF</code>, <code>EnergyClosure</code>, <code>SpeciesDensities</code>, <code>OpticalGain</code>, <code>Absorption</code>, <code>LaserOutput</code>, <code>Efficiency</code>, <code>ChargedDensityXT</code>, <code>FieldLine</code>, <code>PlasmaScalarTraces</code>, <code>CircuitWaveforms</code>, <code>ExcimerRates</code></td><td>Opt-in numeric observation and HDF5 export.</td></tr>
+              <tr><td><span class="badge diag">Diagnostic</span></td><td><code>DataRef</code>, <code>LinePlot</code>, <code>HeatmapPanel</code>, <code>HeatmapPlot</code>, <code>Plot</code>, <code>data_limits</code></td><td>Run-owned archive-backed static visualization.</td></tr>
+              <tr><td><span class="badge diag">Diagnostic</span></td><td><code>ConvergenceMetrics</code>, <code>ConvergenceTolerance</code>, <code>ConvergenceResult</code>, <code>compare_refinement</code>, <code>pulse_fwhm</code></td><td>Quantitative mesh/timestep gates and pulse measurement.</td></tr>
+              <tr><td><span class="badge valid">Validation</span></td><td><code>sweep_f2</code>, <code>AnalyticStubSolver</code>, <code>StubPlasmaModel</code>, <code>StubCircuit</code></td><td>Serial equivalence, deterministic smoke tests, and fixed-field plumbing.</td></tr>
+              <tr><td><span class="badge valid">Validation</span></td><td><code>ReconciledEnergy</code>, <code>reconcile_continuous_energy</code></td><td>Continuous-cooling reconciliation analysis; not the source-coupled production update.</td></tr>
+              <tr><td><span class="badge">Production</span></td><td><code>reactions</code>: <code>ReactionNetwork</code>, <code>CompiledNetwork</code>, <code>load_reaction_network</code>, cross-section and ion-mobility loaders, channel extractors, enums, and SI conversion</td><td>Data ingestion, validation, compilation, and expert extension.</td></tr>
+              <tr><td><span class="badge">Production</span></td><td><code>particles</code>: constants, <code>Species</code>, <code>SpeciesRegistry</code>, system registries; <code>kinetics</code>: <code>FluidChemistry</code>, <code>FluidIntegrator</code>, <code>LaserEnergetics</code>; <code>optics</code>: <code>PhotonDensity</code>, <code>GainCavity</code></td><td>Shared physical metadata and subsystem APIs.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="outputs" aria-labelledby="outputs-title">
+        <h2 id="outputs-title">Output layout and durable records</h2>
+        <pre><code>runs/
+├── lut_cache/
+│   └── lut_&lt;content-identity&gt;.npz
+├── &lt;single-run-name&gt;/
+│   ├── diagnostics.h5        # when collectors are selected
+│   ├── progress.json         # when heartbeat reporting is selected
+│   └── &lt;declared plots&gt;
+└── &lt;sweep-name&gt;/
+    ├── f2_&lt;value&gt;/
+    │   ├── diagnostics.h5    # when diagnostics_factory is supplied
+    │   ├── progress.json
+    │   └── &lt;per-point plots&gt;
+    └── &lt;declared aggregate sweep figures&gt;</code></pre>
+        <p><code>diagnostics.h5</code> is the numeric source of truth for figures. Dataset paths are
+          explicit in each <code>DataRef</code>; group attributes preserve units, closure mode, and
+          run-level energy scalars where applicable. Figures are reproducible from the archive
+          without rerunning the physics. Supported visual output is static raster/vector output
+          produced by Matplotlib; there is no animation or volumetric XDMF/ParaView export.</p>
+        <p>The convergence program writes per-member
+          <code>convergence_metrics.json</code> checkpoints and an aggregate
+          <code>runs/analysis/arf_convergence/convergence.json</code>. The energy-closure probe
+          writes its selected comparison to JSON under <code>runs/analysis/</code>.</p>
+      </section>
+
+      <section id="development" aria-labelledby="development-title">
+        <h2 id="development-title">Setup, development, and verification</h2>
+        <p>Python 3.11 or newer is required. Runtime dependencies are NumPy, SciPy, Numba,
+          Matplotlib, and h5py; Linux can use TBB when available. Setup scripts create a virtual
+          environment, install pinned dependencies, and install this repository as an editable
+          package.</p>
+        <pre><code>./MacOS-setup.sh                 # macOS
+./Unix-setup.sh                 # Linux
+# .\Windows-setup.ps1          # Windows PowerShell
+source .venv/bin/activate
+
+# Complete repository suite
+python -m unittest discover -s tests -p "test_*.py"
+
+# Required bounds-checked kernel coverage
+NUMBA_BOUNDSCHECK=1 python -m unittest tests.test_transport_kernel
+
+# Fast end-to-end sweep smoke runs
+python examples/arf_f2_sweep.py --tiny
+python examples/krf_f2_sweep.py --tiny
+
+# Production convergence workflow / restart
+python examples/arf_convergence.py --resume</code></pre>
+        <p>In restricted environments, set writable <code>NUMBA_CACHE_DIR</code> and
+          <code>MPLCONFIGDIR</code>. Numerical changes should add a focused regression. Transport
+          kernel changes require both NumPy parity and bounds checking; chemistry and optics
+          changes should pin conservation against an analytic or reference path.</p>
+
+        <h3>Verification anchors</h3>
+        <ul>
+          <li>Coefficient key monotonicity, re-key equivalence, cache identity, measured-table
+            interpolation, Maxwellian moments, and two-term limiting cases.</li>
+          <li>Poisson/Gauss-law behavior, semi-implicit current continuity, circuit stored energy,
+            passive gap collapse, and finite-capacitance energy bounds.</li>
+          <li>Scharfetter-Gummel flux behavior, wall conditions, source-coupled energy identity,
+            positivity, atom/charge conservation, and NumPy/Numba coupled-path parity.</li>
+          <li>Exact photon solutions, high-gain inventory bounds, PHOTO atom/charge/photon/energy
+            feedback, SE/STE attribution, and interval power integration.</li>
+          <li>Final-cadence flushing, units equivalence, diagnostic accessors/archive paths,
+            run-owned plots, live reporting, sweep cloning, failure isolation, and status rendering.</li>
+        </ul>
+      </section>
+
+      <section id="limitations" aria-labelledby="limitations-title">
+        <h2 id="limitations-title">Limits and interpretation</h2>
+        <ul>
+          <li><strong>Dimensional reduction:</strong> discharge dynamics are one-dimensional and
+            optics is a single cavity average. Transverse discharge structure, optical mode shape,
+            and multidimensional propagation are outside the model.</li>
+          <li><strong>Convergence is required:</strong> a completed run or passing unit suite is not
+            evidence that a particular mesh, timestep, coefficient grid, chemistry cadence, or
+            network reduction is quantitatively converged.</li>
+          <li><strong>Production choices are explicit:</strong> predictive work uses the two-term
+            backend, MPC transport, and <code>source_coupled</code>. Analytic stub/fixed-voltage
+            runs exercise plumbing; <code>continuous_reconciled</code> is diagnostic-only.</li>
+          <li><strong>Electron distribution:</strong> the live fluid retains electron mean energy,
+            not a cell-resolved EEDF. The <code>EEDF</code> collector reconstructs one qualitative
+            domain-mean Maxwellian.</li>
+          <li><strong>Ion data coverage:</strong> some ion/background combinations use the documented
+            generic reduced-mobility fallback. Quantitative mixture work should add cited swarm data
+            for every populated ion and relevant neutral.</li>
+          <li><strong>Network orphans:</strong> the production ArF data retain the literature's
+            <code>Xe+</code> charge orphan and an <code>Ar2F*</code> state without a declared loss.
+            Their importance is run- and timescale-dependent.</li>
+          <li><strong>PHOTO birth model:</strong> current rows inject a fixed mean photoelectron
+            energy derived from photon energy minus binding/detachment energy; they do not sample a
+            sourced kinetic-energy distribution.</li>
+          <li><strong>Coefficient gaps are visible:</strong> reaction import failures warn at build.
+            Real coefficient solvers consume the datasets directly and assign zero to a missing
+            electron-impact channel; a warning is therefore a modeling failure to resolve, not an
+            automatic analytic replacement.</li>
+          <li><strong>Gas state:</strong> pressure and gas temperature are configured background
+            conditions. Ion diffusion uses that temperature; there is no separate gas thermal or
+            hydrodynamic evolution equation.</li>
+          <li><strong>Data provenance matters:</strong> <code>arf.toml</code> is a cited, corrected
+            Chen-derived working network, while <code>arf_chen_2025.toml</code> is explicitly a
+            reproduction overlay. They answer different questions and should not be interchanged.</li>
+        </ul>
+      </section>
+
+      <section id="references" aria-labelledby="references-title">
+        <h2 id="references-title">Repository documentation and provenance</h2>
+        <ul>
+          <li><a href="../README.md">README — setup, runs, outputs, and user-facing overview</a></li>
+          <li><a href="../CLAUDE.md">CLAUDE.md — canonical project charter and numerical invariants</a></li>
+          <li><a href="../AGENTS.md">AGENTS.md — charter symlink used by repository agents</a></li>
+          <li><a href="../NUMERICAL_AUDIT.md">NUMERICAL_AUDIT.md — defect table, verification anchors, and numerical risks</a></li>
+          <li><a href="../bug-fixes.md">bug-fixes.md — detailed defect records and evidence</a></li>
+          <li><a href="../changelog.md">changelog.md — significant code and data change sets</a></li>
+          <li><a href="../rate-references/arf-reaction-provenance.md">ArF reaction provenance — row-by-row source map</a></li>
+          <li><a href="../data/reactions/krf.toml">KrF production reaction data</a> and <a href="../data/reactions/arf.toml">ArF production reaction data</a></li>
+          <li><a href="../data/ion_transport/ion_mobility.toml">Machine-readable ion-mobility provenance</a></li>
+        </ul>
+        <p class="fine">Source docstrings next to each algorithm remain the most detailed guide to
+          equations and array conventions. This page is the navigational and integration-level
+          reference for the complete repository.</p>
+      </section>
+    </main>
+  </div>
+
+  <footer>
+    <p>F2-sweep-KrF codebase guide. Self-contained HTML; no external fonts, scripts, or assets.</p>
+  </footer>
+</body>
+</html>

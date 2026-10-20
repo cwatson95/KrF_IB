@@ -1,0 +1,165 @@
+"""The ArF network as data: balance, citations, energies, the measured
+constants and the bands (LIGHT_ArF v0_2)."""
+
+import statistics
+
+import pytest
+
+from v0_2 import network as N
+from v0_2 import xsec
+from v0_2.species import (HC_EV_NM, SPECIES, atoms, e_form)
+
+
+def approx(expected, rel=1e-6, abs=0.0):
+    """pytest.approx without its default absolute tolerance of 1e-12, which
+    lets any two rate constants below 1e-12 compare equal (a three-body
+    rate of 1.9e-30 'equals' 6.0e-31). Tolerances are relative unless a
+    test names an absolute one."""
+    return pytest.approx(expected, rel=rel, abs=abs)
+
+
+def test_every_row_balances_and_is_cited():
+    rows = N.build(("all",))
+    assert len(rows) == len({r.rid for r in rows})
+    for r in rows:
+        assert len(r.cite) > 20, r.rid
+        N.check_row(r)
+
+
+def test_only_argon_and_fluorine():
+    """The conversion from KrF left no krypton behind."""
+    for s in SPECIES.values():
+        assert set(dict(s.atoms)) <= {"Ar", "F"}, s.name
+    for r in N.build(("all",)):
+        assert "Kr" not in "".join(r.reactants + r.products), r.rid
+
+
+def test_level_table_is_the_vendored_file():
+    """AR_LEVELS names every IST-Lisbon excitation block once, in order,
+    with the file's own threshold, and every one has its row."""
+    exc = [p for p in xsec.processes("Ar") if p.kind == "excitation"]
+    assert [(lab, thr) for _, lab, thr in N.AR_LEVELS] == \
+        [(p.product, p.threshold) for p in exc]
+    rows = {r.rid: r for r in N.build()}
+    for rid, lab, thr in N.AR_LEVELS:
+        r = rows[rid]
+        assert r.rate == ("xsec", "Ar", "excitation", lab)
+        assert r.e_cost_eV == thr and r.products == ("e", "Ar*")
+    assert sum(rid.startswith("G1") for rid in rows) == 4
+    assert sum(rid.startswith("C1") for rid in rows) == 33
+    assert rows["C2"].e_cost_eV == 15.76 == xsec.find("Ar", "ionization").threshold
+
+
+def test_energy_routing_examples():
+    rows = {r.rid: r for r in N.build(("all",))}
+    route = {rid: N.energy_routing(r) for rid, r in rows.items()}
+    # the 193-nm photon takes all of ArF(B)'s energy above Ar + F: the
+    # flat-X lower bound (species.py)
+    assert route["G4"]["rad"] == approx(HC_EV_NM / 193.3)
+    assert abs(route["G4"]["heat"]) < 1e-12
+    # the 4s levels above 3P2 and the cascade from 4p heat the gas
+    assert route["G1_3P1"]["heat"] == approx(11.623 - 11.548, rel=1e-9)
+    assert route["C1_4p01"]["heat"] == approx(12.907 - 11.548, rel=1e-9)
+    assert route["C1_4p01"]["from_e"] == 12.907
+    # the trimer: 0.65 eV of binding to heat, then 2840 A
+    assert route["G5"]["heat"] == approx(0.65, rel=1e-9)
+    assert route["C3"]["rad"] == approx(HC_EV_NM / 284.0)
+    assert route["C3"]["heat"] == approx(e_form("Ar2F*") - 0.80
+                                         - HC_EV_NM / 284.0, rel=1e-12)
+    # recombination: one electron captured, 2.98 eV (Ar2+ - Ar*) to heat
+    assert route["R11p"]["capture"] == 1
+    assert route["R11p"]["heat"] == approx(14.53 - 11.548, rel=1e-9)
+    # Penning: the release goes to the electron gas
+    assert route["G2"]["to_e"] == approx(2 * 11.548 - 15.76, rel=1e-9)
+    assert route["PEN_AR2"]["to_e"] == approx(2 * (11.548 - 0.68)
+                                              - (15.76 - 1.23), rel=1e-9)
+    # superelastic: Ar*'s energy to the electrons
+    assert route["SUPER_3P2"]["to_e"] == approx(11.548, rel=1e-12)
+
+
+def test_unknown_group_and_network_refused():
+    with pytest.raises(N.NetworkError):
+        N.build(("quench",))
+    with pytest.raises(N.NetworkError):
+        N.build(net="v0")
+    assert len(N.build(("all",))) == len(N.build()) + 5
+
+
+def test_species_energies_are_the_cited_ones():
+    assert e_form("Ar*") == 11.548 and e_form("Ar+") == 15.76
+    assert e_form("Ar2+") == approx(15.76 - 1.23, rel=1e-12)
+    assert e_form("Ar2*") == approx(11.548 - 0.68, rel=1e-12)
+    assert e_form("ArF(B)") == approx(0.80 + HC_EV_NM / 193.3, rel=1e-12)
+    assert e_form("Ar2F*") == approx(e_form("ArF(B)") - 0.65, rel=1e-12)
+    assert e_form("F-") == approx(0.80 - 3.40, rel=1e-12)
+    # D_e(ArF B) = IP(Ar) - EA(F) - (E(B) - E(F)) sits at its upper bound
+    assert 15.76 - 3.40 - (e_form("ArF(B)") - 0.80) == approx(5.946,
+                                                             rel=1e-3)
+    assert atoms("Ar2F*") == {"Ar": 2, "F": 1}
+
+
+def test_measured_constants_are_the_cited_means():
+    assert N.ARF_TAU_B == 4.2e-9
+    assert N.KT_ARF_F2 == approx(statistics.mean((7.6e-18, 7.5e-18)))
+    assert N.KT_ARF_AR == 3.6e-20
+    assert N.AR2F_TAU == approx(statistics.mean((185e-9, 205e-9, 220e-9)))
+    assert N.K_AR2F_F2 == approx(statistics.mean((2.1e-10, 1.79e-10,
+                                                  1.9e-10)))
+    # K15: the median of the eight measurements of Brau's Table 4.8
+    brau = (4.4e-31, 2.5e-31, 1.46e-31, 5e-32, 1.9e-31, 2.07e-31, 2.3e-31,
+            3.0e-31)
+    assert N.AR_CONV_300 == approx(statistics.median(brau), rel=0.01)
+    rows = {r.rid: r for r in N.build()}
+    assert rows["R11p"].rate == ("te_pow", 7.5e-7, N.TE_300K, -0.67)
+    assert rows["K26"].rate == ("hm", 9.32e-6, 6.21e-2, 1.69, -3.0)
+    assert rows["K108"].rate == ("hm", 1.51e-5, 1.81, 2.25, -3.0)
+    assert rows["FF"].rate == ("const", 8.0e-35)
+    assert rows["QF2"].rate == ("inv_tau", "tau_sp_s", N.KT_ARF_F2)
+    assert rows["QAR"].rate == ("inv_tau", "tau_sp_s", N.KT_ARF_AR)
+    assert rows["K15"].tg_pow == -0.75 and rows["G5"].tg_pow == 0.0
+
+
+def test_bands_hold_the_published_values():
+    B = N.BANDS
+    for b in B.values():
+        assert b.lo <= b.default <= b.hi, b.name
+        assert all(b.lo <= v <= b.hi for v, _ in b.marks), b.name
+        assert len(b.cite) > 20
+    # measured defaults
+    assert B["ar_f2"].default == approx(statistics.mean((7.5e-10, 9.4e-10,
+                                                         7.4e-10)), rel=0.01)
+    assert (B["ar_f2"].lo, B["ar_f2"].hi) == (6.4e-10, 1.1e-9)
+    assert B["arf_yield"].default == 0.5 and B["arf_yield"].hi == 1.0
+    assert B["ar2_form"].default == 6.0e-33
+    assert B["ar2_rad"].default == approx(1 / 3.2e-6)
+    assert B["arf_trimer"].default == approx(statistics.mean(
+        (1.6e-39, 2.1e-39, 3.1e-39)), rel=1e-3)
+    assert B["arf_e"].default == approx(statistics.mean((1.6e-7, 3.0e-7))
+                                        * 2.5e-9)
+    assert (B["arf_e"].lo, B["arf_e"].hi) == approx((1.6e-7 * 2.5e-9,
+                                                     3.0e-7 * 2.5e-9))
+    assert B["ar2f_f"].default == approx(0.75 * N.K_AR2F_F2)
+    assert B["ar2_f2_arf"].default == approx(0.5 / 0.55, rel=0.01)
+    # no measurement: default 0, the band from 0
+    for name in ("ar2_f", "ar2_pen", "ar_pen", "ar2f_ar"):
+        assert B[name].default == 0.0 == B[name].lo, name
+    assert B["trimer_tg_pow"].default == 0.0 and B["trimer_tg_pow"].lo == -3.9
+
+
+def test_param_rows_and_their_modifiers():
+    """G3 + G3X and NK7 + K2F_BR each add up to their total; G5 and QE carry
+    measured k tau products."""
+    rows = {r.rid: r for r in N.build()}
+    assert N.bands_of(rows["G3"]) == ("ar_f2", "arf_yield")
+    assert N.bands_of(rows["NK7"]) == ("ar2_f2", "ar2_f2_arf")
+    assert N.bands_of(rows["G5"]) == ("arf_trimer",)
+    assert N.bands_of(rows["C3"]) == ()
+    val = {"ar_f2": 8e-10, "arf_yield": 0.3, "ar2_f2": 5e-10,
+           "ar2_f2_arf": 0.8, "arf_trimer": 2e-39, "arf_e": 6e-16}.get
+    k = {rid: N.param_rate(rows[rid].rate, val, 4e-9)
+         for rid in ("G3", "G3X", "NK7", "K2F_BR", "G5", "QE")}
+    assert k["G3"] == approx(0.3 * 8e-10) and k["G3X"] == approx(0.7 * 8e-10)
+    assert k["NK7"] + k["K2F_BR"] == approx(5e-10)
+    assert k["G5"] == approx(2e-39 / 4e-9) and k["QE"] == approx(6e-16 / 4e-9)
+    with pytest.raises(N.NetworkError):
+        N.param_rate(("param", "ar_f2", 1.0, (("twice",),)), val, 4e-9)

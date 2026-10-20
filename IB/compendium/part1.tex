@@ -1,0 +1,506 @@
+%================================================================
+%  Part I: afterglow reheating, where the case stands. Every number
+%  is printed in the chapter cited next to it, or follows from such
+%  numbers by the arithmetic shown. No hyperlinks inside table cells.
+%================================================================
+
+\chapter{The question and the verdict}
+\label{p1:chap:verdict}
+
+%================================================================
+\section{The proposal}
+\label{p1:sec:proposal}
+%================================================================
+
+{\noindent}(1) An electron beam pumps a KrF laser gas by making ion pairs and
+excited atoms, and KrF$^*$ forms from them, much of it through the harpoon
+reaction of excited krypton with F$_2$. When the beam stops, the electrons it
+leaves behind cool and are lost to attachment and recombination. This is the
+afterglow. Part~\ref{p1:part:notes} describes it in the neon-buffered fill of an
+electron-beam-pumped laser, Ne/Kr/F$_2$ $=0.948/0.05/0.002$ at 2~atm, by
+electrons at 0.63~eV and $10^{20}$~m$^{-3}$, against 1.5~eV and
+$2.72\times10^{21}$~m$^{-3}$ with the beam on (Sec.~\ref{nl:sec:regime}). The
+afterglow holds 27 times fewer electrons, and colder ones.
+
+{\noindent}(2) Reheating sends an electromagnetic wave into the afterglow. The wave
+heats the free electrons by inverse bremsstrahlung (IB), the hotter electrons
+excite krypton again, and the excited krypton forms KrF$^*$ while F$_2$ lasts. The
+question of this compendium is whether that can make the laser more efficient,
+that is, raise the laser energy per unit of electrical energy.
+
+{\noindent}(3) It can only if five links hold (Fig.~\ref{p1:fig:chain}):
+\begin{itemize}
+\item[L1] \emph{Coupling.} The wave enters the gas and is absorbed through the
+  depth of the gain medium, rather than reflected or absorbed in a thin skin.
+\item[L2] \emph{Absorption.} The absorption coefficient that decides L1 is known.
+\item[L3] \emph{Heating.} An available intensity raises the electron temperature,
+  in a regime that the kinetic equation of the electrons describes.
+\item[L4] \emph{Partition.} The energy the electrons take from the wave forms
+  KrF$^*$ at a useful efficiency.
+\item[L5] \emph{Laser and wall plug.} Laser photons extract the KrF$^*$, and the
+  source of the wave is efficient enough for the gain to pay.
+\end{itemize}
+
+{\noindent}(4) A link is called \emph{verified} here when the calculations of
+Part~\ref{p1:part:notes} establish it, with their inputs tested against measurements
+where the notes cite such tests. Nothing in Part~\ref{p1:part:notes} measures
+reheating itself. A link or a lever is \emph{invalidated} when those calculations
+rule it out, and \emph{open} when they do not settle it, in which case
+Chapter~\ref{p1:chap:settle} names what would.
+
+%================================================================
+\section{The verdict}
+\label{p1:sec:verdict}
+%================================================================
+
+{\noindent}(1) The heating half of the proposal stands, and the efficiency half is
+open. Coupling, absorption and heating are verified in silico, with one constraint
+that shapes the proposal: only the THz band heats the afterglow through
+centimetres, while microwaves heat a layer millimetres deep. The partition favours
+the field. At the afterglow's density a wave far above the collision frequency
+forms KrF$^*$ at 1.4 to 1.8 times the electron beam's rate per absorbed joule, but
+that count leaves out the electron collisions with Kr$^*$ and KrF$^*$ on which the
+sign of the gain rests, and no note carries the KrF$^*$ to laser energy or to the
+wall plug. Two levers are invalidated: the nonlinearity of IB, and the laser's own
+field. Table~\ref{p1:tab:verdict} collects the verdict, and
+Chapter~\ref{p1:chap:evidence} gives the evidence link by link.
+
+\begin{figure}[t]
+\centering
+\begin{tikzpicture}[>=Stealth,
+  link/.style={draw, rounded corners=2pt, align=center, text width=2.6cm,
+    minimum height=2.5cm, font=\small},
+  ver/.style={link, fill=green!12},
+  opn/.style={link, fill=orange!20},
+  inv/.style={draw, rounded corners=2pt, align=center, text width=10.5cm,
+    font=\small, fill=red!10}]
+\node[ver] (L1) {\textbf{L1 coupling}\\[2pt] wave absorbed\\ over the depth\\[2pt] \emph{verified}};
+\node[ver, right=0.36cm of L1] (L2) {\textbf{L2 absorption}\\[2pt] coefficient\\ known\\[2pt] \emph{verified}};
+\node[ver, right=0.36cm of L2] (L3) {\textbf{L3 heating}\\[2pt] field sets $T_e$\\ at reachable $I$\\[2pt] \emph{verified}};
+\node[opn, right=0.36cm of L3] (L4) {\textbf{L4 partition}\\[2pt] energy forms\\ KrF$^*$\\[2pt] \emph{open}};
+\node[opn, right=0.36cm of L4] (L5) {\textbf{L5 laser and}\\ \textbf{wall plug}\\[2pt] KrF$^*$ extracted,\\ source pays\\[2pt] \emph{open}};
+\foreach \a/\b in {L1/L2,L2/L3,L3/L4,L4/L5} \draw[->,thick] (\a) -- (\b);
+\node[inv, below=0.55cm of L3] (N) {\textbf{Invalidated as levers:} the nonlinearity of
+  inverse bremsstrahlung (Langdon, Silin), and the laser's own field};
+\end{tikzpicture}
+\caption{The chain from the wave to the laser energy, with the standing of each link
+in Part~\ref*{p1:part:notes}. The THz band carries L1. The open links hinge on the
+electron collisions of Kr$^*$ and KrF$^*$, the extraction of the KrF$^*$ and the
+efficiency of the source.}
+\label{p1:fig:chain}
+\end{figure}
+
+\begin{table}[t]
+\caption{Where afterglow reheating stands, link by link. The numbers are for the
+afterglow of Chapter~\ref*{nl:chapter}, $10^{20}$~m$^{-3}$, unless stated otherwise.}
+\label{p1:tab:verdict}
+\centering
+\small
+\begin{tabular}{@{}L{1.9cm} L{1.7cm} L{8.4cm} L{3.0cm}@{}}
+\toprule
+link & standing & what Part~\ref*{p1:part:notes} establishes & where \\
+\midrule
+L1 coupling & verified & 10~cm is absorbed at 0.64 to 3.8~THz, 2.6~cm at 0.67~THz, and a
+microwave within millimetres. Reflection does not bind. & Secs.~\ref*{env:sec:spectrum},
+\ref*{nl:sec:regime}, Tables~\ref*{env:tab:main}, \ref*{qib:tab:fbest}\\
+\addlinespace
+L2 absorption & verified & The classical kernel is within 1.6\,\% of the quantum one at
+0.3 to 4~THz. Krypton's cross section is tested to a few per cent above 0.95~eV and to
+about 20\,\% at 0.63~eV. Ions matter only in a cold afterglow. &
+Secs.~\ref*{ea:sec:thermal}, \ref*{env:sec:sources}, \ref*{ea:sec:ei}\\
+\addlinespace
+L3 heating & verified & $1.4\times10^{3}$ to $1.5\times10^{4}$~W\,cm$^{-2}$ hold the
+electrons at 0.63~eV, 5.8~kW\,cm$^{-3}$, far below Langdon's and Silin's thresholds. &
+Sec.~\ref*{nl:sec:regime}, Table~\ref*{nl:tab:regime}\\
+\addlinespace
+nonlinearity, laser's field & invalidated & The lasing field is $7.1\times10^{3}$ times
+below the heating threshold, and Langdon's regime needs 33 to 80 times it. &
+Secs.~\ref*{nl:sec:answer}, \ref*{nl:sec:regime}\\
+\addlinespace
+L4 partition & open & 0.274 to 0.352 KrF$^*$ per absorbed joule at high frequency against
+the beam's 0.198, without the electron collisions of Kr$^*$ and KrF$^*$ or the 5s to 5p
+cycle. & Tables~\ref*{nl:tab:share}, \ref*{nl:tab:source}, Secs.~\ref*{nl:sec:wallplug},
+\ref*{qib:sec:ladder}\\
+\addlinespace
+L5 laser, wall plug & open & No note follows the photons. The source must reach 0.56 to
+0.72 of the beam's efficiency times the ratio of the two extractions. &
+Secs.~\ref*{qib:sec:stands}, \ref*{nl:sec:wallplug}, Eq.~(\ref*{p1:eq:wallplug})\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+%================================================================
+\section{Reading Part~II}
+\label{p1:sec:reading}
+%================================================================
+
+{\noindent}(1) Part~\ref{p1:part:notes} is six notes, one chapter each, in their
+reading order. Chapter~\ref{env:chapter} derives the best frequency for krypton gases
+and settles THz against GHz (L1, L2). Chapter~\ref{qib:chapter} follows the excited
+atoms inside the electrons' balances and marches a pulse (L1, L4).
+Chapter~\ref{nl:chapter} locates the lasers and the sources against the
+nonlinearities of IB and counts what field pumping buys (L3, L4, L5).
+Chapter~\ref{lad:chapter} tests the absorption model against measured absorption in
+laser plasmas (L2). Chapter~\ref{pd:chapter} derives the quantum theory of IB on ions
+and Chapter~\ref{ea:chapter} that of absorption on atoms at THz frequencies (L2, L3).
+
+{\noindent}(2) Each chapter keeps its note's text, notation and references, with its
+own numbering inside the chapter. Chapters~\ref{env:chapter}, \ref{lad:chapter},
+\ref{pd:chapter} and \ref{ea:chapter} use Gaussian units and Chapters~\ref{qib:chapter}
+and \ref{nl:chapter} SI units. Electron densities are in cm$^{-3}$ in
+Chapters~\ref{env:chapter}, \ref{qib:chapter} and \ref{lad:chapter} and in m$^{-3}$ in
+Chapters~\ref{nl:chapter} and \ref{ea:chapter}, and $10^{14}$~cm$^{-3}$ is
+$10^{20}$~m$^{-3}$. ``These notes'' in a chapter means that chapter.
+
+
+\chapter{The evidence, link by link}
+\label{p1:chap:evidence}
+
+%================================================================
+\section{L1: coupling}
+\label{p1:sec:L1}
+%================================================================
+
+{\noindent}(1) A wave heats a depth $L$ of gas best at the frequency whose absorption
+length is $L$, provided the gas reflects no more than 5\,\% of it,
+Eq.~\eqref{env:eq:fbest}. Far above the collision and plasma frequencies the
+absorption coefficient falls as $f^{-2}$, Eq.~\eqref{env:eq:alpha}, and the frequency
+that matches the depth grows as the square root of the electron density, the
+collision frequency and the depth, Eq.~\eqref{env:eq:fA}. The afterglow's fewer and
+colder electrons therefore need a lower frequency than the gas with the beam on.
+
+{\noindent}(2) At the afterglow's density, $10^{14}$~cm$^{-3}$, a depth of 10~cm calls
+for 1.1, 2.2 and 3.8~THz in pure krypton at 0.1, 0.5 and 2~atm
+(Table~\ref{env:tab:main}), and for 0.64 to 2.4~THz in the Ne fill and 1 to 3.5~THz in
+the Ar fill from 0.1 to 2~atm (Table~\ref{qib:tab:fbest}), with the electrons heated by
+300~kW\,cm$^{-3}$ in both tables. In the afterglow itself, at 0.63~eV in the Ne fill, a
+0.67~THz wave is absorbed in 2.6~cm (Sec.~\ref{nl:sec:regime}). There the electrons'
+collision frequency is 0.12 of the wave's angular frequency (Table~\ref{nl:tab:regime})
+and the cutoff lies at 0.090~THz (Sec.~\ref{env:sec:reflection}), so the absorption
+coefficient falls as $f^{-2}$, and 10~cm takes $(10/2.6)^{1/2}=2.0$ times that
+frequency, 1.3~THz.
+
+{\noindent}(3) Microwaves do not reach that depth. In the afterglow a 2.45~GHz wave
+lies far below the collision frequency, $\langle\nu_m\rangle/\omega=32$
+(Table~\ref{nl:tab:regime}), and a 170~GHz wave heats a layer 2.5~mm deep
+(Sec.~\ref{nl:sec:regime}). In krypton at $10^{14}$~cm$^{-3}$ and 0.5~atm, where the
+collisions outrun the cutoff, a GHz wave does enter the gas, 43\,\% of it reflected at
+2.45~GHz and 1\,\% at 95~GHz, but it is absorbed in 1.8 to 4.2~mm, and over the
+pressures and both gases in 0.6 to 8.3~mm, so that the front millimetres take all of it
+(Sec.~\ref{env:sec:spectrum}).
+
+{\noindent}(4) The cutoff does not bind in the afterglow. The plasma frequency is
+0.090~THz at $10^{14}$~cm$^{-3}$ (Sec.~\ref{env:sec:reflection}), where with the beam on
+it is 0.47~THz (Sec.~\ref{nl:sec:share}).
+
+\medskip
+\noindent\textbf{Standing: verified, with a band.} A wave of 0.64 to 3.8~THz, 1.3~THz in
+the Ne fill's afterglow, deposits its power through 10~cm of gas at the afterglow's
+density. A 0.67~THz wave deposits it through 2.6~cm, and a microwave in a layer
+millimetres deep. Volumetric reheating is a THz proposal.
+
+%================================================================
+\section{L2: absorption}
+\label{p1:sec:L2}
+%================================================================
+
+{\noindent}(1) The absorption coefficient is the Drude form with the collision
+frequency $\nueff=\nuea+\nuT\Lambda$, Eq.~\eqref{env:eq:nueff}, the atoms entering
+through the energy-weighted average of their momentum-transfer collision frequency,
+Eq.~\eqref{env:eq:nuea}, and the ions through the Spitzer frequency and the Gaunt
+factor. Three things decide whether it is right: the kernel of the atoms, the cross
+sections that the kernel takes, and the term of the ions.
+
+{\noindent}(2) \emph{The kernel.} The classical kernel treats the electron as a
+particle that absorbs continuously. Against the quantum rate between exact scattering
+states it is within 1.6\,\% in either fill from 0.3 to 4~THz at every electron
+temperature from 300~K to 1.08~eV (Sec.~\ref{ea:sec:thermal}), so the absorption lengths
+of L1 stand. It fails only far above that band: at 28.3~THz and 300~K the quantum
+absorption is 10\,\% below it in the neon fill and 28\,\% below it in the argon fill.
+
+{\noindent}(3) \emph{The cross sections.} Krypton's momentum-transfer cross section is
+tested by the drift velocities it predicts. Between 0.95 and 2.6~eV the computed drift
+velocity is 0.96 to 1.02 times Nakamura's measurements \cite{p1:Nakamura1991} and 0.84
+to 0.97 times those of Pack, Voshall and Phelps \cite{p1:Pack1962}
+(Sec.~\ref{env:sec:sources}). Below 0.95~eV only the latter exist, and across the
+Ramsauer minimum the computed drift velocity is 0.80 to 1.20 times them. Since the
+drift velocity weights the inverse of the cross section over the same electrons, the
+cross section is tested there to about 20\,\%, and the afterglow's 0.63~eV electrons
+sit in that minimum, which lies at 0.5~eV (Sec.~\ref{env:sec:atoms}).
+
+{\noindent}(4) \emph{The ions.} The ions matter only in a cold afterglow. While the
+electrons stay at 0.63~eV the ions catch up with the atoms only above
+$10^{22}$~m$^{-3}$. At 300~K they take over at 1~THz above $7.0\times10^{19}$~m$^{-3}$
+in the neon fill and $1.5\times10^{20}$~m$^{-3}$ in the argon fill with the classical
+Gaunt factor, and at $10^{20}$~m$^{-3}$ they absorb 1.4 times as much as the atoms in
+the neon fill (Sec.~\ref{ea:sec:ei}). There the collisions are classical, and the ions'
+term rests on an estimate, the larger of Scheuer's classical Gaunt factor and one. The
+theory of that term is tested elsewhere. The quantum theory gives the Coulomb logarithm
+with no cutoff put in by hand (Sec.~\ref{pd:sec:summary}, Eq.~\eqref{env:eq:Lambda1}),
+and with no fitted parameter the ladder of Chapter~\ref{lad:chapter} gives
+$0.96\pm0.04$ of the measured absorption of ten nitrogen--hydrogen laser plasmas of
+Turnbull et al.\ \cite{p1:Turnbull2023,p1:Turnbull2024} and $1.19\pm0.06$ of four
+hydrogen ones (Eq.~\eqref{lad:eq:verdict}). Those plasmas, at temperatures such as the
+0.36~keV of the hydrogen point of Sec.~\ref{lad:sec:idea}, are far from the afterglow.
+
+{\noindent}(5) \emph{The solvers.} Two independently written solvers of the two-term
+equation agree within 0.2\,\% in the electrons' mean energy and in the absorbed power
+(Sec.~\ref{qib:sec:solvers}), and the kinetic solver of Chapter~\ref{nl:chapter}
+reproduces Langdon's absorption fit within 1.8\,\% (Sec.~\ref{nl:sec:checks}).
+
+\medskip
+\noindent\textbf{Standing: verified where the atoms absorb.} The kernel holds to 1.6\,\%
+in the THz band, and krypton's cross section is tested to a few per cent for electrons
+above 0.95~eV and to about 20\,\% at the afterglow's 0.63~eV. In a thermalized
+afterglow above $10^{20}$~m$^{-3}$ the ions take over, and their term rests there on a
+classical estimate.
+
+%================================================================
+\section{L3: heating}
+\label{p1:sec:L3}
+%================================================================
+
+{\noindent}(1) In a laser gas the field takes over the electron temperature once its
+heating exceeds the electrons' collisional losses, at the intensity $I_{\rm heat}$ of
+Eq.~\eqref{nl:eq:thresholds}, below which a wave crosses a weakly ionized plasma
+without changing it appreciably \cite{p1:GinzburgGurevich1960}. In the Ne fill's
+afterglow the electrons lose $3.6\times10^{8}$~eV\,s$^{-1}$ each at 0.63~eV, and
+$I_{\rm heat}$ is $2.8\times10^{2}$~W\,cm$^{-2}$ at 2.45~GHz,
+$1.4\times10^{3}$~W\,cm$^{-2}$ at 170~GHz and $1.5\times10^{4}$~W\,cm$^{-2}$ at
+0.67~THz (Table~\ref{nl:tab:regime}). Gyrotrons deliver 1~MW at 170~GHz
+\cite{p1:Sakamoto2007} and 0.21~MW at 0.67~THz \cite{p1:Glyavin2012}
+(Fig.~\ref{nl:fig:regime}), and the second holds $1.5\times10^{4}$~W\,cm$^{-2}$ over
+14~cm$^2$.
+
+{\noindent}(2) The power per volume is small against the beam's. To hold the
+afterglow's electrons at 0.63~eV the field must give each $3.6\times10^{8}$~eV\,s$^{-1}$,
+5.8~kW\,cm$^{-3}$ at $10^{20}$~m$^{-3}$, and to hold them at the beam-on 1.5~eV
+$1.1\times10^{9}$~eV\,s$^{-1}$ (Table~\ref{nl:tab:regime}), 18~kW\,cm$^{-3}$. These are
+1.0 and 2.9\,\% of the 0.6~MW\,cm$^{-3}$ of beam that makes the beam-on density in a
+full kinetic model of the laser (Sec.~\ref{nl:sec:share}).
+
+{\noindent}(3) The heating stays in the regime the kinetic equation describes.
+Langdon's flattening of the distribution needs 33 to 51 times $I_{\rm heat}$ in the
+afterglow, and Silin's regime a further 11.5 times (Sec.~\ref{nl:sec:regime}). At every
+point of the scans the quiver velocity is at most 0.13 of the thermal one
+(Sec.~\ref{nl:sec:kinetic}). For electrons whose energy far exceeds the photon's, the
+exchange of several photons changes how the energy is gained but not how fast, so the
+classical kernel holds at any intensity, and with elastic losses alone a 0.5~eV rise of
+the electron temperature in pure krypton needs 53~W\,cm$^{-2}$ at 0.3~THz and
+585~W\,cm$^{-2}$ at 1~THz (Sec.~\ref{ea:sec:strong}).
+
+{\noindent}(4) The density answers to the heating. Heated hard, the afterglow ionizes
+itself. At $10^{14}$~cm$^{-3}$ and 300~kW\,cm$^{-3}$ the density e-folds in 2.4 to
+5.2~ns in pure krypton and in krypton with F$_2$ at 0.1~atm
+(Sec.~\ref{env:sec:particles}), and the Ne fill multiplies its electrons more than
+$e$-fold in 1~$\mu$s at every pressure at that density (Table~\ref{qib:tab:fbest}).
+Above the ionization balance the reheated afterglow becomes a discharge sustained by
+the field. A self-sustained discharge forms 0.337 to 0.354 KrF$^*$ per absorbed joule
+(Sec.~\ref{nl:sec:wallplug}), and the notes do not address its stability. Below that
+balance the F$_2$ removes the electrons. In krypton with 2\,\% F$_2$ attachment takes
+them in 0.1 to 17~ns (Sec.~\ref{env:sec:f2}), so reheating acts on electrons that turn
+over in nanoseconds.
+
+\medskip
+\noindent\textbf{Standing: verified.} $1.4\times10^{3}$ to
+$1.5\times10^{4}$~W\,cm$^{-2}$ hold the afterglow's electrons at their temperature, and
+a few per cent of the beam's power per volume holds them at the beam-on temperature, in
+a regime that the two-term kinetic equation and the classical kernel describe.
+
+%================================================================
+\section{What is invalidated}
+\label{p1:sec:invalid}
+%================================================================
+
+{\noindent}(1) \emph{The laser's own field.} At 10~MW\,cm$^{-2}$, a few saturation
+intensities, the KrF field is $7.1\times10^{3}$ times below $I_{\rm heat}$ in the Ne
+fill and $1.5\times10^{4}$ times in the Ar fill (Sec.~\ref{nl:sec:regime}). The laser's
+light does not reheat its own electrons.
+
+{\noindent}(2) \emph{The nonlinearity of IB.} An auxiliary field reaches only the
+nonlinearity of a weakly ionized gas, in which the field sets the electron temperature,
+long before Langdon's flattening \cite{p1:Langdon1980} or Silin's saturation, which need
+33 to 80 and 380 to 920 times more intensity (Sec.~\ref{nl:sec:answer}). The
+nonlinearity of IB is not by itself a lever on the efficiency of a gas laser
+(Sec.~\ref{nl:sec:verdict}).
+
+{\noindent}(3) \emph{The frequency as a lever, with the beam on.} A field far above the
+collision frequency heats each electron in proportion to its collision frequency and
+gives a distribution whose tail reaches krypton's 9.9~eV levels, where a DC field heats
+the slow electrons most (Sec.~\ref{nl:sec:share}). At the beam-on density the
+electron--electron collisions supply most of that tail anyway, and what is left of the
+frequency's advantage is 2 to 7\,\% where the field's power exceeds the beam's
+(Sec.~\ref{nl:sec:verdict}). In the afterglow, with 27 times fewer electrons, the lever
+survives, which L4 takes up.
+
+%================================================================
+\section{L4: partition}
+\label{p1:sec:L4}
+%================================================================
+
+{\noindent}(1) The formation efficiency $\eta_{\rm form}$ of Eq.~\eqref{nl:eq:etaform}
+counts the KrF$^*$ that a partition of the absorbed power forms per absorbed energy, at
+the photon energy of 4.997~eV, with the branchings of a KrF kinetic network: 0.87 for
+Kr$^*$ through the harpoon in the Ne fill, 0.81 in the Ar fill, and 0.68 through the
+ions. The electron beam forms 0.198 in the Ne fill by the same count once its
+sub-excitation electrons are credited, 0.175 without them, and a full kinetic model of
+the laser gives 0.194 (Sec.~\ref{nl:sec:wallplug}).
+
+{\noindent}(2) At the afterglow's density the frequency still matters. At
+$10^{20}$~m$^{-3}$ a field far above the collision frequency, 28.3~THz in the scans,
+gives krypton 66.4\,\% of the absorbed power in the Ne fill at the lowest power, against
+42.7\,\% from a DC field of the same absorbed power, a ratio of 1.556, and the ratio is
+1.596 in the Ar fill (Table~\ref{nl:tab:share}). With electrons sustained by the beam
+it is 1.709 and 1.899 (Table~\ref{nl:tab:source}). In the afterglow a 2.45~GHz wave is a
+DC field for this purpose, $\langle\nu_m\rangle/\omega=32$, while a THz wave lies above
+the collision frequency, $\langle\nu_m\rangle/\omega=0.12$ already at 0.67~THz
+(Table~\ref{nl:tab:regime}).
+
+{\noindent}(3) The high frequency forms 0.274 to 0.352 KrF$^*$ per absorbed joule in the
+Ne fill at $10^{20}$~m$^{-3}$: 0.274 and 0.351 at the powers of 2 and 5~Td with the growth
+model (Table~\ref{nl:tab:share}), and 0.298 and 0.352 for the field's marginal power with
+beam-sustained electrons (Table~\ref{nl:tab:source}). That is 1.4 to 1.8 times the
+beam's 0.198. A DC field forms 0.175 to 0.326 there. In the Ar fill the high frequency
+forms 0.342 to 0.375 against 0.101 to 0.208.
+
+{\noindent}(4) The count leaves out what a reheated afterglow does most.
+\begin{itemize}
+\item \emph{The electron collisions of Kr$^*$ and KrF$^*$.} At the beam-on density the
+  stepwise ionization $e+{\rm Kr}^*\to{\rm Kr}^++2e$ runs at 0.39 to 1.63 of the harpoon
+  rate in the Ne fill, at the rate of Kannari et al.\ \cite{p1:Kannari1985}, and lowers
+  the KrF$^*$ yield of a Kr$^*$ by 4.8 to 11.8\,\%, which lowers field pumping, mostly
+  through Kr$^*$, more than beam pumping, mostly through ions. In a full kinetic model of
+  microwave co-pumping the sign of the laser energy that the field gains rests on that
+  one rate, and the electron quench of KrF$^*$ is a candidate second
+  (Sec.~\ref{nl:sec:wallplug}). No measurement of the stepwise ionization was found
+  (Sec.~\ref{qib:sec:ladder}). In the afterglow these collisions weigh more, since
+  Kr$^*$ accumulates once its harpoon partner is gone, 10 and 8 times in the pulses of
+  Sec.~\ref{qib:sec:pulse}.
+\item \emph{The 5s to 5p cycle.} The electrons lift Kr$^*$ to 5p with the measured cross
+  sections of Jung et al.\ \cite{p1:Jung2005}, and in the krypton fill at 1~atm and
+  $10^{15}$~cm$^{-3}$, at 10~THz, the 5p manifold returns 84\,\% by collisions with the
+  gas, 15\,\% superelastically and 1.2\,\% by radiation (Sec.~\ref{qib:sec:ladder}). Net
+  of what they give back, the excited atoms take 0.007 to 2.9 times the absorbed power
+  from the electrons in the Ne fill and up to 23.5 times in the krypton fill
+  (Sec.~\ref{qib:sec:results}). A faster collisional return ends more of the cycle's
+  energy in the gas (Sec.~\ref{qib:sec:limits}), and one measured total loss rate of a
+  5p level bounds it \cite{p1:Gazeli2021}.
+\item \emph{The F$_2$.} Kr$^*$ forms KrF$^*$ only while F$_2$ lasts, and the electrons
+  burn it by attachment, $3\times10^{8}$ to $6\times10^{8}$ molecules per electron per
+  second in the pulses of Sec.~\ref{qib:sec:pulse}, where half of it is gone at 134~ns at
+  $10^{15}$~cm$^{-3}$ and at 11~ns at $10^{16}$~cm$^{-3}$. The afterglow inherits what
+  the pump leaves.
+\end{itemize}
+
+\medskip
+\noindent\textbf{Standing: open.} Per absorbed joule a THz wave in the afterglow would
+form 1.4 to 1.8 times the KrF$^*$ of the beam, and a microwave less. The count leaves
+out the stepwise ionization, the electron quench of KrF$^*$ and the 5s to 5p cycle,
+which grow with the electron temperature and with Kr$^*$, and whether Kr$^*$ becomes
+KrF$^*$ at all depends on the F$_2$ the pump leaves.
+
+%================================================================
+\section{L5: the laser and the wall plug}
+\label{p1:sec:L5}
+%================================================================
+
+{\noindent}(1) KrF$^*$ formed in the afterglow is laser energy only if photons extract
+it before it is lost. No note follows the photons. The excimers' own kinetics, the
+photons, the gas temperature, the atomic fluorine and the walls are left to a
+time-domain model of the laser (Sec.~\ref{qib:sec:stands}).
+
+{\noindent}(2) Field pumping beats beam pumping at the wall plug when
+$\eta_{\rm src}\eta_{{\rm form},f}>\eta_{\rm beam}\eta_{{\rm form},b}$, that is when the
+source's efficiency exceeds 0.57 to 0.65 of the efficiency with which the pulsed power
+puts energy into the gas through the foil, for the field's power at the beam-on density
+(Sec.~\ref{nl:sec:wallplug}). In the afterglow the KrF$^*$ must also be extracted. With
+$\eta_x$ the fraction of the KrF$^*$ that leaves as laser light, the condition is
+\begin{equation}
+\eta_{\rm src}\,\eta_{{\rm form},f}\,\eta_{x,f}>\eta_{\rm beam}\,\eta_{{\rm form},b}\,\eta_{x,b},
+\label{p1:eq:wallplug}
+\end{equation}
+with $f$ for the field and $b$ for the beam. With the afterglow's
+$\eta_{{\rm form},f}=0.274$ to 0.352 against 0.198, the source must reach 0.56 to 0.72
+of $\eta_{\rm beam}$ times $\eta_{x,b}/\eta_{x,f}$. No note computes either $\eta_x$.
+
+{\noindent}(3) The sources that the notes cite are the 1~MW gyrotron at 170~GHz and the
+0.21~MW gyrotron at 0.67~THz. In the afterglow the first heats 2.5~mm and the second
+2.6~cm (L1). The notes cite no source of comparable power at the 1.3~THz that heats
+10~cm of the Ne fill's afterglow.
+
+\medskip
+\noindent\textbf{Standing: open.} Whether reheating raises the laser's efficiency
+depends on the extraction of the afterglow's KrF$^*$ and on the efficiency of a THz
+source, neither of which Part~\ref{p1:part:notes} computes.
+
+
+\chapter{What would settle it}
+\label{p1:chap:settle}
+
+{\noindent}(1) The open links hinge on two rates, one return rate and one calculation.
+In the order of their cost:
+\begin{enumerate}
+\item \emph{The stepwise ionization $e+{\rm Kr}^*\to{\rm Kr}^++2e$ and the electron
+  quench of KrF$^*$.} They decide the sign of the field's gain (L4). A THz pulse sets the
+  electron temperature on demand and its transmission reads the density and the
+  temperature back (Secs.~\ref{nl:sec:answer} and \ref{nl:sec:verdict}). With elastic
+  losses alone a 0.5~eV rise in krypton needs 53~W\,cm$^{-2}$ at 0.3~THz
+  (Sec.~\ref{ea:sec:strong}).
+\item \emph{The collisional return of 5p to 5s in krypton, level by level}
+  \cite{p1:Whitehead1995}. It is the largest uncertainty of the best frequency at the
+  dense krypton points, 13\,\% in it and 19\,\% in the electron temperature
+  (Sec.~\ref{qib:sec:limits}), and it decides how much of the 5s to 5p cycle's energy
+  ends in the gas (L4).
+\item \emph{Drift velocities in krypton below 0.95~eV}, across the Ramsauer minimum where
+  the afterglow's electrons sit and which one experiment covers
+  (Sec.~\ref{env:sec:sources}). They would test the absorption at 0.63~eV to the few per
+  cent of the warmer electrons (L2).
+\item \emph{A time-dependent kinetic model of the laser with the THz absorption computed
+  from its running state}, the electron collisions of the excited atoms of
+  Table~\ref{qib:tab:erows}, the burn of the F$_2$ and the extraction, run in pairs with
+  and without the field and with the uncertain rates bracketed
+  (Secs.~\ref{qib:sec:stands} and \ref{nl:sec:verdict}). It gives $\eta_x$ and the laser
+  energy per absorbed joule, the two numbers that L5 lacks.
+\item \emph{The wall plug}, Eq.~\eqref{p1:eq:wallplug}, with those numbers and the
+  efficiency of a source near 1.3~THz.
+\end{enumerate}
+
+{\noindent}(2) The proposal is invalidated if the run of item~4 finds the laser energy
+that the field gains negative over the measured range of the two rates of item~1, if
+the pump leaves too little F$_2$ for the reheated Kr$^*$ to form KrF$^*$, or if no source
+meets Eq.~\eqref{p1:eq:wallplug} with the extraction that the run finds.
+
+\begin{thebibliography}{99}
+\raggedright
+\bibitem{p1:Nakamura1991} Y.~Nakamura, Meeting Abstracts of the Physical Society of Japan,
+1991 autumn meeting, abstract 27p-ZA-3, p.~103 (1991),
+doi:\href{https://doi.org/10.11316/jpsgaiyoa.1991.4.0_103}{10.11316/jpsgaiyoa.1991.4.0\_103}.
+\bibitem{p1:Pack1962} J.~L.~Pack, R.~E.~Voshall and A.~V.~Phelps, Phys. Rev. \textbf{127},
+2084 (1962), doi:\href{https://doi.org/10.1103/PhysRev.127.2084}{10.1103/PhysRev.127.2084}.
+\bibitem{p1:Turnbull2023} D.~Turnbull \emph{et al.}, Phys. Rev. Lett. \textbf{130}, 145103
+(2023), doi:\href{https://doi.org/10.1103/PhysRevLett.130.145103}{10.1103/PhysRevLett.130.145103}.
+\bibitem{p1:Turnbull2024} D.~Turnbull \emph{et al.}, Phys. Plasmas \textbf{31}, 063304 (2024),
+doi:\href{https://doi.org/10.1063/5.0203446}{10.1063/5.0203446}.
+\bibitem{p1:GinzburgGurevich1960} V.~L.~Ginzburg and A.~V.~Gurevich, Sov. Phys. Usp.
+\textbf{3}, 115 and 175 (1960),
+doi:\href{https://doi.org/10.1070/PU1960v003n01ABEH003261}{10.1070/PU1960v003n01ABEH003261} and
+doi:\href{https://doi.org/10.1070/PU1960v003n02ABEH003267}{10.1070/PU1960v003n02ABEH003267}.
+\bibitem{p1:Sakamoto2007} K.~Sakamoto \emph{et al.}, Nature Phys. \textbf{3}, 411 (2007),
+doi:\href{https://doi.org/10.1038/nphys599}{10.1038/nphys599}.
+\bibitem{p1:Glyavin2012} M.~Yu.~Glyavin, A.~G.~Luchinin, G.~S.~Nusinovich, J.~Rodgers,
+D.~G.~Kashyn, C.~A.~Romero-Talamas and R.~Pu, Appl. Phys. Lett. \textbf{101}, 153503 (2012),
+doi:\href{https://doi.org/10.1063/1.4757290}{10.1063/1.4757290}.
+\bibitem{p1:Langdon1980} A.~B.~Langdon, Phys. Rev. Lett. \textbf{44}, 575 (1980),
+doi:\href{https://doi.org/10.1103/PhysRevLett.44.575}{10.1103/PhysRevLett.44.575}.
+\bibitem{p1:Kannari1985} F.~Kannari, M.~Obara and T.~Fujioka, J. Appl. Phys. \textbf{57},
+4309 (1985), doi:\href{https://doi.org/10.1063/1.334590}{10.1063/1.334590}.
+\bibitem{p1:Jung2005} R.~O.~Jung, T.~E.~Stone, J.~B.~Boffard, L.~W.~Anderson and C.~C.~Lin,
+Phys. Rev. Lett. \textbf{94}, 163202 (2005),
+doi:\href{https://doi.org/10.1103/PhysRevLett.94.163202}{10.1103/PhysRevLett.94.163202}.
+\bibitem{p1:Gazeli2021} K.~Gazeli, X.~Aubert, S.~Prasanna, C.~Y.~Duluard, G.~Lombardi and
+K.~Hassouni, Phys. Plasmas \textbf{28}, 043301 (2021),
+doi:\href{https://doi.org/10.1063/5.0041471}{10.1063/5.0041471}.
+\bibitem{p1:Whitehead1995} C.~A.~Whitehead, H.~Pournasr, M.~R.~Bruce, H.~Cai, J.~Kohel,
+W.~B.~Layne and J.~W.~Keto, J. Chem. Phys. \textbf{102}, 1965 (1995),
+doi:\href{https://doi.org/10.1063/1.468763}{10.1063/1.468763}.
+\end{thebibliography}

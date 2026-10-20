@@ -1,0 +1,1204 @@
+% How accurate LIGHT_Kr v0_3 is: the pure-krypton model, scored against
+% pure-krypton measurements, with its propagated uncertainty, its
+% reference point and its checks. No number here is typed by hand except
+% the measurements, which carry their sources. They come from
+%   overview_v0_3_numbers.tex     make_overview_v0_3.py     (\wg)
+%   system_map_v0_3_numbers.tex   make_system_map_v0_3.py   (\wm)
+% Build from LIGHT_Kr/docs:
+%   python3 make_system_map_v0_3.py && python3 make_overview_v0_3.py
+%   latexmk -pdf accuracy_overview_v0_3.tex
+\documentclass[11pt]{article}
+\usepackage[a4paper,margin=2.2cm]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[scaled=0.95]{helvet}
+\renewcommand{\familydefault}{\sfdefault}
+\usepackage{amsmath,amssymb}
+\usepackage{sansmath}
+\usepackage{booktabs,tabularx,array}
+\usepackage{xcolor}
+\usepackage{float}
+\usepackage{enumitem}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+\usetikzlibrary{arrows.meta,decorations.pathmorphing}
+\setlist{nosep, leftmargin=1.2em}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{5pt}
+\definecolor{ink}{HTML}{0B0B0B}
+\definecolor{ink2}{HTML}{52514E}
+\definecolor{cE}{HTML}{2A78D6}
+\definecolor{cX}{HTML}{EDA100}
+\definecolor{cP}{HTML}{C46A00}
+\definecolor{cV}{HTML}{A63A83}
+\definecolor{cH}{HTML}{E34948}
+\definecolor{cI}{HTML}{52514E}
+\renewcommand{\topfraction}{0.95}
+\renewcommand{\textfraction}{0.03}
+
+\input{system_map_v0_3_numbers}
+\input{overview_v0_3_numbers}
+\makeatletter
+\newcommand\wm[1]{\ifcsname wm@#1\endcsname\csname wm@#1\endcsname
+  \else\errmessage{no map number '#1'. Rerun make_system_map_v0_3.py}\fi}
+\newcommand\wg[1]{\ifcsname wg@#1\endcsname\csname wg@#1\endcsname
+  \else\errmessage{no overview number '#1'. Rerun make_overview_v0_3.py}\fi}
+\makeatother
+
+\newcommand{\unit}[1]{\ensuremath{\,\mathrm{#1}}}
+\newcommand{\el}{\ensuremath{\mathrm{e}^-}}
+\newcommand{\Krs}{Kr\ensuremath{^*}}
+\newcommand{\Krpp}{Kr\ensuremath{^{**}}}
+\newcommand{\Krp}{Kr\ensuremath{^+}}
+\newcommand{\Krtp}{Kr\ensuremath{_2^+}}
+\newcommand{\Krts}{Kr\ensuremath{_2^*}}
+\newcommand{\ra}{\ensuremath{\to}\ }
+\newcommand{\Edep}{\ensuremath{E_\mathrm{dep}}}
+\newcommand{\x}[1]{\ensuremath{\times}#1}
+\newcommand{\cm}[1]{\ensuremath{\,\mathrm{cm^{#1}s^{-1}}}}
+% a pgfplots curve from a generated macro of coordinates
+\newcommand\plotcoords[2]{\edef\tmp{\noexpand\addplot[#1] coordinates
+  {#2};}\tmp}
+
+\begin{document}
+\sansmath
+
+{\LARGE\bfseries How accurate LIGHT\_Kr v0\_3 is}\par
+\vspace{4pt}
+{\large The pure-krypton model LIGHT\_Kr v0\_3, version \wg{version}, on
+15 October 2026: v0\_2 with its electron cross sections trained on
+krypton's measured swarm data by machine learning, scored against
+pure-krypton measurements, with its propagated uncertainty, its reference
+point and its checks}\par
+\vspace{10pt}
+
+\noindent\fbox{\parbox{\dimexpr\linewidth-2\fboxsep-2\fboxrule\relax}{%
+\setlength{\parskip}{5pt}%
+\textbf{Bottom line.} No measurement in pure krypton covers v0\_3's own
+regime, a gas at 0.1 to 2\unit{atm} whose electrons a field heats. The
+measurements that exist test its parts. Electron swarm measurements
+measure the cross sections themselves, so v0\_3 trains its cross sections
+on those that agree with one another; every other measurement only scores
+the model.
+\begin{itemize}
+\item \textbf{The electron cross sections, trained.} v0\_3 multiplies
+Biagi's level-resolved cross sections by \wg{fac.n} factors: the
+momentum transfer at \wg{fac.free.n} energies from \wg{fac.free.lo} to
+\wg{fac.free.hi}\unit{eV}, and the excitation of the four 5s levels, the
+ten 5p levels and the 37 higher levels. They are fitted to the
+\wg{sw.n.train} of krypton's \wg{sw.nsets} swarm datasets that agree with
+one another within their errors, through a neural emulator of the
+solver, an MCMC and a neural posterior
+estimator~\cite{goodman10,stokes20}. Below 0.2\unit{eV} the momentum
+transfer stays Biagi's: trained there too, it degraded the held-out
+characteristic energy and 195-K drift velocities, which so became
+validation sets. On the train sets the drift velocity's
+error falls from \wg{sw.wtr.bi.rms} to \wg{sw.wtr.tr.rms}\,\% rms and the
+ionization coefficient's (50 to 300\unit{Td}) from \wg{sw.atr.bi.rms} to
+\wg{sw.atr.tr.rms}\,\%. The excitation comes down (the 5s levels
+\x{\wg{fac.x_1s}}, the higher levels \x{\wg{fac.x_hi}}), and two tests
+that neither the training nor that choice saw improve with it: the
+ionization coefficient below
+50\unit{Td}, from \wg{sw.alow.bi.mean} to \wg{sw.alow.tr.mean}\,\% on
+average, and the beam's partition, whose energy per ion pair moves from
+\wg{beam.W.dev.v02} to \wg{beam.W.dev}\,\% and whose excitations per ion
+pair move from \wg{beam.nex.dev.v02} to \wg{beam.nex.dev}\,\% of Saito et
+al.'s measurement~\cite{saito03} (Section~\ref{sec:swarm}).
+\item \textbf{What a swarm experiment measures.} A Monte Carlo solution
+of the same cross sections~\cite{dias23} shows what the two-term solver
+leaves out: a drift tube times the swarm's bulk drift velocity,
+\wg{mc.w300}\,\% above the two-term's flux one at 300\unit{Td}, and a
+Townsend experiment measures the steady-state coefficient,
+\wg{mc.a300}\,\% below the two-term's there. v0\_3 scores the model as
+the experiments measure it. On the trained set the Monte Carlo gives the
+same ratios to \wg{mc.chk.max}\,\%.
+\item \textbf{Below 50\unit{Td}} the measured ionization coefficient
+still lies above the model (\wg{sw.alow.tr.mean}\,\% on average), and the
+\wg{sw.low.sets} datasets there part by up to \x{\wg{sw.low.part}} from one another where they overlap. Every
+published krypton cross-section set falls below them, which Bordage et
+al.\ ascribe to Penning ionization of impurities in the
+experiments~\cite{bordage13}. They are held out of the training by rule,
+and they cannot be scored as the cross sections' error.
+\item \textbf{Excitation to light, under an electron beam.} At low pump
+v0\_3 turns \wg{moz.300.kin} of the deposited energy into 147-nm light.
+Morozov et al.\ measured \wg{moz.meas} $\pm$ \wg{moz.err}~\cite{morozov08},
+so the error is \wg{moz.kin.dev}\,\%. v0\_3 makes one photon per
+excitation and per ion, which is what Saito et al.'s measurement implies
+(\wg{saito.ideal}~\cite{saito03}).
+\item \textbf{At LIGHT's reference point} (\wm{p}\unit{atm},
+\wm{P}\unit{kW\,cm^{-3}} for \wm{pulse}\unit{\mu s}) v0\_3 sends
+\wg{ref.kin.147}\,\% of the input to 147\unit{nm} on the kinetic EEDF
+(v0\_2: \wg{chg.kin.v02}\,\%). Propagated from its sources, that share
+carries $\pm$\wg{unc.kin.quad} points in quadrature
+($\pm$\wg{unc.kin.quad.pct}\,\%). The trained cross sections' own
+posterior adds $\pm$\wg{unc.kin.xs.sd} points. The largest term,
+\wg{unc.kin.top1.share}\,\% of the variance, is the excimer's formation,
+\Krs{} + 2Kr, whose measurements spread by a factor of \wg{form.ratio}.
+\item \textbf{What decides the answer} is the electrons' 5s
+$\leftrightarrow$ 5p cycle on Jung et al.'s measured cross
+sections~\cite{jung06}. The electrons pump \Krs{} to the 5p rung
+\wg{ref.kin.cyc} times for each \Krts{} formed, and krypton's relaxation
+of the rung turns \wg{ref.kin.cycheat}\,\% of the input into heat.
+\item \textbf{The numerical error is far smaller.} The energy ledger
+closes to $\wg{ref.kin.closure}$ of the input. Halving the kinetic
+closure's renewal steps or doubling its energy cells moves the 147-nm and
+near-IR shares by at most $\wg{conv.worst}$ of themselves.
+\end{itemize}}}
+\medskip
+
+Table~\ref{tab:score} lists every test, Section~\ref{sec:accuracy} reads
+them as errors and propagates the model's own uncertainty, and the
+sections after it give each test's detail. The swarm datasets in the role
+\emph{train} set the cross sections' factors (Section~\ref{sec:swarm});
+every other measurement in the table only scores the model, and no
+measurement set any other rate, which come from the sources in
+Appendix~\ref{app:rates}.
+
+\begin{table}[H]
+\centering\footnotesize
+\renewcommand{\arraystretch}{1.12}
+\begin{tabularx}{\linewidth}{@{}>{\raggedright\arraybackslash}X
+  >{\raggedright\arraybackslash}p{2.0cm}>{\raggedright\arraybackslash}p{2.0cm}
+  >{\raggedright\arraybackslash}p{2.0cm}>{\raggedright\arraybackslash}p{1.8cm}@{}}
+\toprule
+test & measured & v0\_2's error & v0\_3's error & role\\
+\midrule
+energy ledger closure, reference point & & & $\wg{ref.kin.closure}$ of
+  \Edep & bookkeeping\\
+energy balance at every node of the flow network & & & \wm{nodes} nodes,
+  to $10^{-8}$ & bookkeeping\\
+\midrule
+drift velocity, the \wg{sw.wtr.sets} sets that
+  agree~\cite{hunter88,nakamura90,pack62}, \wg{sw.wtr.n} points & & rms
+  \wg{sw.wtr.bi.rms}\,\% & rms \wg{sw.wtr.tr.rms}\,\% & train\\
+ionization coefficient, 50 to 300\unit{Td}, the \wg{sw.atr.sets} sets
+  that agree~\cite{bhattacharya79,dallarmi92,jacques86,kruithof40,heylen71},
+  \wg{sw.atr.n} points & & rms \wg{sw.atr.bi.rms}\,\% & rms
+  \wg{sw.atr.tr.rms}\,\% & train\\
+drift velocity, the \wg{sw.wh.sets} sets that do not agree (1953 to 1992) & &
+  & rms \wg{sw.wh.tr.lo} to \wg{sw.wh.tr.hi}\,\% by set & held out; the
+  two at 195\unit{K} validation\\
+characteristic energy $D_T/\mu$, Koizumi et al.~\cite{koizumi86},
+  \wg{sw.dtk.n} points, 0.005 to 0.9\unit{Td} & & rms \wg{sw.dtk.bi.rms}\,\%
+  & rms \wg{sw.dtk.tr.rms}\,\% & validation\\
+ionization coefficient below 50\unit{Td}, \wg{sw.alow.sets}
+  sets~\cite{specht80,kruithof40,heylen71,dallarmi92,jacques86},
+  \wg{sw.alow.n} points & & mean \wg{sw.alow.bi.mean}\,\% & mean
+  \wg{sw.alow.tr.mean}\,\% & held out by rule\\
+ionization coefficient, Monte Carlo on the same cross
+  sections~\cite{dias23}, 20 to 50\unit{Td} & & \wg{mc.list}\,\% & & solver
+  check\\
+the Monte Carlo's bulk drift velocity and SST coefficient, trained set
+  against Biagi's file, 30 to 300\unit{Td} & & & within
+  \wg{mc.chk.max}\,\% & solver check\\
+\midrule
+energy per ion pair under a beam, from Saito et al.~\cite{saito03} &
+  \wg{saito.W}\unit{eV} & \wg{beam.W.dev.v02}\,\% & \wg{beam.W.dev}\,\% &
+  held out\\
+excitations per ion pair, Saito et al.~\cite{saito03} & \wg{saito.nex} &
+  \wg{beam.nex.dev.v02}\,\% & \wg{beam.nex.dev}\,\% & held out\\
+energy per excitation or ion, Saito et al.~\cite{saito03} &
+  \wg{saito.ws}\unit{eV} & \wg{beam.ws.dev.v02}\,\% & \wg{beam.ws.dev}\,\% &
+  the beam's check\\
+VUV efficiency, continuous e-beam, Morozov et al.\ 2008~\cite{morozov08}
+  & \wg{moz.meas} $\pm$ \wg{moz.err} & \wg{moz.kin.dev.v02}\,\% & \wg{moz.kin.dev}\,\% & held out\\
+VUV efficiency at $3\times10^5\unit{W\,cm^{-3}}$, Eckstrom et al.\
+  1988~\cite{eckstrom88} & near \wg{eck.meas}, their limit & \wg{eck.kin.dev.v02}\,\% & \wg{eck.kin.dev}\,\%
+  at 1\unit{atm} & held out\\
+\bottomrule
+\end{tabularx}
+\caption{LIGHT\_Kr v0\_3 against the data, every band at its default, on
+the kinetic EEDF; v0\_2 is the same code on Biagi's file as published. An
+error is the model less the measurement over the measurement, signed for
+a single value and rms (or a mean) over a set. A validation set is held
+out of the training but took part in choosing which factors train
+(Table~\ref{tab:var}). The swarm rows compare the
+model as each experiment measures it: the two-term solution times the
+Monte Carlo's ratios (Section~\ref{sec:swarm}). The beam rows run under
+the e-beam drive of Section~\ref{sec:beam}.}
+\label{tab:score}
+\end{table}
+
+\section{Overall accuracy and its uncertainty}
+\label{sec:accuracy}
+
+\textbf{Against the data.} Three groups of measurements bear on v0\_3, and
+each tests a part of it (Table~\ref{tab:score}).
+\begin{itemize}
+\item \textbf{The electron swarm} (Section~\ref{sec:swarm}) trains the
+cross sections that give every electron rate and scores what the training
+did not see. On the \wg{sw.n.train} sets that agree with one another the
+drift velocity is within \wg{sw.wtr.tr.rms}\,\% rms and the ionization
+coefficient within \wg{sw.atr.tr.rms}\,\% from 50 to 300\unit{Td}. Held
+out, the characteristic energy of Koizumi et al.\ is within
+\wg{sw.dtk.tr.rms}\,\% rms (Biagi's file: \wg{sw.dtk.bi.rms}\,\%), a
+validation rather than a test, as it took part in choosing which factors
+train. The ionization coefficient below 50\unit{Td}, which nothing in
+the training saw, lies \wg{sw.alow.tr.mean}\,\%
+from the measurements on average, where those part by up to
+\x{\wg{sw.low.part}} from one another.
+\item \textbf{The e-beam measurements} (Section~\ref{sec:beam}) score the
+chain from excitation to the 147-nm photon. The trained cross sections
+move the beam's partition toward Saito et al.'s: \wg{beam.W.dev}\,\% on
+the energy per ion pair and \wg{beam.nex.dev}\,\% on the excitations per
+pair (v0\_2: \wg{beam.W.dev.v02} and \wg{beam.nex.dev.v02}\,\%). At low
+pump the error against Morozov et al.\ is \wg{moz.kin.dev}\,\%,
+\wg{moz.kin.sig} of their standard errors. At
+$3\times10^5\unit{W\,cm^{-3}}$ and 1\unit{atm} it is
+\wg{eck.kin.dev}\,\% against Eckstrom et al.'s report, and it loses
+\wg{eck.1.kin.loss}\,\% below its own ceiling where their beam lost little.
+\item \textbf{Nothing scores the field-driven cycle.} No pure-krypton
+measurement in hand tests the 5s $\leftrightarrow$ 5p cycle under a field,
+which decides v0\_3's answer. Its cross sections are measured, and their
+error is propagated below.
+\end{itemize}
+
+\textbf{Propagated from the sources.} Each input is set to the two ends
+its source allows and the run repeated, the others at their defaults, on
+both electron closures (Table~\ref{tab:unc}). The inputs are the
+\wg{unc.nband} bands the rows read and the \wg{unc.nrow} measured
+constants with a quoted error that no band covers: \Krtp{} + \el{}
+($\pm$10\,\%~\cite{shiu77}), \Krp{} + 2Kr (the spread of the three
+measurements~\cite{bhattacharya70,grossl81,smith72}) and the \Krts{}
+lifetime (270 $\pm$ 5\unit{ns}~\cite{morikawa89}). Half the difference
+between an input's two ends is its term. The trained cross sections are
+one more input: the reference point is run at \wg{unc.kin.xs.n} draws of
+the training's posterior on the kinetic EEDF and \wg{unc.2t.xs.n} on the
+two-temperature closure, and the draws' standard deviation is their term.
+The quadrature sum treats the terms as independent standard deviations,
+which a band's range is not, so it is indicative. The excursions from the
+reference, summed by sign, are the ceiling of the spread, not a bound.
+The 5p rung's lifetime is not propagated: its light is under 1\,\% of the
+input.
+
+On the 147-nm share at the reference point, \wg{unc.kin.y0}\,\% of the
+input on the kinetic EEDF, the quadrature sum is $\pm$\wg{unc.kin.quad}
+points ($\pm$\wg{unc.kin.quad.pct}\,\%). The excursions sum to
+\wg{unc.kin.down} and \wg{unc.kin.up} points. The largest terms are
+\wg{unc.kin.top1} (\wg{unc.kin.top1.t} points), \wg{unc.kin.top2}
+(\wg{unc.kin.top2.t}) and \wg{unc.kin.top3} (\wg{unc.kin.top3.t}). The
+trained cross sections' term is \wg{unc.kin.xs.sd} points
+(\wg{unc.kin.xs.pct}\,\% of the share). On the two-temperature closure
+the sum is $\pm$\wg{unc.2t.quad} points ($\pm$\wg{unc.2t.quad.pct}\,\%),
+the cross sections' term \wg{unc.2t.xs.sd}.
+
+The formation term dominates because \Krts{} forms in competition with
+the electrons' pumping of \Krs{} to the 5p rung, so a faster formation lets
+more \Krs{} escape the cycle. The default, $\wm{k.AK8}\cm{6}$, is
+the one measurement made at the pressures the model runs at, 0.5 to
+1\unit{atm} in an e-beam experiment~\cite{ueda84}. The other published
+values, 1.8 to $4.4\times10^{-32}$, come from low-pressure
+afterglows~\cite{salamero79,tracy76,smith63}, and the band's top is
+Hughes's $\wm{bd.kr2_form.hi}$ as Quigley and Hughes print
+it~\cite{quigley78}.
+Four inputs with no measurement at all are 0 by default. Three of them,
+\Krts{} + \Krts{} and the two stepwise ionizations, each at its band's
+top cut the share by a fifth to a half. The fourth, the Hornbeck--Molnar
+share, at its top moves it by \wg{unc.hm.cut}\,\%: direct and associative
+ionization make a small part of the ions next to Penning's.
+
+\begin{table}[H]
+\centering\scriptsize
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{@{}llllll@{}}
+\toprule
+input & its two ends & 147\unit{nm}, kinetic & 147\unit{nm}, two-temperature & near IR, kinetic & $T_g$ (K), kinetic\\
+\midrule
+\wgUncTable
+\bottomrule
+\end{tabular}}
+\caption{The propagated uncertainty's inputs, each alone at its two ends
+with the others at their defaults, and the outputs at those ends (low end
+to high end), percent of \Edep; for the trained cross sections the mean
+and standard deviation over the posterior's draws. With every input at
+its default the 147-nm share is \wg{unc.kin.y0}\,\% (kinetic) and
+\wg{unc.2t.y0}\,\% (two-temperature).}
+\label{tab:unc}
+\end{table}
+
+\textbf{Numerical accuracy.}
+\begin{itemize}
+\item \textbf{The ledger.} The energy ledger closes to
+$\wg{ref.kin.closure}$ of the input on the kinetic EEDF and to
+$\wg{ref.2t.closure}$ on the two-temperature closure. The energy flows
+also balance at each of \wm{nodes} nodes to $10^{-8}$: the electron gas,
+each reservoir, each group of rows and each output.
+\item \textbf{The kinetic EEDF at the reference point.} The run takes
+\wg{ref.kin.n} kinetic solutions, \wg{ref.kin.on} in the pulse, at $E/N$
+from \wg{ref.kin.en.lo} to \wg{ref.kin.en.hi}\unit{Td}. Over the pulse's
+second half the field carries \wg{ref.kin.ratio.lo} to
+\wg{ref.kin.ratio.hi} of the input. There the kinetic and the model's
+energy balances agree to $\wg{ref.kin.gap}$ of the input, and the kinetic
+mean energy equals the model's to $\wg{ref.kin.reach}$.
+\item \textbf{Convergence.} Half the renewal step moves the 147-nm share by
+$\wg{conv.kin_step.147}$ of itself. A renewal at least every 5\unit{ns}
+moves it by $\wg{conv.kin_max_dt_s.147}$, and twice the energy cells by
+$\wg{conv.kin_cells.147}$. A ten times tighter solver tolerance moves it by
+$\wg{conv.rtol.147}$, the EEDF renewed \wg{conv.rtol.n} times against
+the reference's \wg{ref.kin.n}.
+\item \textbf{Restarts.} Where the kinetic EEDF finds no solution from its
+warm start, the solver starts it again cold. The mean match has one
+solution from any start, so a restart changes no answer, only the way to
+it. Over the \wg{kin.runs} kinetic runs of this note the solver restarted
+\wg{kin.restarts}.
+\item \textbf{The change from v0\_2.} On Biagi's file as published v0\_2
+gave the reference point's 147-nm share as \wg{chg.kin.v02}\,\% (kinetic)
+and \wg{chg.2t.v02}\,\% (two-temperature); v0\_3 gives \wg{chg.kin.v03}
+and \wg{chg.2t.v03}\,\% (\wg{chg.kin.dev} and \wg{chg.2t.dev}\,\%). The
+pulse's mean $T_e$ moves from \wg{chg.kin.te.v02} to
+\wg{chg.kin.te.v03}\unit{eV} on the kinetic EEDF.
+\item \textbf{The swarm scores} are independent of the grid: half and twice
+the \wg{sw.cells} energy cells move the train sets' rms by \wg{sw.grid}
+points at most. The emulator the training ran on reproduces the solver to
+\wg{emu.W}\,\% in the drift velocity and \wg{emu.a}\,\% in the
+ionization coefficient on designs it was not trained on.
+\end{itemize}
+
+\section{What v0\_3 is}
+\label{sec:what}
+
+LIGHT\_Kr v0\_3 is a 0-D model: one uniform box of pure krypton at
+constant volume, into whose electrons a given power is put. It follows
+where that energy goes: into the 5s manifold (\Krs) and the 5p rung
+(\Krpp), the ions \Krp{} and \Krtp, the excimer \Krts{} and its 147-nm
+second continuum, the near-infrared 5p \ra 5s lines, heat, and the
+electron gas. Its energy ledger closes by construction. Every species
+carries a formation energy, and every row's energy goes to the electrons,
+the gas, light or storage.
+
+Its network has \wg{par.rows} rows (Appendix~\ref{app:rates}):
+\begin{itemize}
+\item electron-impact excitation of each of the \wg{par.levels} levels of
+Biagi's cross sections at its own threshold, ionization and elastic
+loss~\cite{biagi99,pancheshnyi12,carbone21}, with the factors trained on
+the swarm data (Section~\ref{sec:swarm}): the four 5s levels make \Krs,
+every higher level the 5p rung \Krpp{} (the higher levels cascading
+through it), the excess over the product's energy heating the gas;
+\item the Hornbeck--Molnar ionization of the \wg{hm.levels} levels at or
+above \Krtp's energy~\cite{hornbeck51}, a band at 0;
+\item Penning ionization of \Krs{} by \Krs;
+\item ion conversion \Krp{} \ra \Krtp, and dissociative recombination of
+\Krtp{} onto the 5p rung;
+\item three-body excimer formation and its 147-nm emission;
+\item the rung's relaxation on krypton and its near-infrared radiation;
+\item the electrons' 5s $\leftrightarrow$ 5p cycle on Jung et al.'s
+measured cross sections~\cite{jung05,jung06};
+\item and, as bands at 0, the rows with no measurement.
+\end{itemize}
+The electrons' rates come from the two-term Boltzmann equation with
+electron-electron collisions~\cite{hagelaar05}, solved during the run at
+the model's own mean energy (the default, minutes a run). The alternative
+is a Maxwellian with a tabulated tail (the two-temperature closure,
+seconds a run). A rate known only as a published spread, or not at all,
+is a band: a default and two ends.
+
+\textbf{What changed from v0\_2.} The electron cross sections, and one
+failure path of the kinetic solver: where no EEDF is found from a warm
+start, it starts again cold (Section~\ref{sec:accuracy}), a path v0\_2's
+runs never took. v0\_2
+read Biagi's level-resolved file as published; v0\_3 multiplies it by the
+\wg{fac.n} trained factors (Table~\ref{tab:fac}): the elastic momentum
+transfer by a factor read between \wg{fac.free.n} energies from
+\wg{fac.free.lo} to \wg{fac.free.hi}\unit{eV} (1 at and below
+0.2\unit{eV}), and each group of excitation levels by its own factor.
+The ionization cross section, which beam experiments measure, is not
+trained. Every row, band, species and table is v0\_2's, and with unit
+factors v0\_3 reproduces v0\_2 number for number. At the reference point
+the 147-nm share moves from
+\wg{chg.kin.v02}\,\% to \wg{chg.kin.v03}\,\% on the kinetic EEDF
+(\wg{chg.kin.dev}\,\%) and from \wg{chg.2t.v02}\,\% to
+\wg{chg.2t.v03}\,\% on the two-temperature closure (\wg{chg.2t.dev}\,\%).
+
+\section{The reference point}
+\label{sec:ref}
+
+LIGHT's drive in pure krypton: \wm{p}\unit{atm} at \wm{Tg0}\unit{K},
+\wm{P}\unit{kW\,cm^{-3}} for \wm{pulse}\unit{\mu s} into the electrons, a
+$\wm{ne}\unit{cm^{-3}}$ seed, \wm{tend}\unit{\mu s} in all. Table~\ref{tab:ref} gives its outputs on
+both closures.
+
+\begin{table}[H]
+\centering\footnotesize
+\begin{tabular}{@{}lrr@{}}
+\toprule
+ & kinetic EEDF (default) & two-temperature\\
+\midrule
+147\unit{nm}, \Krts{} & \wg{ref.kin.147} & \wg{ref.2t.147}\\
+near IR, 5p \ra 5s & \wg{ref.kin.IR} & \wg{ref.2t.IR}\\
+heat, reactions and relaxation & \wg{ref.kin.heat} & \wg{ref.2t.heat}\\
+heat, elastic collisions & \wg{ref.kin.elastic} & \wg{ref.2t.elastic}\\
+stored in ions (the seed's ions recombine) & \wg{ref.kin.ions} & \wg{ref.2t.ions}\\
+to \Krs{} and \Krpp{} by electron impact, gross & \wg{ref.kin.krstar} & \wg{ref.2t.krstar}\\
+to \Krp{} & \wg{ref.kin.krplus} & \wg{ref.2t.krplus}\\
+to \Krts{} (formed \x{} \wm{hv.RAD}\unit{eV}) & \wg{ref.kin.kr2} & \wg{ref.2t.kr2}\\
+\Krs{} formed that the electrons pump to 5p (\%) & \wg{ref.kin.brs76} & \wg{ref.2t.brs76}\\
+\Krs{} formed that becomes \Krts{} (\%) & \wg{ref.kin.ak8} & \wg{ref.2t.ak8}\\
+5s \ra 5p pumpings per \Krts{} formed & \wg{ref.kin.cyc} & \wg{ref.2t.cyc}\\
+$T_e$, pulse mean (eV) & \wg{ref.kin.te} & \wg{ref.2t.te}\\
+$T_g$ at the end (K) & \wg{ref.kin.tg} & \wg{ref.2t.tg}\\
+$n_e$ at the end (cm$^{-3}$) & $\wg{ref.kin.ne}$ & $\wg{ref.2t.ne}$\\
+\bottomrule
+\end{tabular}
+\caption{The reference point at $t=2\unit{\mu s}$, percent of \Edep{}
+unless a row says otherwise. The fate rows (the first five, with the
+other stores) sum to 100; the flows below them overlap.}
+\label{tab:ref}
+\end{table}
+
+The electrons pump \Krs{} to the 5p rung faster than three-body
+collisions turn it into \Krts. Krypton relaxes the rung back, and the
+\wm{gap5p}-eV gap of every cycle becomes heat: \wg{ref.kin.cycheat}\,\% of the
+input, \wg{ref.kin.perphoton}\unit{eV} for each 147-nm photon. On the
+kinetic EEDF the electrons sit at \wg{ref.kin.te}\unit{eV}, and the share
+differs from the two-temperature closure's by \wg{ref.kin.vs2t}\,\%. The cycle's
+measured cross section therefore decides the answer, with Kannari's fit in
+its place as a comparison~\cite{kannari85,jacob76}:
+
+\begin{table}[H]
+\centering\footnotesize
+\begin{tabular}{@{}lrrrrr@{}}
+\toprule
+5s \ra 5p cross section & 0 (no cycle) & \x{} \wm{bd.k_5s5p.lo} & \x{} 1, Jung et al. & \x{} \wm{bd.k_5s5p.hi} & Kannari's fit\\
+\midrule
+147\unit{nm}, kinetic EEDF & \wg{k5.0.kin} & \wg{k5.0.5.kin} & \wg{k5.1.kin} & \wg{k5.1.4.kin} & \wg{kann.kin}\\
+147\unit{nm}, two-temperature & \wg{k5.0.2t} & \wg{k5.0.5.2t} & \wg{k5.1.2t} & \wg{k5.1.4.2t} & \wg{kann.2t}\\
+\bottomrule
+\end{tabular}
+\caption{The 147-nm share (percent of \Edep) against the scale on the
+measured 5s \ra 5p cross section. The band runs from \wm{bd.k_5s5p.lo},
+the two metastable levels alone, to \wm{bd.k_5s5p.hi}, the measurement's
+upper error.}
+\label{tab:k5}
+\end{table}
+
+Jung et al.\ measured the excitation out of the two metastable levels,
+1s$_5$ and 1s$_3$, into the ten 5p levels, with stated uncertainties of
+$\pm$\wg{jung.unc.1s5} and $\pm$\wg{jung.unc.1s3}\,\%~\cite{jung06}.
+v0\_3's \Krs{} is the whole 5s manifold, so the two $J=1$ levels, for which
+nothing is measured, take the set of the metastable with the same ion
+core. The lumped cross section is $\wg{jung.sig6}\unit{cm^2}$ at
+6\unit{eV} ($\wg{jung.sig6.meta}$ from the metastables alone). Its
+Maxwellian rate is \x{\wg{jung.ratio.1}} Kannari's fit at 1\unit{eV},
+\x{\wg{jung.ratio.2}} at 2\unit{eV} and \x{\wg{jung.ratio.ref}} at the
+reference point's \wg{jung.te.ref}\unit{eV}.
+
+Pressure and power move the share as much (Table~\ref{tab:scan},
+two-temperature closure). It ranges from a fraction of a percent at
+0.1\unit{atm} to \wg{scan.best}\,\% at 2\unit{atm} and
+100\unit{kW\,cm^{-3}}. At 0.1\unit{atm} a microsecond of this drive heats
+the gas to \wg{scan.tg01.lo} to \wg{scan.tg01.hi}\unit{K}, beyond the
+measured range of several rates.
+
+\begin{table}[H]
+\centering\footnotesize
+\begin{tabular}{@{}lrrrrr@{}}
+\toprule
+kW\,cm$^{-3}$ & 0.1\unit{atm} & 0.25\unit{atm} & 0.5\unit{atm} & 1\unit{atm} & 2\unit{atm}\\
+\midrule
+\wgScan
+\bottomrule
+\end{tabular}
+\caption{The 147-nm share (percent of \Edep) over pressure and power,
+1\unit{\mu s} pulses, the two-temperature closure.}
+\label{tab:scan}
+\end{table}
+
+\section{The electron swarm, and what the training did}
+\label{sec:swarm}
+
+The kinetic EEDF's solver is run as a swarm: no electron-electron
+collisions, the temporal growth term on, and every grid sized so that the
+EEDF falls 11 to 25 decades across it. It gives the drift velocity (the
+Joule power over $eE$), the ionization coefficient $\alpha/N=k_\mathrm{i}/W$
+and the characteristic energy $D_T/\mu$, with the transverse diffusion
+taken over the same momentum transfer and growth term as the field's
+flux~\cite{hagelaar05}. Swarm measurements are measurements of the cross
+sections themselves, so they may train them, while the device and beam
+measurements of Table~\ref{tab:score} may not. v0\_3 trains a few factors
+on Biagi's level-resolved cross sections against the swarm data that
+agree with one another, and scores the rest.
+
+\textbf{The data.} \wg{sw.nsets} datasets, \wg{sw.npts} points, from
+Dutton's survey~\cite{dutton75} and LXCat's LAPLACE
+database~\cite{pancheshnyi12,carbone21}, which digitized them from the
+papers' tables or figures (Table~\ref{tab:swdata}). None prints an
+error, so each carries a class value: 3\,\% for a drift velocity measured
+after 1985, 5\,\% before, 7\,\% for a characteristic energy and 10\,\% for
+an ionization coefficient. A 2\,\% error in $E/N$ enters through the
+model's own slope, which matters where the drift velocity climbs out of
+the Ramsauer minimum (0.01 to 0.03\unit{Td}) and for the ionization
+coefficient at low field. A dataset's $\chi^2$ per point near 1 means the
+model agrees with it within these errors. Points above 300\unit{Td} are
+checks only: there the mean energy passes 7\unit{eV}, where the two-term
+approximation and the growth model part ways. The ionization coefficient
+below 50\unit{Td} never trains (below).
+
+\begin{table}[H]
+\centering\scriptsize
+\renewcommand{\arraystretch}{1.08}
+\begin{tabular}{@{}llrrlrrrrr@{}}
+\toprule
+ & & $E/N$ & & & error & \multicolumn{2}{c}{$\chi^2$ per point} & \multicolumn{2}{c}{rms (\%)}\\
+dataset & quantity & (Td) & points & role & (\%) & v0\_2 & v0\_3 & v0\_2 & v0\_3\\
+\midrule
+\wgSwTable
+\bottomrule
+\end{tabular}
+\caption{Krypton's electron swarm data, their roles and the model's
+error on Biagi's file as published (v0\_2) and on the trained set
+(v0\_3), each as the experiment measures it. Drift velocities $W$ at
+300\unit{K} unless labelled; Hunter et al.'s at 301\unit{K}. A
+validation set is held out of the training but took part in choosing
+which factors train (Table~\ref{tab:var}).}
+\label{tab:swdata}
+\end{table}
+
+\textbf{What a swarm experiment measures.} The two-term solution with the
+temporal growth term gives the flux drift velocity and $k_\mathrm{i}/W$. A
+drift tube times the swarm's centre of mass, the bulk drift velocity, and
+a steady-state Townsend experiment measures the spatial growth of its
+current, the SST coefficient. A Monte Carlo solution of the Boltzmann
+equation, with no two-term approximation, gives all of
+them~\cite{dias23}. Run on Biagi's file as published
+(Table~\ref{tab:mc}), it finds the bulk drift velocity
+\wg{mc.w300}\,\% above the flux one at 300\unit{Td}, and the SST
+coefficient \wg{mc.a300}\,\% below the two-term's there. The two-term flux
+drift velocity matches the Monte Carlo's to \wg{mc.flux.w}\,\% from 10 to
+300\unit{Td}, and from 40\unit{Td} up the two-term $k_\mathrm{i}/W$ lies
+\wg{mc.flux.a.lo} to \wg{mc.flux.a.hi}\,\% below the Monte Carlo's flux
+coefficient. Below 20\unit{Td}, without ionization, the bulk and flux
+drift velocities are one, and the two-term drift velocity is compared as
+it is; its own error there (\wg{mc.flux.wlow}\,\% at
+\wg{mc.flux.wlow.en}\unit{Td}) is absorbed by the trained factors, which
+are effective for v0\_3's two-term solver. The two-term transverse
+diffusion is
+\wg{mc.dt.lo} to \wg{mc.dt.hi}\,\% too high from 10 to 300\unit{Td},
+so $D_T/\mu$ is scored only below 1\unit{Td}, and Al-Amin and Lucas's
+characteristic energies, 1.4\unit{Td} and up~\cite{alamin87}, are a check
+of the correction rather than of the cross sections. v0\_3 compares the
+two-term solution times these ratios with each measurement. The ratios
+are taken on Biagi's file; on the trained set the Monte Carlo gives the
+drift velocity's and the ionization coefficient's to \wg{mc.chk.max}\,\%.
+Without them the model would be scored, and trained, against the wrong
+quantity: v0\_2 compared its two-term coefficient with Townsend
+experiments, which put it closer to them at high field than it is.
+
+\begin{table}[H]
+\centering\footnotesize
+\begin{tabular}{@{}rrrrrr@{}}
+\toprule
+ & \multicolumn{3}{c}{Biagi's file} & \multicolumn{2}{c}{the trained set}\\
+$E/N$ (Td) & $W_\mathrm{bulk}$ & $\alpha_\mathrm{SST}$ & $D_T/\mu$ & $W_\mathrm{bulk}$ & $\alpha_\mathrm{SST}$\\
+\midrule
+\wgMcTable
+\bottomrule
+\end{tabular}
+\caption{The Monte Carlo's value over the two-term solution's, LoKI-MC at
+300\unit{K} and 1\unit{Torr} with $10^5$ electrons~\cite{dias23}. The
+coefficient below 40\unit{Td} takes the 40-Td ratio, where the Monte
+Carlo counts too few ionizations to resolve it.}
+\label{tab:mc}
+\end{table}
+
+\textbf{The training.} The factors multiply Biagi's cross sections: the
+elastic momentum transfer by a factor read log-linearly between six
+energies (0.03 to 20\unit{eV}, held beyond them), and the excitation of
+the four 5s levels, the ten 5p levels and the 37 higher levels by one
+factor each. The factors at \wg{fac.held}\unit{eV} stay at 1 (below),
+so \wg{fac.n} train. The ionization cross section is not trained: beam
+experiments measure it, and in a swarm its scale trades against the
+excitation's. The prior on each factor's logarithm is broad (standard
+deviation 0.5, a factor 1.65), so the data decide. Each trial of the
+factors needs the solver at every measured point, so the fits run on a
+neural network trained to reproduce it: \wg{emu.n} sets of factors drawn
+over \x{\wg{fac.box}} to \x{\wg{fac.box.hi}} (a Latin
+hypercube~\cite{mckay79}), each solved at \wg{emu.nodes} values of $E/N$
+and gas temperature, and a three-layer network fitted to the change of
+each quantity from Biagi's file (Adam~\cite{kingma14}). On designs it was
+not trained on it reproduces the solver to \wg{emu.W}\,\% in the drift
+velocity, \wg{emu.DT}\,\% in $D_T/\mu$ and \wg{emu.a}\,\% in the
+ionization coefficient, and every answer below is re-checked on the
+solver itself.
+
+\emph{Which data train.} The consistency check fits every candidate
+together, scores each against that joint fit, and drops the worst while
+its $\chi^2$ per point exceeds 3. Of \wg{cons.cands} candidates it drops
+\wg{cons.ndropped}: \wg{cons.dropped} (their $\chi^2$ when dropped). The
+\wg{sw.n.train} that remain train. The choice of 3 matters little below
+it: at 2 the same sets remain. At 4, \wg{cons.at4} join, and the 1960 drift
+velocities, \wg{bowe.hunter}\,\% from the 1988 ones where both exist on
+average, pull the momentum
+transfer at 6\unit{eV} to \x{\wg{cons.at4.m6}} and the 5s excitation to
+\x{\wg{cons.at4.x1s}}.
+
+\emph{Which factors train.} Two of the nine stay at 1, by a choice made
+on held-out data (Table~\ref{tab:var}). With all nine free the fit
+matches the train sets best ($\chi^2$ \wg{var.all.train} per point
+pooled, against \wg{var.v3.train}), but it lowers the momentum transfer
+at the Ramsauer minimum to \x{\wg{var.all.m06}} and raises it at
+0.03\unit{eV} to \x{\wg{var.all.m003}}, a trade the train sets allow and
+the data that weigh those energies differently reject: Koizumi et al.'s
+characteristic energy~\cite{koizumi86} goes from $\chi^2$
+\wg{var.bi.dtk} per point on Biagi's file to \wg{var.all.dtk}, and Pack
+et al.'s drift velocities in gas at 195\unit{K}~\cite{pack62,pack92} from
+\wg{var.bi.p62} to \wg{var.all.p62} (1962) and from \wg{var.bi.p92} to
+\wg{var.all.p92} (1992). With the
+factors at \wg{fac.held}\unit{eV} held at 1, every train set stays
+within the consistency threshold (Hunter et al.'s drift velocity at
+\wg{var.v3.hunter} rather than \wg{var.all.hunter}), and those three fit
+better than on Biagi's file, at \wg{var.v3.dtk}, \wg{var.v3.p62} and
+\wg{var.v3.p92}, the best of the five variants. Holding the 0.6-eV
+factor too, or every momentum-transfer factor, fits both the train sets
+and these three worse. v0\_3 trains that variant's \wg{fac.n} factors.
+Because these held-out sets chose it, they validate the training rather
+than test it. The tests that neither the training nor this choice saw
+are the ionization coefficient below 50\unit{Td} and the beam's
+partition (Section~\ref{sec:beam}).
+
+\begin{table}[H]
+\centering\footnotesize
+\begin{tabular}{@{}lrrrrrr@{}}
+\toprule
+ & \multicolumn{3}{c}{train sets} & \multicolumn{3}{c}{held out (validation)}\\
+\cmidrule(lr){2-4}\cmidrule(l){5-7}
+ & & & Hunter & Koizumi & Pack 1962, & Pack 1992,\\
+factors trained & pooled & worst & 1988 & 1986 & 195\unit{K} & 195\unit{K}\\
+\midrule
+\wgVarTable
+\bottomrule
+\end{tabular}
+\caption{Which factors train: each variant's least-squares factors on
+the train set, and the $\chi^2$ per point on the solver itself, each
+dataset as its experiment measures it with Table~\ref{tab:swdata}'s
+errors. Pooled is over the train sets' \wg{var.npts} points. v0\_3
+trains the fourth row's factors.}
+\label{tab:var}
+\end{table}
+
+\emph{The fit.} Least squares on the train set gives the factors; an
+ensemble MCMC~\cite{goodman10} (acceptance \wg{mcmc.acc}) gives their
+posterior, and a neural posterior estimator, a network trained on
+simulated datasets to read the factors off them~\cite{stokes20}, gives
+the same answer independently (Table~\ref{tab:fac}). Its $\pm1\sigma$
+intervals cover \wg{nn.cov.lo} to \wg{nn.cov.hi} of held-out simulations
+(ideal 0.68). The data pin the momentum transfer from
+\wg{fac.free.lo} to \wg{fac.free.hi}\unit{eV} and the 5s and higher
+excitations (the network's $R^2$ at least \wg{nn.r2.next}); they barely
+pin the 5p excitation ($R^2$ \wg{nn.r2.lo}).
+
+\begin{table}[H]
+\centering\footnotesize
+\begin{tabular}{@{}lrrlrr@{}}
+\toprule
+factor on & least squares & MCMC median & 16--84\,\% & network & $R^2$\\
+\midrule
+\wgFacTable
+\bottomrule
+\end{tabular}
+\caption{The trained factors on Biagi's cross sections. v0\_3 runs on the
+least-squares values. The network column gives its mean and the standard
+deviation of the factor's logarithm; $R^2$ is the network's on held-out
+simulations.}
+\label{tab:fac}
+\end{table}
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}
+\begin{axis}[width=5.5cm, height=5.6cm, xmode=log, ymode=log,
+  xlabel={$E/N$ (Td)}, ylabel={$W$ (cm\,s$^{-1}$)},
+  tick label style={font=\scriptsize}, label style={font=\footnotesize},
+  legend style={font=\tiny, draw=none, fill=none, at={(0.03,0.97)},
+  anchor=north west}, legend cell align=left]
+\plotcoords{cE, thick}{\wgSwWtr}
+\addlegendentry{v0\_3}
+\plotcoords{ink2, dashed}{\wgSwWbi}
+\addlegendentry{v0\_2}
+\plotcoords{only marks, mark=*, mark size=1.1pt, ink}{\wgSwWTdata}
+\addlegendentry{train}
+\plotcoords{only marks, mark=o, mark size=1.1pt, ink2}{\wgSwWHdata}
+\addlegendentry{held out}
+\end{axis}
+\end{tikzpicture}\hfill
+\begin{tikzpicture}
+\begin{axis}[width=5.5cm, height=5.6cm, xmode=log, ymode=log,
+  xlabel={$E/N$ (Td)}, ylabel={$\alpha/N$ (cm$^2$)},
+  tick label style={font=\scriptsize}, label style={font=\footnotesize},
+  legend style={font=\tiny, draw=none, fill=none, at={(0.97,0.03)},
+  anchor=south east}, legend cell align=left]
+\plotcoords{cE, thick}{\wgSwAtr}
+\addlegendentry{v0\_3}
+\plotcoords{ink2, dashed}{\wgSwAbi}
+\addlegendentry{v0\_2}
+\plotcoords{cH, dotted, thick}{\wgSwAHM}
+\addlegendentry{v0\_3, HM band's top}
+\plotcoords{only marks, mark=*, mark size=1.1pt, ink}{\wgSwATdata}
+\addlegendentry{train}
+\plotcoords{only marks, mark=o, mark size=1.1pt, ink2}{\wgSwAHdata}
+\addlegendentry{held out}
+\end{axis}
+\end{tikzpicture}\hfill
+\begin{tikzpicture}
+\begin{axis}[width=5.5cm, height=5.6cm, xmode=log, ymode=log,
+  xlabel={$E/N$ (Td)}, ylabel={$D_T/\mu$ (V)},
+  tick label style={font=\scriptsize}, label style={font=\footnotesize},
+  legend style={font=\tiny, draw=none, fill=none, at={(0.03,0.97)},
+  anchor=north west}, legend cell align=left]
+\plotcoords{cE, thick}{\wgSwDtr}
+\addlegendentry{v0\_3}
+\plotcoords{ink2, dashed}{\wgSwDbi}
+\addlegendentry{v0\_2}
+\plotcoords{only marks, mark=o, mark size=1.1pt, ink2}{\wgSwDHdata}
+\addlegendentry{held out}
+\end{axis}
+\end{tikzpicture}
+\caption{Krypton's drift velocity (left), first Townsend coefficient
+(middle) and characteristic energy (right) at 300\unit{K}, as the
+experiments measure them: v0\_3 on its trained cross sections (solid),
+v0\_2 on Biagi's file as published (dashed), and the measurements of
+Table~\ref{tab:swdata}, filled where they train and open where they are
+held out (the validation sets among them). Middle: the dotted curve is
+v0\_3 with every excitation of the
+levels at or above \Krtp's energy ionizing associatively (the
+Hornbeck--Molnar band's top).}
+\label{fig:swarm}
+\end{figure}
+
+\textbf{The scores.}
+\begin{itemize}
+\item \textbf{The train sets.} The drift velocity of Hunter et
+al.~\cite{hunter88}, the most precise below 3\unit{Td}, moves from
+$\chi^2$ \wg{sw.w_hunter88.bi.chi} to \wg{sw.w_hunter88.tr.chi} per
+point, Nakamura's~\cite{nakamura90} from \wg{sw.w_nakamura90.bi.chi} to
+\wg{sw.w_nakamura90.tr.chi} (mean \wg{sw.w_nakamura90.bi.mean} to
+\wg{sw.w_nakamura90.tr.mean}\,\%). The ionization coefficients of
+Jacques et al.~\cite{jacques86} and Kruithof~\cite{kruithof40}, which lay
+\wg{sw.a_jacques86.bi.mean} and \wg{sw.a_kruithof40.bi.mean}\,\% from
+the model, now lie \wg{sw.a_jacques86.tr.mean} and
+\wg{sw.a_kruithof40.tr.mean}\,\%; Bhattacharya's~\cite{bhattacharya79},
+which v0\_2 matched (\wg{sw.a_bhatta79.bi.mean}\,\%), now lies
+\wg{sw.a_bhatta79.tr.mean}\,\%. Every train set ends within the
+consistency threshold.
+\item \textbf{The held-out drift velocities} are the sets the check
+dropped. The training moves \wg{sw.wh.better} of the \wg{sw.wh.sets}
+closer to the model, the two at 195\unit{K} among them, which took part
+in choosing which factors train. Three move further: Pack et al.\ 1992
+at 300\unit{K}~\cite{pack92} ($\chi^2$ \wg{sw.w_pack92.bi.chi} to
+\wg{sw.w_pack92.tr.chi} per point), Dall'Armi et al.'s~\cite{dallarmi92}
+(\wg{sw.w_dallarmi92.bi.chi} to \wg{sw.w_dallarmi92.tr.chi}) and
+Kucukarpaci and Lucas's~\cite{kucukarpaci81} (\wg{sw.w_kucuk81.bi.chi}
+to \wg{sw.w_kucuk81.tr.chi}, \wg{sw.w_kucuk81.tr.mean}\,\% from the
+model on average). Pack et al.'s 1992 set scatters by up to
+\wg{pack92.jump}\,\% against the model between points within 5\,\% of
+each other in $E/N$; Bowe's~\cite{bowe60} lie
+\wg{sw.w_bowe60.tr.mean}\,\% from the model, and English and
+Hanna's~\cite{english53} \wg{sw.w_english53.tr.mean}\,\%.
+\item \textbf{The characteristic energy} of Koizumi et
+al.~\cite{koizumi86}, held out, probes the momentum transfer near the
+Ramsauer minimum, which the drift velocities pin least: rms
+\wg{sw.dtk.bi.rms}\,\% on Biagi's file and \wg{sw.dtk.tr.rms}\,\% on the
+trained set. It chose which factors train, so it validates the training
+rather than tests it.
+\item \textbf{Below 50\unit{Td}}, held out by rule, the mean error moves
+from \wg{sw.alow.bi.mean} to \wg{sw.alow.tr.mean}\,\%: Heylen's
+from \wg{sw.a_heylen71_low.bi.mean} to \wg{sw.a_heylen71_low.tr.mean}\,\%,
+Specht et al.'s direct coefficient~\cite{specht80} from
+\wg{sw.a_specht80_direct.bi.mean} to
+\wg{sw.a_specht80_direct.tr.mean}\,\%, Kruithof's from
+\wg{sw.a_kruithof40_low.bi.mean} to \wg{sw.a_kruithof40_low.tr.mean}\,\%.
+\end{itemize}
+
+\textbf{Why the low field stays out.} At 30\unit{Td} the electrons excite
+krypton \wg{low.exc_ion} times for every ionization, so anything that
+ionizes an excited atom, or frees an electron at a surface with its
+light, can dominate the measured current. Specht et al.\ found the
+coefficient anomalously large at low field and attributed it to
+photoelectron emission at the surfaces by radiating metastables, which
+they say also explains why earlier measurements disagreed with transport
+calculations; their direct coefficient leaves that contribution
+out~\cite{specht80}. Bordage et al.\ found every published krypton set
+below the low-field data and ascribe it to Penning ionization of
+impurities~\cite{bordage13}. And the \wg{sw.low.sets} datasets part by up
+to \x{\wg{sw.low.part}} from one another where they overlap. Training on
+them would fit the cross sections to the purity and geometry of each
+experiment. Pure krypton has one process there of its own, the
+associative (Hornbeck--Molnar) ionization of atoms excited above
+\wg{hm.eai}\unit{eV}~\cite{hornbeck51}. At the band's top it raises the
+trained set's coefficient \x{\wg{hm.x14}} at 14\unit{Td}, \x{\wg{hm.x30}}
+at 30\unit{Td} and \x{\wg{hm.x100}} at 100\unit{Td}, and puts the model
+\wg{swhm.atr.mean}\,\% from the train sets on average, so a share that
+large cannot hold where those are measured. No krypton measurement gives
+the share, and it stays at 0 by default.
+
+\textbf{What this means for the reference point.} The electrons sit at
+\wg{ref.kin.en.lo} to \wg{ref.kin.en.hi}\unit{Td}. There direct
+ionization makes \wm{ion.C2}\,\% of the ions and Penning ionization the
+rest, so the low-field coefficient does not reach the answer. The
+excitation rates do, and the training moves them: the 147-nm share goes
+from \wg{chg.kin.v02} to \wg{chg.kin.v03}\,\%, and the posterior of the
+factors spreads it by $\pm$\wg{unc.kin.xs.sd} points
+(Section~\ref{sec:accuracy}).
+
+\section{Under an electron beam}
+\label{sec:beam}
+
+Three measurements bear on the chain from excitation to the 147-nm
+photon. They were made under electron beams, so for them v0\_3 runs under
+a beam drive. The drive is a fixture of this note, not part of the model.
+It deposits the given power as ion pairs, \Krs, \Krpp{} and secondary
+electrons in the proportions of a fast electron's degradation in pure
+krypton. That degradation is the Fowler--Spencer--Fano recursion on the
+same cross sections as the model, level by level, from \wg{beam.e0}\unit{eV}: an excitation
+continues the electron at $E-I$, and an ionization shares $E-I$ equally
+between the two electrons. Per ion pair it gives:
+\begin{itemize}
+\item $W=\wg{beam.W}\unit{eV}$;
+\item \wg{beam.pp} \Krpp, from the levels above the 5s manifold;
+\item \wg{beam.s} \Krs, from the four 5s levels;
+\item \wg{beam.cascade}\unit{eV} of heat, the levels' excess over the
+energy of the species they make;
+\item \wg{beam.eps}\unit{eV} of sub-excitation secondaries, which the
+kinetic equation injects with a flat spectrum up to \wm{E.S}\unit{eV}.
+\end{itemize}
+That is one excitation or ion per \wg{beam.ws}\unit{eV}.
+
+\textbf{The partition.} Saito et al.~\cite{saito03} measured scintillation
+photons and electrons together under 5.49-MeV alpha particles in 1 to
+10\unit{atm} of krypton. They found \wg{saito.nex} excited atoms per ion pair, and
+$W_s=\wg{saito.ws}\unit{eV}$, the energy per photon when every pair
+recombines.
+They also confirmed that each recombination gives one photon. On the
+trained cross sections the drive's \wg{beam.ws}\unit{eV} per excitation
+or ion is \wg{beam.ws.dev}\,\% from their $W_s$, its excitations per pair
+(\wg{beam.nex}) differ from theirs by \wg{beam.nex.dev}\,\%, and its $W$
+differs by \wg{beam.W.dev}\,\% from the \wg{saito.W}\unit{eV} their two
+numbers imply. On Biagi's file as published (v0\_2) the same degradation
+gave $W=\wg{beam.W.v02}\unit{eV}$ (\wg{beam.W.dev.v02}\,\%) and
+\wg{beam.nex.v02} excitations per pair (\wg{beam.nex.dev.v02}\,\%): the
+swarm data's smaller excitation moves both toward the measurement, which
+neither the training nor the choice of its factors saw. The errors still
+largely cancel in the quantity
+the light depends on. One photon of \wg{hv147}\unit{eV} per
+\wg{saito.ws}\unit{eV} is an efficiency of \wg{saito.ideal}. v0\_3's
+ceiling, one photon per excitation and per ion of the drive, is
+\wg{beam.ceil}.
+
+\textbf{Low pump.} Morozov et al.~\cite{morozov08} measured the power a
+continuous 8 to 15-keV beam deposits in the gas against the VUV power
+emitted into $4\pi$. For krypton they found \wg{moz.meas} $\pm$ \wg{moz.err}, flat from 500
+to 1400\unit{hPa} and over a tenfold range of beam power. At
+\wg{moz.hpa}\unit{hPa}, \wg{moz.w.lo} and \wg{moz.w.hi}\unit{W\,cm^{-3}}
+for \wg{beam.pulse}\unit{\mu s} with the light counted for
+\wg{beam.tail.lo}\unit{\mu s} after, v0\_3 gives \wg{moz.30.kin} and
+\wg{moz.300.kin} (Table~\ref{tab:beam}). The error is \wg{moz.kin.dev}\,\%,
+\wg{moz.kin.sig} of the measurement's standard errors. At this pump
+nothing competes with the light: \wg{moz.300.kin.G2} Penning ionizations
+per pair, every ion recombined (\wg{moz.300.kin.rec} per pair), and every
+\Krts{} radiating. So v0\_3 sits at its ceiling, which Saito et al.'s
+measurement supports. Morozov et al.\ compare their value with calculated
+maxima of 0.46 and 0.52 for krypton. The \wg{moz.short}\,\% between their
+value and Saito et al.'s one photon per excitation and per ion
+(\wg{saito.ideal}) is not explained in v0\_3.
+
+\textbf{High pump.} Eckstrom et al.~\cite{eckstrom88} report the
+fluorescence efficiency of \Krts{} near their theoretical limit of about
+46\,\%. They found it under a low-current, long-pulse beam at modest
+pressures, for pump rates up to $3\times10^5\unit{W\,cm^{-3}}$. The
+abstract does not give the pressure of each point. At that pump rate
+(1\unit{\mu s}, the light counted for \wg{beam.tail.hi}\unit{\mu s})
+v0\_3 gives:
+\begin{itemize}
+\item \wg{eck.0.5.kin} at 0.5\unit{atm}, \wg{eck.1.kin} at 1\unit{atm}
+and \wg{eck.2.kin} at 2\unit{atm}, that is \wg{eck.0.5.kin.loss},
+\wg{eck.1.kin.loss} and \wg{eck.2.kin.loss}\,\% below its ceiling of
+\wg{beam.ceil};
+\item at 1\unit{atm}, Penning ionization of \Krs{} by \Krs{} costs
+\wg{eck.1.kin.G2} photons per pair, because the excimer forms too slowly to
+outrun it;
+\item at 1\unit{atm} with \Krs{} + \Krs{} at its band's low end,
+\wg{eck_pen.1.kin} (\wg{eck_pen.1.kin.loss}\,\% below the ceiling), and
+with \Krs{} + 2Kr at its band's top, \wg{eck_form.1.kin}
+(\wg{eck_form.1.kin.loss}\,\%).
+\end{itemize}
+Their limit assumes other numbers than v0\_3's ceiling, so what the
+report tests is the loss: little at high pump. v0\_3 loses little at
+2\unit{atm}. If their pressures were near 1\unit{atm}, the report leans
+toward a weaker Penning loss or a faster formation than the defaults.
+Those are the two inputs that also lead the field-driven uncertainty.
+
+\begin{table}[H]
+\centering\footnotesize
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{@{}llrrrrrr@{}}
+\toprule
+run & measured & kinetic & two-temperature & Penning per pair & photons per pair & $T_e$ (eV) & $T_g$ end (K)\\
+\midrule
+\wg{moz.w.lo}\unit{W\,cm^{-3}}, \wg{moz.hpa}\unit{hPa} & \wg{moz.meas} $\pm$ \wg{moz.err} & \wg{moz.30.kin} & \wg{moz.30.2t} & \wg{moz.30.kin.G2} & \wg{moz.30.kin.ph} & \wg{moz.30.kin.te} & \wg{moz.30.kin.tg}\\
+\wg{moz.w.hi}\unit{W\,cm^{-3}}, \wg{moz.hpa}\unit{hPa} & \wg{moz.meas} $\pm$ \wg{moz.err} & \wg{moz.300.kin} & \wg{moz.300.2t} & \wg{moz.300.kin.G2} & \wg{moz.300.kin.ph} & \wg{moz.300.kin.te} & \wg{moz.300.kin.tg}\\
+$3\times10^5\unit{W\,cm^{-3}}$, 0.5\unit{atm} & near \wg{eck.meas} & \wg{eck.0.5.kin} & \wg{eck.0.5.2t} & \wg{eck.0.5.kin.G2} & \wg{eck.0.5.kin.ph} & \wg{eck.0.5.kin.te} & \wg{eck.0.5.kin.tg}\\
+$3\times10^5\unit{W\,cm^{-3}}$, 1\unit{atm} & near \wg{eck.meas} & \wg{eck.1.kin} & \wg{eck.1.2t} & \wg{eck.1.kin.G2} & \wg{eck.1.kin.ph} & \wg{eck.1.kin.te} & \wg{eck.1.kin.tg}\\
+$3\times10^5\unit{W\,cm^{-3}}$, 2\unit{atm} & near \wg{eck.meas} & \wg{eck.2.kin} & \wg{eck.2.2t} & \wg{eck.2.kin.G2} & \wg{eck.2.kin.ph} & \wg{eck.2.kin.te} & \wg{eck.2.kin.tg}\\
+\quad 1\unit{atm}, \Krs{} + \Krs{} $\wm{bd.kr_pen.lo}$ & & \wg{eck_pen.1.kin} & \wg{eck_pen.1.2t} & \wg{eck_pen.1.kin.G2} & \wg{eck_pen.1.kin.ph} & \wg{eck_pen.1.kin.te} & \wg{eck_pen.1.kin.tg}\\
+\quad 1\unit{atm}, \Krs{} + 2Kr $\wm{bd.kr2_form.hi}$ & & \wg{eck_form.1.kin} & \wg{eck_form.1.2t} & \wg{eck_form.1.kin.G2} & \wg{eck_form.1.kin.ph} & \wg{eck_form.1.kin.te} & \wg{eck_form.1.kin.tg}\\
+\bottomrule
+\end{tabular}}
+\caption{v0\_3 under the beam drive: the VUV efficiency (147-nm energy
+over the deposited energy) on both closures, and on the kinetic EEDF the
+Penning ionizations and 147-nm photons per ion pair, the pulse's mean
+$T_e$ and the final gas temperature. v0\_3's ceiling, one photon per
+excitation and per ion, is \wg{beam.php} photons per pair, an efficiency
+of \wg{beam.ceil}; Saito et al.'s ideal is \wg{saito.ideal}.}
+\label{tab:beam}
+\end{table}
+
+\section{The energy ladder}
+
+Figure~\ref{fig:ladder} draws v0\_3's levels at their formation energies
+and the rows that move energy between them.
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[x=1cm, y=0.6cm, font=\scriptsize,
+  arr/.style={-{Stealth[length=4pt]}},
+  heat/.style={cH, decorate, decoration={snake, amplitude=1pt,
+    segment length=4pt, post length=4pt}, -{Stealth[length=4pt]}}]
+\newcommand\lev[4]{\draw[line width=1.1pt, #4] (#1,#3) -- (#2,#3);}
+% atoms
+\lev{0}{4.6}{0}{ink}
+\lev{0}{4.6}{\wg{lad.S}}{cX}
+\lev{0}{4.6}{\wg{lad.P}}{cP}
+\lev{0}{4.6}{\wg{lad.I}}{cI}
+\node[left] at (0,0) {Kr, 0};
+\node[left] at (0,\wg{lad.S}) {\Krs{} (5s) \wg{lad.S}};
+\node[left] at (0,\wg{lad.P}) {\Krpp{} (5p) \wg{lad.P}};
+\node[left] at (0,\wg{lad.I}) {\Krp{} \wg{lad.I}};
+% molecules
+\lev{7.4}{9.6}{0}{ink}
+\lev{7.4}{9.6}{\wg{lad.X2}}{cV}
+\lev{7.4}{9.6}{\wg{lad.I2}}{cI}
+\draw[ink2, dashed] (7.4,\wg{lad.low}) -- (9.6,\wg{lad.low});
+\node[right] at (9.6,0) {2Kr, 0};
+\node[right] at (9.6,\wg{lad.X2}) {\Krts{} \wg{lad.X2}};
+\node[right] at (9.6,\wg{lad.I2}) {\Krtp{} \wg{lad.I2}};
+\node[right, ink2] at (9.6,\wg{lad.low}) {repulsive 2Kr, \wg{lad.low}};
+% electron impact from the ground state
+\draw[cE, arr] (0.4,0) -- (0.4,\wg{lad.S}) node[pos=0.45, right] {G1};
+\draw[cE, arr] (1.0,0) -- (1.0,\wg{lad.P}) node[pos=0.45, right] {C1};
+\draw[cE, arr] (1.6,0) -- (1.6,\wg{lad.I}) node[pos=0.45, right] {C2};
+% Penning ionization of Kr* by Kr*
+\draw[ink2, densely dashed, arr] (2.3,\wg{lad.S}) -- (2.3,\wg{lad.I})
+  node[pos=0.75, right] {G2};
+% the 5s <-> 5p cycle, its relaxation and its light
+\draw[cE, arr] (3.0,\wg{lad.S}) -- (3.0,\wg{lad.P});
+\draw[cE, arr] (3.25,\wg{lad.P}) -- (3.25,\wg{lad.S});
+\draw[heat] (3.75,\wg{lad.P}) -- (3.75,\wg{lad.S});
+\draw[cP, arr] (4.25,\wg{lad.P}) -- (4.25,\wg{lad.S});
+\node[ink, anchor=north west, align=left, inner sep=1pt] at (2.75,9.6)
+  {\textcolor{cE}{K76, K76r,}\\ \textcolor{cH}{KPS},
+  \textcolor{cP}{PRAD}};
+% to the excimer and its light
+\draw[cX, arr] (4.6,\wg{lad.S}) -- (7.4,\wg{lad.X2});
+\node[cX, anchor=north west] at (4.7,9.15) {AK8\_Kr, \wg{lad.ak8} to heat};
+\draw[cV, arr] (8.1,\wg{lad.X2}) -- (8.1,\wg{lad.low})
+  node[pos=0.5, right, cV] {KR2\_RAD, $h\nu$ \wg{lad.hv}};
+\draw[heat] (8.1,\wg{lad.low}) -- (8.1,0);
+% the ions
+\draw[cI, arr] (4.6,\wg{lad.I}) -- (7.4,\wg{lad.I2});
+\node[cI, anchor=south west] at (7.45,13.25) {K15, \wg{lad.k15} to heat};
+\draw[cI, arr] (7.4,\wg{lad.I2}) -- (4.6,\wg{lad.P});
+\node[cI, anchor=north west] at (7.45,12.4) {R11p, \wg{lad.r11} to heat};
+\end{tikzpicture}
+\caption{v0\_3's energy ladder in eV above ground-state krypton at rest.
+A bar is a species at its formation energy. Blue arrows are electron
+impact, which takes its energy from the electron gas; K76r, the 5p
+\ra 5s arrow beside K76, returns it. The dashed G2 is \Krs{} + \Krs{}
+\ra \Krp{} + Kr + \el, which gives \wg{lad.pen}\unit{eV} to the electron.
+A red squiggle is heat: KPS relaxes the 5p rung on krypton, and PRAD
+radiates the \wg{lad.gap}-eV gap in the near infrared. The
+excimer radiates onto the repulsive ground state, which falls apart and
+heats the gas. G1's four 5s levels, \wg{lad.s1} to \wg{lad.s2}\unit{eV},
+make \Krs; C1's levels, \wg{lad.c1lo} to \wg{lad.c1hi}\unit{eV}, cascade
+to the 5p rung; each heats the gas with its excess. HM, the
+Hornbeck--Molnar ionization of the levels above \Krtp's energy, is a band
+at 0 and not drawn.}
+\label{fig:ladder}
+\end{figure}
+
+\section{Where v0\_3 is not yet reliable}
+
+\begin{itemize}
+\item \textbf{\Krs{} + 2Kr.} The excimer's formation rate is the largest
+term of the propagated uncertainty: its measurements spread by a factor
+of \wg{form.ratio}. Its temperature law is measured to 451\unit{K}, and
+the reference point ends at \wg{ref.kin.tg}\unit{K}.
+\item \textbf{The field-driven regime is unscored.} No pure-krypton
+measurement in hand tests the 5s $\leftrightarrow$ 5p cycle under a field.
+Its cross sections are measured to $\pm$\wg{jung.unc.1s5} to
+\wg{jung.unc.1s3}\,\%. Those of the two $J=1$ levels are not measured;
+they are the band's low end.
+\item \textbf{The trained cross sections} rest on errors the swarm data
+do not print (class values here) and on the consistency check's threshold
+(at 4 rather than 3, \wg{cons.at4.n} more sets train and the momentum
+transfer at 6\unit{eV} moves to \x{\wg{cons.at4.m6}}). The data barely
+pin the 5p excitation. Which factors train was chosen on held-out data
+(Table~\ref{tab:var}), so those sets validate the training rather than
+test it. The Monte
+Carlo's ratios are taken on Biagi's file and hold on the trained set to
+\wg{mc.chk.max}\,\%. Their posterior is propagated into the answer
+($\pm$\wg{unc.kin.xs.sd} points).
+\item \textbf{The rows with no measurement.} \Krts{} + \Krts{} and the
+stepwise ionizations of \Krs{} and \Krpp{} are 0 by default. Each at its
+band's top cuts the 147-nm share by a fifth to a half
+(Table~\ref{tab:unc}).
+\item \textbf{\Krs{} + \Krs.} Its $\wm{k.G2}\cm{3}$ is a 1974
+measurement~\cite{leichner74} as Kannari et al.\ print it~\cite{kannari85}.
+The e-beam report at high pump leans toward a lower value
+(Section~\ref{sec:beam}).
+\item \textbf{The e-beam efficiency at low pump} is off Morozov et
+al.'s by \wg{moz.kin.dev}\,\%, and v0\_3 holds no process that would
+explain the difference.
+\item \textbf{The ionization coefficient below 50\unit{Td}} lies
+\wg{sw.alow.tr.mean}\,\% from the measurements on average, which part by
+up to \x{\wg{sw.low.part}} from one another; every published
+cross-section set falls below them~\cite{bordage13}. It is held out of the
+training by rule, and it does not reach the reference point, where
+Penning ionization makes the ions.
+\item \textbf{The Hornbeck--Molnar share} of the levels above
+\wg{hm.eai}\unit{eV} is not measured for krypton and is 0 by default. At
+its top it puts the model \wg{swhm.atr.mean}\,\% from the train sets and
+moves the reference point by \wg{unc.hm.cut}\,\%.
+\item \textbf{Processes v0\_3 does not carry}, each needing a measured rate
+before it can enter:
+\begin{itemize}
+\item Kr$_3^+$ and its recombination;
+\item electron collisions with \Krts{}: ionization, quenching and the
+mixing of its two states (v0\_3 carries one state at the slow component's
+270\unit{ns});
+\item Penning ionization between \Krs{} and \Krts, and of \Krpp;
+\item the redissociation of \Krtp{} and \Krts{} in hot gas;
+\item the resonance lines of the two $J=1$ 5s levels.
+\end{itemize}
+Three-body recombination \Krp{} + \el{} + \el~\cite{mansbach69} is not
+carried either: at 1\unit{atm} \Krp{} converts to \Krtp{} in
+\wg{k15.ns}\unit{ns}.
+\item \textbf{The kinetic EEDF's steady shape.} Between renewals the EEDF
+keeps its steady shape, which the first nanosecond and the afterglow
+strain. The two-temperature closure reads a tail table made for LIGHT's
+Kr/F$_2$ network on Biagi's four groups (its F$_2=0$ column); the default
+closure does not use it.
+\end{itemize}
+
+\textbf{How the numbers were made.} Every number in this note is computed
+from the model when the note is built. None is typed by hand except the
+measurements, which carry their sources, and the training's record, which
+the model carries beside its cross sections and the training wrote. The
+runs are cached under a hash of the model's code, so a change to the
+model reruns them all (code \texttt{\wg{md5}}). The kinetic runs take
+about \wg{ref.kin.min} minutes each; the two-temperature runs take
+seconds.
+
+\clearpage
+\appendix
+\section{Reaction rates}
+\label{app:rates}
+
+The rows of v0\_3 with the values they run with and their sources.
+Electron-impact rows use their cross sections over the kinetic EEDF (or
+the two-temperature closure). A band gives its default and its two ends.
+
+\begin{table}[H]
+\centering\scriptsize
+\renewcommand{\arraystretch}{1.12}
+\begin{tabularx}{\linewidth}{@{}>{\raggedright\arraybackslash}p{1.35cm}>{\raggedright\arraybackslash}p{3.6cm}>{\raggedright\arraybackslash}p{4.1cm}>{\raggedright\arraybackslash}X@{}}
+\toprule
+row & reaction & value & source\\
+\midrule
+G1 & \el{} + Kr \ra \el{} + \Krs(5s) & the four 5s levels, \wm{E.S} to \wg{lad.s2}\unit{eV}, each at its threshold; the excess over \wm{E.S} to heat & Biagi, Magboltz 8.97~\cite{biagi99,pancheshnyi12,carbone21}, \x{\wg{fac.x_1s}} (trained, Table~\ref{tab:fac})\\
+C1 & \el{} + Kr \ra \el{} + \Krpp & the 5p, 4d, 6s and higher levels, \wg{lad.c1lo} to \wg{lad.c1hi}\unit{eV}, each at its threshold, \x{\wg{fac.x_2p}} (5p) and \x{\wg{fac.x_hi}} (higher) trained; the excess over \wm{E.PP} to heat & Biagi, Magboltz 8.97\\
+HM & \el{} + Kr (+ Kr) \ra \Krtp{} + 2\el & the share of the excitations of the \wg{hm.levels} levels at or above \wg{hm.eai}\unit{eV}; band 0 (default) to 1 & no measurement for krypton; the process, Hornbeck and Molnar~\cite{hornbeck51}\\
+C2 & \el{} + Kr \ra \Krp{} + 2\el & \wm{E.ion}\unit{eV} & Biagi, Magboltz 8.97\\
+G6 & \el{} + Kr, elastic & the momentum transfer cross section, times the trained factor (Table~\ref{tab:fac}) & Biagi, Magboltz 8.97\\
+K76 & \el{} + \Krs{} \ra \el{} + \Krpp & the lumped measured cross section, $\wg{jung.sig6}\unit{cm^2}$ at 6\unit{eV}; band \x{} \wm{bd.k_5s5p.lo} to \wm{bd.k_5s5p.hi} & Jung et al.~\cite{jung06,jung05}; Kannari's fit as a comparison~\cite{kannari85,jacob76}\\
+K76r & \el{} + \Krpp{} \ra \el{} + \Krs & detailed balance, $g$ 12/36 over the \wm{gap5p}-eV gap & \\
+KPS & \Krpp{} + Kr \ra \Krs{} + Kr & $\wm{k.KPS}\cm{3}$; band $\wm{bd.kps_kr.lo}$ to the default & Gazeli et al.~\cite{gazeli21}, one level, products unresolved; the low end lies in the range Chang and Setser measured for argon's 4p levels in argon, $2\times10^{-11}$ to $10^{-10}$~\cite{chang78}\\
+PRAD & \Krpp{} \ra \Krs{} + $h\nu$, 760--830\unit{nm} & $\tau=\wg{tau5p}\unit{ns}$, the $2J+1$ mean of the ten 5p levels & Dzier\.z\k{e}ga et al.~\cite{dzierzega00}; a TALIF lifetime of one level, 34.1\unit{ns}, as a cross-check~\cite{gazeli21rev}\\
+G2 & \Krs{} + \Krs{} \ra \Krp{} + Kr + \el & $\wm{k.G2}\cm{3}$; band $\wm{bd.kr_pen.lo}$ to the default & Leichner and Ericson~\cite{leichner74} as Kannari et al.\ print it~\cite{kannari85}; the low end has no published measurement\\
+AK8\_Kr & \Krs{} + 2Kr \ra \Krts{} + Kr & $\wm{k.AK8}\cm{6}\times(T_g/300)^{\wm{tpow.AK8}}$; band to $\wm{bd.kr2_form.hi}$ & Ueda et al.\ at 0.5--1\unit{atm}~\cite{ueda84}; afterglows~\cite{salamero79,tracy76,smith63} and Hughes's value~\cite{quigley78} inside the band; the law, Wieme and Lenaerts~\cite{wieme81}\\
+KR2\_RAD & \Krts{} \ra 2Kr + $h\nu$, 147\unit{nm} & $\tau=\wm{tauRAD}\unit{ns}$, $h\nu=\wm{hv.RAD}\unit{eV}$ & Morikawa et al., 270 $\pm$ 5\unit{ns}~\cite{morikawa89}; 250 $\pm$ 20~\cite{salamero79}, 280 $\pm$ 30~\cite{quigley78}\\
+PEN\_KR2 & \Krts{} + \Krts{} \ra \Krtp{} + 2Kr + \el & 0; band to $\wm{bd.kr2_pen.hi}$ & no measurement; Kannari et al.'s value is the top~\cite{kannari85}\\
+K15 & \Krp{} + 2Kr \ra \Krtp{} + Kr & $\wm{k.K15}\cm{6}\times(T_g/300)^{\wm{tpow.K15}}$ & the mean of three measurements~\cite{bhattacharya70,grossl81,smith72}; the law, P\'erez-R\'ios and Greene~\cite{perezrios18}\\
+R11p & \Krtp{} + \el{} \ra \Krpp{} + Kr & $\wm{k.R11p}\,(300\,\mathrm{K}/T_e)^{\wm{pow.R11p}}\cm{3}$, $\pm$10\,\% & Shiu and Biondi~\cite{shiu77}; Mikus within 8\,\%~\cite{mikus78}\\
+KSTEP\_S & \el{} + \Krs{} \ra \Krp{} + 2\el & 0; band to $\wm{bd.kstep_s.hi}\,T_e^{0.68}e^{-4.04/T_e}\cm{3}$ & no measurement; Vriens' calculation~\cite{vriens65} as Kannari et al.\ print it~\cite{kannari85}\\
+KSTEP\_P & \el{} + \Krpp{} \ra \Krp{} + 2\el & 0; band to $\wm{bd.kstep_p.hi}\,T_e^{0.62}e^{-2.53/T_e}\cm{3}$ & the same\\
+\bottomrule
+\end{tabularx}
+\caption{v0\_3's rows. Rates in cm$^3$\,s$^{-1}$ or cm$^6$\,s$^{-1}$, $T_e$
+in eV. Two rows sit in the optional group \texttt{electron}, off by
+default: a stepwise-ionization template of \Krs{} and the superelastic
+return of the 5s levels by detailed balance. \Krtp{} lies \wg{lad.k15}\unit{eV} below \Krp{}
++ Kr~\cite{ng77}; \Krts{}'s \wg{lad.ak8}-eV well is an estimate that moves
+energy only between storage and heat.}
+\end{table}
+
+\begin{thebibliography}{99}
+\footnotesize
+\setlength{\itemsep}{1pt}
+\bibitem{biagi99} S.~F.~Biagi, Nucl.\ Instrum.\ Methods A 421, 234 (1999), doi:10.1016/S0168-9002(98)01233-9.
+\bibitem{bordage13} M.~C.~Bordage, S.~F.~Biagi, L.~L.~Alves, K.~Bartschat, S.~Chowdhury, L.~C.~Pitchford, G.~J.~M.~Hagelaar, W.~L.~Morgan, V.~Puech and O.~Zatsarinny, J.\ Phys.\ D 46, 334003 (2013), doi:10.1088/0022-3727/46/33/334003.
+\bibitem{dias23} T.~C.~Dias, A.~Tejero-del-Caz, L.~L.~Alves and V.~Guerra, Comput.\ Phys.\ Commun.\ 282, 108554 (2023), doi:10.1016/j.cpc.2022.108554.
+\bibitem{hornbeck51} J.~A.~Hornbeck and J.~P.~Molnar, Phys.\ Rev.\ 84, 621 (1951), doi:10.1103/PhysRev.84.621.
+\bibitem{jacques86} L.~Jacques, W.~Bruynooghe, R.~Boucique and W.~Wieme, J.\ Phys.\ D 19, 1731 (1986), doi:10.1088/0022-3727/19/9/017.
+\bibitem{pancheshnyi12} S.~Pancheshnyi et al., Chem.\ Phys.\ 398, 148 (2012), doi:10.1016/j.chemphys.2011.04.020.
+\bibitem{carbone21} E.~Carbone et al., Atoms 9, 16 (2021), doi:10.3390/atoms9010016.
+\bibitem{hagelaar05} G.~J.~M.~Hagelaar and L.~C.~Pitchford, Plasma Sources Sci.\ Technol.\ 14, 722 (2005), doi:10.1088/0963-0252/14/4/011.
+\bibitem{jung05} R.~O.~Jung, T.~E.~Stone, J.~B.~Boffard, L.~W.~Anderson and C.~C.~Lin, Phys.\ Rev.\ Lett.\ 94, 163202 (2005), doi:10.1103/PhysRevLett.94.163202.
+\bibitem{jung06} R.~O.~Jung, T.~E.~Stone, J.~B.~Boffard, L.~W.~Anderson and C.~C.~Lin, Phys.\ Rev.\ A 73, 022722 (2006), doi:10.1103/PhysRevA.73.022722.
+\bibitem{kannari85} F.~Kannari, M.~Obara and T.~Fujioka, J.\ Appl.\ Phys.\ 57, 4309 (1985), doi:10.1063/1.334590.
+\bibitem{jacob76} J.~H.~Jacob and J.~A.~Mangano, Appl.\ Phys.\ Lett.\ 28, 724 (1976), doi:10.1063/1.88629.
+\bibitem{vriens65} L.~Vriens, Physica 31, 385 (1965), doi:10.1016/0031-8914(65)90043-1.
+\bibitem{gazeli21} K.~Gazeli et al., Phys.\ Plasmas 28, 043301 (2021), doi:10.1063/5.0041471.
+\bibitem{gazeli21rev} K.~Gazeli, G.~Lombardi, X.~Aubert, C.~Y.~Duluard, S.~Prasanna and K.~Hassouni, Plasma 4, 145 (2021), doi:10.3390/plasma4010009.
+\bibitem{chang78} R.~S.~F.~Chang and D.~W.~Setser, J.\ Chem.\ Phys.\ 69, 3885 (1978), doi:10.1063/1.437126.
+\bibitem{dzierzega00} K.~Dzier\.z\k{e}ga, U.~Volz, G.~Nave and U.~Griesmann, Phys.\ Rev.\ A 62, 022505 (2000), doi:10.1103/PhysRevA.62.022505.
+\bibitem{leichner74} P.~K.~Leichner and R.~J.~Ericson, Phys.\ Rev.\ A 9, 251 (1974), doi:10.1103/PhysRevA.9.251.
+\bibitem{ueda84} K.~Ueda, S.~Kanada, A.~Sasaki and H.~Takuma, Rev.\ Laser Eng.\ 12, 357 (1984), doi:10.2184/lsj.12.357.
+\bibitem{salamero79} Y.~Salamero et al., J.\ Phys.\ B 12, 419 (1979), doi:10.1088/0022-3700/12/3/019.
+\bibitem{tracy76} C.~J.~Tracy and H.~J.~Oskam, J.\ Chem.\ Phys.\ 65, 1666 (1976), doi:10.1063/1.433312.
+\bibitem{smith63} D.~S.~Smith and R.~Turner, Can.\ J.\ Phys.\ 41, 1949 (1963), doi:10.1139/p63-195.
+\bibitem{quigley78} G.~P.~Quigley and W.~M.~Hughes, Appl.\ Phys.\ Lett.\ 32, 649 (1978), doi:10.1063/1.89882.
+\bibitem{wieme81} W.~Wieme and J.~Lenaerts, J.\ Chem.\ Phys.\ 74, 483 (1981), doi:10.1063/1.440855.
+\bibitem{morikawa89} E.~Morikawa et al., J.\ Chem.\ Phys.\ 91, 1469 (1989), doi:10.1063/1.457108.
+\bibitem{bhattacharya70} A.~K.~Bhattacharya, Phys.\ Rev.\ A 1, 1196 (1970), doi:10.1103/PhysRevA.1.1196.
+\bibitem{grossl81} M.~Gr\"ossl et al., J.\ Chem.\ Phys.\ 74, 1728 (1981), doi:10.1063/1.441261.
+\bibitem{smith72} D.~Smith, A.~G.~Dean and I.~C.~Plumb, J.\ Phys.\ B 5, 2134 (1972), doi:10.1088/0022-3700/5/11/020.
+\bibitem{perezrios18} J.~P\'erez-R\'ios and C.~H.~Greene, Phys.\ Rev.\ A 98, 062707 (2018), doi:10.1103/PhysRevA.98.062707.
+\bibitem{shiu77} Y.-J.~Shiu and M.~A.~Biondi, Phys.\ Rev.\ A 16, 1817 (1977), doi:10.1103/PhysRevA.16.1817.
+\bibitem{mikus78} O.~Mikus, J.\ Phys.\ D 11, L39 (1978), doi:10.1088/0022-3727/11/3/003.
+\bibitem{ng77} C.~Y.~Ng, D.~J.~Trevor, B.~H.~Mahan and Y.~T.~Lee, J.\ Chem.\ Phys.\ 66, 446 (1977), doi:10.1063/1.433989.
+\bibitem{mansbach69} P.~Mansbach and J.~Keck, Phys.\ Rev.\ 181, 275 (1969), doi:10.1103/PhysRev.181.275.
+\bibitem{pack62} J.~L.~Pack, R.~E.~Voshall and A.~V.~Phelps, Phys.\ Rev.\ 127, 2084 (1962), doi:10.1103/PhysRev.127.2084.
+\bibitem{dutton75} J.~Dutton, J.\ Phys.\ Chem.\ Ref.\ Data 4, 577 (1975), doi:10.1063/1.555525, Tables 1.9 and 7.4.
+\bibitem{kruithof40} A.~A.~Kruithof, Physica 7, 519 (1940), doi:10.1016/S0031-8914(40)90043-X.
+\bibitem{heylen71} A.~E.~D.~Heylen, Int.\ J.\ Electron.\ 31, 19 (1971), doi:10.1080/00207217108938196.
+\bibitem{saito03} K.~Saito, S.~Sasaki, H.~Tawara, T.~Sanami and E.~Shibamura, IEEE Trans.\ Nucl.\ Sci.\ 50, 2452 (2003), doi:10.1109/TNS.2003.820615.
+\bibitem{morozov08} A.~Morozov, T.~Heindl, R.~Kr\"ucken, A.~Ulrich and J.~Wieser, J.\ Appl.\ Phys.\ 103, 103301 (2008), doi:10.1063/1.2931000.
+\bibitem{eckstrom88} D.~J.~Eckstrom et al., J.\ Appl.\ Phys.\ 64, 1691 (1988), doi:10.1063/1.341762.
+\bibitem{hunter88} S.~R.~Hunter, J.~G.~Carter and L.~G.~Christophorou, Phys.\ Rev.\ A 38, 5539 (1988), doi:10.1103/PhysRevA.38.5539.
+\bibitem{pack92} J.~L.~Pack, R.~E.~Voshall, A.~V.~Phelps and L.~E.~Kline, J.\ Appl.\ Phys.\ 71, 5363 (1992), doi:10.1063/1.350555.
+\bibitem{nakamura90} Y.~Nakamura, in \emph{Nonequilibrium Effects in Ion and Electron Transport} (Springer, 1990), p.~363, doi:10.1007/978-1-4613-0661-0\_33.
+\bibitem{dallarmi92} G.~Dall'Armi, K.~L.~Brown, P.~H.~Purdie and J.~Fletcher, Aust.\ J.\ Phys.\ 45, 185 (1992), doi:10.1071/PH920185.
+\bibitem{bowe60} J.~C.~Bowe, Phys.\ Rev.\ 117, 1411 (1960), doi:10.1103/PhysRev.117.1411.
+\bibitem{english53} W.~N.~English and G.~C.~Hanna, Can.\ J.\ Phys.\ 31, 768 (1953), doi:10.1139/p53-070.
+\bibitem{kucukarpaci81} H.~N.~Kucukarpaci and J.~Lucas, J.\ Phys.\ D 14, 2001 (1981), doi:10.1088/0022-3727/14/11/008.
+\bibitem{koizumi86} T.~Koizumi, E.~Shirakawa and I.~Ogawa, J.\ Phys.\ B 19, 2331 (1986), doi:10.1088/0022-3700/19/15/014.
+\bibitem{alamin87} S.~A.~J.~Al-Amin and J.~Lucas, J.\ Phys.\ D 20, 1590 (1987), doi:10.1088/0022-3727/20/12/007.
+\bibitem{bhattacharya79} A.~K.~Bhattacharya, J.\ Appl.\ Phys.\ 50, 6207 (1979), doi:10.1063/1.325754.
+\bibitem{specht80} L.~T.~Specht, S.~A.~Lawton and T.~A.~DeTemple, J.\ Appl.\ Phys.\ 51, 166 (1980), doi:10.1063/1.327395.
+\bibitem{goodman10} J.~Goodman and J.~Weare, Commun.\ Appl.\ Math.\ Comput.\ Sci.\ 5, 65 (2010), doi:10.2140/camcos.2010.5.65.
+\bibitem{mckay79} M.~D.~McKay, R.~J.~Beckman and W.~J.~Conover, Technometrics 21, 239 (1979), doi:10.1080/00401706.1979.10489755.
+\bibitem{stokes20} P.~W.~Stokes, D.~G.~Cocks, M.~J.~Brunger and R.~D.~White, Plasma Sources Sci.\ Technol.\ 29, 055009 (2020), doi:10.1088/1361-6595/ab85b6.
+\bibitem{kingma14} D.~P.~Kingma and J.~Ba, arXiv:1412.6980 (2014), doi:10.48550/arXiv.1412.6980.
+\end{thebibliography}
+
+\end{document}

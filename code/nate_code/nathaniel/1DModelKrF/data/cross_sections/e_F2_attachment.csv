@@ -1,0 +1,76 @@
+# Cross-Section Browser export — 2026-07-31T23:08:50Z
+# source: LXCat, www.lxcat.net (SIGLO database). SIGLO database is the electron-impact cross-section source of Chen et al., Phys. Plasmas 32, 113502 (2025), ref 22. Retrieved from LXCat SIGLO download on July 31, 2026 (recommended citation: SIGLO database, www.lxcat.net, retrieved on July 31, 2026).
+# database: SIGLO database (LXCat)
+# process_id: e_F2_attachment
+# reaction: E + F2 -> F^-+F
+# type: Attachment   |   category: Attachment   |   family: Electron
+# data_kind: total
+# species: e / F2
+# threshold: 0.0 eV
+# param: E = 0 eV, complete set
+# comment: F^-+F,(diss. att.). SIGLO dataset (Chen 2025, ref 22); retrieved from LXCat SIGLO download on July 31, 2026. Underlying compilation cites W.L. Morgan, Plasma Chem. Plasma Process. 12, 449 (1992). Used in arf.toml R10 / krf.toml R9 (e + F2 -> F- + F, dissociative attachment). Cross section stored in m^2 by SIGLO (converted to cm^2 for the CSV column).
+# updated: 2010-06-24 12:26:48
+# n_points: 61
+# columns: energy [eV], cross_section [cm^2]
+energy_eV,cross_section_cm2
+0.000000e+00,8.000000e-15
+1.000000e-02,4.440000e-15
+2.000000e-02,2.470000e-15
+3.000000e-02,1.370000e-15
+4.000000e-02,8.200000e-16
+5.000000e-02,7.400000e-16
+7.000000e-02,7.100000e-16
+1.000000e-01,6.500000e-16
+1.500000e-01,5.450000e-16
+2.000000e-01,4.800000e-16
+2.500000e-01,4.250000e-16
+3.000000e-01,3.650000e-16
+3.500000e-01,3.100000e-16
+4.000000e-01,2.650000e-16
+4.500000e-01,2.250000e-16
+5.000000e-01,1.920000e-16
+6.000000e-01,1.340000e-16
+7.000000e-01,9.400000e-17
+8.000000e-01,6.550000e-17
+9.000000e-01,4.550000e-17
+1.000000e+00,3.200000e-17
+1.200000e+00,1.530000e-17
+1.400000e+00,7.500000e-18
+1.600000e+00,3.650000e-18
+1.800000e+00,2.150000e-18
+2.000000e+00,1.420000e-18
+2.200000e+00,1.180000e-18
+2.400000e+00,1.050000e-18
+2.600000e+00,1.000000e-18
+2.800000e+00,9.700000e-19
+3.000000e+00,9.300000e-19
+3.200000e+00,8.200000e-19
+3.400000e+00,6.900000e-19
+3.600000e+00,5.600000e-19
+3.800000e+00,4.600000e-19
+4.000000e+00,3.850000e-19
+4.200000e+00,3.550000e-19
+4.400000e+00,3.600000e-19
+4.600000e+00,3.800000e-19
+4.800000e+00,4.150000e-19
+5.000000e+00,4.650000e-19
+5.200000e+00,5.180000e-19
+5.400000e+00,5.720000e-19
+5.600000e+00,6.300000e-19
+5.800000e+00,6.800000e-19
+6.000000e+00,6.900000e-19
+6.200000e+00,7.000000e-19
+6.400000e+00,6.850000e-19
+6.600000e+00,6.400000e-19
+6.800000e+00,5.820000e-19
+7.000000e+00,5.230000e-19
+7.200000e+00,4.900000e-19
+7.400000e+00,4.000000e-19
+7.600000e+00,3.540000e-19
+7.800000e+00,2.950000e-19
+8.000000e+00,2.500000e-19
+8.200000e+00,2.100000e-19
+8.400000e+00,1.730000e-19
+8.600000e+00,1.420000e-19
+8.800000e+00,1.180000e-19
+2.000000e+01,0.000000e+00

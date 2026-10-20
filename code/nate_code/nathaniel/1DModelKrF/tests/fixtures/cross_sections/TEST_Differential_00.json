@@ -1,0 +1,30 @@
+{
+  "schema": "cross-section-metadata/1.1",
+  "data_file": "TEST_Differential_00.csv",
+  "data_kind": "differential",
+  "process_id": "TEST__Differential__00",
+  "reaction": "e- + Kr → Kr+ + 2e-",
+  "type": "Ionization",
+  "category": "Ionization",
+  "projectile": "e",
+  "target": "Kr",
+  "threshold": 10,
+  "n_points": 4,
+  "complete_set": false,
+  "axes": {
+    "x_quantity": "Energy",
+    "y_quantity": "Secondary energy"
+  },
+  "units": {
+    "x": "eV",
+    "y": "eV"
+  },
+  "source_units": {
+    "x": "eV",
+    "y": "eV"
+  },
+  "conversion_from_source": {
+    "x": 1,
+    "y": 1
+  }
+}

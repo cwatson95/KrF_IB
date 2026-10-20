@@ -1,0 +1,52 @@
+# Cross-Section Browser export — 2026-07-05T00:37:02Z
+# source: LXCat, www.lxcat.net; NIST Electron-Impact Cross Section Database (SRD 107), https://dx.doi.org/10.18434/T4KK5C; LXCat, www.lxcat.net (SIGLO & Morgan databases); GitHub mirror lindsayad/pythonForBolos/LXCat-June2013.txt; IAEA AMDIS CollisionDB, https://db-amdis.org/collisiondb/; MPI-Mainz UV/VIS Spectral Atlas, https://uvvis.mpch-mainz.gwdg.de/; K.S. Jancaitis, LLNL UCRL-53465 (1983), Table II
+# database: SIGLO database (LXCat)
+# process_id: e_Krs_2s
+# reaction: E + Kr -> E + Kr*(11.3 eV)
+# type: Excitation   |   category: Excitation (electronic)   |   family: Electron
+# data_kind: total
+# species: e / Kr
+# threshold: 11.3 eV
+# param: threshold energy = 11.3
+# comment: Krypton set distributed via the SIGLO database on LXCat, digitized from H. Date, Y. Sakai & H. Tagashira, J. Phys. D 22, 1478 (1989) (Nov 2012). Cross section already in m^2. Retrieved from the GREPHE/LAPLACE LXCat export 'LXCat-June2013.txt' (downloaded 4 Jun 2013), public GitHub mirror lindsayad/pythonForBolos. Re-pull from lxcat.net for canonical provenance. Digitized curve; (E,sigma) pairs sorted by energy.
+# updated: 2012-10-12 09:34:55
+# n_points: 37
+# columns: energy [eV], cross_section [cm^2]
+energy_eV,cross_section_cm2
+1.130400e+1,0.000000e+00
+1.160300e+1,9.737500e-19
+1.169100e+1,1.493100e-18
+1.186900e+1,2.214200e-18
+1.214100e+1,3.105400e-18
+1.223400e+1,5.951400e-18
+1.223400e+1,7.806600e-18
+1.232700e+1,4.299000e-18
+1.232700e+1,1.010800e-17
+1.242000e+1,1.353300e-17
+1.242000e+1,1.771800e-17
+1.251500e+1,2.376600e-17
+1.280200e+1,3.077100e-17
+1.309600e+1,3.853100e-17
+1.361800e+1,4.718400e-17
+1.403600e+1,5.767200e-17
+1.446800e+1,7.141400e-17
+1.537100e+1,8.363600e-17
+1.685300e+1,9.686300e-17
+1.817700e+1,1.082900e-16
+1.993000e+1,1.186200e-16
+2.218500e+1,1.226500e-16
+2.504100e+1,1.226500e-16
+2.873000e+1,1.212900e-16
+3.198100e+1,1.145000e-16
+3.587000e+1,1.035700e-16
+3.869000e+1,9.472700e-17
+4.210100e+1,8.552200e-17
+4.645300e+1,7.822300e-17
+5.054800e+1,7.735600e-17
+5.452200e+1,8.363600e-17
+5.888100e+1,9.042600e-17
+6.351000e+1,9.904800e-17
+6.858800e+1,1.012800e-16
+7.810200e+1,1.012800e-16
+8.748900e+1,1.012800e-16
+9.592500e+1,1.035700e-16

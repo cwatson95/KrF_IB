@@ -1,0 +1,1173 @@
+################################################################################
+#  PIC_MCC_3D.txt  --  THE PLAN FOR A FULLY WORKING 3-D PARTICLE-IN-CELL /     #
+#                      MONTE-CARLO-COLLISION CODE                              #
+#                                                                              #
+#  Written 2026-08-03.  Owner ask: "a fully working Particle in cell Monte     #
+#  Carlo Collision in 3D"; the partial start referenced is GUI_pic.py (the     #
+#  1-D/2-D picviz playground).  Layout and status vocabulary follow the        #
+#  GUI_v2.py tab-(6) SYSTEM MAP (PLAN (53)) the owner pointed at:              #
+#  a live-probed module board + a data-flow chart, every caveat naming its     #
+#  in-repo source.                                                             #
+#                                                                              #
+#  POLICY (inherited, non-negotiable -- PLAN (26)): predictive-only physics.   #
+#  Every rate, cross section and branching ratio comes from theory or from a   #
+#  published measurement OF THAT PROCESS.  Analytic overlays and published     #
+#  benchmarks SCORE the code; they never steer a number.  A gate that fails    #
+#  is reported as a failure.                                                   #
+################################################################################
+
+CONTENTS
+  0.  How to read this file (status words)
+  1.  The honest inventory -- what already runs, measured
+  2.  What "fully working 3-D PIC-MCC" means
+      2.1  THE MISSING MODULES -- the nine gaps, named
+      2.2  The full module board (ok / warn / gap, with sources)
+  3.  The physics wall -- the 3-D resolution budget, computed
+  4.  The plan -- M0..M10, each with its falsification gate
+  5.  The verification ladder (named, published targets)
+  6.  Data flow -- the chart
+  7.  File layout -- where each new module goes
+  8.  Known-bad -- do not reintroduce
+  9.  Open decisions for the owner (with a recommendation)
+ 10.  What other codes have -- external survey (2026-08-03)
+
+
+================================================================================
+0.  HOW TO READ THIS FILE
+================================================================================
+
+Status words are GUI_v2's (PLAN (60), owner ruling: yellow = unfixed):
+
+  [ok]    working / resolved.  Includes deliberate by-design and by-scope
+          calls -- the disposition is stated in the note.
+  [warn]  OPEN work remains.  The note leads with what is open.
+  [gap]   MISSING for a fully working 3-D PIC-MCC.
+
+Every row names a source: a PLAN entry, a Known-bad list, a module docstring,
+README_LIMITS.md, or a test.  A status you cannot audit is not a status.
+
+"Fully working" is defined operationally in section 2 and gated in section 5.
+It is NOT "the code runs" -- pic3d already runs.  It is: the loop is
+self-consistent in 3-D (fields <-> particles <-> collisions <-> boundaries),
+and it reproduces published benchmarks nobody in this repo can tune.
+
+
+================================================================================
+1.  THE HONEST INVENTORY -- WHAT ALREADY RUNS
+================================================================================
+
+Measured 2026-08-03 on this checkout, /usr/bin/python3 (3.9 / numpy 2.0.2):
+
+    cd Kinetic_Modeling/ARPAE && python3 -m pytest pic3d/tests -q
+    -> 41 passed in 31.01 s
+
+A 3-D PIC-MCC ALREADY EXISTS in this repo.  It is ARPAE/pic3d (PLAN (69),
+ARPAE/CHANGELOG.md [0.1.0]), and it is electromagnetic:
+
+  ARPAE/pic3d/yee.py            Yee FDTD + CPML (Roden-Gedney), R ~ 2e-6 at 8
+                                cells; PEC masks; exact staggered-energy
+                                invariant (gated 1e-10)
+  ARPAE/pic3d/sources.py        TE10 modal current-sheet feed, analytic power
+                                calibration, measured within ~2-8 %
+  ARPAE/pic3d/horn.py           pyramidal horn as PEC staircase rings
+  ARPAE/pic3d/deposit.py        Esirkepov charge-conserving CIC current
+                                deposition; discrete continuity machine-exact
+                                (1e-11) incl. the 1-2-1 binomial J filter;
+                                staggered trilinear gather
+  ARPAE/pic3d/particles3d.py    electron macro-particle SoA + Boris push
+  ARPAE/pic3d/mcc3d.py          null-collision MCC (Vahedi-Surendra), exact
+                                per-process energy ledger (closure 1e-10),
+                                energy-grouped adaptive substepping, matches
+                                pic1d.mcc_ref EXACTLY on a shared RNG stream
+  ARPAE/pic3d/cross_sections.py LXCat sets for Ar/Kr/F2/He (local copies)
+  ARPAE/pic3d/engine.py         the run loop; Gauss's law exact ~1e-12 THROUGH
+                                ionization/attachment/wall events
+  ARPAE/pic3d/theory.py         kinetic Drude/Margenau overlays (score only)
+  ARPAE/pic3d/{app,rendering,sysmap}.py    the 6-tab v2-shell GUI
+  ARPAE/v3_gui.py, v4_gui.py    launchers
+
+So the following are DONE and should not be rebuilt:
+
+  [ok]  3-D grid, 3-D particle store, 3-D Boris push
+  [ok]  3-D charge-conserving deposition + field gather
+  [ok]  3-D MCC with a real LXCat collision set and an exact energy ledger
+  [ok]  3-D electromagnetic field solve with absorbing boundaries
+  [ok]  the diagnostics discipline (control run, ledger, Gauss residual)
+  [ok]  the GUI shell + live-probed system map
+
+What that engine is NOT: it is a WAVE-PLASMA INSTRUMENT.  Ions are immobile
+charge on the grid, there is no electrostatic field solve, no electrodes, no
+circuit, no secondary emission, and the plasma slab is PRESCRIBED (density and
+Te are panel inputs) rather than produced by the discharge.  Those are exactly
+the pieces that separate "a 3-D PIC-MCC of a wave experiment" from "a fully
+working 3-D PIC-MCC".
+
+The 1-D/2-D lineage the owner started from (GUI_pic.py -> picviz) is where the
+missing physics already exists, in lower dimension:
+
+  pic1d/implicit.py        direct-implicit D1 + energy-conserving (EC) movers
+  pic1d/subcycle.py        sub-cycled EC mover (Chen-Chacon class)
+  pic1d/coulomb.py         Takizuka & Abe (1977) binary e-e Coulomb collisions
+  pic1d/ion_transport.py   fluid drift-diffusion ions (README_LIMITS 2.3)
+  pic1d/device.py          full PIC-MCC + KrF chemistry device run, electrodes
+  pic1d/gas_heating.py     gas heating + E/N drift
+  pic1d/verification.py    MMS order-of-accuracy (Riva 2017, docs/PIC_papers/)
+  pic1d/parallel.py        MPI slab decomposition + halo exchange scaffolding
+  pic1d/fastkern.py        optional numba kernels (reference stays numpy)
+  pic2d/field.py           2-D Poisson: Dirichlet-in-x + periodic-in-y, FFT
+  pic2d/implicit.py        D1 + EC movers in 2-D
+  pic2d/sim.py             self-consistent 2-D electrostatic PIC driver
+
+THE PLAN IS THEREFORE A PROMOTION, NOT A REWRITE: take the pic1d/pic2d
+capability set into the 3-D core that ARPAE/pic3d already provides.
+
+
+================================================================================
+2.  WHAT "FULLY WORKING 3-D PIC-MCC" MEANS
+================================================================================
+
+--------------------------------------------------------------------------------
+2.1  THE MISSING MODULES -- THE NINE GAPS, NAMED
+--------------------------------------------------------------------------------
+
+This is the direct answer to "what is missing from a self-consistent PIC-MCC".
+NINE modules, plus two standing weaknesses.  Every one of them already exists
+in this repo in 1-D or 2-D -- so none of it is new physics.  It is PROMOTION
+TO 3-D of code that is already written and already tested.
+
+The dependency order is forced: no Poisson solve -> no sheath; no mobile ions
+-> no sheath; no ion collisions -> the WRONG sheath.  Build them in order.
+
+All paths are relative to Kinetic_Modeling/PIC_MCC_3D/ (see section 7 for why
+the code lives there rather than in ARPAE/pic3d).
+
+  #  MISSING MODULE                NEW FILE              PRECEDENT       M
+  ----------------------------------------------------------------------------
+  1  ELECTROSTATIC POISSON SOLVER  poisson3d.py          pic2d/field.py  M1
+     (+ ES gather)                 es_field.py                          DONE
+                                   2026-08-03: 50 gates green; MMS slope
+                                   1.97/2.03; LU-oracle agreement 1e-15
+  2  MOBILE MULTI-SPECIES          species3d.py          pic1d/device.py M2
+     PARTICLES (kinetic ions)      es_sim.py                            DONE
+                                   2026-08-03: cold plasma oscillation
+                                   f/f_pe 0.99158 vs predicted 0.99145
+  3a ELECTRON-NEUTRAL MCC          mcc3d.py              ARPAE/pic3d/    M3
+     (+ the neutral gas it needs)   gas.py                mcc3d.py     DONE
+                                    cross_sections.py     (oracle-matched)
+                                    2026-08-03: reproduces the ARPAE operator
+                                    EXACTLY on a shared RNG stream; ledger
+                                    closure 2e-16; ionization makes REAL ions
+  3b ION-NEUTRAL COLLISIONS        ion_mcc.py            pic1d/          M3
+     (elastic + charge exchange)                         compare_ion_
+                                                         mobility.py
+  4  ELECTRODES / EXTERNAL         boundaries3d.py       pic1d/device.py M4
+     CIRCUIT / SURFACE CHARGE                            pic2d/sim.py
+  5  SECONDARY ELECTRON            emission3d.py         README_LIMITS   M5
+     EMISSION (gamma process)                            2.4
+  6  COULOMB COLLISIONS            coulomb3d.py          pic1d/          M6
+     (e-e / e-i)                                         coulomb.py
+  7  IMPLICIT / ENERGY-CONSERVING  implicit3d.py         pic1d/          M7
+     MOVER                                               implicit.py,
+                                                         subcycle.py
+  8  PARTICLE MANAGEMENT           resample.py           (none -- new)   M8
+     (merge / split)
+  9  E-BEAM INJECTION +            beam3d.py             unified/ebeam.py M9
+     PREIONIZATION SOURCES                               unified/       DONE
+                                                         spencer_fano.py
+                                    2026-08-03: fast primary transported by
+                                    Bethe/Moller stopping power (NOT a PIC
+                                    particle -- relativistic AND above the
+                                    cross-section tables); W-value comes OUT
+                                    by two independent routes agreeing to
+                                    0.4%.  Surface discharge = seeded initial
+                                    condition, NOT simulated (see below)
+
+WHY EACH ONE IS LOAD-BEARING -- i.e. what is physically WRONG without it:
+
+  1. ELECTROSTATIC POISSON SOLVER.  THE BLOCKER; everything else waits on it.
+     pic3d solves Maxwell (Yee FDTD) and nothing else, so there is no way to
+     get the self-consistent space-charge field of a discharge.  Consequence:
+     no sheath, no cathode fall, no ambipolar field, no breakdown.  And FDTD
+     cannot substitute.  Its timestep is Courant-limited by the SPEED OF LIGHT
+     on a cell that must resolve lambda_D, while an electrostatic run is
+     limited only by omega_pe.  With dx = lambda_D the ratio is
+
+         dt_ES / dt_EM = 0.2 c sqrt(3) / v_th        (independent of n_e)
+
+     = 124x at Te = 4 eV, 248x at 1 eV, 601x at 0.17 eV (computed 2026-08-03).
+     So running a discharge on the EM path costs two to three orders of
+     magnitude in steps for no physics gained -- the radiation the FDTD is
+     resolving is not what a discharge is doing.
+
+  2. MOBILE MULTI-SPECIES PARTICLES.  Ions and anions are currently immobile
+     charge smeared on the grid ("by scope: ns windows" -- true for the wave
+     instrument, false for a discharge).  Consequence: no ion dynamics at all
+     -- no ambipolar field, no sheath formation, no ion transit, no ion flux
+     to a wall, and therefore nothing for module 5 to emit from.
+
+  3. ION-NEUTRAL COLLISIONS.  With no ion MCC, ions free-fall through the gas.
+     At 1 atm that is qualitatively wrong: collisional drift, not free fall,
+     sets ion mobility, which sets sheath thickness AND the ion energy
+     distribution striking the electrode.  Resonant charge exchange is the
+     dominant channel and produces the low-energy peak that any real IEDF
+     shows.
+
+  4. ELECTRODES / CIRCUIT / SURFACES.  Particle walls exist (kill + deposit
+     charge), but there is no applied potential, no external circuit, and no
+     dielectric surface charging.  Consequence: nothing drives the discharge,
+     and RF self-bias -- a first-order effect in any capacitive cell -- cannot
+     appear.
+
+  5. SECONDARY ELECTRON EMISSION.  Without the gamma process a discharge is
+     not self-sustaining: the electron population decays once the seed is
+     consumed, because the only electron source is volume ionization by
+     electrons that are themselves being lost to the walls.  This module is
+     what closes the discharge loop, and it is why the Turner benchmark
+     (gate G5.1) is only claimable at M5.
+
+  6. COULOMB COLLISIONS.  Electrons never relax among THEMSELVES; only
+     electron-neutral collisions exist.  ARPAE's scope note calls this "valid
+     at swarm n_e/N", and that is true today -- but it EXPIRES the moment the
+     code makes its own plasma, because at avalanche densities e-e scattering
+     is what pulls the EEDF tail toward Maxwellian and the tail is what sets
+     ionization.
+
+  7. IMPLICIT / ENERGY-CONSERVING MOVER.  Explicit-only means dx < lambda_D
+     and omega_pe dt < 2 are hard requirements; section 3 shows the cell count
+     that implies.  Consequence: a run is either resolved and unaffordable, or
+     under-resolved and numerically self-heating (in 1-D the explicit solver
+     reaches ~1e9 eV -- a pure artefact).  The EC mover converts an impossible
+     run into an honestly-labelled SMOOTHED-SHEATH run.
+
+  8. PARTICLE MANAGEMENT.  Weights are fixed and there is no merge/split.
+     Consequence: an avalanche multiplies macro-particles until memory ends
+     the run, while depleted cells fall to a handful of particles and their
+     statistics collapse.  Any discharge that actually breaks down needs this
+     to survive its own success.
+
+  9. E-BEAM INJECTION + PREIONIZATION.  There is no way to inject beam
+     electrons through a foil boundary with a spectrum, and no preionization
+     seed.  Consequence: the 3-D code cannot be pointed at the e-beam-pumped
+     device this whole project exists to model.
+
+TWO STANDING WEAKNESSES (not missing modules, but they gate credibility):
+
+  A. PERFORMANCE -- single-core numpy, ~50 ms/step at 1e6 cells + 3e4 macros,
+     while a real 3-D case is 1e7-1e8 particles (section 3).  Needs cell
+     sorting, an optional compiled path, domain decomposition.        [M8]
+  B. 3-D VERIFICATION -- the 41 existing gates cover the EM instrument.  The
+     kinetic ladder (MMS, Landau, Child-Langmuir, Bohm, Turner) does not
+     exist in 3-D yet.                                        [M1-M5, sec 5]
+
+ONE DELIBERATE NON-ITEM: a per-cell 26-species KrF* network in 3-D.  It is
+unaffordable and it is not what this code is for -- the chemistry stays with
+phantom11 (board row 18), which consumes the EEDF/rates/deposition profiles
+the 3-D code produces.
+
+--------------------------------------------------------------------------------
+2.2  THE FULL MODULE BOARD
+--------------------------------------------------------------------------------
+
+Board semantics = GUI_v2 tab (6).  ROW | STATUS | NOTE | SOURCE.
+
+--- the loop that already closes -------------------------------------------
+
+ 1. 3-D grid + field storage
+    [ok]   Yee lattice, PEC masks, CPML; cell-count safety cap 4e6.
+    src: pic3d/yee.py; tests/test_yee.py
+
+ 2. particle store + push
+    [ok]   SoA (x,y,z,vx,vy,vz,w), grow/compact, Boris rotation exact in pure
+           B to 1e-9.  ELECTRONS ONLY -- see row 8.
+    src: pic3d/particles3d.py; tests/test_deposit_push.py
+
+ 3. deposition + gather
+    [ok]   Esirkepov CIC, continuity machine-exact, filter-safe; staggered
+           trilinear gather exact on linear fields.
+    src: pic3d/deposit.py; tests/test_deposit_push.py
+
+ 4. electron-neutral MCC
+    [ok]   null-collision, LXCat Ar/Kr/F2/He, exact energy ledger, adaptive
+           substepping, pic1d oracle-matched on a shared RNG stream.
+    [warn] OPEN: isotropic scattering on momentum-transfer data.  The x1.6
+           LoKI-MC agreement shares that basis, so a common isotropic-on-MT
+           bias is not excluded.
+    src: pic3d/mcc3d.py; pic1d/README_LIMITS.md 2.2
+
+ 5. electromagnetic solve + absorbers + antenna feed
+    [ok]   by design: this is the wave instrument.  Vacuum c, CPML 2e-6,
+           TE10 lambda_g/cutoff/power, horn beaming all gated.
+    src: pic3d/{yee,sources,horn}.py; ARPAE/CHANGELOG.md [0.1.0]
+
+ 6. charge bookkeeping
+    [ok]   every ionization/attachment/wall event moves matching immobile
+           charge into rho_heavy; div E residual ~1e-12 measured.
+    src: pic3d/engine.py; tests/test_engine.py
+
+--- what is missing -------------------------------------------------------
+
+ 7. 3-D ELECTROSTATIC FIELD SOLVE
+    [ok]   LANDED 2026-08-03 as PIC_MCC_3D/poisson3d.py + es_field.py.
+           Separable solve (2-D FFT in x,y -> one tridiagonal system in z per
+           mode), O(N log N), exact to round-off; two BC modes (electrodes in
+           z, or fully periodic); sparse-LU oracle for the gates.  MMS order
+           1.97 (Dirichlet) / 2.03 (periodic); LU agreement 1.2e-15.
+           STILL ELECTROSTATIC ONLY BY DESIGN -- the EM path stays in
+           ARPAE/pic3d.
+    src: PIC_MCC_3D/poisson3d.py; PIC_MCC_3D/tests/test_poisson3d.py
+
+ 8. MOBILE, MULTI-SPECIES PARTICLES
+    [ok]   LANDED 2026-08-03 as PIC_MCC_3D/species3d.py + es_sim.py.  Every
+           species is a kinetic macro-particle population with its own q, m
+           and weights; one Boris/leapfrog mover serves electrons and ions
+           (mass-ratio gate), heavy species subcycle (gated against an
+           un-subcycled run).  Closed-loop evidence: the cold plasma
+           oscillation measures f/f_pe = 0.99158 against this scheme's own
+           predicted 0.99145.
+    src: PIC_MCC_3D/species3d.py; PIC_MCC_3D/tests/test_es_sim.py
+
+ 9. ION-NEUTRAL COLLISIONS
+    [gap]  No ion MCC: no elastic ion-neutral scattering, no resonant charge
+           exchange.  Ion mobility is what sets the sheath and the ion-transit
+           timescale, so this gates every discharge claim.
+           Anchor available in-repo: the EXPERIMENTAL Ar+-in-Ar reduced
+           mobility 1.53 cm^2/(V s) (the value XPDP1's asigma4/5 are fit to
+           reproduce; He+ 10.2, Kr+ 0.90 in the same compilation).
+    src: pic1d/compare_ion_mobility.py; pic1d/README_LIMITS.md 2.3
+
+10. BOUNDARIES: ELECTRODES, CIRCUIT, SURFACES
+    [gap]  Particle walls exist (kill + deposit charge).  Missing: Dirichlet
+           electrodes with an applied DC/RF waveform, an external circuit
+           (series R/L/C, blocking capacitor, self-bias), dielectric surface
+           charge accumulation, and reflection/thermal wall models.
+    src: pic1d/device.py; pic2d/sim.py (dirichlet mode)
+
+11. SECONDARY ELECTRON EMISSION
+    [gap]  No gamma-process in 3-D.  Without it a self-sustained discharge
+           cannot be produced from first principles.  1-D precedent is real
+           (ion areal flux x gamma, whole super-particles emitted).
+    src: pic1d/README_LIMITS.md 2.4
+
+12. COULOMB (e-e / e-i) COLLISIONS
+    [gap]  Absent in 3-D, and absent by a stated scope call in ARPAE
+           ("valid at swarm n_e/N").  That call expires the moment the code
+           makes its own plasma: at avalanche densities e-e relaxation shapes
+           the EEDF.  1-D precedent: Takizuka-Abe pairwise scatterer.
+    src: pic1d/coulomb.py; ARPAE/README.md scope
+
+13. IMPLICIT / ENERGY-CONSERVING MOVER
+    [gap]  Explicit-only in 3-D.  The explicit loop demands dx < lambda_D and
+           omega_pe dt < 2; section 3 shows what that costs in 3-D.  The 1-D
+           EC mover cuts closed-box energy drift ~100-250x vs D1 at
+           dx/lambda_D = 40 (-2.1 %/period -> -0.017 %/period).
+    src: pic1d/README_LIMITS.md 2.1; pic1d/{implicit,subcycle}.py
+
+14. PARTICLE MANAGEMENT
+    [gap]  Fixed weights, no merge/split.  An avalanche multiplies macro-
+           particles until memory ends the run; a depleted cell loses
+           statistics.  Needs weight-aware, per-cell merge/split conserving
+           charge, momentum and energy.
+    src: pic3d/particles3d.py (spawn/compact only)
+
+15. SOURCES: E-BEAM INJECTION / PREIONIZATION
+    [gap]  The device this repo exists to model is e-beam pumped.  Needs
+           injection through a foil boundary with a spectrum, and a
+           preionization seed.  Emergent falsification target: the W-value
+           (~26 eV per ion pair in Ar) must COME OUT, not go in.
+    src: docs/DE-AR_targets.txt (LOCAL, export-controlled -- pointer only)
+
+16. PERFORMANCE
+    [warn] OPEN: single-core numpy, ~50 ms/step at 1e6 cells + 3e4 macros.
+           Section 3 shows a real 3-D case is 1e7-1e8 particles.  Needs cell
+           sorting, an optional compiled path, and domain decomposition.
+    src: pic3d/yee.py docstring; pic1d/{fastkern,parallel}.py
+
+17. VERIFICATION IN 3-D
+    [warn] OPEN: 41 gates cover the EM instrument.  A self-consistent 3-D
+           PIC-MCC needs the kinetic ladder too -- MMS order-of-accuracy,
+           Landau damping, Child-Langmuir, Bohm, and the Turner 2013 CCP
+           benchmark this repo has never been able to claim.
+    src: section 5; pic1d/ion_transport.py docstring (the Turner note)
+
+18. CHEMISTRY COUPLING
+    [ok]   by scope: the 26-species KrF* network stays with phantom11 (0-D).
+           A per-cell 26-species network in 3-D is not affordable and is not
+           proposed here; the 3-D code delivers EEDF, rates and deposition
+           profiles that the 0-D/1-D chemistry consumes.
+    src: ARPAE/README.md scope; pic1d/device.py (the 1-D precedent)
+
+
+================================================================================
+3.  THE PHYSICS WALL -- THE 3-D RESOLUTION BUDGET
+================================================================================
+
+Computed 2026-08-03 for this plan (Te = 1 eV, explicit stability dt = 0.2/w_pe,
+a 1 cm^3 box, dx = lambda_D):
+
+   n_e [cm^-3]   lambda_D    f_pe      dt        cells for    steps per
+                   [um]     [GHz]     [ps]         1 cm^3      100 ns
+   ----------------------------------------------------------------------
+      1e8        743.4       0.09    354.5       2.4e3         2.8e2
+      1e10        74.3       0.90     35.5       2.4e6         2.8e3
+      1e12         7.43      8.98      3.55      2.4e9         2.8e4
+      1e14         0.743    89.8       0.355     2.4e12        2.8e5
+      1e15         0.235   283.9       0.112     7.7e13        8.9e5
+      1e16         0.074   897.9       0.036     2.4e15        2.8e6
+
+Single-core numpy throughput (~1e7 particle-pushes/s, ~5e7 cell-updates/s,
+consistent with pic3d's measured ~50 ms/step):
+
+   cells      ppc   particles      ms/step    1e4 steps      memory
+   -------------------------------------------------------------------
+   64^3       50    1.3e7           1316       3.7 h         0.75 GB
+   96^3       50    4.4e7           4441      12.3 h         2.6 GB
+   128^3     100    2.1e8          21014      58   h        11.9 GB
+   200^3     100    8.0e8          80160     223   h        45.4 GB
+
+READ THESE TABLES HONESTLY.  Three consequences, and they set the whole plan:
+
+  (a) A FULL-DENSITY (1 atm, n_e >~ 1e15 cm^-3) 3-D PIC OF A 3 cm GAP IS NOT
+      REACHABLE, on this hardware or any hardware this project will have.  It
+      is 1e13-1e14 cells.  This is the same wall README_LIMITS 2.1 documents
+      in 1-D, cubed.  No milestone below pretends otherwise.
+
+  (b) THE AFFORDABLE 3-D BOX IS ~64^3-96^3 CELLS AT 50 ppc, single core.  That
+      is 64 Debye lengths across.  At n_e = 1e12 cm^-3 that is a 0.5 mm cube;
+      at 1e10 it is 5 mm.  So the 3-D code's honest job is: SUB-MILLIMETRE
+      VOLUMES, REDUCED DENSITY, RESOLVED PHYSICS -- the regime where 3-D
+      geometry actually changes the answer (filamentation, sheath corners,
+      electrode edges, beam-front structure), with the device-scale answer
+      staying 0-D/1-D.  That is a real scientific niche, not a consolation.
+
+  (c) THE IMPLICIT MOVER IS THE ONLY LEVER THAT MOVES THE WALL, and it moves
+      it by a factor, not an order of magnitude:
+
+         dx = 1 lambda_D  -> 7.7e13 cells / cm^3
+         dx = 5 lambda_D  -> 6.2e11
+         dx = 20 lambda_D -> 9.6e9
+         dx = 40 lambda_D -> 1.2e9        (still 1000x too many)
+
+      At dx = 40 lambda_D the EC mover keeps energy drift at -0.017 %/period
+      (measured in 1-D) where the explicit loop blows up -- so it converts an
+      impossible run into a SMOOTHED-SHEATH run, not a resolved one.  Report
+      it that way, always.
+
+Design consequence carried into section 4: the field solver must be chosen by
+MODE, not hard-wired.  Electrostatic for discharges (dt from omega_pe, not
+from the Courant condition on c), electromagnetic for wave coupling (already
+built), Darwin as an optional middle for beam self-fields without radiation.
+
+
+================================================================================
+4.  THE PLAN -- MILESTONES
+================================================================================
+
+Each milestone states: what gets built, where, what gates it, what it unlocks.
+No milestone is "done" until its gate passes under BOTH interpreters (the
+PLAN (68) two-interpreter rule) and ARPAE/CHANGELOG.md carries the entry.
+
+M1..M9 build missing modules 1..9 of section 2.1, IN THAT ORDER; M10 is the
+GUI.  The ordering is forced at the front (no Poisson -> no sheath; no mobile
+ions -> no sheath; no ion collisions -> the wrong sheath), which is why the
+electrostatic core is M1 and the Turner benchmark cannot be claimed before M5.
+Missing modules 6-8 (Coulomb, implicit mover, resampling) become necessary the
+moment the code makes its own plasma rather than being handed one; module 9
+(beam injection) is the device ask.  Board rows 16-17 -- performance and the
+3-D verification suite -- run alongside from M1 onward, not at the end.
+
+--------------------------------------------------------------------------------
+M0  BASELINE FREEZE                                                    [DONE]
+--------------------------------------------------------------------------------
+    pic3d 41/41 in 31 s, /usr/bin/python3, 2026-08-03.  Recorded here so any
+    later regression has a dated reference point.  Nothing to build.
+
+--------------------------------------------------------------------------------
+M1  THE 3-D ELECTROSTATIC CORE                              (board row 7)
+--------------------------------------------------------------------------------
+    NEW  pic3d/poisson3d.py
+         Solve  laplacian(phi) = -rho/eps0  on the same lattice as the Yee
+         grid, with:
+           * periodic x,y + Dirichlet z (electrodes)  -- the device geometry;
+           * fully periodic -- the verification geometry.
+         METHOD (this is the design decision that makes 3-D affordable):
+         2-D FFT in the periodic (x,y) plane reduces the 7-point stencil to
+         an independent TRIDIAGONAL solve in z for every (kx,ky) mode.  Cost
+         O(N log N), exact to round-off, no iteration, no preconditioner, and
+         it reuses numpy's FFT -- no new dependency.  The fully periodic case
+         is the same transform with the k=0 mode zeroed (net-neutral
+         required), exactly as pic2d/field.py does in 2-D.
+         Keep a slow reference (sparse LU on a small grid) for the gate.
+
+    NEW  pic3d/es_field.py
+         rho deposition (reuse deposit_rho_nodes), E = -grad phi on the node
+         grid, and a gather that uses THE SAME shape function as the deposit
+         (the energy-conserving pairing; pic1d/implicit.py documents why the
+         top-hat/CIC pairing matters).
+
+    EDIT pic3d/engine.py
+         A `field_mode` parameter: "es" | "em" (existing) selecting the solver
+         and the timestep rule (es: dt from omega_pe and the MCC majorant;
+         em: Courant, unchanged).  The EM path must stay byte-identical --
+         the 41 existing gates are the guard.
+
+    GATES (new file pic3d/tests/test_poisson3d.py + test_es_loop.py):
+      G1.1  point charge in a periodic box reproduces the Ewald/analytic
+            field at >2 cells separation
+      G1.2  MMS: manufactured phi -> rho -> solve; L2 error slope = 2.00
+            +/- 0.05 under grid refinement (Riva 2017 method, the 1-D
+            precedent is pic1d/verification.py)
+      G1.3  FFT/tridiagonal solver matches the sparse-LU reference to 1e-12
+            on a 24^3 grid, both BC sets
+      G1.4  cold plasma oscillates at f_pe within 1 % (3-D, uniform slab)
+      G1.5  Langmuir/Bohm-Gross dispersion: measured omega(k) matches
+            1 + 3 k^2 lambda_D^2 across >=4 k values
+      G1.6  closed-box total energy drift < 0.1 %/period at dx = lambda_D
+      G1.7  3-D two-stream growth rate matches omega_pe/(2 sqrt 2) within
+            5 % (picviz/theory.py already has the cold-beam and EXACT
+            kinetic Landau roots -- import, do not re-derive)
+      G1.8  EM regression: all 41 existing gates still pass
+
+    UNLOCKS  everything below.  This is the single highest-value milestone.
+
+--------------------------------------------------------------------------------
+M2  MOBILE, MULTI-SPECIES PARTICLES                          (board row 8)
+--------------------------------------------------------------------------------
+    NEW  pic3d/species3d.py
+         A Species record (name, q, m, weight policy) + a container holding
+         one Particles3D store per species.  Boris already takes q_over_m, so
+         the push generalizes with no physics change.
+         ION SUBCYCLING: ions move on k_i * dt_e (k_i from the mass ratio and
+         a CFL check); electrons see the ion charge held fixed between ion
+         steps.  Standard, and it is what makes ion timescales affordable.
+
+    EDIT mcc3d.py  so ionization births an ION macro-particle (currently it
+         deposits immobile charge) while keeping the exact-Gauss bookkeeping
+         as the fallback when ions are immobile.  Both paths must remain
+         selectable -- the wave instrument wants the cheap one.
+
+    GATES:
+      G2.1  charge conservation across a full step with all species moving
+      G2.2  an ion in a uniform E reaches the analytic drift; subcycled and
+            un-subcycled trajectories agree to the subcycle truncation order
+      G2.3  Gauss residual stays <= 1e-10 with mobile ions (the existing
+            exactness gate, re-run in the harder configuration)
+      G2.4  ambipolar diffusion: a plasma slab expands at the ambipolar rate,
+            not the free-electron rate
+
+--------------------------------------------------------------------------------
+M3  ION-NEUTRAL COLLISIONS                                   (board row 9)
+--------------------------------------------------------------------------------
+    NEW  pic3d/ion_mcc.py
+         Elastic (isotropic in CM) + resonant charge exchange (backward
+         scattering) for Ar+/Ar, Kr+/Kr, and the mixture via Blanc's law.
+         Same null-collision machinery as MCC3D -- reuse, do not fork.
+         Cross-section provenance goes in pic3d/lxcat/README.txt with the
+         same discipline as the electron sets.
+
+    GATES:
+      G3.1  measured reduced mobility of Ar+ in Ar matches the experimental
+            1.53 cm^2/(V s) within the published spread
+            (pic1d/compare_ion_mobility.py is the in-repo anchor; it is also
+            the value XPDP1's ion cross sections reproduce)
+      G3.2  the ion energy distribution at a wall shows the charge-exchange
+            low-energy peak (qualitative signature gate, stated as such)
+      G3.3  energy ledger closure for the ion operator at 1e-10, same
+            standard as the electron MCC
+
+--------------------------------------------------------------------------------
+M4  BOUNDARIES, ELECTRODES, CIRCUIT                         (board row 10)
+--------------------------------------------------------------------------------
+    NEW  pic3d/boundaries3d.py
+         Absorbing/reflecting/thermal particle walls; dielectric surface
+         charge accumulation; Dirichlet electrode planes with an applied
+         waveform; an external circuit (series R-L-C + blocking capacitor)
+         solved with the electrode charge each step, giving self-bias.
+
+    GATES:
+      G4.1  Child-Langmuir: a DC sheath in the collisionless limit follows
+            j = (4/9) eps0 sqrt(2q/M) V^{3/2}/d^2 within 10 %
+      G4.2  Bohm criterion: the ion velocity at the sheath edge >= the Bohm
+            speed within 10 %
+      G4.3  a blocking capacitor with asymmetric electrodes develops the
+            expected self-bias sign and order
+      G4.4  surface charge on a dielectric wall equals the integrated
+            collected flux to round-off
+
+--------------------------------------------------------------------------------
+M5  SECONDARY EMISSION + THE BENCHMARK                      (board row 11)
+--------------------------------------------------------------------------------
+    Port the 1-D gamma-process: per-step ion areal flux to each electrode
+    x gamma -> whole super-particles emitted just inside the wall, directed
+    into the gap, with the emission energy distribution stated.
+
+    THE GATE THAT DEFINES THIS MILESTONE:
+      G5.1  TURNER 2013 capacitively-coupled He benchmark (cases 1-4) run in
+            a 3-D box with periodic transverse boundaries must reproduce the
+            published n_e(x) and EEDF profiles within the benchmark's own
+            inter-code spread.
+            This repo has wanted this benchmark since pic1d and has never
+            been able to claim it (pic1d/ion_transport.py, compare_swarm.py).
+            It is the single most credible statement a PIC-MCC code can make
+            about itself, it is fully specified in the literature, and it
+            cannot be tuned.  Getting it green IS "fully working".
+
+--------------------------------------------------------------------------------
+M6  COULOMB COLLISIONS + SCATTERING FIDELITY                (board row 12)
+--------------------------------------------------------------------------------
+    Port pic1d/coulomb.py (Takizuka & Abe 1977) to 3-D cell-local pairing.
+    Add the anisotropic-scattering option (integral cross sections) that
+    README_LIMITS 2.2 names as the remaining open question, keeping isotropic
+    as the default so the pic1d oracle gate stays meaningful.
+
+    GATES:
+      G6.1  two counter-streaming Maxwellians relax to a single Maxwellian at
+            the Spitzer/NRL rate within 20 %
+      G6.2  temperature isotropization rate matches the NRL formulary
+      G6.3  with the operator off, results are bit-identical to M5
+
+--------------------------------------------------------------------------------
+M7  IMPLICIT / ENERGY-CONSERVING MOVER                      (board row 13)
+--------------------------------------------------------------------------------
+    NEW  pic3d/implicit3d.py
+         Port both 1-D movers to 3-D: the direct-implicit D1 (Langdon-Cohen)
+         and the energy-conserving implicit-midpoint (Crank-Nicolson) mover,
+         with Picard iteration (2-3 iterations at the 1-D discharge's
+         omega_pe dt ~ 1e-3).
+
+         DESIGN NOTE -- this is the one place M1's fast solver does NOT carry
+         over.  D1 requires the SCREENED Poisson equation
+
+             div[ (1 + chi) grad phi ] = -rho/eps0 ,
+             chi = n_e e^2 dt^2 / (2 eps0 m) = (omega_pe dt)^2 / 2
+
+         and chi varies cell to cell, so the operator is no longer separable
+         and the FFT-in-xy / tridiagonal-in-z solve does not apply directly.
+         Use conjugate gradient PRECONDITIONED BY M1's constant-coefficient
+         solve (an excellent preconditioner precisely because chi is smooth
+         where the plasma is smooth).  Do not write a general multigrid.
+
+    GATES:
+      G7.1  closed-box energy drift at dx/lambda_D = 40 reproduces the 1-D
+            measurement within a factor of ~2: D1 ~ -2 %/period, EC
+            ~ -0.02 %/period (pic1d/README_LIMITS.md 2.1 is the reference)
+      G7.2  a run at omega_pe dt = 5 stays BOUNDED where the explicit mover
+            blows up (the stability claim, stated as bounded-not-resolved)
+      G7.3  Picard converges in <= 5 iterations at the preset operating
+            points; a non-converging step raises, never silently continues
+      G7.4  with the implicit mover off, results are bit-identical to M6
+      G7.5  HONESTY GATE: any run with dx > lambda_D is labelled
+            SMOOTHED-SHEATH in its own bundle, and a test asserts the GUI
+            and the summary line cannot omit that label
+
+--------------------------------------------------------------------------------
+M8  PARTICLE MANAGEMENT + PERFORMANCE                    (board rows 14,16)
+--------------------------------------------------------------------------------
+    NEW  pic3d/resample.py   weight-aware per-cell merge/split with a target
+         ppc band; conserves charge, momentum and energy exactly (or reports
+         the residual it cannot conserve -- no silent loss).
+    EDIT the hot loop: sort particles by cell index periodically (large
+         cache win at 1e7 particles), pre-allocate all per-step temporaries.
+    OPTIONAL compiled path following pic1d/fastkern.py's rule: numpy stays
+         the reference, the fast path must reproduce it to rounding, and the
+         dependency is optional (this repo's GUIs must run without it).
+    OPTIONAL domain decomposition following pic1d/parallel.py (slab
+         decomposition, halo exchange, particle migration, graceful serial
+         fallback).
+
+    GATES:
+      G8.1  merge/split conserves charge exactly, momentum and energy to
+            <1e-10 relative, and does not shift the EEDF beyond its
+            statistical error (KS test against the un-resampled run)
+      G8.2  sorted and unsorted runs agree to round-off
+      G8.3  fast path reproduces the numpy reference to rounding
+      G8.4  a published scaling table lands in the changelog -- no silent
+            performance claims
+
+--------------------------------------------------------------------------------
+M9  SOURCES: E-BEAM INJECTION + PREIONIZATION                (board row 15)
+--------------------------------------------------------------------------------
+    Inject beam electrons through a foil boundary with a specified spectrum;
+    let the MCC cascade produce the secondaries.  Preionization as a seeded
+    background.  This is where the 3-D code finally speaks to the device the
+    project exists for -- and where it can be coupled to the EXISTING horn/
+    microwave EM path so both exciters share one 3-D grid (the hybrid
+    question answered kinetically in 3-D rather than by the 0-D coupler in
+    ARPAE/hybrid/).
+
+    GATES:
+      G9.1  W-VALUE: energy deposited per ion pair produced in Ar comes out
+            at ~26 eV (Kr ~24 eV) from the MCC cascade alone.  Nothing about
+            this number is an input -- it is the strongest first-principles
+            check available to this code.
+      G9.2  beam penetration depth vs the CSDA range at 1 atm within 20 %
+      G9.3  with the EM feed on and the beam on, the total energy ledger
+            closes: injected + absorbed = kinetic + gas + wall + radiated
+
+--------------------------------------------------------------------------------
+M10  THE GUI + THE LIVE SYSTEM MAP                             (row 17,18)
+--------------------------------------------------------------------------------
+    Extend pic3d/app.py (do not fork it) with the electrostatic mode and a
+    discharge preset set; add the tabs the physics now supports -- phase
+    space, sheath/potential structure, per-species density slices, EEDF vs
+    position, the energy ledger, and the map.  The map gets one row per
+    module above, live-probed, with the SAME status vocabulary, so this
+    plan file and the running GUI never disagree.
+
+    GATES:
+      G10.1 every tab renders headless (Agg) for every preset
+      G10.2 stub-Tk main() smoke under BOTH interpreters
+      G10.3 the map reports zero [gap] rows for everything M1-M9 claims, and
+            a test asserts the map cannot report a row this plan calls open
+
+
+================================================================================
+5.  THE VERIFICATION LADDER
+================================================================================
+
+The gates above, ordered as a ladder from "the solver is arithmetic" to "the
+code is a physics instrument".  Every rung is a published, un-tunable target.
+
+  RUNG 0  arithmetic      staggered-energy invariant, Esirkepov continuity,
+                          Gauss residual, MCC energy closure         [PASSING]
+  RUNG 1  code            MMS order-of-accuracy = 2 (Riva 2017)      [M1]
+  RUNG 2  linear kinetics plasma oscillation, Bohm-Gross, Landau
+                          damping (EXACT Z-function root, already in
+                          picviz/theory.py), two-stream growth        [M1]
+  RUNG 3  transport       ion mobility vs XPDP1 1.53                  [M3]
+  RUNG 4  sheath          Child-Langmuir, Bohm criterion              [M4]
+  RUNG 5  swarm           rate coefficients vs LoKI-MC (x1.6 band,
+                          pic1d/tests/test_swarm_loki.py precedent)   [M6]
+  RUNG 6  DISCHARGE       TURNER 2013 CCP benchmark cases 1-4         [M5]
+  RUNG 7  device physics  W-value ~26 eV/ion pair emergent in Ar      [M9]
+
+A code that clears rungs 0-6 is, by the standard of the PIC literature, a
+fully working PIC-MCC.  Rung 7 is what makes it THIS project's PIC-MCC.
+
+
+================================================================================
+6.  DATA FLOW
+================================================================================
+
+  LXCat files (Ar/Kr/F2/He, IST-Lisbon)      [ok]  pic3d/lxcat/
+        |
+        v
+  cross_sections.py  nu_m(eps), per-process sigma          [ok]
+        |                                    \
+        v                                     v
+  MCC3D (e-neutral)  [ok]            ion_mcc.py (ion-neutral)   [gap M3]
+        |                                     |
+        |            coulomb3d.py (e-e/e-i)   |                 [gap M6]
+        |                    |                |
+        v                    v                v
+  +--------------------------------------------------------------+
+  |  THE PIC CYCLE  (one step)                                   |
+  |                                                              |
+  |   gather E,B  ->  push (Boris)  ->  move  ->  deposit        |
+  |        ^                                          |          |
+  |        |                                          v          |
+  |    field solve <---------------------------- rho / J         |
+  |        |                                                     |
+  |   [ok ] EM: Yee FDTD + CPML + TE10 feed + horn               |
+  |   [gap] ES: poisson3d.py (FFT-in-xy / tridiagonal-in-z) M1   |
+  |   [opt] Darwin (beam self-fields, no radiation)              |
+  +--------------------------------------------------------------+
+        |                    |                     |
+        v                    v                     v
+  boundaries3d.py     species3d.py           resample.py
+  electrodes/circuit  mobile ions            merge/split
+  gamma emission      subcycled              [gap M7]
+  [gap M4, M5]        [gap M2]
+        |
+        v
+  DIAGNOSTICS  [ok, extend]: energy ledger per process, Gauss residual,
+  EEDF snapshots, Poynting planes, control-run floor, per-cell moments
+        |
+        v
+  CONSUMERS: the 0-D/1-D chemistry (phantom11 26-species) takes EEDF, rates
+  and deposition profiles.  The 3-D code does NOT carry the chemistry.  [ok]
+
+
+================================================================================
+7.  FILE LAYOUT
+================================================================================
+
+OWNER DECISION 2026-08-03: the work lives in a NEW package,
+Kinetic_Modeling/PIC_MCC_3D/, created by the owner and directed there.  This
+supersedes the earlier recommendation in this section (extend ARPAE/pic3d,
+"do NOT start a second 3-D package"), which is kept visible here because the
+trade it names is real and still applies:
+
+  * ARPAE/pic3d is the ELECTROMAGNETIC instrument -- Yee FDTD, CPML, TE10
+    feed, horn, wave coupling into a PRESCRIBED plasma.  41 gates.
+  * PIC_MCC_3D/ is the ELECTROSTATIC, SELF-CONSISTENT code -- the nine
+    missing modules of section 2.1.  Different field solve, different
+    timestep rule, different question.
+
+  So the split is defensible on physics, not just on preference.  What it
+  COSTS is duplication of the shared pieces -- the MCC operator, the LXCat
+  parser/cross sections, and the CIC deposit machinery all exist in
+  ARPAE/pic3d already and are oracle-matched against pic1d.  DO NOT
+  re-derive them here: when M3 needs collisions, ADAPT ARPAE/pic3d/mcc3d.py
+  and cross_sections.py (they are themselves adapted copies of the tested
+  pic1d modules) and say so in the docstring, exactly as ARPAE did.
+  Consolidating the two packages is a live open item, not a decision this
+  file gets to make silently.
+
+Owner instruction 2026-08-03: every dependency lives under MODULES/, so the
+package root carries only what is ABOUT the code plus the harness.
+
+  Kinetic_Modeling/PIC_MCC_3D/
+      CHANGELOG.md      dated entries + the Known-bad list -- READ FIRST
+      status.html       THE SYSTEM MAP: top level PIC_MCC_3D, 1st level
+                        inputs/black_box/outputs, 2nd level the sub-systems,
+                        3rd level the items (status + source + measured
+                        number).  Data-driven (one `const MAP` literal),
+                        self-contained, opens in a browser.  A hand-kept
+                        snapshot, NOT a live probe -- if it and the code
+                        disagree, the page is wrong.
+      __init__.py       what has landed, what is still open
+      MODULES/          every dependency of the simulation
+          __init__.py   the canonical import path + why there is no alias
+          units.py      [M1] SI constants, plasma scales, the ES/EM dt ratio
+          gas.py        [M3] the neutral background -- composition, ideal-gas
+                        density, masses.  NOT in the original nine: section
+                        2.1 had folded it into "cross sections" and it is a
+                        separate object every collision rate depends on  DONE
+          cross_sections.py [M3] LXCat loader, adapted from ARPAE/pic3d  DONE
+          mcc3d.py      [M3] electron-neutral null-collision MCC; ionization
+                        spawns REAL ion particles (the upgrade over ARPAE's
+                        immobile charge)                                 DONE
+          poisson3d.py  [M1] FFT-xy / tridiagonal-z Poisson + LU oracle  DONE
+          es_field.py   [M1] rho deposit, E = -grad phi, paired gather   DONE
+          species3d.py  [M2] multi-species store, movers, ion subcycling DONE
+          es_sim.py     [M2] the minimal ES PIC loop composing the above DONE
+          params.py     declared runtime parameters: validation, precedence
+                        and PROVENANCE (adapted from projects/MHD flare) DONE
+          checkpoint.py save/restore, bitwise-exact restart (adapted from
+                        projects/MHD flare/io.py)                        DONE
+          theory.py     the analytic overlays that SCORE the code (the
+                        scheme's own discrete dispersion; Child-Langmuir;
+                        Bohm) -- targets written BEFORE the code that will
+                        be judged by them
+          ion_mcc.py       [M3]  ion-neutral elastic + charge exchange -- the
+                                 remaining half of missing module 3
+          boundaries3d.py  [M4]  walls, electrodes, circuit, surface charge
+          emission3d.py    [M5]  gamma secondary emission
+          coulomb3d.py     [M6]  Takizuka-Abe e-e/e-i
+          implicit3d.py    [M7]  D1 + energy-conserving movers (CG
+                                 preconditioned by the M1 solver -- variable
+                                 chi is not separable)
+          resample.py      [M8]  merge/split
+          beam3d.py        [M9]  e-beam injection, preionization       DONE
+                                 THE SURFACE DISCHARGE IS NOT SIMULATED: it
+                                 enters as a seeded initial condition
+                                 (seed_preionization).  Modelling flashover
+                                 needs dielectric surface charging, field/
+                                 photo-emission and streamers -- M4 and M5
+                                 plus physics beyond them, i.e. several
+                                 unvalidated models whose errors would
+                                 compound into the beam answer.  Same call
+                                 PLAN (67)'s Argon_UI made.
+      verify.py         VERIFICATION RUNNER -- each module alone, then all
+                        together.  Separates what the ordinary suite cannot:
+                        every module imports in a fresh interpreter, every
+                        test file passes in its OWN pytest process, the
+                        combined total equals the sum of the isolated ones,
+                        the suite passes in reversed order, and the
+                        composition ladder builds the stack a rung at a time.
+                        Exit 0 only if all pass.
+                            python3 PIC_MCC_3D/verify.py [--quick]
+      tests/            one test_*.py per module, plus
+                        test_architecture.py (import graph acyclic + layered,
+                        no module-level state mutation -- the PLAN (74) rule)
+                        and test_integration.py (the 5-rung ladder).
+                        python3 -m pytest PIC_MCC_3D/tests -q
+
+  Import path is single and explicit -- no root-level alias:
+
+      from PIC_MCC_3D.MODULES.es_sim import ESSim
+
+  Kinetic_Modeling/PIC_MCC_3D.txt    this file -- updated as milestones land
+  PIC_MCC_3D/CHANGELOG.md            this package's dated record
+  ARPAE/CHANGELOG.md                 the EM instrument's record (unchanged)
+
+Launcher: none yet, and none until the physics warrants one -- a GUI over a
+code with no collisions and no sheath would be a demo, not an instrument.
+M10 is where the shell goes, and ARPAE/v3_gui.py remains the launcher for the
+EM side.
+
+
+================================================================================
+8.  KNOWN-BAD -- DO NOT REINTRODUCE
+================================================================================
+
+From ARPAE/CHANGELOG.md (read it before touching pic3d):
+
+  * DC-BEARING SOFT SOURCES.  Any injected current with a net time-integral
+    leaves static charge no absorber removes; it masqueraded as 4-17 % "CPML
+    reflection".  Sources must be DC-free.
+  * (nu + i omega) IN THE DRUDE CONDUCTIVITY -- an e^{+iwt} term in an
+    e^{-iwt} formula.  It kills the cutoff and inflated alpha 1.27x.  The
+    convention is pinned and tested in pic3d/theory.py::sigma_ac.
+  * OVERDENSE-MIRROR CLAIMS WITH A SUB-CELL SKIN.  Keep the evanescent skin
+    >~1.5 cells (raise ppw) before quoting reflection physics.
+  * RAW dTe WITHOUT THE ZERO-DRIVE CONTROL RUN.  Grid self-heating at demo
+    particle counts moves Te at %-per-ns.  Every heating claim is
+    (driven - control).
+
+From the repo root CHANGELOG.md and PLAN, still binding here:
+
+  * NEVER CALIBRATE TO A BENCHMARK.  Turner, XPDP1, LoKI-MC and the W-value
+    SCORE this code.  If a gate misses, the miss is reported and the physics
+    is investigated -- no fitting, ever (PLAN (26)).
+  * PARITY IS NOT PHYSICS.  A green regression suite means the refactor was
+    equivalent, never that a number is right.
+  * THE TWO-INTERPRETER RULE (PLAN (68)).  pytest under /usr/bin/python3,
+    AND a headless smoke under the Homebrew python3 (numpy >= 2.5, where
+    float(ndim>0 array) is a hard TypeError that numpy 2.0 only warns about).
+  * NO SILENT SCOPE REDUCTION.  If a preset is sized down to run in seconds,
+    the tab says so.  Section 3's tables exist so nothing here can quietly
+    pretend to full-density 3-D.
+
+New, specific to this plan:
+
+  * DO NOT LET THE EM PATH DRIFT.  M1 adds a mode switch to engine.py; the
+    41 existing gates are the guard and must stay green at every commit.
+  * DO NOT PROPOSE A PER-CELL 26-SPECIES NETWORK IN 3-D.  It is unaffordable
+    and it is not what the 3-D code is for (board row 18).
+
+
+================================================================================
+9.  OPEN DECISIONS FOR THE OWNER
+================================================================================
+
+Q1. WHAT IS THE 3-D CODE FOR?
+    (a) a self-consistent DISCHARGE instrument (sheaths, electrodes, e-beam,
+        3-D geometry effects), or
+    (b) the EM DEPOSITION instrument it currently is (already shipped and
+        gated), extended only where the wave physics needs it?
+    RECOMMENDATION: (a).  "Fully working PIC-MCC" in the literature's sense
+    means the self-consistent loop, and the Turner benchmark is the proof.
+    The whole of section 4 assumes (a); if the answer is (b), only M6
+    (Coulomb), M8 (particle management + performance) and parts of M10 (GUI)
+    survive -- missing modules 1-5 and 9 exist precisely to make the code
+    self-consistent, and are wasted effort on a prescribed-plasma instrument.
+
+Q2. WHAT IS THE TARGET OPERATING POINT?
+    Section 3 says 1 atm / 3 cm / full density is impossible in 3-D.  The two
+    honest options: a REDUCED-DENSITY demonstrator (physics resolved, device
+    numbers not claimable), or a SUB-MILLIMETRE SUB-VOLUME of the real cell
+    (device conditions, boundary conditions imported from the 1-D/0-D model).
+    RECOMMENDATION: build for both -- the code is the same, only the preset
+    differs -- and make the preset print which regime it is in.
+
+Q3. DEPENDENCY POLICY FOR THE FAST PATH.
+    pic1d has an optional numba path; ARPAE currently forbids the dependency
+    "by policy of this repo's GUIs".  M7 is where that has to be settled.
+    RECOMMENDATION: keep numpy as the required reference, allow numba as an
+    optional import that must reproduce it to rounding (pic1d's exact rule).
+
+Q4. IS THE 1-D/2-D PLAYGROUND (GUI_pic.py) MEANT TO GROW A 3-D TAB, or does
+    the 3-D work stay in ARPAE with its own launcher?
+    RECOMMENDATION: stays in ARPAE (that is where the engine and its 41 gates
+    live); revisit at M10 when there is something worth showing side by side.
+
+Q5. HOW MUCH OF THIS DO YOU ACTUALLY WANT?
+    Missing-module 1 (M1, the electrostatic core) alone turns pic3d from a
+    wave instrument into a PIC code and unlocks rungs 1-2 of the ladder.
+    Missing modules 1-5 (M1-M5) are the full "credible PIC-MCC" claim, with
+    the Turner benchmark as the proof.  Missing modules 6-9 (M6-M9) plus the
+    GUI work (M10) are the device physics.  They are separable and each ends
+    at a green gate.
+
+
+================================================================================
+10.  WHAT OTHER CODES HAVE -- EXTERNAL SURVEY (2026-08-03)
+================================================================================
+
+Surveyed at the owner's request: NRL Orestes, LLNL Hydra / LANL xRAGE, and the
+open PIC-MCC literature.  Sources are named so each claim can be checked.
+
+--------------------------------------------------------------------------------
+10.1  NRL ORESTES -- the system-level comparison
+--------------------------------------------------------------------------------
+Orestes is NRL's first-principles code for the e-beam-pumped KrF/ArF cell:
+electron-beam deposition, non-equilibrium plasma chemistry (23 species, 116
+reactions for Kr/Ar/F2), 1-D lasing amplification, and 3-D ASE radiation
+transport.  It was adapted from KrF to ArF for the Electra programme.
+
+VERDICT: this repo ALREADY has the Orestes architecture -- but not in this
+package.  phantom11 (26 species) + unified/ase3d (3-D ASE) + unified/ebeam
+(stopping-power deposition) is the Orestes analogue, and GUI_v2 is its front
+end.  PIC_MCC_3D sits one layer BELOW Orestes: it prices kinetically the
+electron behaviour that an Orestes-class code assumes.
+
+  => THE GAP IS A COMPARISON, NOT A PIPELINE.  (Corrected 2026-08-03 after
+     the owner's warning: "phantom was seriously flawed and would need
+     careful examination before implementation."  The warning is correct and
+     the repo documents it; the earlier wording here recommended feeding
+     phantom11, which is unsafe.  See 10.1a.)
+
+     A 26-species network per cell in 3-D stays out of scope (board row 18).
+     What this package CAN do is price, kinetically and from first
+     principles, the electron behaviour phantom11 currently ASSUMES -- and
+     then SCORE those assumptions.  Read-only, one direction, no dependency.
+
+--------------------------------------------------------------------------------
+10.1a  WHY NOT TO FEED phantom11 -- TWO OPEN DEFECTS
+--------------------------------------------------------------------------------
+Feeding a better EEDF into a model whose OUTPUT accounting is broken does not
+produce a better answer.  It produces a more credible-looking wrong answer,
+with this package's first-principles provenance lending it authority it has
+not earned.  That is a worse failure than not coupling at all, and it is the
+specific risk the owner flagged.
+
+The two defects are OPEN in the repo's own records, not speculation:
+
+  (1) PLAN (70), 2026-07-31 -- "the engine's electron-heating -> light
+      conversion is internally inconsistent by ~18x", and the pre-existing
+      CO2 inverse-bremsstrahlung term takes the SAME path, so the PLAN (67)
+      CO2 numbers inherit it.  The entry's own conclusion: "No hybrid-pumping
+      efficiency claim can be made until that is resolved."  Status: OPEN.
+      An EEDF handed in from here enters exactly that bookkeeping.
+
+  (2) PLAN (72), 2026-07-31 -- the Kannari p->s manifold relaxation
+      (K_PS_RELAX, gated by LIT_QUENCH) defaults OFF because 0.0 is what
+      reproduces og-pyfiles bit-for-bit.  At 1 atm of argon that rate gives
+      tau ~ 0.45 ns, an order of magnitude FASTER than the KrF* radiative
+      lifetime, so the default holds the 5p/4p manifolds collisionally
+      isolated -- "a parity artifact, not a physics choice."  Under the
+      default the marginal conversion of bulk-deposited energy is 54.2%,
+      which BREACHES the <=25% W-value bound; with Kannari on it is 1.7%.
+      The baseline light output moves 3.4x on that flag alone, and modelled
+      device efficiency 3.05% -> 0.89%.  The default is deliberately NOT
+      flipped, because choosing it by which value lands nearer the measured
+      ~7% would be steering by an anchor (forbidden, PLAN (26)).  Status:
+      OWNER CALL, open.
+
+  Corroborating history, same week: PLAN (70) also fixed two real Ar-mode
+  wiring bugs in the engine (r156 stepwise ionisation manufacturing Ar+
+  without depleting Ar*; r157 wired as superelastic de-excitation while
+  carrying an ionisation suppressor, freezing 4p->4s by ~1e12).  And the root
+  CHANGELOG's Known-bad records that the parity harness is STRUCTURALLY BLIND
+  to Ar_g-weighted terms -- a sign error on r115 worth 40% of dArF survived
+  there until a term-for-term comparison found it.  Parity green is not
+  evidence of correctness (PLAN (26) policy 4).
+
+  THE SAFE FORM, and it is still valuable:
+
+    * EXPORT, do not inject.  Write the EEDF, per-process rate coefficients
+      and deposition profile out as data with full provenance (this package
+      already has params + checkpoint for exactly that).
+    * COMPARE against the swarm tables phantom11 uses.  A disagreement is a
+      finding about the tables -- reportable on its own, with no dependency
+      on phantom11's downstream accounting.
+    * Any actual injection stays BLOCKED until (1) is resolved and (2) is
+      decided by the owner.  Until then this package must not be cited as
+      improving any phantom11 efficiency number.
+    * And per PLAN (26): even after that, kinetic numbers from here SCORE;
+      they never steer.
+
+--------------------------------------------------------------------------------
+10.2  HYDRA (LLNL) / xRAGE (LANL)
+--------------------------------------------------------------------------------
+Radiation-hydrodynamics codes, not PIC, and not publicly documented at the
+level needed to copy anything specific -- as the owner anticipated.  The
+transferable ideas are architectural (multiphysics driver, AMR, restart
+discipline), and those arrived from projects/MHD (flare) instead, which is a
+clean-room FLASH recreation and fully readable.  Not chased further.
+
+--------------------------------------------------------------------------------
+10.3  VERIFICATION TECHNIQUES -- one gap CLOSED, two still open
+--------------------------------------------------------------------------------
+The PIC-MCC verification literature is more developed than this package's
+gates were:
+
+  * Parodi & Petronio, Phys. Plasmas 32, 013902 (2025), "Step-by-step
+    verification of particle-in-cell Monte Carlo collision codes" -- a graded
+    verification sequence for 2D-3V electrostatic PIC-MCC.
+  * arXiv:2602.15130, "Code-Verification Techniques for PIC Simulations with
+    DSMC Collisions" -- MMS applied to the FULL kinetic loop by manufacturing
+    the distribution function and inverting its CDFs (deliberately NOT by
+    adjusting particle weights, which would perturb the collision algorithm);
+    scattering-angle CDF tests; collision-error isolation against analytic
+    source terms; and the refinement relation N_p ~ h^-7 for collisional MMS.
+
+  CLOSED 2026-08-03: SCATTERING-ANGLE DISTRIBUTION GATES (6 new tests).
+  This package had NO test on the angular distributions at all.  That is
+  exactly the hole the literature warns about: a wrong angular model still
+  conserves energy exactly, still tallies correctly, still reproduces
+  n sigma v, and still matches the ARPAE oracle -- every gate we had would
+  stay green.  Now the empirical CDF of cos(chi) is checked against the
+  analytic one for all three angular models (isotropic / screened /
+  Surendra), the isotropic directions are checked uniform on the sphere, and
+  the rotation machinery is checked to deflect by EXACTLY the sampled angle.
+
+  STILL OPEN:
+    * full-loop MMS -- section 4's G1.2 covers the Poisson operator only;
+      the manufactured-distribution version tests the whole kinetic cycle;
+    * collision-error isolation -- averaging collision outcomes against
+      analytic source terms to separate collision bugs from field bugs.
+
+--------------------------------------------------------------------------------
+10.4  COMMUNITY BENCHMARKS
+--------------------------------------------------------------------------------
+  * TURNER ET AL. 2013 (Phys. Plasmas 20, 013507) -- the capacitive-discharge
+    benchmark already named as the M5 gate: four cases with every physical
+    and numerical parameter prescribed, five independently written codes
+    statistically indistinguishable.  NEW AND USEFUL: an open reference
+    implementation exists (github.com/lase-unb/ccp-benchmark), so the
+    comparison data does not have to be re-derived from the paper.
+  * LANDMARK -- the community benchmark project for low-temperature plasmas
+    (Hall-thruster oriented, 2-D).
+  * arXiv:2510.21261 -- a 2-D ExB coherent-structure benchmark with an
+    explicit "lessons learned" on multi-code comparison.
+
+--------------------------------------------------------------------------------
+10.5  CAPABILITIES PRODUCTION CODES HAVE THAT THIS ONE DOES NOT
+--------------------------------------------------------------------------------
+Ranked by relevance HERE, not by general importance:
+
+  1. SELF-CONSISTENT NEUTRALS via DSMC coupling (PICLas; Pantera, Comput.
+     Phys. Commun. 2025).  Our gas is static and uniform -- a stated [warn].
+     A PIC-MCC-DSMC coupling is the principled fix, and it is what removes
+     "the neutrals do not respond" from the caveat list.
+  2. ENERGY-PRESERVING explicit PIC + MCC coupling (arXiv:2410.14859).
+     Directly relevant to our split electron-ledger / gas-reservoir
+     bookkeeping -- there is a published scheme for doing this exactly.
+  3. PARTICLE MANAGEMENT CHANGES ANSWERS, not just cost ("PIC/MCC simulation
+     of capacitively coupled discharges: effect of particle management and
+     integration", Comput. Phys. Commun. 2016).  That RAISES the priority of
+     M8 (merge/split) from a performance chore to a correctness item.
+  4. Coulomb / binary collisions -- standard in every production code
+     (PIConGPU binary collisions, Smilei).  = our M6.
+  5. External-circuit coupling -- standard for capacitive discharges. = M4.
+  6. COMPLEX GEOMETRY: non-orthogonal grids, cut cells, adaptive Cartesian
+     meshes.  We are a rectangular box only, and a hibachi/foil geometry is
+     not a box.
+  7. AMR (WarpX), GPU / SIMD with fine-grain particle sorting (WarpX took the
+     2022 Gordon Bell prize; PIConGPU).  = our M8 performance item.
+  8. Field/tunnelling and collisional ionization (Smilei).  Out of scope at
+     600 kV and 1 atm -- noted so the omission is deliberate, not forgotten.
+
+--------------------------------------------------------------------------------
+10.6  RECOMMENDED ORDER AFTER THIS SURVEY
+--------------------------------------------------------------------------------
+  1. M3b ion-neutral collisions -- unchanged, still the forced next step.
+  2. The ORESTES COMPARISON (10.1 / 10.1a): EXPORT the EEDF, rates and
+     deposition profile with provenance and SCORE phantom11's assumed swarm
+     tables against them.  Read-only and one-directional.
+     SEE ALSO ../ORESTES_CLASS_REBUILD.txt (2026-08-03): the CONSUMER of
+     that export should be SPECTRE, not phantom11.  spectre has no
+     og-pyfiles parity debt, no open energy-accounting defect, and its own
+     brief demands non-Maxwellian electron input -- so the same arrow that
+     is forbidden into phantom11 is correct into spectre.  That file plans
+     the rebuild; this one stays about the kinetic layer.  Do NOT wire this
+     package into phantom11's pipeline: PLAN (70)'s ~18x electron-heating ->
+     light inconsistency is OPEN and PLAN (72)'s p->s default is an
+     undecided owner call worth 3.4x in baseline output.  A better input to
+     broken accounting is a more convincing wrong answer, not a better one.
+  3. Full-loop MMS (10.3).
+  4. M4/M5 electrodes + emission, then the Turner benchmark against the open
+     reference implementation.
+  5. DSMC neutrals (10.5.1) when the static-gas assumption starts to bind.

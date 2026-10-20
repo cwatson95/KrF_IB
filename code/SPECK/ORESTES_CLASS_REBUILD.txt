@@ -1,0 +1,393 @@
+################################################################################
+#  ORESTES_CLASS_REBUILD.txt                                                   #
+#  A clean, working excimer-laser kinetics engine that can stand against       #
+#  NRL's Orestes.                                                              #
+#                                                                              #
+#  Written 2026-08-03, after the owner's ruling: "phantom was seriously        #
+#  flawed and would need careful examination before implementation", and the   #
+#  ask to plan a rebuild of phantom / orestes / spectre from scratch.          #
+#                                                                              #
+#  POLICY (inherited, non-negotiable -- PLAN (26)): predictive-only.  Every    #
+#  rate comes from theory or a published measurement OF THAT PROCESS.          #
+#  Anchors SCORE; they never steer.  Misses are reported as misses.            #
+################################################################################
+
+CONTENTS
+  0.  The finding that changes the plan
+  1.  Why NOT from scratch (and what "from scratch" would actually cost)
+  2.  The five defect classes -- and what structurally prevents each
+  3.  What "compete with Orestes" means, measurably
+  4.  Where spectre already stands, and what it lacks
+  5.  The architecture: three clean layers
+  6.  Milestones S1..S7, each with its gate
+  7.  Harvesting phantom11 without inheriting it
+  8.  Decisions for the owner
+
+--------------------------------------------------------------------------------
+STATUS ADDENDUM 2026-08-04 -- OWNER DECISION ON Q1/Q3, AND WHERE IT LANDED
+--------------------------------------------------------------------------------
+The owner directed the rebuild into a NEW package, Kinetic_Modeling/REBUILD/
+("Please proceed with the rebuild under REBUILD/"), superseding section 0's
+recommendation to harden spectre in place. Everything else in this file --
+the predictive-only policy, the five defect-class preventions, the tier
+architecture, the data-only PIC_MCC_3D coupling, milestones S1..S7 -- is
+implemented there unchanged in spirit: spectre's audited network and Chen
+transcription were harvested BY VALUE with citations (section 7 discipline),
+not re-derived and not imported.
+
+Landed 2026-08-04 (v0.1.0, REBUILD/CHANGELOG.md has the measured numbers):
+S1 defect-history gates, S2 structural gates (with teeth), S3 the closed
+energy ledger as an invariant (worst residual 8.2e-6 over a full pulse --
+the headline gate this section 6 asked for), S4 the KINETIC tier + the
+LOKI-vs-KINETIC characterisation, S6 lasing + voxel-field 3-D ASE, S7 the
+scorecard with misses and omissions. S5 (EST -> 0) is OPEN: 22 EST rows in
+KrF mode, each flagged and bracketed. spectre itself stays where it is,
+unmodified, still the Ne-buffered sibling project.
+--------------------------------------------------------------------------------
+
+
+================================================================================
+0.  THE FINDING THAT CHANGES THE PLAN
+================================================================================
+
+THE REBUILD ALREADY EXISTS AND IS ALREADY UNDERWAY.  projects/spectre was
+seeded 2026-07-14 and its CHANGELOG opens:
+
+    "Following the failed attempt of phantom under projects/Kinetic_Modeling/
+     ... Since there were bugs and physically invalid functions from phantom,
+     I am now attempting to improve [the model] ... Spectre should be
+     completely physically valid, predictive, and from the foundational
+     physics.  The model should remain kinetic and be non-maxwellian
+     (Boltzmann)."
+
+That is this plan's brief, written eight months of engineering ago in this
+repo's own words.  And spectre is not a sketch: it is ~1,400 lines that
+ALREADY carry the two structural fixes phantom11 cannot retrofit.
+
+  (1) IT HAS NO og-pyfiles PARITY OBLIGATION.  This is the single most
+      important fact.  phantom11's worst defect -- PLAN (72), the Kannari
+      p->s relaxation defaulting OFF because 0.0 is what reproduces the
+      frozen originals bit-for-bit -- is a PARITY ARTIFACT.  A physics
+      default was chosen by a code-equivalence requirement, and it moves
+      baseline light output by 3.4x and breaches the <=25% W-value bound.
+      spectre is a new engine; it owes bit-equivalence to nothing, so that
+      entire class of defect cannot arise in it.
+
+  (2) ITS REACTION NETWORK IS DATA WITH PER-ROW PROVENANCE, IN SI.  Every
+      reaction carries (tier, citation): CHEN (Chen 2025 Table III verbatim),
+      REPO (value + phantom11 citation string, copied never re-tuned), LOKI
+      (electron-impact k from the curated LoKI-MC tables), EST (no citation
+      yet -- flagged, and sensitivity-bracketed x1/3..x3 by tests).  Compare
+      phantom11: an 872-line hand-written RHS body and an 833-line config,
+      where a sign error on r115 worth 40% of dArF survived undetected.
+
+  (3) IT ALREADY FIXED THE ENERGY-LEDGER CLASS ONCE.  spectre/ebeam.py
+      carries a "CONSERVING ledger closure (FIX 2026-07-15, energy-audit
+      finding): per ion pair the W budget is exhausted" -- i.e. the beam
+      injects exactly P_dep.  That is the same discipline whose ABSENCE in
+      phantom11 is PLAN (70)'s open ~18x electron-heating -> light
+      inconsistency.
+
+=> THE PLAN IS THEREFORE: FINISH AND HARDEN SPECTRE.  Not a third start.
+
+
+================================================================================
+1.  WHY NOT FROM SCRATCH
+================================================================================
+
+"From scratch" sounds safer than it is.  What it would actually discard:
+
+  * 76 dated PLAN entries of debugging history.  Every one is a defect
+    someone found the expensive way.  A fresh engine does not avoid those
+    bugs -- it re-earns them.  The right use of that history is as a TEST
+    LIST (section 7), which is only possible if you keep reading it.
+  * The citation-audited Kr-core constants.  phantom11's config.py is
+    largely provenance debt PAID: values with sources attached.  spectre's
+    REPO tier already harvests them by value + citation.  Re-deriving that
+    is months of literature work for no physics gain.
+  * The LoKI-MC swarm tables and the curated mixture sweeps behind them.
+  * A working 3-D ASE solver (unified/ase3d), an e-beam deposition module
+    with stopping-power physics (unified/ebeam), and a Spencer-Fano
+    degradation solver validated against canonical W-values
+    (unified/spencer_fano) -- all of which are Orestes-class components
+    that exist and work.
+
+And what it would NOT fix: a fresh 26-species engine written the same way
+would reproduce phantom11's real failure mode, which was never "wrong
+equations" but ARCHITECTURE -- an unauditable hand-written RHS, physics
+defaults chosen by a parity requirement, and no enforced energy budget.
+Those are prevented by structure (section 2), not by a blank file.
+
+THE ONE THING THAT SHOULD BE ABANDONED, NOT REBUILT: phantom11's calibrated
+orchestration path.  It is already banned (PLAN (26) policy 3,
+old_files/KrF_phantom11.py).  It stays banned.  The phantom11 PACKAGE remains
+readable as a REFERENCE for constants and their citations -- never imported,
+never depended on.
+
+
+================================================================================
+2.  THE FIVE DEFECT CLASSES, AND WHAT PREVENTS EACH
+================================================================================
+
+Every one of these is documented in this repo, not hypothesised.  A rebuild
+is only worth doing if it makes each STRUCTURALLY impossible rather than
+merely fixed once.
+
+ D1  PARITY-DRIVEN PHYSICS DEFAULTS.
+     phantom11: LIT_QUENCH defaults False so og-pyfiles reproduces
+     bit-for-bit; consequence PLAN (72), 3.4x in baseline output, W-value
+     bound breached.
+     PREVENTION: the new engine owes bit-equivalence to NOTHING.  Frozen-
+     reference reproduction, if ever needed, lives in a separate harness with
+     its OWN config object -- it may never share a default with the physics
+     path.  spectre satisfies this today by construction.
+     STATUS: SOLVED in spectre.
+
+ D2  UNAUDITABLE HAND-WRITTEN RHS.
+     phantom11: _rhs_u_body.py, 872 lines, 26 coupled species.  A sign error
+     on r115 (K115 x ArF x Ar_g^2) worth 40% of dArF survived because the
+     parity harness is STRUCTURALLY BLIND to Ar_g-weighted terms (every parity
+     case has Ar_g = 0).
+     PREVENTION: the network is DATA; the RHS is assembled from it.  Then
+     every reaction is individually testable, mass/charge balance is checkable
+     mechanically per row, and no term can hide.
+     STATUS: SOLVED in spectre (rates.py tiers) -- but the mechanical
+     per-row balance checks are NOT yet written (S2).
+
+ D3  NO ENFORCED ENERGY BUDGET.
+     phantom11: PLAN (70), electron-heating -> light internally inconsistent
+     by ~18x, OPEN; the CO2 term inherits it.  The entry's own conclusion:
+     no hybrid-pumping efficiency claim can be made until resolved.
+     PREVENTION: a closed energy ledger as a GATED INVARIANT, the way
+     PIC_MCC_3D's electron ledger closes to 2e-16 -- every joule in is
+     accounted to a named sink each step, and the suite fails if it is not.
+     STATUS: PARTIAL in spectre (the beam ledger closes; the whole-engine
+     budget is not yet an invariant).  This is S3 and it is the highest-value
+     single item in this plan.
+
+ D4  CALIBRATION PATHS EXISTING AT ALL.
+     phantom11: DIS_SCALE auto-tuned to hit DISCHARGE_NE_TARGET_CM3; the
+     benchmark orchestration is permanently banned.
+     PREVENTION: no scale factor that can be fitted exists anywhere in live
+     code.  Anchors are compared in a REPORT, never fed back.
+     STATUS: SOLVED in spectre by policy inheritance; needs a gate that
+     asserts no such knob has crept in (S2).
+
+ D5  MUTABLE MODULE-LEVEL STATE.
+     krf0d mutates phantom11 globals and does not restore them; PLAN (74)
+     traced 10 of 17 suite failures to exactly that.
+     PREVENTION: immutable config objects passed explicitly; zero module-level
+     mutable state, gated.  PIC_MCC_3D already enforces this
+     (tests/test_architecture.py) and the same gate transfers directly.
+     STATUS: NOT YET GATED in spectre (S2).
+
+
+================================================================================
+3.  WHAT "COMPETE WITH ORESTES" MEANS, MEASURABLY
+================================================================================
+
+Orestes (NRL) is a first-principles code for the e-beam-pumped KrF/ArF cell:
+electron-beam deposition, non-equilibrium plasma chemistry (23 species, 116
+reactions for Kr/Ar/F2), 1-D lasing amplification, and 3-D ASE radiation
+transport; adapted KrF -> ArF for Electra.
+
+"Competing" is not a feeling.  It is this list, and each row is a gate:
+
+  C1  Beam deposition from stopping power, with the W-value EMERGENT rather
+      than imposed.  (PIC_MCC_3D already measures W by two independent
+      routes agreeing to 0.4%; that is the supplier for this row.)
+  C2  Non-equilibrium electron kinetics -- genuinely non-Maxwellian, which is
+      the owner's stated requirement for spectre and is currently the
+      weakest link (section 4).
+  C3  A reaction network of Orestes scale (~100+ reactions) with EVERY row
+      carrying a citation, and the EST count driven toward zero.
+  C4  1-D lasing amplification with saturation, and
+  C5  3-D ASE / parasitic transport.
+  C6  Validation against the SAME anchors Orestes is judged by -- the Electra
+      measurements -- reported as scores with misses stated.
+  C7  And the thing Orestes does not publish and we can: a fully auditable
+      provenance chain from LXCat file to output joule, plus a verification
+      suite anyone can run.
+
+  ON C7: this is the honest competitive claim.  We will not out-resource NRL
+  on physics breadth.  We can be more CHECKABLE -- every number traceable,
+  every assumption gated, every miss reported.  That is worth more to this
+  project than matching reaction counts.
+
+
+================================================================================
+4.  WHERE SPECTRE STANDS, AND WHAT IT LACKS
+================================================================================
+
+HAS (audited 2026-08-03):
+  * species.py    -- registry as data, log-density state vector with Te and
+                     n_ph riding unlogged
+  * rates.py      -- the tiered network, SI throughout (phantom11's cm /
+                     1e16 / ns internal units are themselves a bug source)
+  * chen2025_table3.py -- Chen 2025 Table III verbatim, 41 rows, with the
+                     R19/R26 typography flags documented
+  * ebeam.py      -- e-beam source with the CONSERVING ledger closure
+  * loki_electron.py -- LoKI-MC table interpolation
+  * laser.py      -- 248 nm gain/extraction (thin, 81 lines)
+  * engine.py     -- BDF integration of the 0-D system
+  * a Chen-verbatim ArF mode used PURELY to score (anchors score, never steer)
+
+LACKS, in priority order:
+  L1  VERIFICATION DEPTH.  8 test functions for ~1,400 lines.  For contrast
+      PIC_MCC_3D runs 178 gates over ~2,500 lines.  This is the difference
+      between "it runs" and "it can be trusted", and it is the reason nobody
+      should yet prefer spectre's numbers to phantom11's.
+  L2  A WHOLE-ENGINE ENERGY BUDGET INVARIANT (D3).
+  L3  TRULY NON-MAXWELLIAN ELECTRON KINETICS.  Today the LOKI tier looks
+      rates up by a Te-equivalent through <eps> = (3/2)Te -- a documented
+      approximation, and precisely the assumption the owner's brief says the
+      engine must not make.
+  L4  REACTION COUNT: ~41 CHEN rows + REPO extras vs Orestes' 116; and the
+      EST tier (uncited analogies) must be driven to zero.
+  L5  3-D ASE / parasitics -- exists as unified/ase3d, not yet in spectre.
+  L6  1-D lasing depth -- laser.py is 81 lines against Orestes' amplification
+      + ASE treatment.
+
+
+================================================================================
+5.  THE ARCHITECTURE: THREE CLEAN LAYERS
+================================================================================
+
+    +-------------------------------------------------------------+
+    |  PIC_MCC_3D    kinetic, 3-D, first-principles electrons      |
+    |                EEDF, per-process rate coefficients,          |
+    |                beam deposition profiles, emergent W          |
+    +-------------------------------------------------------------+
+                 |  exported as DATA with provenance
+                 |  (params + checkpoint already do this)
+                 v
+    +-------------------------------------------------------------+
+    |  spectre       0-D/1-D chemistry + laser extraction          |
+    |                tiered reaction network, SI, no parity debt   |
+    +-------------------------------------------------------------+
+                 |
+                 v
+    +-------------------------------------------------------------+
+    |  radiation     3-D ASE / parasitics (harvest unified/ase3d,  |
+    |                re-verified before adoption)                  |
+    +-------------------------------------------------------------+
+
+THE COUPLING THAT WAS FORBIDDEN FOR phantom11 IS CORRECT HERE, and the reason
+is specific rather than convenient: PIC_MCC_3D -> phantom11 was blocked
+because phantom11's DOWNSTREAM ACCOUNTING is broken (PLAN (70), ~18x, OPEN),
+so a better input would only have produced a more convincing wrong answer.
+spectre has no such open defect, and it explicitly wants non-Maxwellian
+electron input (L3).  The same arrow is safe because the thing it points at
+is sound.
+
+  BUT THE DISCIPLINE STAYS: PIC_MCC_3D exports data with provenance; spectre
+  reads it as one more tier (call it KINETIC, ranking above LOKI).  No import
+  dependency, no shared mutable state, and the numbers are still SCORED
+  against the LoKI tier rather than silently replacing it.
+
+
+================================================================================
+6.  MILESTONES
+================================================================================
+
+Each ends at a gate.  Ordering is by risk retired per unit of work, not by
+appeal.
+
+  S1  READ THE HISTORY, WRITE THE TESTS.  Walk the 76 PLAN entries and the
+      Known-bad lists; convert every recorded defect into a spectre test.
+      This is cheap, it is the highest-value use of phantom11's expensive
+      past, and it must precede new physics -- otherwise the rebuild re-earns
+      the same bugs.
+      GATE: a test file whose docstrings cite PLAN entry numbers; every
+      Known-bad item either has a test or a written statement of why it
+      cannot apply to spectre.
+
+  S2  STRUCTURAL GATES (D2, D4, D5).  Port PIC_MCC_3D's architecture suite:
+      acyclic layered imports, no module-level mutable state, no import-time
+      side effects, determinism under repeat. Add network-specific ones:
+      per-reaction mass balance, charge balance, and a gate asserting no
+      fittable scale factor exists in live code.
+      GATE: all green, and a deliberately unbalanced reaction fails the
+      balance check (prove the gate has teeth).
+
+  S3  THE ENERGY BUDGET AS AN INVARIANT (D3, L2).  Every joule entering the
+      cell is accounted each step to a named sink: ionization, excitation,
+      elastic/gas heating, radiation, extraction, walls, residual.  The suite
+      fails if the budget does not close.
+      GATE: closure to a stated tolerance across the full pulse, in both KrF
+      and the ArF scoring mode; and the audit that PLAN (70) could not do --
+      deliver the same joule two ways (beam vs bulk) and show the marginal
+      conversions agree.  THAT IS THE HEADLINE RESULT of this rebuild: the
+      defect that stopped phantom11 becomes a passing gate.
+
+  S4  KINETIC ELECTRONS (L3, C2).  Add the KINETIC tier: EEDF and
+      per-process rates exported from PIC_MCC_3D, consumed as data.  Keep the
+      LOKI tier live alongside and REPORT the difference; that difference is
+      itself a publishable result about the Te-equivalent approximation.
+      GATE: rates from the two tiers compared over the operating range, with
+      the discrepancy characterised rather than averaged away.
+
+  S5  NETWORK COMPLETENESS (L4, C3).  Drive EST to zero by citation; grow
+      toward Orestes-scale coverage.  Every added row: value, citation,
+      uncertainty, and a sensitivity bracket.
+      GATE: EST count = 0; a sensitivity sweep showing which rows actually
+      matter, so effort goes where leverage is.
+
+  S6  LASING + ASE (L5, L6, C4, C5).  Deepen laser.py; adopt unified/ase3d
+      only after re-verifying it against its own gates.
+      GATE: gain/extraction against the analytic Rigrod limit; ASE
+      self-consistency.
+
+  S7  SCORE AGAINST ELECTRA (C6).  Run the Orestes-class comparison and
+      report scores WITH misses.
+      GATE: a scorecard with every anchor, its source, and the miss stated.
+      No tuning. Ever.
+
+
+================================================================================
+7.  HARVESTING phantom11 WITHOUT INHERITING IT
+================================================================================
+
+  ALLOWED: read config.py and reactions.py; copy a VALUE together with its
+  citation string; record the phantom11 line reference in the spectre tier
+  comment.  spectre's REPO tier is exactly this and it is the right pattern.
+
+  ALLOWED: mine the 76 PLAN entries for tests (S1).
+
+  FORBIDDEN: importing phantom11 from spectre; depending on its parity gates
+  as evidence (parity is not physics -- PLAN (26) policy 4); quoting any
+  phantom11 efficiency number as a target; and re-using any value whose only
+  provenance is "it reproduces og-pyfiles".
+
+  SPECIAL CARE -- the values most likely to be wrong are the ones tied to
+  the flags PLAN (72) exposed.  Anything gated by LIT_QUENCH / LIT_ATTACH /
+  AR_STEP_ION_CONSERVE / AR_EXC_STEP_TEDEP must be re-derived from the
+  literature, not copied: those flags exist precisely because the frozen
+  originals and the physics disagree.
+
+
+================================================================================
+8.  DECISIONS FOR THE OWNER
+================================================================================
+
+  Q1  CONFIRM THE VEHICLE.  This plan says: harden spectre, do not start a
+      fourth engine.  RECOMMENDATION: yes -- it already solves D1/D2/D4 by
+      construction, and a fresh start re-earns 76 entries of bugs.
+      If you disagree, the decisive question is what a blank file buys that
+      section 2's structural gates do not.
+
+  Q2  KrF FIRST OR ArF FIRST?  spectre's Chen-verbatim ArF mode is currently
+      its best-anchored path (Chen 2025 Table III is ArF).  RECOMMENDATION:
+      harden on ArF because the anchor is strongest, then carry to KrF -- the
+      reverse of the historical order, and better for verification.
+
+  Q3  WHERE DOES IT LIVE?  spectre is a separate project with its own LoKI
+      copy and GUI.  PIC_MCC_3D is in Kinetic_Modeling.  A KINETIC tier makes
+      them neighbours.  RECOMMENDATION: leave both where they are and move
+      DATA (exported tables with provenance), never imports.
+
+  Q4  HOW MUCH OF ORESTES DO YOU ACTUALLY NEED?  S1-S3 make spectre
+      trustworthy.  S4-S5 make it competitive on physics.  S6-S7 make it
+      comparable on the device answer.  Each is separable and each ends
+      green; stopping after S3 still leaves something better than what
+      exists now.

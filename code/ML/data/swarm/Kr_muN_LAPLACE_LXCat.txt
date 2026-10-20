@@ -1,0 +1,353 @@
+LXCat, www.lxcat.net
+Generated on 15 Oct 2026. All rights reserved.
+
+RECOMMENDED REFERENCE FORMAT
+- LAPLACE database, www.lxcat.net, retrieved on October 15, 2026.
+
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+DATABASE:         LAPLACE (measurements after 1975)
+PERMLINK:         www.lxcat.net/LAPLACE
+DESCRIPTION:      These data were extracted from articles published after the 1975 or not appearing in the review
+                  article by Dutton (and the associated “Dutton” database). The data in this database were digitized
+                  by S Chowdhury (LAPLACE, Toulouse) from figures in the publications or from data tables if tables were
+                  provided in the publications.
+CONTACT:          leanne.pitchford@@laplace.univ-tlse.fr
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+************************************************************************************************************************
+
+COMMENT: Al-Amin, S. A., Lucas, J., J. Phys. D, 20, 1590, (1987);
+         Bhattacharya, A. K., J. Appl. Phys, 50, 6207, 1979;
+         Bowe, J. C., Physical Review, 117, 1411 (1960);
+         DallArmi, G., Brown, K. L., Purdie, P. H. and Fletcher, J., Aust. J. Phys., 45, 185 (1992);
+         English, W. N. and Hanna, G. C., Can. J. Phys., 31, 768, 1953; 
+         Hunter, S. R., Carter, J. G., Christophorou, L. G., Physical Review A, 38, 11 (1988)(from Table);
+         Jacques, L., Bruynooghe, W., Boucique, R., Wieme, W., J. Phys. D., 19, 1731, (1986)(From Table) ;
+         Koizumi, T., Shirakawa, E., Ogawa, I., J. Phys. B: At. Mol. Phys. 19, 2331 (1986);
+         Kucukarpaci, H. N., Lucas, J., J. Phy. D., 14, 2001(1981);
+         Pack, J. L., Voshall, R. E., Phelps, A. V., Kline, L. E., J. App. Phys., 71, 5363, (1992) ( from table) ;
+         Specht, L. T., Lawton, S. A., DeTemple, T. A., J. Appl. Phys., 51, 1,1980;
+         Y. Nakamura, “Electron Swarm Parameters in Krypton and its Momentum Transfer Cross Sections, in Nonequilibrium effects
+         in ion and electron transport”, ed. J.W. Gallagher, D.F. Hudson, E.E. Kunhardt and RJ Van Brunt, Plenum Press, NY,
+         1990;.
+
+********************************************************** Kr **********************************************************
+
+SPECIES: e / Kr
+PROCESS: Mobility x gas density (&mu;N)
+COMMENT: Bowe 1960.
+UPDATED: 2012-08-06 16:27:09
+COLUMNS: Reduced electric field (Td) | Mobility x gas density ((m.V.s)-1)
+-----------------------------
+ 2.471000e-2	3.627900e+25
+ 8.100000e-2	1.263990e+25
+ 1.469000e-1	7.982740e+24
+ 2.114200e-1	6.055300e+24
+ 2.855600e-1	4.778370e+24
+ 4.159800e-1	3.564680e+24
+ 4.983500e-1	3.061830e+24
+ 5.875900e-1	2.721940e+24
+ 6.864400e-1	2.408350e+24
+ 8.086200e-1	2.084350e+24
+ 8.978600e-1	1.901150e+24
+ 1.004940e+0	1.752100e+24
+ 1.085940e+0	1.641220e+24
+ 1.339920e+0	1.401050e+24
+ 1.396210e+0	1.359980e+24
+ 1.534870e+0	1.265160e+24
+ 1.609010e+0	1.206870e+24
+ 1.764140e+0	1.125130e+24
+ 1.911040e+0	1.054590e+24
+ 2.009880e+0	1.013430e+24
+ 2.123830e+0	9.691920e+23
+ 2.189730e+0	9.547640e+23
+ 2.311920e+0	9.136110e+23
+ 2.384680e+0	8.947570e+23
+ 2.622190e+0	8.260220e+23
+ 2.694950e+0	8.117040e+23
+ 2.793790e+0	8.015970e+23
+ 2.883030e+0	7.767860e+23
+ 3.023060e+0	7.550390e+23
+ 3.095830e+0	7.407680e+23
+ 3.300380e+0	7.111530e+23
+ 3.397860e+0	7.002510e+23
+ 3.480230e+0	6.898600e+23
+ 3.602420e+0	6.838820e+23
+ 3.684790e+0	6.685940e+23
+ 3.904450e+0	6.557780e+23
+ 3.986820e+0	6.476260e+23
+ 4.100770e+0	6.453710e+23
+ 4.166670e+0	6.429100e+23
+ 4.313560e+0	6.355640e+23
+ 4.369850e+0	6.323010e+23
+ 4.493410e+0	6.340680e+23
+ 4.582650e+0	6.334590e+23
+ 4.713070e+0	6.338100e+23
+ 4.770730e+0	6.329150e+23
+ 4.909390e+0	6.303790e+23
+ 4.975290e+0	6.346430e+23
+ 5.343220e+0	6.369150e+23
+ 5.750960e+0	6.382130e+23
+ 6.151840e+0	6.208160e+23
+ 6.559580e+0	6.426350e+23
+ 7.033220e+0	6.205180e+23
+ 7.384680e+0	6.458600e+23
+-----------------------------
+
+SPECIES: e / Kr
+PROCESS: Mobility x gas density (&mu;N)
+COMMENT: English and Hanna 1953.
+UPDATED: 2012-08-06 16:29:26
+COLUMNS: Reduced electric field (Td) | Mobility x gas density ((m.V.s)-1)
+-----------------------------
+ 3.986000e-2	9.328530e+24
+ 5.635000e-2	1.018280e+25
+ 5.635000e-2	1.376750e+25
+ 6.460000e-2	1.546900e+25
+ 8.109000e-2	1.587190e+25
+ 8.933000e-2	1.666790e+25
+ 1.058300e-1	1.638430e+25
+ 1.140700e-1	1.706470e+25
+ 1.223200e-1	1.756560e+25
+ 1.388100e-1	1.693370e+25
+ 1.470600e-1	1.713890e+25
+ 1.718000e-1	1.535760e+25
+ 2.034100e-1	1.338400e+25
+ 2.776300e-1	1.007650e+25
+ 3.518400e-1	8.042460e+24
+ 4.411800e-1	6.389620e+24
+ 5.236400e-1	5.342410e+24
+ 5.799900e-1	4.767890e+24
+ 6.542100e-1	4.161410e+24
+ 7.270500e-1	3.744490e+24
+ 8.260000e-1	3.295900e+24
+ 9.153400e-1	2.974220e+24
+ 1.062400e+0	2.562530e+24
+ 1.186090e+0	2.286250e+24
+ 1.308410e+0	2.072510e+24
+ 1.430730e+0	1.895320e+24
+ 1.553050e+0	1.746040e+24
+ 1.668500e+0	1.618800e+24
+ 1.766080e+0	1.517210e+24
+ 1.888400e+0	1.414200e+24
+ 2.020340e+0	1.311230e+24
+-----------------------------
+
+SPECIES: e / Kr
+PROCESS: Mobility x gas density (&mu;N)
+COMMENT: Hunter et al 1988.
+UPDATED: 2012-08-06 16:28:00
+COLUMNS: Reduced electric field (Td) | Mobility x gas density ((m.V.s)-1)
+-----------------------------
+ 2.000000e-3	1.185000e+25
+ 2.500000e-3	1.188000e+25
+ 3.000000e-3	1.190000e+25
+ 3.500000e-3	1.197100e+25
+ 4.000000e-3	1.207500e+25
+ 5.000000e-3	1.244000e+25
+ 6.000000e-3	1.295000e+25
+ 7.000000e-3	1.357100e+25
+ 8.000000e-3	1.432500e+25
+ 1.000000e-2	1.668000e+25
+ 1.200000e-2	1.983300e+25
+ 1.400000e-2	2.357100e+25
+ 1.700000e-2	2.835300e+25
+ 2.000000e-2	3.125000e+25
+ 2.500000e-2	3.308000e+25
+ 3.000000e-2	3.080000e+25
+ 3.500000e-2	2.751400e+25
+ 4.000000e-2	2.480000e+25
+ 5.000000e-2	2.078000e+25
+ 6.000000e-2	1.803300e+25
+ 7.000000e-2	1.592900e+25
+ 8.000000e-2	1.435000e+25
+ 1.000000e-1	1.199000e+25
+ 1.200000e-1	1.028300e+25
+ 1.400000e-1	9.100000e+24
+ 1.700000e-1	7.788200e+24
+ 2.000000e-1	6.835000e+24
+ 2.500000e-1	5.696000e+24
+ 3.000000e-1	4.920000e+24
+ 3.500000e-1	4.374300e+24
+ 4.000000e-1	3.930000e+24
+ 5.000000e-1	3.308000e+24
+ 6.000000e-1	2.861700e+24
+ 7.000000e-1	2.548600e+24
+ 8.000000e-1	2.300000e+24
+ 1.000000e+0	1.935000e+24
+ 1.200000e+0	1.683300e+24
+ 1.400000e+0	1.500000e+24
+ 1.700000e+0	1.294100e+24
+ 2.000000e+0	1.150000e+24
+ 2.500000e+0	9.840000e+23
+ 3.000000e+0	8.766700e+23
+-----------------------------
+
+SPECIES: e / Kr
+PROCESS: Mobility x gas density (&mu;N)
+COMMENT: kucukarpaci et al 1981.
+UPDATED: 2012-08-06 16:27:50
+COLUMNS: Reduced electric field (Td) | Mobility x gas density ((m.V.s)-1)
+-----------------------------
+ 1.388400e+1	1.972000e+24
+ 2.738100e+1	1.104400e+24
+ 5.646700e+1	8.429800e+23
+ 1.371900e+2	7.555600e+23
+ 1.983600e+2	7.374000e+23
+ 2.766600e+2	7.325900e+23
+ 4.121200e+2	7.293300e+23
+ 5.496900e+2	7.415600e+23
+ 6.864800e+2	7.449800e+23
+ 8.198400e+2	7.596500e+23
+-----------------------------
+
+SPECIES: e / Kr
+PROCESS: Mobility x gas density (&mu;N)
+COMMENT: Nakamura 1990.
+UPDATED: 2012-08-06 16:28:50
+COLUMNS: Reduced electric field (Td) | Mobility x gas density ((m.V.s)-1)
+-----------------------------
+ 2.980100e-1	5.230000e+24
+ 3.452300e-1	4.480000e+24
+ 3.999300e-1	3.940000e+24
+ 4.970200e-1	3.310000e+24
+ 5.979100e-1	2.830000e+24
+ 6.926500e-1	2.540000e+24
+ 7.971800e-1	2.270000e+24
+ 9.971900e-1	1.890000e+24
+ 1.191800e+0	1.660000e+24
+ 1.391500e+0	1.450000e+24
+ 1.676100e+0	1.260000e+24
+ 1.956900e+0	1.130000e+24
+ 2.447900e+0	9.760000e+23
+ 2.971800e+0	8.440000e+23
+ 3.496800e+0	8.110000e+23
+ 3.988000e+0	7.980000e+23
+ 4.082600e+0	8.010000e+23
+ 4.917700e+0	8.110000e+23
+ 5.970100e+0	8.480000e+23
+ 7.024800e+0	8.430000e+23
+ 8.011700e+0	8.580000e+23
+ 8.265900e+0	8.670000e+23
+ 1.002200e+1	8.650000e+23
+ 1.207200e+1	8.750000e+23
+ 1.398500e+1	8.600000e+23
+ 1.738000e+1	8.380000e+23
+ 2.013300e+1	8.290000e+23
+ 2.541500e+1	7.990000e+23
+ 3.081400e+1	7.930000e+23
+ 3.654200e+1	7.610000e+23
+ 4.167600e+1	7.240000e+23
+ 5.302200e+1	7.080000e+23
+-----------------------------
+
+SPECIES: e / Kr
+PROCESS: Mobility x gas density (&mu;N)
+PARAM.:  Tgas = 195 K
+COMMENT: Pack et al 1992.
+UPDATED: 2013-09-26 15:08:28
+COLUMNS: Reduced electric field (Td) | Mobility x gas density ((m.V.s)-1)
+-----------------------------
+ 1.500000e-3	1.166670e+25
+ 3.100000e-3	1.261290e+25
+ 4.600000e-3	1.163040e+25
+ 9.300000e-3	1.172040e+25
+ 1.240000e-2	1.298390e+25
+ 1.860000e-2	2.161290e+25
+ 2.480000e-2	3.153230e+25
+ 3.080000e-2	3.233770e+25
+ 4.660000e-2	2.512880e+25
+ 8.940000e-2	1.427290e+25
+-----------------------------
+
+SPECIES: e / Kr
+PROCESS: Mobility x gas density (&mu;N)
+PARAM.:  Tgas = 300 K
+COMMENT: Pack et al 1992.
+UPDATED: 2013-09-26 15:08:18
+COLUMNS: Reduced electric field (Td) | Mobility x gas density ((m.V.s)-1)
+-----------------------------
+ 8.000000e-4	1.362500e+25
+ 9.000000e-4	1.388890e+25
+ 1.200000e-3	1.266670e+25
+ 1.600000e-3	1.268750e+25
+ 1.900000e-3	1.242110e+25
+ 3.100000e-3	1.322580e+25
+ 4.700000e-3	1.272340e+25
+ 6.200000e-3	1.351610e+25
+ 7.700000e-3	1.376620e+25
+ 9.300000e-3	1.473120e+25
+ 1.260000e-2	1.714290e+25
+ 1.240000e-2	1.766130e+25
+ 1.660000e-2	1.915660e+25
+ 1.730000e-2	2.445090e+25
+ 1.830000e-2	2.322400e+25
+ 1.860000e-2	2.784950e+25
+ 2.190000e-2	2.936070e+25
+ 2.500000e-2	3.504000e+25
+ 2.490000e-2	3.457830e+25
+ 2.820000e-2	3.159570e+25
+ 3.100000e-2	3.277420e+25
+ 3.110000e-2	3.299040e+25
+ 4.670000e-2	2.548180e+25
+ 7.760000e-2	1.615980e+25
+ 1.563000e-1	8.669230e+24
+ 2.833000e-1	5.552420e+24
+ 3.106000e-1	5.112690e+24
+ 3.106000e-1	4.925950e+24
+ 6.224000e-1	2.814910e+24
+ 9.089000e-1	2.086040e+24
+ 9.390000e-1	2.080940e+24
+ 1.553300e+0	1.406680e+24
+ 1.851400e+0	1.338450e+24
+ 2.487800e+0	9.960610e+23
+ 3.136600e+0	1.044760e+24
+ 3.751400e+0	1.058010e+24
+ 9.316800e+0	9.087880e+23
+ 9.362300e+0	1.179520e+24
+ 1.190300e+1	1.053770e+24
+ 1.270600e+1	9.995280e+23
+ 1.671600e+1	1.125570e+24
+ 1.874400e+1	1.322020e+24
+-----------------------------
+
+************************************************************************************************************************
+
+COMMENT: Al-Amin, S. A., Lucas, J., J. Phys. D, 20, 1590, (1987);
+         Bhattacharya, A. K., J. Appl. Phys, 50, 6207, 1979;
+         Bowe, J. C., Physical Review, 117, 1411 (1960);
+         DallArmi, G., Brown, K. L., Purdie, P. H. and Fletcher, J., Aust. J. Phys., 45, 185 (1992);
+         English, W. N. and Hanna, G. C., Can. J. Phys., 31, 768, 1953; 
+         Hunter, S. R., Carter, J. G., Christophorou, L. G., Physical Review A, 38, 11 (1988)(from Table);
+         Jacques, L., Bruynooghe, W., Boucique, R., Wieme, W., J. Phys. D., 19, 1731, (1986)(From Table) ;
+         Koizumi, T., Shirakawa, E., Ogawa, I., J. Phys. B: At. Mol. Phys. 19, 2331 (1986);
+         Kucukarpaci, H. N., Lucas, J., J. Phy. D., 14, 2001(1981);
+         Pack, J. L., Voshall, R. E., Phelps, A. V., Kline, L. E., J. App. Phys., 71, 5363, (1992) ( from table) ;
+         Specht, L. T., Lawton, S. A., DeTemple, T. A., J. Appl. Phys., 51, 1,1980;
+         Y. Nakamura, “Electron Swarm Parameters in Krypton and its Momentum Transfer Cross Sections, in Nonequilibrium effects
+         in ion and electron transport”, ed. J.W. Gallagher, D.F. Hudson, E.E. Kunhardt and RJ Van Brunt, Plenum Press, NY,
+         1990;.
+
+SPECIES: e / Kr
+PROCESS: Mobility x gas density (&mu;N)
+COMMENT: DallArmi et al 1992.
+UPDATED: 2012-08-06 16:26:45
+COLUMNS: Reduced electric field (Td) | Mobility x gas density ((m.V.s)-1)
+-----------------------------
+ 1.016100e+1	1.094200e+24
+ 1.519700e+1	1.121000e+24
+ 2.005800e+1	1.005100e+24
+ 2.518200e+1	9.444800e+23
+ 3.021900e+1	8.772100e+23
+ 3.527000e+1	8.656700e+23
+ 4.030700e+1	8.271500e+23
+ 4.534300e+1	8.206600e+23
+ 5.011700e+1	7.849800e+23
+ 5.506600e+1	7.608900e+23
+ 6.011700e+1	7.174300e+23
+ 6.506600e+1	6.945300e+23
+ 7.010200e+1	6.927600e+23
+ 7.505100e+1	6.898300e+23
+ 8.008800e+1	6.773500e+23
+-----------------------------
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx

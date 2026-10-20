@@ -1,0 +1,436 @@
+% LIGHT system map for v0_1: energy flow through the Kr/F2 kinetics with
+% the charge chemistry and fluorine recombination in the basic network.
+% Every number comes from system_map_v0_1_numbers.tex, which
+% make_system_map_v0_1.py writes from the model. Build from LIGHT/docs:
+%   python3 make_system_map_v0_1.py && latexmk -pdf system_map_v0_1.tex
+% The layout, palette and rules are the basic map's (system_map_basic.tex).
+\documentclass[11pt]{article}
+\usepackage[a4paper,landscape,margin=0.9cm,top=0.7cm,bottom=0.6cm]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[scaled=0.95]{helvet}
+\renewcommand{\familydefault}{\sfdefault}
+\usepackage{amsmath}
+\usepackage{sansmath}
+\usepackage{booktabs,tabularx,array}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,calc,positioning}
+\pagestyle{empty}
+\setlength{\parindent}{0pt}
+
+\input{system_map_v0_1_numbers}
+\makeatletter
+\newcommand\vm[1]{\ifcsname vm@#1\endcsname\csname vm@#1\endcsname
+  \else\vm@missing{#1}\fi}
+\newcommand\vm@missing[1]{\errmessage{system_map_v0_1_numbers.tex has no
+  number '#1'. Rerun make_system_map_v0_1.py}}
+\makeatother
+
+% the basic map's palette (checked with the dataviz validator, all pairs,
+% white surface). Ions and F atoms are neutral greys (stored energy).
+\definecolor{cE}{HTML}{2A78D6}   % electron gas
+\definecolor{cX}{HTML}{EDA100}   % Kr* excitation
+\definecolor{cB}{HTML}{1BAF7A}   % KrF(B), 248 and 272 nm
+\definecolor{cC}{HTML}{008300}   % KrF(C) and the C-A band
+\definecolor{cT}{HTML}{4A3AA7}   % Kr2F* and 420 nm
+\definecolor{cH}{HTML}{E34948}   % heat
+\definecolor{cI}{HTML}{52514E}   % ions (stored)
+\definecolor{cF}{HTML}{A8A69E}   % F atoms (stored)
+\definecolor{ink}{HTML}{0B0B0B}
+\definecolor{ink2}{HTML}{52514E}
+\definecolor{muted}{HTML}{898781}
+
+% chemistry and units in running text or math
+\newcommand{\unit}[1]{\ensuremath{\,\mathrm{#1}}}
+\newcommand{\el}{\ensuremath{\mathrm{e}^-}}
+\newcommand{\Krs}{Kr\ensuremath{^*}}
+\newcommand{\Krp}{Kr\ensuremath{^+}}
+\newcommand{\Krtp}{Kr\ensuremath{_2^+}}
+\newcommand{\Fm}{F\ensuremath{^-}}
+\newcommand{\KtF}{Kr\ensuremath{_2}F\ensuremath{^*}}
+\newcommand{\Ft}{F\ensuremath{_2}}
+\newcommand{\ra}{\ensuremath{\to}\ }
+\newcommand{\hnu}{\ensuremath{h\nu}}
+\newcommand{\Edep}{\ensuremath{E_\mathrm{dep}}}
+\newcommand{\pc}[1]{\vm{#1}\,\%}
+\newcommand{\cm}[1]{\ensuremath{\,\mathrm{cm^{#1}s^{-1}}}}
+
+\tikzset{
+  band/.style={line width={max(0.6pt,(#1)*0.03mm)},
+    -{Triangle[width=2.2pt 1.8,length=2pt 1.0]}},
+  casing/.style={line width={max(0.6pt,(#1)*0.03mm)+2.4pt}, white},
+  thin arrow/.style={line width=0.6pt,
+    -{Triangle[width=2.2pt 1.8,length=2pt 1.0]}},
+  blab/.style={font=\scriptsize, text=ink, inner sep=0.8pt, fill=white,
+    fill opacity=0.85, text opacity=1},
+  nohyph/.style={execute at begin node={\hyphenpenalty=10000
+    \exhyphenpenalty=10000}},
+  proc/.style={nohyph, draw=ink2!55, fill=white, rounded corners=2pt,
+    text width=2.6cm, align=left, font=\scriptsize, inner sep=3pt,
+    text=ink},
+  spec/.style={nohyph, draw=#1, fill=#1!12, rounded corners=5pt,
+    align=center, font=\scriptsize, text=ink, inner sep=3pt,
+    text width=2.05cm, line width=0.8pt},
+  inbox/.style={nohyph, draw=ink2!55, fill=white, rounded corners=2pt,
+    text width=2.5cm, align=left, font=\scriptsize, inner sep=4pt,
+    text=ink},
+  tag/.style={draw=#1, fill=#1!14, rounded corners=1.5pt,
+    font=\tiny, text=ink, inner sep=1.6pt},
+  hdr/.style={font=\footnotesize\bfseries, text=ink2},
+  note/.style={nohyph, font=\tiny, text=ink2},
+}
+
+\begin{document}
+\sansmath
+
+{\large\bfseries LIGHT system map, v0\_1: energy flow through the
+Kr/F$_2$ kinetics}\par
+\vspace{2pt}
+{\footnotesize Reference point: \vm{p}\unit{atm} of Kr with \pc{xF2} F$_2$
+at \vm{Tg0}\unit{K}, $P=\vm{P}\unit{kW\,cm^{-3}}$ for \vm{pulse}\unit{\mu s}
+so that $\Edep=\vm{Edep}\unit{J\,cm^{-3}}$, $n_e$ seeded at
+$\vm{ne}\unit{cm^{-3}}$ and then free, run to \vm{tend}\unit{\mu s}. Band
+width is proportional to the energy flow. Numbers are percent of \Edep,
+rounded to 0.1.}\par
+\vspace{2pt}
+
+\begin{tikzpicture}[x=1cm,y=1cm]
+% ================================================================ frames
+\node[hdr] at (1.4,15.7) {INPUT};
+\node[hdr] at (26.3,15.7) {OUTPUT at $t=\vm{tend}\unit{\mu s}$};
+\node[note] at (26.3,15.32) {percent of \Edep, sums to 100};
+\draw[draw=ink2!35, fill=black!2.5, rounded corners=6pt]
+  (3.1,0.25) rectangle (24.25,15.45);
+\node[hdr, anchor=west] at (3.3,15.08)
+  {UNIFORM INITIAL GAS\quad 0-D, constant volume};
+
+% ================================================================ inputs
+\node[inbox, line width=0.9pt, draw=cE] (pow) at (1.4,12.5) {%
+  \textbf{Power in}\\
+  $P=\vm{P}\unit{kW\,cm^{-3}}$\\ for \vm{pulse}\unit{\mu s}, uniform,\\
+  into the electrons\\
+  $\Edep=\vm{Edep}\unit{J\,cm^{-3}}$\\
+  \textcolor{ink2}{the only input}};
+\node[inbox] (seed) at (1.4,8.6) {%
+  \textbf{$n_e$ seed}\\
+  $\vm{ne}\unit{cm^{-3}}$ of \el{} and \Krp{} at $t=0$, then free\\
+  $\vm{neF2}$ while \Ft{} lasts, $\vm{nePeak}$ at the peak};
+\node[inbox] (fill) at (1.4,4.4) {%
+  \textbf{Initial gas fill}\\
+  Kr $+$ \pc{xF2} F$_2$\\ \vm{p}\unit{atm}, \vm{Tg0}\unit{K}\\
+  \mbox{$N=\vm{N}\unit{cm^{-3}}$}\\
+  \textcolor{ink2}{range 0.1 to 2\unit{atm}}};
+
+% ================================================================ electron gas
+\node[draw=cE, fill=cE!10, rounded corners=5pt, line width=0.9pt,
+  minimum width=1.6cm, minimum height=11.1cm, anchor=north]
+  (eg) at (4.0,14.6) {};
+\node[align=center, font=\scriptsize, text=ink, text width=1.5cm,
+  anchor=north] at ([yshift=-4pt]eg.north) {\textbf{electron}\\
+  \textbf{gas}\\[4pt] Maxwellian\\ bulk\\ $T_e$ \vm{Te}\unit{eV}\\
+  \textcolor{ink2}{pulse mean}\\[6pt] tail above\\ 9.915\unit{eV}\\
+  $T_t$ \vm{TtMid}\unit{eV}\\ \textcolor{ink2}{mid-pulse}\\[6pt]
+  $U_e=\tfrac32 n_e T_e$};
+\node[align=center, note, text width=1.3cm, anchor=south]
+  at ([yshift=3pt]eg.south) {in: power \vm{e.P}\\ and Penning
+  \vm{e.pen}\\[3pt] captured \el{}\\ \vm{e.cap} to heat};
+
+% ================================================================ e-impact rows
+\node[note, anchor=south west, text width=5.3cm, align=left]
+  at (5.45,14.05) {$Q=k\,n_e[\mathrm{Kr}]$, $k=\langle\sigma v\rangle$ over
+  the two-temperature EEDF, Biagi v7.1 and SIGLO cross sections};
+\node[proc, text width=2.4cm] (G1) at (6.75,13.3) {%
+  \textbf{G1}\quad \el{} + Kr\\ \ra \el{} + \Krs(5s)\\
+  \textcolor{ink2}{threshold 9.915\unit{eV}}};
+\node[proc, text width=2.4cm] (C1) at (6.75,11.05) {%
+  \textbf{C1}\quad \el{} + Kr\\ \ra Kr(5p, 4d, \dots)\\
+  \textcolor{ink2}{cascades to \Krs(5s)}};
+\node[proc, text width=2.4cm] (F2e) at (6.75,7.2) {%
+  \textbf{ATT, DIS, VIB}\\ \el{} + \Ft{} \ra F + \Fm\\
+  or 2F, or \Ft($v$)\\
+  \textcolor{ink2}{\Fm{} holds $\vm{F2e.anion}$}};
+\node[proc, text width=2.4cm] (C2) at (6.75,5.45) {%
+  \textbf{C2}\quad \el{} + Kr\\ \ra \Krp{} + 2\el\\
+  \textcolor{ink2}{threshold 13.996\unit{eV}}};
+\node[proc, text width=2.4cm] (G6) at (6.75,4.1) {%
+  \textbf{G6}\quad elastic\\ \el{} + Kr\\
+  \textcolor{ink2}{$(2m/M)(1-T_g/T_e)$}};
+
+% ================================================================ Kr*, R11p
+\node[spec=cX] (KS) at (9.75,12.2) {%
+  \textbf{\Krs(5s)}\\ formed\\ $\vm{krsFormed}\unit{cm^{-3}}$};
+\node[proc, text width=2.4cm] (R11) at (9.75,6.75) {%
+  \textbf{R11p}\quad \Krtp{} + \el\\ \ra \Krs{} + Kr\\
+  \textcolor{ink2}{$\vm{k.R11p}\cm{3}$}\\
+  \textcolor{ink2}{$\times\,(300\,\mathrm{K}/T_e)^{\vm{pow.R11p}}$}};
+
+% ================================================================ harpoon, G2, ions
+\node[proc] (H) at (12.9,13.1) {%
+  \textbf{G3, G3C, G3X}\\ \Krs{} + \Ft\\
+  \textcolor{ink2}{$\vm{k.harp}\cm{3}$}\\
+  \ra KrF(B) + F, \pc{pc.harpB}\\
+  \ra KrF(C) + F, \pc{pc.harpC}\\
+  \ra Kr + 2F, \pc{pc.harpX}\\
+  takes \pc{brs.harp} of \Krs};
+\node[proc] (G2) at (12.9,9.85) {%
+  \textbf{G2}\quad \Krs{} + \Krs\\ \ra \Krp{} + Kr + \el\\
+  \textcolor{ink2}{$\vm{k.G2}\cm{3}$, 5.83\unit{eV} to \el}\\
+  takes \pc{brs.G2} of \Krs};
+\node[spec=cI] (KI) at (12.9,5.45) {%
+  \textbf{\Krp{}, \Krtp{} ions}\\ {\tiny K15: \Krp{} + 2Kr \ra \Krtp{} +
+  Kr}\\ {\tiny $\vm{k.K15}\cm{6}$}};
+
+% ================================================================ KrF(B), KrF(C), ion-ion
+\node[spec=cB] (KB) at (16.05,13.45) {%
+  \textbf{KrF(B)}\\ upper laser\\ state};
+\node[spec=cC] (KC) at (16.05,9.75) {%
+  \textbf{KrF(C)}\\ \vm{gapBC}\unit{cm^{-1}}\\ below B};
+\node[proc, text width=2.3cm] (II) at (16.05,5.45) {%
+  \textbf{K26, K108}\quad \Krp{} or\\ \Krtp{} + \Fm{} \ra KrF(B)\\
+  \textcolor{ink2}{\Fm{} brings $\vm{ii.anion}$}\\
+  \textcolor{ink2}{$\times\,(T_g/300)^{\vm{n3.ii}}$, 3-body part}};
+
+% ================================================================ B and C fates
+\node[proc] (G4) at (19.2,14.6) {%
+  \textbf{G4, G4A}\quad KrF(B)\\ \ra Kr + F + \hnu, 248\unit{nm}\\
+  \textcolor{ink2}{B-A 272\unit{nm} at \pc{pc.BA}}\\
+  \textcolor{ink2}{$\tau_B=\vm{tauB}\unit{ns}$}};
+\node[proc] (QB) at (19.2,12.62) {%
+  \textbf{QE, QF2, QKR}\\ quench KrF(B) by\\
+  \el\,\vm{B.QE}, \Ft\,\vm{B.QF2}, Kr\,\vm{B.QKR}};
+\node[proc] (TR) at (19.2,11.08) {%
+  \textbf{G5, G5C}\quad KrF(B, C)\\ + 2Kr \ra \KtF{} + Kr\\
+  \textcolor{ink2}{$\times\,(T_g/300)^{\vm{tpow.G5}}$}};
+\node[proc] (QC) at (19.2,9.6) {%
+  \textbf{QEC, QF2C, QKRC}\\ quench KrF(C) by\\
+  \el\,\vm{C.QE}, \Ft\,\vm{C.QF2}, Kr\,\vm{C.QKR}};
+\node[proc] (G4C) at (19.2,7.95) {%
+  \textbf{G4C}\quad KrF(C)\\ \ra Kr + F + \hnu\\
+  \textcolor{ink2}{275\unit{nm}, $\tau_C=\vm{tauC}\unit{ns}$}};
+\node[proc, text width=2.45cm] (FF) at (19.35,5.45) {%
+  \textbf{FF}\quad F + F + Kr\\ \ra \Ft{} + Kr\\
+  \textcolor{ink2}{$\vm{k.FF}\cm{6}$}\\
+  takes \vm{FF.in} of the F atoms};
+
+% ================================================================ Kr2F*
+\node[proc] (C3) at (22.7,12.85) {%
+  \textbf{C3}\quad \KtF\\ \ra 2Kr + F + \hnu\\
+  \textcolor{ink2}{420\unit{nm}, $\tau=\vm{tauC3}\unit{ns}$}\\
+  \pc{brk.C3} of \KtF};
+\node[spec=cT] (K2) at (22.7,11.08) {%
+  \textbf{\KtF}\\ {\unsansmath$4^2\Gamma$} trimer\\
+  $\vm{k2fFormed}\unit{cm^{-3}}$};
+\node[proc] (Q2) at (22.7,9.4) {%
+  \textbf{Q2F}\quad \KtF{} + \Ft\\
+  \textcolor{ink2}{$\vm{k.Q2F}\cm{3}$}\\
+  \pc{brk.Q2F} of \KtF};
+
+% ================================================================ bands
+% inputs into the gas
+\draw[band=\vm{e.P}, cE] (pow.east) -- (pow.east -| eg.west)
+  node[blab, midway, above=2.2pt] {\vm{e.P}};
+\draw[thin arrow, ink2] (seed.east) -- (seed.east -| eg.west)
+  node[blab, midway, above=1pt, font=\tiny] {seeds $n_e$};
+\draw[thin arrow, ink2] (fill.east) -- (fill.east -| 3.1,0)
+  node[blab, midway, above=1pt, font=\tiny] {fills};
+% electron gas out to the electron-impact rows
+\foreach \n/\k in {G1/e.G1, C1/e.C1, F2e/e.F2, C2/e.C2, G6/e.G6}{
+  \draw[band=\vm{\k}, cE] (\n.west -| eg.east) -- (\n.west)
+    node[blab, midway, above=1.5pt] {\vm{\k}};
+}
+% into Kr*
+\draw[band=\vm{e.G1}, cX] (G1.east) -- (KS.north west)
+  node[blab, midway, above right=0pt and 0pt] {\vm{e.G1}};
+\draw[band=\vm{C1.kr}, cX] (C1.east) -- (KS.south west)
+  node[blab, midway, below right=0pt and 0pt] {\vm{C1.kr}};
+% out of Kr*
+\draw[band=\vm{krs.harp}, cX] (KS.north east) -- (H.west |- KS.north east)
+  node[blab, midway, above=2pt] {\vm{krs.harp}};
+\draw[band=\vm{krs.G2}, cX] (KS.south east) -- (G2.west)
+  node[blab, midway, below left=0pt and 0pt] {\vm{krs.G2}};
+% the harpoon into KrF(B) and KrF(C)
+\draw[band=\vm{harp.B}, cB] (H.east |- KB.west) -- (KB.west)
+  node[blab, midway, above=2pt] {\vm{harp.B}};
+\draw[band=\vm{harp.C}, cC] (H.south east) -- (KC.north west)
+  node[blab, pos=0.5, left=2pt] {\vm{harp.C}};
+% Penning back to the electrons, drawn under the recombination band
+\draw[band=\vm{e.pen}, cE, rounded corners=5pt]
+  (G2.south west) -- (G2.south west |- 0,8.55) -- (eg.east |- 0,8.55)
+  node[blab, pos=0.74, below=2pt] {Penning returns \vm{e.pen} to the
+  electrons};
+% ionization into the ions
+\draw[band=\vm{G2.ion}, cI] (G2.south) -- (KI.north)
+  node[blab, pos=0.5, right=3pt] {\vm{G2.ion}};
+\draw[band=\vm{C2.ion}, cI] (C2.east) -- (KI.west)
+  node[blab, pos=0.5, below=1.5pt] {\vm{C2.ion}};
+% recombination: the ions to R11p and R11p back to Kr*, over the Penning
+% band
+\draw[band=\vm{R11p.in}, cI] (KI.north west) -- (R11.east)
+  node[blab, pos=0.5, right=2pt] {\vm{R11p.in}};
+\draw[casing=\vm{R11p.kr}] (R11.north) -- (KS.south);
+\draw[band=\vm{R11p.kr}, cX] (R11.north) -- (KS.south)
+  node[blab, pos=0.62, right=3pt] {\vm{R11p.kr}};
+% the ions to ion-ion recombination, and its KrF(B) up to the B state
+\draw[band=\vm{ii.in}, cI] (KI.east) -- (II.west)
+  node[blab, midway, above=1.5pt] {\vm{ii.in}};
+\draw[casing=\vm{ii.B}, rounded corners=4pt]
+  ([xshift=4pt]II.north west) |- ([yshift=-7pt]KB.west);
+\draw[band=\vm{ii.B}, cB, rounded corners=4pt]
+  ([xshift=4pt]II.north west) |- ([yshift=-7pt]KB.west)
+  node[blab, pos=0.3, left=2pt] {\vm{ii.B}};
+% B-C mixing, drawn as its net flow
+\draw[band=\vm{mix.net}, cC] (KC.north) -- (KB.south);
+\node[note, anchor=west, align=left, text width=1.1cm]
+  at (16.15,11.3) {\textbf{BC, CB}\\ mixing by\\ Kr, net\\ C \ra B
+  \textcolor{ink}{\vm{mix.net}}};
+% out of KrF(B)
+\draw[band=\vm{B.G4}, cB] (KB.north east) -- (G4.west)
+  node[blab, midway, above left=0pt and 0pt] {\vm{B.G4}};
+\draw[band=\vm{B.Q}, cB] (KB.east) -- (QB.west)
+  node[blab, pos=0.5, above=1pt] {\vm{B.Q}};
+\draw[band=\vm{B.G5}, cB] (KB.south east) -- ([yshift=5pt]TR.west)
+  node[blab, pos=0.42, left=1pt] {\vm{B.G5}};
+% out of KrF(C)
+\draw[band=\vm{C.G5C}, cC] (KC.north east) -- ([yshift=-5pt]TR.west)
+  node[blab, pos=0.42, below right=0pt and 0pt] {\vm{C.G5C}};
+\draw[band=\vm{C.Q}, cC] (KC.east) -- (QC.west)
+  node[blab, pos=0.4, below=1pt] {\vm{C.Q}};
+\draw[band=\vm{C.G4C}, cC] (KC.south east) -- (G4C.west)
+  node[blab, midway, below left=0pt and 0pt] {\vm{C.G4C}};
+% trimer and Kr2F*
+\draw[band=\vm{tri.k2f}, cT] (TR.east) -- (K2.west)
+  node[blab, midway, above=2pt] {\vm{tri.k2f}};
+\draw[band=\vm{k2f.C3}, cT] (K2.north) -- (C3.south)
+  node[blab, midway, right=3pt] {\vm{k2f.C3}};
+\draw[band=\vm{k2f.Q2F}, cT] (K2.south) -- (Q2.north)
+  node[blab, midway, left=3pt] {\vm{k2f.Q2F}};
+% light to the outputs
+\draw[band=\vm{G4.hv}, cB] ([yshift=2pt]G4.east) -- ([yshift=2pt]G4.east -| 24.7,0)
+  node[blab, pos=0.75, above=2pt] {\vm{G4.hv}};
+\draw[band=\vm{G4A.hv}, cB, rounded corners=3pt]
+  ([yshift=-5pt]G4.east) -- ++(1.2,0) |- (24.7,13.72)
+  node[blab, pos=0.85, below=1pt] {\vm{G4A.hv}};
+\draw[band=\vm{C3.hv}, cT] (C3.east) -- (C3.east -| 24.7,0)
+  node[blab, midway, above=1.5pt] {\vm{C3.hv}};
+\draw[band=\vm{G4C.hv}, cC] (G4C.east) -- (G4C.east -| 24.7,0)
+  node[blab, pos=0.75, above=1.5pt] {\vm{G4C.hv}};
+
+% ================================================================ loss tags
+\node[tag=cH, anchor=north east] at ([yshift=-2pt]C1.south east)
+  {heat \vm{C1.heat}};
+\node[tag=cF, anchor=north west] at ([yshift=-2pt]F2e.south west)
+  {F atoms \vm{F2e.F}};
+\node[tag=cH, anchor=north east] at ([yshift=-2pt]F2e.south east)
+  {heat \vm{F2e.heat}};
+\node[tag=cH, anchor=north east] at ([yshift=-2pt]G6.south east)
+  {heat \vm{e.G6}, elastic};
+\node[tag=cH, anchor=north east] at ([yshift=-2pt]R11.south east)
+  {heat \vm{R11p.heat}};
+\node[tag=cH, anchor=north east] at ([yshift=-2pt]KI.south east)
+  {heat \vm{K15.heat}, K15};
+\node[tag=cH, anchor=north east] at ([yshift=-2pt]II.south east)
+  {heat \vm{ii.heat}};
+\node[tag=cH, anchor=north east] at ([yshift=-2pt]FF.south east)
+  {heat \vm{FF.heat}};
+\node[tag=cF, anchor=north west] at ([yshift=-2pt]H.south west)
+  {F atoms \vm{harp.F}};
+\node[tag=cH, anchor=north east] at ([yshift=-2pt]H.south east)
+  {heat \vm{harp.heat}};
+\foreach \n/\f/\h in {G4/G4x.F/G4x.heat, QB/QB.F/QB.heat, QC/QC.F/QC.heat,
+    G4C/G4C.F/G4C.heat, C3/C3.F/C3.heat, Q2/Q2F.F/Q2F.heat}{
+  \node[tag=cF, anchor=north west] at ([yshift=-2pt]\n.south west)
+    {F atoms \vm{\f}};
+  \node[tag=cH, anchor=north east] at ([yshift=-2pt]\n.south east)
+    {heat \vm{\h}};
+}
+\node[tag=cH, anchor=north east] at ([yshift=-2pt]TR.south east)
+  {heat \vm{tri.heat}};
+
+% ================================================================ groups
+\node[draw=ink2!60, dashed, rounded corners=3pt, fill=white,
+  align=left, font=\scriptsize, text=ink, anchor=south west,
+  text width=9.3cm, inner sep=5pt] at (5.45,0.45) {%
+  \textbf{Kr/F$_2$ channels not in the basic network.} The 248-nm share
+  of \Edep{} with one optional group switched on.\\[3pt]
+  \begin{tabular}{@{}l@{\hspace{3pt}}r@{\hspace{14pt}}l@{\hspace{3pt}}r
+    @{\hspace{14pt}}l@{\hspace{3pt}}r@{}}
+  basic as built & \pc{om.basic} & \Krs{} + 2Kr \ra Kr$_2^*$ & \pc{om.kr2}
+    & \el{} on \Krs & \pc{om.electron}\\
+  \textbf{all groups on} & \textbf{\pc{om.all}} & Kr$_2^*$ without
+    Kr$_2^*$ + F & \pc{om.kr2noF} & & \\
+  \end{tabular}\\[3pt]
+  The notes' six reactions as written give \pc{om.v0}. With the pure-Kr
+  $T_g^{-1/2}$ law for the trimer the basic network gives \pc{om.trimer}.};
+
+% ================================================================ legend
+\begin{scope}[shift={(15.55,0.5)}, font=\scriptsize, text=ink]
+  \node[anchor=west, font=\scriptsize\bfseries, text=ink2] at (0,3.3)
+    {Band color is where the energy sits};
+  \foreach \c/\t [count=\i] in {cE/electron gas, cX/\Krs{} excitation,
+      cB/{KrF(B), 248 and 272\unit{nm}}, cC/KrF(C) and C-A light,
+      cT/\KtF{} and 420-nm light, cI/\Krp{} and \Krtp{} ions}{
+    \draw[\c, line width=1.3mm] (0,3.3-0.47*\i) -- ++(0.55,0);
+    \node[anchor=west] at (0.62,3.3-0.47*\i) {\t};
+  }
+  \node[tag=cH, anchor=west] at (4.45,2.83) {heat};
+  \node[anchor=west] at (5.15,2.83) {turns into heat};
+  \node[tag=cF, anchor=west] at (4.45,2.36) {F atoms};
+  \node[anchor=west] at (5.6,2.36) {left in free F};
+  \draw[ink2, line width={10*0.03mm}] (4.45,1.89) -- ++(0.55,0);
+  \node[anchor=west] at (5.05,1.89) {10\,\% band};
+  \draw[ink2, line width={50*0.03mm}] (4.45,1.42) -- ++(0.55,0);
+  \node[anchor=west] at (5.05,1.42) {50\,\% band};
+  \node[note, anchor=north west, text width=3.5cm, align=left]
+    at (4.4,1.05) {\Fm{} lies \vm{E.anion}\unit{eV} below Kr + \Ft{} on
+    the ledger's scale, so its flows are negative. They are printed and
+    not drawn.};
+\end{scope}
+
+% ================================================================ ledger
+\begin{scope}[font=\scriptsize, text=ink]
+  \newcommand{\ledger}[5]{% y, color, label, key, bar options
+    \node[anchor=south west, inner sep=1pt] at (24.75,#1) {#3};
+    \node[anchor=south east, inner sep=1pt, font=\scriptsize\bfseries]
+      at (27.85,#1) {$\vm{#4}$};
+    \draw[ink2!30] (24.8,#1-0.1) -- (27.8,#1-0.1);
+    \fill[#2, #5] (24.8,#1-0.1) rectangle
+      ++({3.0*max(0,\vm{#4})/100},-0.14);
+  }
+  \ledger{14.6}{cB}{248-nm emission}{out.248}{}
+  \ledger{13.72}{cB}{272-nm emission}{out.272}{}
+  \ledger{12.85}{cT}{420-nm emission}{out.420}{}
+  \ledger{7.95}{cC}{C-A emission}{out.275}{}
+  \ledger{5.45}{cI}{stored in ions}{out.ions}{}
+  \ledger{4.55}{cH}{reaction heat}{out.heat}{}
+  \ledger{3.7}{cH}{elastic losses}{out.elastic}{opacity=0.55}
+  \ledger{2.8}{cF}{stored in F atoms}{out.F}{}
+  \ledger{1.9}{muted}{other stores}{out.other}{}
+  \node[note, anchor=north west, text width=3.1cm, align=left]
+    at (24.75,5.3) {the seed's ions recombine};
+  \node[note, anchor=north west, text width=3.1cm, align=left]
+    at (24.75,1.45) {The heat and F tags inside the gas add up to these
+    totals. Ledger closure is below $10^{-12}$ of \Edep.};
+\end{scope}
+\node[note, anchor=north west, text width=2.95cm, align=left]
+  at (0.05,3.0) {Generated from LIGHT v0\_1 (\vm{version}), basic network,
+  by \texttt{docs/}\allowbreak\texttt{make\_system\_map\_v0\_1.py}. No number on this page
+  is typed by hand. The rates and their sources are in
+  \texttt{accuracy\_overview\_v0\_1.pdf}, Appendix A.};
+\end{tikzpicture}
+
+\vspace{1pt}
+{\footnotesize The notes' outputs as flows, which overlap: to \Krs{}
+\pc{notes.krs}, to \Krp{} \pc{notes.krp}, to KrF(B) and KrF(C)
+\pc{krf.eff}, heat \pc{out.heat}, elastic losses \pc{out.elastic},
+emission \pc{notes.emit}. They pass 100\,\% because recombination hands
+the ions' energy back to \Krs. Of the ions that recombine, \pc{ion.R11p}
+meet an electron and return to \Krs, and \pc{ion.ii} meet \Fm{} and form
+KrF(B). Of the KrF formed, $\vm{krfFormed}\unit{cm^{-3}}$, \pc{frm.ii} came
+from ion-ion recombination. Of it \pc{brf.G4} radiates at 248\unit{nm},
+\pc{brf.G4A} at 272\unit{nm} and \pc{brf.G4C} in the C-A band,
+\pc{brf.tri} forms the trimer, and electrons, F$_2$ and Kr quench
+\pc{brf.e}, \pc{brf.F2} and \pc{brf.Kr}. At the end of the run
+$T_g=\vm{TgEnd}\unit{K}$ and $p=\vm{pEnd}\unit{atm}$, and F$_2$ fell
+below 10\,\% of the fill at \vm{F2burn}\unit{ns}.}\par
+
+\end{document}

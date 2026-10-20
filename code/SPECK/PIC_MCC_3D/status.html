@@ -1,0 +1,990 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>status — PIC_MCC_3D system map</title>
+<style>
+  :root{
+    --bg:#fbfaf7; --panel:#ffffff; --ink:#1c1b19; --dim:#6c6a65; --faint:#9a9791;
+    --line:#e3e0d9; --line2:#efece6;
+    --ok:#2e7d32; --warn:#e65100; --gap:#b71c1c;
+    --ok-bg:rgba(46,125,50,.10); --warn-bg:rgba(230,81,0,.10); --gap-bg:rgba(183,28,28,.10);
+    --accent:#37474f;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --bg:#16171a; --panel:#1d1f23; --ink:#e8e6e1; --dim:#a4a29c; --faint:#77756f;
+      --line:#2e3137; --line2:#26282d;
+      --ok:#6cc070; --warn:#ffa04a; --gap:#ef5f5f;
+      --ok-bg:rgba(108,192,112,.12); --warn-bg:rgba(255,160,74,.12); --gap-bg:rgba(239,95,95,.12);
+      --accent:#b0bec5;
+    }
+  }
+  :root[data-theme="light"]{
+    --bg:#fbfaf7; --panel:#ffffff; --ink:#1c1b19; --dim:#6c6a65; --faint:#9a9791;
+    --line:#e3e0d9; --line2:#efece6;
+    --ok:#2e7d32; --warn:#e65100; --gap:#b71c1c;
+    --ok-bg:rgba(46,125,50,.10); --warn-bg:rgba(230,81,0,.10); --gap-bg:rgba(183,28,28,.10);
+    --accent:#37474f;
+  }
+  :root[data-theme="dark"]{
+    --bg:#16171a; --panel:#1d1f23; --ink:#e8e6e1; --dim:#a4a29c; --faint:#77756f;
+    --line:#2e3137; --line2:#26282d;
+    --ok:#6cc070; --warn:#ffa04a; --gap:#ef5f5f;
+    --ok-bg:rgba(108,192,112,.12); --warn-bg:rgba(255,160,74,.12); --gap-bg:rgba(239,95,95,.12);
+    --accent:#b0bec5;
+  }
+
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:var(--bg); color:var(--ink);
+    font:14px/1.55 ui-sans-serif,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    padding:28px 20px 80px;
+  }
+  .wrap{max-width:1080px;margin:0 auto}
+  code,.mono{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+
+  header h1{font-size:20px;margin:0 0 4px;letter-spacing:-.01em}
+  header h1 .sub{color:var(--dim);font-weight:400}
+  .lede{color:var(--dim);font-size:13px;margin:0 0 18px;max-width:78ch}
+  .lede a{color:inherit}
+
+  /* summary tiles */
+  .tiles{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:18px}
+  .tile{
+    background:var(--panel);border:1px solid var(--line);border-radius:10px;
+    padding:10px 14px;min-width:118px;
+  }
+  .tile .n{font-size:21px;font-weight:600;line-height:1.15}
+  .tile .l{font-size:11px;color:var(--dim);text-transform:uppercase;letter-spacing:.06em}
+  .tile.ok .n{color:var(--ok)} .tile.warn .n{color:var(--warn)} .tile.gap .n{color:var(--gap)}
+
+  /* controls */
+  .bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:14px}
+  button{
+    font:inherit;font-size:12px;color:var(--ink);background:var(--panel);
+    border:1px solid var(--line);border-radius:7px;padding:5px 11px;cursor:pointer;
+  }
+  button:hover{border-color:var(--accent)}
+  button[aria-pressed="true"]{background:var(--accent);color:var(--bg);border-color:var(--accent)}
+  .bar .spacer{flex:1}
+
+  /* tree */
+  .tree{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:6px 4px 10px}
+  ul{list-style:none;margin:0;padding:0}
+  li{position:relative}
+  li ul{margin-left:19px;padding-left:14px;border-left:1px solid var(--line2)}
+
+  .node{
+    display:flex;gap:9px;align-items:flex-start;
+    padding:5px 10px;border-radius:8px;
+  }
+  .node:hover{background:var(--line2)}
+  .twist{
+    flex:none;width:15px;height:20px;border:0;background:none;padding:0;cursor:pointer;
+    color:var(--faint);font-size:10px;line-height:20px;text-align:center;
+  }
+  .twist.leaf{cursor:default;visibility:hidden}
+  li.collapsed > .node .twist{transform:rotate(-90deg)}
+  li.collapsed > ul{display:none}
+
+  .dot{flex:none;width:8px;height:8px;border-radius:50%;margin-top:7px}
+  .dot.ok{background:var(--ok)} .dot.warn{background:var(--warn)} .dot.gap{background:var(--gap)}
+  .dot.group{background:var(--faint)}
+
+  .body{min-width:0;flex:1}
+  .ttl{font-weight:600}
+  .ttl .path{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+    font-weight:500;font-size:12.5px;color:var(--dim)}
+  .note{color:var(--dim);font-size:12.5px;margin-top:1px}
+  .metric{
+    display:inline-block;margin-top:3px;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+    font-size:11.5px;padding:1px 7px;border-radius:5px;border:1px solid var(--line);
+  }
+  .metric.ok{color:var(--ok);background:var(--ok-bg);border-color:transparent}
+  .src{font-size:11px;color:var(--faint);margin-top:2px}
+  .src code{font-size:11px}
+
+  .chips{display:flex;gap:5px;flex:none;align-items:center;padding-top:3px}
+  .chip{font-size:10.5px;padding:1px 7px;border-radius:20px;font-weight:600;letter-spacing:.02em}
+  .chip.ok{color:var(--ok);background:var(--ok-bg)}
+  .chip.warn{color:var(--warn);background:var(--warn-bg)}
+  .chip.gap{color:var(--gap);background:var(--gap-bg)}
+  .tag{
+    flex:none;font-size:10.5px;font-weight:600;color:var(--dim);
+    border:1px solid var(--line);border-radius:5px;padding:1px 6px;margin-top:2px;
+  }
+
+  /* level tints, so depth is readable at a glance */
+  li[data-depth="1"] > .node .ttl{font-size:14.5px;letter-spacing:.04em;text-transform:uppercase}
+  li[data-depth="2"] > .node .ttl{font-size:13.5px}
+
+  .legend{margin-top:16px;font-size:11.5px;color:var(--dim);display:flex;gap:16px;flex-wrap:wrap}
+  .legend span{display:flex;align-items:center;gap:6px}
+  .legend i{width:8px;height:8px;border-radius:50%;display:inline-block}
+
+  /* flow view */
+  .flowwrap{background:var(--panel);border:1px solid var(--line);border-radius:12px;
+    padding:8px;overflow-x:auto}
+  #flow{display:block;min-width:940px;width:100%;height:auto}
+  .fnode rect{stroke-width:1.6}
+  .fnode text{font-size:11px;fill:var(--ink)}
+  .fnode .fpath{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+    font-size:9px;fill:var(--dim)}
+  .fnode{cursor:pointer}
+  .fnode:hover rect{filter:brightness(1.08)}
+  .fedge{cursor:pointer}
+  .fedge path{fill:none;stroke:var(--faint);stroke-width:1.5}
+  .fedge:hover path,.fedge.sel path{stroke:var(--accent);stroke-width:2.6}
+  .fedge.fb path{stroke:var(--accent);stroke-width:2.2;stroke-dasharray:7 5;opacity:.85}
+  .fedge.fb text{fill:var(--accent);font-weight:600}
+  .fedge text{font-size:9.5px;fill:var(--dim);
+    font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+  .fedge:hover text,.fedge.sel text{fill:var(--ink)}
+  .flane{font-size:10px;fill:var(--faint);letter-spacing:.1em;text-transform:uppercase}
+  #flowdetail{margin-top:12px;background:var(--panel);border:1px solid var(--line);
+    border-radius:10px;padding:12px 14px;font-size:12.5px;min-height:74px}
+  #flowdetail h3{margin:0 0 4px;font-size:13px}
+  #flowdetail .k{color:var(--faint);font-size:10.5px;text-transform:uppercase;
+    letter-spacing:.06em;margin-top:7px}
+  #flowdetail code{font-size:11.5px}
+  #flowdetail .sym{color:var(--warn)}
+  footer{margin-top:22px;font-size:11.5px;color:var(--faint);max-width:80ch}
+  .hidden{display:none !important}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>status <span class="sub">— PIC_MCC_3D system map</span></h1>
+  <p class="lede">
+    A self-consistent 3-D electrostatic PIC-MCC. Grouped
+    <strong>inputs → black box → outputs</strong>; every leaf carries a status, its
+    source file, and — where one exists — the measured number that backs it.
+    This is a <em>hand-maintained snapshot</em>, not a live probe: the gate figures
+    below come from the run recorded in <code>CHANGELOG.md</code> on
+    <strong>2026-08-03</strong>. Re-run <code>python3 -m pytest SPECK/PIC_MCC_3D/tests -q</code>
+    before trusting them. The roadmap and the full gap analysis are in
+    <code>../PIC_MCC_3D.txt</code>.
+  </p>
+</header>
+
+<div class="tiles" id="tiles"></div>
+
+<div class="bar">
+  <button id="v-map"  aria-pressed="true">system map</button>
+  <button id="v-flow" aria-pressed="false">data flow</button>
+  <span class="spacer"></span>
+</div>
+
+<div id="view-flow" class="hidden">
+  <p class="lede">
+    Where every number comes from, and what checks it. Click a <strong>box</strong>
+    (a module) or an <strong>arrow</strong> (the data crossing between them) for its
+    payload, the invariant that must hold there, the gate that enforces it, and the
+    symptom you would see if it broke. Read it when a result looks wrong and you need
+    to know which stage to suspect.
+  </p>
+  <div class="flowwrap"><svg id="flow" viewBox="0 0 1000 726" role="img"
+       aria-label="PIC_MCC_3D data-flow diagram"></svg></div>
+  <div id="flowdetail"><em>Select a box or an arrow.</em></div>
+</div>
+
+<div id="view-map">
+<div class="bar">
+  <button id="f-all"  aria-pressed="true">all</button>
+  <button id="f-ok"   aria-pressed="false">working</button>
+  <button id="f-warn" aria-pressed="false">open</button>
+  <button id="f-gap"  aria-pressed="false">missing</button>
+  <span class="spacer"></span>
+  <button id="expand">expand all</button>
+  <button id="collapse">collapse to groups</button>
+  <button id="theme">theme</button>
+</div>
+
+<div class="tree"><ul id="root"></ul></div>
+
+<div class="legend">
+  <span><i style="background:var(--ok)"></i> working / resolved (by-design calls say so in the note)</span>
+  <span><i style="background:var(--warn)"></i> open work remains</span>
+  <span><i style="background:var(--gap)"></i> missing for a self-consistent PIC-MCC</span>
+</div>
+</div>
+
+<footer>
+  Status vocabulary follows <code>GUI_v2.py</code> tab ⑥ (PLAN (53)/(60)): “ok” includes
+  deliberate by-scope calls with the disposition stated; “warn” leads with what is open;
+  “gap” is absent. Milestone tags <span class="mono">M1…M10</span> refer to
+  <code>../PIC_MCC_3D.txt</code> §4. Predictive-only policy (PLAN (26)): analytic
+  solutions and published benchmarks score this code, they never steer it.
+</footer>
+
+</div>
+
+<script>
+/* ---------------------------------------------------------------------------
+   THE MAP.  This is the only block to edit when the code changes.
+   node = { name, path?, status?, note?, src?, metric?, tag?, open?, children? }
+     status : "ok" | "warn" | "gap"   (omit on a group -- it tallies its children)
+     path   : shown in monospace after the name (a module/function)
+     metric : the measured number that backs the status
+     tag    : short milestone/label chip, e.g. "M3"
+     open   : false to start collapsed
+   Sub-groups nest arbitrarily deep: just add another `children` array.
+--------------------------------------------------------------------------- */
+const MAP = {
+  name: "PIC_MCC_3D",
+  note: "Self-consistent 3-D electrostatic PIC-MCC. Missing modules 1–2 landed; 3–9 open.",
+  children: [
+
+  /* ============================ 1st level: INPUTS ======================== */
+  {
+    name: "Inputs",
+    note: "What is handed to the code before a step is taken.",
+    children: [
+      {
+        name: "Configuration & scales",
+        children: [
+          { name:"Physical constants", path:"MODULES/units.py", status:"ok",
+            note:"CODATA 2018, matched to ARPAE/pic3d/units.py so numbers are comparable across the two packages." },
+          { name:"Plasma scales", path:"units.debye_length / plasma_frequency / thermal_speed", status:"ok",
+            note:"The scales every gate is written against. Per-axis thermal speed is the convention used by all loaders." },
+          { name:"Declared runtime parameters", path:"MODULES/params.py", status:"ok",
+            note:"Adapted from projects/MHD (flare/params.py, itself FLASH ch.10). Every knob declared with a doc, type, range and choices; overrides applied in a fixed precedence (default < problem < file < cli < api); every value remembers WHERE IT CAME FROM. An unknown name is an ERROR, not a silent no-op — a typo in an override dict used to be ignored and the run quietly used the default.",
+            metric:"provenance queryable per parameter; [CHANGED] table" },
+          { name:"ES/EM timestep ratio", path:"units.es_over_em_dt_ratio", status:"ok",
+            note:"Recomputes from code why a discharge does not belong on the FDTD path, instead of trusting the plan document.",
+            metric:"124× @4 eV · 248× @1 eV · 601× @0.17 eV" }
+        ]
+      },
+      {
+        name: "Particle loading",
+        children: [
+          { name:"Species record", path:"MODULES/species3d.Species", status:"ok",
+            note:"name, signed charge, mass; q/m drives the movers. Electron and ion constructors, Ar/Kr/He/F masses." },
+          { name:"Maxwellian load", path:"species3d.ParticleSpecies.maxwellian_box", status:"ok",
+            note:"Uniform in space, Maxwellian in velocity.", metric:"recovers T to <2%" },
+          { name:"Quiet start (cold wave)", path:"species3d.ParticleSpecies.cold_wave", status:"ok",
+            note:"Regular lattice + sinusoidal displacement: seeds one clean mode far above the shot-noise floor. Exactly cold, so the oscillation gate has no Bohm–Gross correction to disentangle.",
+            metric:"mode-1 amplitude = A·k/2 to <5%" }
+        ]
+      },
+      {
+        name: "Boundary & drive",
+        children: [
+          { name:"Electrode potentials", path:"es_sim.ESSim(phi_lo, phi_hi)", status:"ok",
+            note:"Fixed-potential planes, scalar, an (nx,ny) profile, or a phi(t) waveform (0.8.4) — an RF drive is now expressible.", metric:"vacuum gap E_z exact to 1e-9 · RF single-electron trajectory on the closed form to <1% of amplitude" },
+          { name:"External circuit", tag:"M4", status:"gap",
+            note:"No series R/L/C, no blocking capacitor, no self-bias. The phi(t) waveform (0.8.4) drives a voltage-source RF gap; a real CCP's circuit is still missing." },
+          { name:"Dielectric surface charge", tag:"M4", status:"gap",
+            note:"Collected charge is tallied but does not accumulate on a surface and feed back into the solve." }
+        ]
+      },
+      {
+        name: "Neutral background",
+        note: "The collision partner. Static, uniform, ideal — stated, not assumed.",
+        children: [
+          { name:"Gas mixture", path:"MODULES/gas.py", status:"ok",
+            note:"Composition, ideal-gas density from (p,T), per-component densities and masses. A dependency the roadmap had folded into “cross sections” and is not — until it existed the package had no gas at all.",
+            metric:"n(1 atm, 273.15 K) = Loschmidt to 1e-12" },
+          { name:"Static-gas assumption", path:"gas.GasMixture.depletion", status:"warn",
+            note:"OPEN by scope: neutrals are not transported, depleted by ionization, or heated. Fine for the ns windows this package can afford; depletion() exists so a caller can MEASURE the drift rather than assume it. The 0-D heating/rarefaction precedent is pic1d/gas_heating.py.",
+            src:"pic1d/README_LIMITS.md 2.7" },
+          { name:"LXCat cross sections", path:"MODULES/cross_sections.py", status:"ok",
+            note:"Adapted from ARPAE/pic3d/cross_sections.py (itself from the tested pic1d loader). Parser, effective→elastic synthesis and log-energy tabulation are deliberately identical so the source's gates still mean something. Data resolved by searching UPWARD for a known tree — counting parent directories broke inside a git worktree.",
+            metric:"nu_m(1 eV, 1 atm Ar) = 2.0e11/s · Ar ionization threshold 15.76 eV" },
+          { name:"Isotropic-on-momentum-transfer scattering", status:"warn",
+            note:"OPEN, inherited: the elastic tables are momentum-transfer data and the MCC scatters isotropically off them. The ×1.6 LoKI-MC agreement shares that basis, so it cannot rule out a common bias. Do not present this as validated against anisotropic data.",
+            src:"pic1d/README_LIMITS.md 2.2" }
+        ]
+      },
+      {
+        name: "Sources",
+        children: [
+          { name:"E-beam injection", path:"MODULES/beam3d.py", status:"ok",
+            note:"Hibachi-style beam: voltage, current density, pulse envelope, foil transmission. The fast primary is NOT a PIC particle — at 600 kV it is relativistic AND far above the cross-section tables, where every sigma reads zero and a macro-particle would collide with nothing and never stop. It is transported as a ray losing energy by stopping power; only its low-energy progeny become particles.",
+            metric:"Bethe/Møller vs NIST ESTAR: within 6% for He/Ar/Kr/F2" },
+          { name:"Secondary-electron spectrum", path:"beam3d.sample_opal_peterson", status:"ok",
+            note:"Opal–Peterson–Beaty (1971) 1/(1+(eps/E_bar)^2), sampled exactly by inverting the arctangent CDF — no rejection loop, no tail bias.",
+            metric:"median matches the analytic CDF to 5%" },
+          { name:"Preionization seed (surface-discharge stand-in)", path:"beam3d.seed_preionization", status:"warn",
+            note:"OPEN BY SCOPE, deliberately: the surface discharge is entered as an INITIAL CONDITION (matched, co-located electron/ion populations at a stated density) and the flashover that produced it is NOT simulated. Doing so needs dielectric surface charging, field/photo-emission and streamer propagation — missing modules 4 and 5 plus physics beyond them. Same call PLAN (67)'s Argon_UI made. The seed density remains an input the caller must justify from hardware.",
+            src:"PLAN (67) Argon_UI; ../PIC_MCC_3D.txt §2.1" }
+        ]
+      }
+    ]
+  },
+
+  /* =========================== 1st level: BLACK BOX ====================== */
+  {
+    name: "Black box",
+    note: "The PIC cycle: deposit → solve → gather → push → move → boundaries.",
+    children: [
+      {
+        name: "Field solve",
+        children: [
+          { name:"Separable Poisson", path:"MODULES/poisson3d.Poisson3D", status:"ok",
+            note:"∇²φ = −ρ/ε₀. A 2-D FFT over the periodic (x,y) plane reduces the 7-point stencil to one tridiagonal system in z per (kx,ky) mode, Thomas-solved vectorised across all modes. O(N log N), numpy only.",
+            metric:"MMS order 1.973 (Dirichlet) / 2.025 (periodic)" },
+          { name:"Boundary modes", path:"poisson3d PERIODIC / PERIODIC_XY_DIRICHLET_Z", status:"ok",
+            note:"Electrodes in z + periodic transverse (the device geometry), or fully periodic (the verification geometry). The periodic solve REFUSES a net charge — the k=0 mode is exactly singular.",
+            metric:"planes honoured to 2e-16" },
+          { name:"Sparse-LU oracle", path:"poisson3d.reference_solve_lu", status:"ok",
+            note:"Assembles the operator explicitly; gates only. Its Dirichlet rows must stay row-equilibrated or the LU loses ~6 digits and reads as the fast solver being wrong (Known-bad).",
+            metric:"agreement 1.2e-15 over 3 decades of h" },
+          { name:"Implicit / screened solve", tag:"M7", status:"gap",
+            note:"div[(1+χ)∇φ] = −ρ/ε₀ has a spatially varying χ, which breaks separability outright. Plan: CG preconditioned BY the solver above — do not extend the FFT path." }
+        ]
+      },
+      {
+        name: "Particle ↔ grid",
+        children: [
+          { name:"Charge deposit (CIC)", path:"MODULES/es_field.deposit_rho", status:"ok",
+            note:"Trilinear, volume-weighted, periodic wrap in x/y. Uses a flat-index bincount — np.add.at ran 20–50× slower (Known-bad).",
+            metric:"charge conserved to 3.2e-18" },
+          { name:"Field gradient", path:"es_field.efield_from_phi", status:"ok",
+            note:"E = −∇φ; centred in periodic directions, one-sided at the electrode planes." },
+          { name:"Field gather", path:"es_field.gather_E", status:"ok",
+            note:"Trilinear — the SAME shape function as the deposit. That pairing is what makes internal forces cancel and the self-force vanish.",
+            metric:"exact on a linear field to 1.3e-15" },
+          { name:"Momentum conservation", status:"ok",
+            note:"Consequence of the shared shape function, measured rather than assumed.",
+            metric:"Σ F = 5.7e-15 of max|F| · self-force 1.4e-16" }
+        ]
+      },
+      {
+        name: "Movers",
+        children: [
+          { name:"Electrostatic leapfrog", path:"MODULES/species3d.push_es", status:"ok",
+            note:"v^{n−1/2} → v^{n+1/2}; positions advanced separately so a future charge-conserving deposit can see both endpoints." },
+          { name:"Boris rotation", path:"species3d.push_boris", status:"ok",
+            note:"E and B, q/m from the species. Note the sign: an electron rotates the positive way, by −2·atan(ω_c dt/2).",
+            metric:"speed 7.8e-16 · angle 1.6e-16" },
+          { name:"Ion subcycling", path:"species3d.ion_subcycle_ratio + ESSim.step", status:"ok",
+            note:"Heavy species advance every k steps with dt·k; k from the mass ratio, CFL-capped. A cost optimisation, gated to be nothing more.",
+            metric:"subcycled ≡ un-subcycled to 1e-9 (v)" },
+          { name:"Implicit / energy-conserving", tag:"M7", status:"gap",
+            note:"Explicit only today, so dx < λ_D and ω_pe·dt < 2 are HARD requirements. The 1-D EC mover cuts closed-box energy drift ~100–250× at dx/λ_D = 40." }
+        ]
+      },
+      {
+        name: "Collisions",
+        note: "The MC of PIC-MCC. The electron half has landed; ions and Coulomb have not.",
+        children: [
+          { name:"Electron–neutral MCC", path:"MODULES/mcc3d.py", status:"ok",
+            note:"Null-collision (Vahedi–Surendra) over the LXCat set, adapted from ARPAE/pic3d/mcc3d.py. Exact per-process energy ledger, energy-grouped adaptive substepping, isotropic/screened/Surendra angular models. Runs inside the loop via ESSim(mcc=…).",
+            metric:"electron ledger closes to 2e-16 · reproduces the ARPAE operator EXACTLY on a shared RNG stream" },
+          { name:"Ionization → real ion particles", path:"mcc3d.MCC3D(ion_species=…)", status:"ok",
+            note:"THE upgrade over ARPAE, which can only deposit immobile charge: because this package has kinetic ions, an ionization event spawns an actual macro-particle — which is what a sheath, an ion wall flux and therefore secondary emission all require. The immobile-charge path is kept for callers that do not want to pay for ion particles.",
+            metric:"1 event → 1 electron + 1 ion, exactly" },
+          { name:"Gas-reservoir energy term", path:"mcc3d 'gas_reservoir_eV'", status:"ok",
+            note:"A newborn ion inherits its neutral's thermal velocity, so it arrives carrying energy from the gas reservoir. Booked SEPARATELY rather than folded into the electron closure — hiding a reservoir term inside an “exact” invariant is how an energy audit stops meaning anything.",
+            metric:"equals the born ions' KE to 1e-12" },
+          { name:"Ion–neutral (elastic + charge exchange)", tag:"M3", status:"gap",
+            note:"The remaining half of M3. Ion mobility sets sheath thickness and the ion energy at the wall. Target: experimental Ar⁺-in-Ar reduced mobility 1.53 cm²/(V·s).",
+            src:"pic1d/compare_ion_mobility.py" },
+          { name:"Coulomb e–e / e–i", tag:"M6", status:"gap",
+            note:"Takizuka & Abe (1977). Valid to omit at swarm n_e/N — but that expires the moment the code makes its own plasma.",
+            src:"pic1d/coulomb.py" }
+        ]
+      },
+      {
+        name: "Boundaries & surfaces",
+        children: [
+          { name:"Periodic wrap", path:"es_sim.ESSim._apply_boundaries", status:"ok", note:"All three axes in the periodic geometry." },
+          { name:"Absorbing electrodes", path:"es_sim.ESSim._apply_boundaries", status:"ok",
+            note:"Particles crossing an electrode are removed, with their charge and energy tallied so nothing is lost silently." },
+          { name:"Secondary emission (γ)", path:"emission3d.SecondaryEmitter", tag:"M5", status:"ok",
+            note:"The gamma process, as the plan words it: per-step ion flux to each electrode × γ → whole super-particles through a fractional accumulator, emission energy distribution stated (flux-weighted half-Maxwellian). γ is a stated surface parameter; an ion-energy-resolved γ stays blocked on ion-neutral collisions (§2.1 item 3).",
+            metric:"γ·incident bookkeeping exact (8.4 real → 8 macros + 0.4 carried); closes the loop in tools/paschen.py --demo" },
+          { name:"Flux emitter (cathode source)", path:"emission3d.FluxEmitter", tag:"M5", status:"ok",
+            note:"Constant-j surface source through the same accumulator + per-wall attribution and wall hooks in es_sim (0.8.4). What the Child–Langmuir gate emits from.",
+            metric:"delivers j·A·t/e to 1e-9 relative; conservation emitted = collected + in-flight to 1e-12" }
+        ]
+      },
+      {
+        name: "Particle management",
+        children: [
+          { name:"spawn / kill / compact", path:"species3d.ParticleSpecies", status:"ok",
+            note:"Growth and compaction are in place, ready for ionization to append secondaries." },
+          { name:"Merge / split", tag:"M8", status:"gap",
+            note:"Fixed weights today. An avalanche would multiply macro-particles until memory ends the run; depleted cells lose statistics." }
+        ]
+      },
+      {
+        name: "Driver",
+        children: [
+          { name:"The step", path:"MODULES/es_sim.ESSim.step", status:"ok",
+            note:"Composes the cycle; per-species subcycle gating; leapfrog primed by prepare()." },
+          { name:"Performance", status:"warn",
+            note:"OPEN: single-core numpy, no cell sorting, no compiled path, no domain decomposition. Sized for gates and demonstrations, not production.",
+            metric:"deposit 9.1 ms / 200k particles", tag:"M8" }
+        ]
+      }
+    ]
+  },
+
+  /* ============================ 1st level: OUTPUTS ======================= */
+  {
+    name: "Outputs",
+    note: "What comes out, and what it is scored against.",
+    children: [
+      {
+        name: "Fields",
+        children: [
+          { name:"Potential and E", path:"ESSim.phi / ESSim.E", status:"ok", note:"Node-centred, both boundary modes." },
+          { name:"Field energy", path:"es_field.field_energy_J", status:"ok", note:"(ε₀/2)∫|E|² dV." }
+        ]
+      },
+      {
+        name: "Particle diagnostics",
+        children: [
+          { name:"Energy / momentum / temperature", path:"species3d.ParticleSpecies", status:"ok",
+            note:"All weight-aware, per species and aggregated over the set." },
+          { name:"Density mode amplitude", path:"ESSim.density_mode", status:"ok",
+            note:"Complex amplitude of the seeded Fourier mode — signed and linear, so it oscillates at ω_pe (field energy would go at 2ω_pe)." },
+          { name:"Per-cell moments / EEDF", tag:"M3", status:"gap",
+            note:"No spatially resolved density, drift or energy distribution yet — needed the moment collisions exist." }
+        ]
+      },
+      {
+        name: "Ledgers",
+        children: [
+          { name:"Wall charge & energy", path:"ESSim.wall_charge / wall_energy_J", status:"ok",
+            note:"Bookkeeps what the electrodes collect." },
+          { name:"Per-process collision ledger", path:"ESSim.collision_tally / collision_energy_eV", status:"ok",
+            note:"Every collision tallied per LXCat process with the eV it moved, accumulated over the run. Elastic → gas heating, thresholds → excitation/ionization potential, attachment → the removed electron's KE.",
+            metric:"closure gated at 1e-10, measured 2e-16" },
+          { name:"Gas-reservoir tally", path:"ESSim.gas_reservoir_eV", status:"ok",
+            note:"Energy the newborn heavies drew from the neutral gas, kept out of the electron closure and reported on its own." }
+        ]
+      },
+      {
+        name: "Validity reporting",
+        children: [
+          { name:"Explicit stability walls", path:"ESSim.stability", status:"ok",
+            note:"Reports dx/λ_D and ω_pe·dt with the thresholds this package is only valid below. A run cannot quietly violate them." },
+          { name:"Smoothed-sheath labelling", tag:"M7", status:"gap",
+            note:"Once the implicit mover exists, any dx > λ_D run must self-label as smoothed-not-resolved." }
+        ]
+      },
+      {
+        name: "Scoring (theory)",
+        note: "Targets written down BEFORE the code that will be judged by them.",
+        children: [
+          { name:"Discrete cold dispersion", path:"MODULES/theory.cold_mode_frequency_ratio", status:"ok",
+            note:"ω²/ω_pe² = k·k_g·S²/K² for this scheme (CIC shape × centred gradient × discrete Laplacian). The honest target: a PIC cold mode runs slow by a computable amount, so scoring against ω_pe with a loose band would hide real error.",
+            metric:"predicts measurement to 1.2e-4" },
+          { name:"Frequency estimator", path:"theory.zero_crossing_frequency", status:"ok",
+            note:"Interpolated zero crossings — an FFT over N periods resolves only 1/N of the frequency and would fake precision." },
+          { name:"Child–Langmuir target", path:"tools/diode.py — gate G4.1", status:"ok",
+            note:"CLOSED 0.8.4: emit 3× J_CL, the virtual cathode throttles transmission onto the law. The small positive residual is the stated O(√(T/V)) thermal bias and shrinks with V exactly as Langmuir says it should.", tag:"M4",
+            metric:"J/J_CL = 1.023 at 250 V (φ_min −0.24 V @ 39 µm) · 1.072→1.010 over 100→400 V · 1.01–1.04 across nz 33→257" },
+          { name:"Bohm-speed target", path:"theory.bohm_speed", status:"warn",
+            note:"OPEN: target ready; the bounded geometry + emission now make a sheath demo buildable, but none is built or gated yet.", tag:"M4" },
+          { name:"W-value: two independent routes", path:"beam3d.spencer_fano_yields / cascade_yields", status:"ok",
+            note:"The deterministic Fowler/Spencer–Fano yield recursion and a Monte-Carlo cascade through the ACTUAL MCC operator, both priced from the same LXCat data. Agreement tests the sampling — that the MCC picks processes with the probabilities the cross sections imply.",
+            metric:"agree to 0.4% (Ar), 1.0% (Kr), 1.7% (He)" },
+          { name:"W-value vs literature — SCORED, with the miss reported", path:"beam3d.differential_W", status:"warn",
+            note:"OPEN and honest: Ar 27.7 vs 26.4 eV (+5%), Kr 26.2 vs 24.2 (+8%), He 55.1 vs 41.3 (+33%). Nothing is tuned to hit these — anchors score, never steer (PLAN 26). Direction is as expected for Spencer–Fano with equal ionization sharing on a momentum-transfer basis; helium is a genuine miss, pinned by a gate so it cannot drift silently.",
+            src:"PLAN (26) policy; CHANGELOG 0.4.0" }
+        ]
+      },
+      {
+        name: "Persistence",
+        children: [
+          { name:"Checkpoint / restart", path:"MODULES/checkpoint.py", status:"ok",
+            note:"Adapted from projects/MHD (flare/io.py, FLASH ch.9). Full state to .npz — particles, fields, rho_heavy, tallies, history, parameters + provenance — and a restart that continues the run identically. The RNG bit-generator state is saved, not the seed: reseeding would rewind the stream and silently change every collisional answer.",
+            metric:"restart bitwise-exact (gated); ~300 KB for a 12³ demo" },
+          { name:"MCC not serialised (by design)", path:"checkpoint.restore(mcc=…)", status:"ok",
+            note:"The collision operator and its tables are large, immutable and rebuildable from the saved gas description. Pickling the object graph would have been less code and much worse — it would freeze the tables into every checkpoint and break whenever a module was edited." },
+          { name:"Run outputs (.dat / .log / plots)", tag:"MHD", status:"warn",
+            note:"OPEN: flare's per-step integrals table + parameter-echo logfile discipline. PARTIALLY CLOSED (0.8.2–0.8.3): tools/visualize_particles.py is a CLI that snapshots REAL macro-particle state (positions + v_z) from a run into particles_data.npz and renders it — frame PNGs → GIF/MP4 and a self-contained canvas viewer.html. Demos: --demo langmuir (the frequency-gate configuration made visible; amplitude 0.05 L, stated, vs the gate's 0.004) and --demo twostream (self-generated bunching at the fastest-growing κ = √3/2: growth follows the CLOSED-FORM γ = ω_b/2 printed as a slope guide on every frame, saturating into the textbook phase-space cat's-eye; per-beam bunching |⟨e^{−ikz}⟩| is the recorded growth signal — the anti-phase-seeded total mode starts cancelled and beats at k·v0). Every dot IS a macro-particle; reduced-density cm box on every figure: the plan §3 regime, not the laser chamber. MODULES/ never imports the tool (gated).",
+            metric:"langmuir: 96 snaps × 1728 particles, ~2 s; twostream: 127 snaps × 3456 particles, ~8 s, fitted growth = closed-form γ ±20 % (gated); 10 gates in tests/test_visualize_particles.py",
+            src:"projects/MHD flare/io.py; tools/visualize_particles.py" }
+        ]
+      },
+      {
+        name: "Gates",
+        children: [
+          { name:"Suite", path:"tests/ — pytest SPECK/PIC_MCC_3D/tests -q", status:"ok",
+            note:"Falsification gates: LU oracle, MMS order, exact-polynomial configurations, discrete-operator residual, deposit/gather properties, movers, and the closed-loop physics.",
+            metric:"211 passed (2026-08-14, post-0.8.4; numpy 2.0.2; + 3 in SPECK/tools/tests)" },
+          { name:"Cold plasma oscillation", path:"tests/test_es_sim.py", status:"ok",
+            note:"THE headline gate — the first end-to-end proof that deposit, solve, gather and push are mutually consistent in 3-D. Scored against this scheme's own discrete dispersion, and separately shown to converge to ω_pe as h → 0.",
+            metric:"f/f_pe 0.99158 vs predicted 0.99145 · converges 0.97438 (nx=16) → 0.99774 (nx=32)" },
+          { name:"ARPAE provenance oracle", path:"tests/test_mcc3d.py", status:"ok",
+            note:"The adapted MCC reproduces ARPAE/pic3d/mcc3d.py event-for-event on a shared RNG stream — tallies, energy ledger and post-collision velocities all bit-identical. That module is itself oracle-matched against pic1d.mcc_ref, so this is what carries the lineage's validation across instead of re-asserting it.",
+            metric:"exact equality, 20k electrons, ~128k collisions" },
+          { name:"Two-interpreter rule", status:"ok",
+            note:"pytest under /usr/bin/python3 (numpy 2.0.2) AND a full-loop smoke under Homebrew python3 3.14.6 / numpy 2.5.0 with DeprecationWarning promoted to an error.",
+            metric:"both clean incl. the collision path · PLAN (68)" },
+          { name:"Cross-section validity ceiling", path:"cross_sections.energy_ceiling_eV", status:"ok",
+            note:"sigma_at returns ZERO above the last tabulated point — it does not extrapolate and does not raise, so an electron launched past the ceiling collides with nothing and a cascade reports zero ionizations that look like physics. The ceiling is now measured (~1000 eV Ar/He, 965 Kr, 937 F2) and the cascades REFUSE to start above it.",
+            metric:"found the hard way: W came back as infinity" },
+          { name:"Verification architecture", path:"verify.py, tests/test_architecture.py", status:"ok",
+            note:"Separates the two questions the ordinary suite cannot: INDEPENDENTLY (each module imports alone in a fresh interpreter; each test file passes alone in its own pytest process) and TOGETHER (combined total matches the sum of isolated runs, suite passes in reversed file order, composition ladder builds the stack a rung at a time). Import graph gated acyclic and layered; module-level state gated immutable — the PLAN (74) rule, where 10 of 17 failures were leaked globals.",
+            metric:"isolated 172 = combined 172 = reversed 172; 5 layers; 12/12 modules import alone" },
+          { name:"Composition ladder", path:"tests/test_integration.py", status:"ok",
+            note:"Five rungs, each adding ONE module to the last and re-checking the invariants that already held, so a failure names the culprit. Rung 5 is a bitwise-exact restart of the full live stack — two species, immobile charge, tallies, fields and one shared RNG stream.",
+            metric:"5/5; charge budget balances across 3 modules at rung 3" },
+          { name:"phantom11 coupling — BLOCKED, deliberately", status:"warn",
+            note:"Do NOT wire this package into phantom11's pipeline. Two defects are OPEN in the repo's records: PLAN (70) — electron-heating→light conversion internally inconsistent by ~18x, with its own conclusion that no hybrid-pumping efficiency claim can be made until resolved; and PLAN (72) — the Kannari p→s relaxation defaults OFF as a parity artifact, under which bulk-deposited conversion is 54.2% and BREACHES the ≤25% W-value bound, with baseline light output moving 3.4x on that flag alone. Export and compare (score their swarm tables); inject nothing. A better input to broken accounting is a more convincing wrong answer, not a better one.",
+            src:"PLAN (70), (72); owner warning 2026-08-03" },
+          { name:"Published benchmark", tag:"M5", status:"warn",
+            note:"Turner 2013 CCP benchmark — BEGUN, not claimed (0.8.4). The machinery it needs is now in: RF phi(t) drive (leapfrog-gated), He σ-set, mobile ions, the γ process; tools/rf_ccp.py builds a runnable case-1 gap and its smoke closes the loop. Blockers, stated: the paper's case spec (reaction set, surface model, numerics) must be transcribed first-hand — the current case table is from a reproduction repo — and G5.1 means matching published n_i(x) within the inter-code spread over thousands of RF cycles.",
+            src:"Phys. Plasmas 20, 013507 (2013), DOI 10.1063/1.4775084" }
+        ]
+      }
+    ]
+  }
+]};
+
+/* ------------------------------- rendering ------------------------------- */
+const STATUSES = ["ok", "warn", "gap"];
+
+function tally(node, acc = {ok:0, warn:0, gap:0}) {
+  if (node.status) acc[node.status]++;
+  (node.children || []).forEach(c => tally(c, acc));
+  return acc;
+}
+
+function el(tag, cls, text) {
+  const n = document.createElement(tag);
+  if (cls) n.className = cls;
+  if (text != null) n.textContent = text;
+  return n;
+}
+
+function renderNode(node, depth) {
+  const li = el("li");
+  li.dataset.depth = depth;
+  const isGroup = !!(node.children && node.children.length);
+  if (node.status) li.dataset.status = node.status;
+
+  const row = el("div", "node");
+
+  const tw = el("button", "twist" + (isGroup ? "" : " leaf"), "▾");
+  tw.setAttribute("aria-label", "toggle");
+  if (isGroup) tw.addEventListener("click", () => li.classList.toggle("collapsed"));
+  row.appendChild(tw);
+
+  row.appendChild(el("span", "dot " + (node.status || "group")));
+
+  const body = el("div", "body");
+  const ttl = el("div", "ttl");
+  ttl.appendChild(document.createTextNode(node.name));
+  if (node.path) {
+    ttl.appendChild(document.createTextNode(" "));
+    ttl.appendChild(el("span", "path", node.path));
+  }
+  body.appendChild(ttl);
+  if (node.note) body.appendChild(el("div", "note", node.note));
+  if (node.metric) body.appendChild(el("span", "metric ok", node.metric));
+  if (node.src) {
+    const s = el("div", "src");
+    s.appendChild(document.createTextNode("src: "));
+    s.appendChild(el("code", null, node.src));
+    body.appendChild(s);
+  }
+  row.appendChild(body);
+
+  if (node.tag) row.appendChild(el("span", "tag", node.tag));
+
+  if (isGroup) {
+    const t = tally(node);
+    const chips = el("div", "chips");
+    STATUSES.forEach(s => { if (t[s]) chips.appendChild(el("span", "chip " + s, t[s])); });
+    row.appendChild(chips);
+  }
+
+  li.appendChild(row);
+
+  if (isGroup) {
+    const ul = el("ul");
+    node.children.forEach(c => ul.appendChild(renderNode(c, depth + 1)));
+    li.appendChild(ul);
+    if (node.open === false || depth >= 2) li.classList.add("collapsed");
+  }
+  return li;
+}
+
+const rootUl = document.getElementById("root");
+rootUl.appendChild(renderNode(MAP, 0));
+
+/* summary tiles */
+const totals = tally(MAP);
+const tiles = [
+  ["", totals.ok + totals.warn + totals.gap, "tracked items"],
+  ["ok", totals.ok, "working"],
+  ["warn", totals.warn, "open"],
+  ["gap", totals.gap, "missing"]
+];
+const tileBox = document.getElementById("tiles");
+tiles.forEach(([cls, n, label]) => {
+  const t = el("div", "tile " + cls);
+  t.appendChild(el("div", "n", String(n)));
+  t.appendChild(el("div", "l", label));
+  tileBox.appendChild(t);
+});
+
+/* filtering: hide leaves that do not match, and any group left with none */
+let filter = "all";
+function applyFilter() {
+  rootUl.querySelectorAll("li").forEach(li => li.classList.remove("hidden"));
+  if (filter !== "all") {
+    // deepest-first so a group sees its children's final state
+    const lis = Array.from(rootUl.querySelectorAll("li")).reverse();
+    lis.forEach(li => {
+      const kids = li.querySelectorAll(":scope > ul > li");
+      const isGroup = kids.length > 0;
+      if (isGroup) {
+        const anyVisible = Array.from(kids).some(k => !k.classList.contains("hidden"));
+        if (!anyVisible) li.classList.add("hidden"); else li.classList.remove("collapsed");
+      } else if (li.dataset.status !== filter) {
+        li.classList.add("hidden");
+      }
+    });
+  }
+}
+STATUSES.concat("all").forEach(s => {
+  const b = document.getElementById("f-" + s);
+  b.addEventListener("click", () => {
+    filter = s;
+    ["all"].concat(STATUSES).forEach(x =>
+      document.getElementById("f-" + x).setAttribute("aria-pressed", String(x === s)));
+    applyFilter();
+  });
+});
+
+document.getElementById("expand").addEventListener("click", () =>
+  rootUl.querySelectorAll("li").forEach(li => li.classList.remove("collapsed")));
+document.getElementById("collapse").addEventListener("click", () =>
+  rootUl.querySelectorAll('li').forEach(li => {
+    if (Number(li.dataset.depth) >= 1 && li.querySelector(":scope > ul")) li.classList.add("collapsed");
+  }));
+
+document.getElementById("theme").addEventListener("click", () => {
+  const cur = document.documentElement.getAttribute("data-theme");
+  const sysDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+  const next = cur ? (cur === "dark" ? "light" : "dark") : (sysDark ? "light" : "dark");
+  document.documentElement.setAttribute("data-theme", next);
+});
+
+/* ===========================================================================
+   THE DATA-FLOW DIAGRAM.  Edit FLOW_NODES / FLOW_EDGES; the SVG is generated.
+
+   LAYOUT RULES (why it looks like this):
+     * Orthogonal routing only -- no diagonals, no Beziers.  Curves crossing
+       each other at shallow angles were unreadable; right angles are not.
+     * Every dogleg gets its OWN vertical channel x, and boxes are placed so
+       most edges are dead straight.  The result has zero edge crossings on
+       the input side and zero on the output side.
+     * THE FEEDBACK LOOP wraps the entire diagram -- down, right, up, back
+       across the top -- so it crosses nothing at all and reads unmistakably
+       as the cycle closing.  Drawn dashed and in the accent colour.
+=========================================================================== */
+const IN_X = 24,  IN_W = 168;
+const CYC_X = 392, CYC_W = 204;
+const OUT_X = 740, OUT_W = 172;
+const H = 46;
+const cy = i => 76 + i * 70;                       // the eight cycle stages
+// feedback ring: below everything, up the far right, back across the top
+const FB = {down: 692, right: 958, up: 44, x: CYC_X + CYC_W / 2};
+
+const FLOW_NODES = [
+  // --- inputs (placed to line up with what they feed) ---------------------
+  {id:"seed", lane:"in", x:IN_X, y:76, w:IN_W, label:"Preionization seed",
+   path:"beam3d.seed_preionization", status:"warn",
+   detail:"The surface discharge as an INITIAL CONDITION, not a simulation. Co-located e/ion pairs at a stated density; the flashover physics is out of scope by choice."},
+  {id:"beam", lane:"in", x:IN_X, y:146, w:IN_W, label:"E-beam",
+   path:"MODULES/beam3d.py", status:"ok",
+   detail:"Fast primary transported as a ray by Bethe/Moller stopping power -- NOT a PIC particle. Only its low-energy progeny are injected."},
+  {id:"elec", lane:"in", x:IN_X, y:216, w:IN_W, label:"Electrodes",
+   path:"ESSim(phi_lo, phi_hi)", status:"ok",
+   detail:"Fixed-potential planes, scalar or an (nx,ny) profile. No external circuit yet (M4)."},
+  {id:"gas", lane:"in", x:IN_X, y:440, w:IN_W, label:"Gas mixture",
+   path:"MODULES/gas.py", status:"ok",
+   detail:"Composition, ideal-gas density from (p,T), per-component densities and masses. Static and uniform; depletion() measures the drift from that assumption."},
+  {id:"cs", lane:"in", x:IN_X, y:566, w:IN_W, label:"Cross sections",
+   path:"MODULES/cross_sections.py", status:"ok",
+   detail:"LXCat parse -> nu_p(eps) lookup. Carries energy_ceiling_eV: above it every sigma is ZERO, silently."},
+
+  // --- the cycle -----------------------------------------------------------
+  {id:"dep",  lane:"cyc", x:CYC_X, y:cy(0), w:CYC_W, label:"1. deposit_rho",
+   path:"es_field.deposit_rho", status:"ok",
+   detail:"Trilinear (CIC) charge deposit to nodes, plus rho_heavy and any neutralising background."},
+  {id:"pois", lane:"cyc", x:CYC_X, y:cy(1), w:CYC_W, label:"2. Poisson3D.solve",
+   path:"poisson3d.Poisson3D", status:"ok",
+   detail:"2-D FFT in (x,y) -> one tridiagonal solve in z per mode. Exact to round-off, O(N log N)."},
+  {id:"efld", lane:"cyc", x:CYC_X, y:cy(2), w:CYC_W, label:"3. efield_from_phi",
+   path:"es_field.efield_from_phi", status:"ok",
+   detail:"E = -grad phi. Centred in the periodic directions, one-sided at the electrode planes."},
+  {id:"gath", lane:"cyc", x:CYC_X, y:cy(3), w:CYC_W, label:"4. gather_E",
+   path:"es_field.gather_E", status:"ok",
+   detail:"Trilinear gather -- THE SAME shape function as the deposit. That pairing is what kills the self-force."},
+  {id:"push", lane:"cyc", x:CYC_X, y:cy(4), w:CYC_W, label:"5. push_es / push_boris",
+   path:"species3d", status:"ok",
+   detail:"Leapfrog kick with q/m from the species, so ions and electrons use one mover. Heavy species subcycle."},
+  {id:"move", lane:"cyc", x:CYC_X, y:cy(5), w:CYC_W, label:"6. move",
+   path:"species3d.move", status:"ok",
+   detail:"x += v dt. Positions at whole steps, velocities at half-steps."},
+  {id:"bnd",  lane:"cyc", x:CYC_X, y:cy(6), w:CYC_W, label:"7. boundaries",
+   path:"ESSim._apply_boundaries", status:"ok",
+   detail:"Periodic wrap, or absorbing electrodes that tally the charge and energy they collect."},
+  {id:"mcc",  lane:"cyc", x:CYC_X, y:cy(7), w:CYC_W, label:"8. MCC3D.collide_adaptive",
+   path:"MODULES/mcc3d.py", status:"ok",
+   detail:"Null-collision MCC. Ionization spawns REAL ion particles; unregistered products fall back to immobile grid charge."},
+
+  // --- outputs (aligned with their source, so the edges are straight) ------
+  {id:"flds", lane:"out", x:OUT_X, y:cy(1), w:OUT_W, label:"Fields",
+   path:"phi, E, field_energy_J", status:"ok",
+   detail:"Node-centred potential and field, and the field energy."},
+  {id:"pdia", lane:"out", x:OUT_X, y:cy(4), w:OUT_W, label:"Particle diagnostics",
+   path:"KE, momentum, T, density_mode", status:"ok",
+   detail:"All weight-aware, per species and aggregated over the set."},
+  {id:"val",  lane:"out", x:OUT_X, y:cy(5), w:OUT_W, label:"Validity",
+   path:"ESSim.stability", status:"ok",
+   detail:"dx/lambda_D and omega_pe*dt against the explicit-PIC walls, reported every run."},
+  {id:"ledg", lane:"out", x:OUT_X, y:cy(6), w:OUT_W, label:"Ledgers",
+   path:"collision_tally, wall_charge", status:"ok",
+   detail:"Per-process collision tallies and eV, wall charge/energy, and the gas-reservoir term kept separate."},
+  {id:"score",lane:"out", x:OUT_X, y:620, w:OUT_W, label:"Scoring",
+   path:"MODULES/theory.py, beam3d", status:"warn",
+   detail:"Analytic targets that score the code: discrete dispersion, Child-Langmuir, Bohm, the W-value."}
+];
+
+/* Edge geometry:
+     straight  -- same y at both ends, one horizontal run
+     ch:<x>    -- dogleg through a dedicated vertical channel at x
+     into:"bottom" -- approach the target from below (its own channel)
+     fb:true   -- the feedback ring                                        */
+const FLOW_EDGES = [
+  {from:"seed", to:"dep",  ch:360, sy:23, ty:12, label:"e- / ion+ pairs",
+   payload:"Matched, co-located electron and ion populations at the seeded density.",
+   invariant:"Net seeded charge = 0; the two species share positions exactly.",
+   gate:"test_preionization_seed_is_quasi_neutral_and_co_located",
+   symptom:"Seeding independently leaves per-cell noise imbalance -> a spurious space-charge field on step one."},
+  {from:"beam", to:"dep",  ch:336, sy:23, ty:34, label:"secondaries",
+   payload:"Low-energy electrons (Opal-Peterson spectrum) carrying the deposited beam energy, placed where the ray stopped.",
+   invariant:"Sum of secondary kinetic energy = energy_deposited_J exactly.",
+   gate:"test_injector_conserves_the_energy_it_deposits",
+   symptom:"Comparing against energy_in_J instead of energy_deposited_J is off by >100x -- they are different numbers."},
+  {from:"elec", to:"pois", ch:352, sy:23, ty:23, label:"phi_lo, phi_hi [V]",
+   payload:"Dirichlet plane potentials, scalar or an (nx,ny) profile.",
+   invariant:"The returned phi carries the prescribed values on both planes.",
+   gate:"test_boundary_planes_are_honoured_exactly (1e-12)",
+   symptom:"A wrong gap field with the right shape usually means the planes, not the solver."},
+  {from:"gas",  to:"cs",   vert:true, label:"n_i [m^-3]",
+   payload:"Per-component number densities from the ideal-gas law.",
+   invariant:"Component densities sum to the total; each equals fraction x n_tot.",
+   gate:"test_component_densities_follow_the_fractions",
+   symptom:"Every collision rate scales wrongly -- a factor error here looks like bad cross sections."},
+  {from:"cs",   to:"mcc",  sy:23, ty:23, label:"nu_p(eps), thresholds",
+   payload:"Collision-frequency matrix per process, thresholds, mass ratios, and the null-collision majorant.",
+   invariant:"nu_majorant(E) >= max nu_total over [0,E]; source energies stay under energy_ceiling_eV.",
+   gate:"test_majorant_bounds_the_total_rate, test_cascades_refuse_to_start_above_the_ceiling",
+   symptom:"Zero collisions at high energy = above the table ceiling, where every sigma is silently 0."},
+
+  {from:"dep",  to:"pois", cyc:true, label:"rho(i,j,k) [C/m^3]",
+   payload:"Charge density on the nodes: all species + rho_heavy + background.",
+   invariant:"sum(rho)*h^3 = sum(q*w) exactly; a fully periodic solve needs net neutrality.",
+   gate:"test_deposit_conserves_total_charge (3.2e-18)",
+   symptom:"A ValueError about net-neutral rho means the background or the ion partners are missing."},
+  {from:"pois", to:"efld", cyc:true, label:"phi [V]",
+   payload:"Electrostatic potential on the nodes.",
+   invariant:"The 7-point Laplacian of phi equals -rho/eps0 (the discrete Gauss law).",
+   gate:"test_solution_satisfies_the_discrete_operator (3.6e-15)",
+   symptom:"Large residual = the solver and the stencil disagree; check the BC mode, not the physics."},
+  {from:"efld", to:"gath", cyc:true, label:"E on nodes [V/m]",
+   payload:"E = -grad phi, centred except at the electrode planes.",
+   invariant:"Exact for a linear potential.",
+   gate:"test_efield_of_a_linear_potential_is_constant",
+   symptom:"A factor-of-2 field usually means a one-sided difference used where a centred one belongs."},
+  {from:"gath", to:"push", cyc:true, label:"E at particles",
+   payload:"Per-particle field, trilinearly interpolated.",
+   invariant:"Same shape function as the deposit => sum of internal forces = 0, self-force = 0.",
+   gate:"test_internal_forces_cancel (5.7e-15), test_self_force_is_zero (1.4e-16)",
+   symptom:"Isolated particles accelerating from nothing = deposit/gather shape mismatch."},
+  {from:"push", to:"move", cyc:true, label:"v^(n+1/2)",
+   payload:"Velocities after the kick, per species q/m.",
+   invariant:"Boris conserves speed exactly in pure B; ion/electron accelerations differ by the mass ratio.",
+   gate:"test_boris_conserves_speed_in_pure_B, test_ion_and_electron_accelerations_differ_by_the_mass_ratio",
+   symptom:"Energy growing every step = omega_pe*dt too large; check ESSim.stability before blaming the field."},
+  {from:"move", to:"bnd",  cyc:true, label:"x^(n+1)",
+   payload:"Positions after the drift.",
+   invariant:"dx < lambda_D and omega_pe*dt < 2 for the explicit mover -- both reported, never assumed.",
+   gate:"test_stability_reports_both_explicit_walls",
+   symptom:"Grid self-heating (Te climbing with no source) = dx > lambda_D. That is the wall, not a bug."},
+  {from:"bnd",  to:"mcc",  cyc:true, label:"live particles",
+   payload:"Surviving particles; absorbed ones are removed with their charge and energy recorded.",
+   invariant:"Nothing is dropped silently -- collected charge and energy are tallied.",
+   gate:"test_electrodes_absorb_particles_and_tally_the_charge",
+   symptom:"Particle count falling with no wall tally = a boundary is eating them."},
+
+  {from:"mcc",  to:"dep",  fb:true, label:"FEEDBACK: scattered v, new e- / ions, rho_heavy  →  next step",
+   payload:"Post-collision velocities, ionization secondaries, ion macro-particles (or immobile charge) -- all re-deposited at the top of the next step. THIS is what closes the loop.",
+   invariant:"Electron ledger: KE(before) - KE(after, incl. secondaries) = sum(ledger). Ion birth energy is booked SEPARATELY as gas_reservoir_eV.",
+   gate:"test_electron_energy_ledger_closes_exactly (2e-16), test_every_ionization_makes_one_electron_and_one_ion",
+   symptom:"Closure failing while ions look fine = reservoir energy folded into the electron ledger."},
+
+  {from:"pois", to:"flds", sy:23, ty:23, label:"phi, E, U_field"},
+  {from:"push", to:"pdia", sy:23, ty:23, label:"KE, p, T"},
+  {from:"move", to:"val",  sy:23, ty:23, label:"dx/lambda_D, wpe*dt"},
+  {from:"bnd",  to:"ledg", sy:23, ty:23, label:"wall charge/energy"},
+  {from:"mcc",  to:"ledg", sy:12, into:"bottom", label:"tallies, eV/process"},
+  {from:"mcc",  to:"score", ch:690, sy:34, ty:23, label:"W-value, rates"}
+];
+
+(function drawFlow(){
+  const SVG = "http://www.w3.org/2000/svg";
+  const svg = document.getElementById("flow");
+  if (!svg) return;
+  const mk = (t, a) => { const n = document.createElementNS(SVG, t);
+    for (const k in a) n.setAttribute(k, a[k]); return n; };
+  const COL = {ok:"var(--ok)", warn:"var(--warn)", gap:"var(--gap)"};
+  const BG  = {ok:"var(--ok-bg)", warn:"var(--warn-bg)", gap:"var(--gap-bg)"};
+  const byId = {}; FLOW_NODES.forEach(n => byId[n.id] = n);
+  const R = 9;                                   // corner radius
+
+  const defs = mk("defs");
+  [["arrow","var(--faint)"],["arrowsel","var(--accent)"],
+   ["arrowfb","var(--accent)"]].forEach(([id,c]) => {
+    const m = mk("marker", {id, viewBox:"0 0 10 10", refX:"9", refY:"5",
+      markerWidth:"6.5", markerHeight:"6.5", orient:"auto-start-reverse"});
+    m.appendChild(mk("path", {d:"M0,0 L10,5 L0,10 z", fill:c}));
+    defs.appendChild(m);
+  });
+  svg.appendChild(defs);
+
+  [["INPUTS", IN_X + IN_W/2], ["THE STEP", CYC_X + CYC_W/2],
+   ["OUTPUTS", OUT_X + OUT_W/2]].forEach(([t, x]) => {
+    const e = mk("text", {x, y:26, "text-anchor":"middle", class:"flane"});
+    e.textContent = t; svg.appendChild(e);
+  });
+
+  // orthogonal path helper: rounded elbow through a sequence of points
+  function ortho(pts){
+    let d = `M${pts[0][0]},${pts[0][1]}`;
+    for (let i = 1; i < pts.length - 1; i++){
+      const [px,py] = pts[i-1], [x,y] = pts[i], [nx,ny] = pts[i+1];
+      const din = Math.hypot(x-px, y-py), dout = Math.hypot(nx-x, ny-y);
+      const r = Math.min(R, din/2, dout/2);
+      const ix = x - Math.sign(x-px) * r, iy = y - Math.sign(y-py) * r;
+      const ox = x + Math.sign(nx-x) * r, oy = y + Math.sign(ny-y) * r;
+      d += ` L${ix},${iy} Q${x},${y} ${ox},${oy}`;
+    }
+    const last = pts[pts.length-1];
+    d += ` L${last[0]},${last[1]}`;
+    return d;
+  }
+
+  const detail = document.getElementById("flowdetail");
+  function show(title, path, rows){
+    detail.innerHTML = "";
+    const h = document.createElement("h3"); h.textContent = title;
+    detail.appendChild(h);
+    if (path){ const c = document.createElement("code"); c.textContent = path;
+      detail.appendChild(c); }
+    rows.forEach(([k, v, cls]) => {
+      if (!v) return;
+      const kk = document.createElement("div"); kk.className = "k"; kk.textContent = k;
+      const vv = document.createElement("div"); vv.textContent = v;
+      if (cls) vv.className = cls;
+      detail.appendChild(kk); detail.appendChild(vv);
+    });
+  }
+
+  FLOW_EDGES.forEach(e => {
+    const a = byId[e.from], b = byId[e.to];
+    if (!a || !b) return;
+    let pts, lx, ly, anchor = "middle", cls = "fedge";
+
+    if (e.fb){
+      // the ring: out of the bottom of 8, under everything, up the far right,
+      // back across the top, down into the top of 1.  Crosses nothing.
+      pts = [[FB.x, a.y + H], [FB.x, FB.down], [FB.right, FB.down],
+             [FB.right, FB.up], [FB.x, FB.up], [FB.x, b.y]];
+      lx = (FB.x + FB.right) / 2; ly = FB.down - 9; cls += " fb";
+    } else if (e.cyc){
+      const x = a.x + a.w/2;
+      pts = [[x, a.y + H], [x, b.y]];
+      lx = x + 9; ly = a.y + H + (b.y - a.y - H)/2 + 3.5; anchor = "start";
+    } else if (e.vert){
+      const x = a.x + a.w/2;
+      pts = [[x, a.y + H], [x, b.y]];
+      lx = x + 9; ly = a.y + H + (b.y - a.y - H)/2 + 3.5; anchor = "start";
+    } else if (e.into === "bottom"){
+      const x0 = a.x + a.w, y0 = a.y + (e.sy || 23);
+      const bx = b.x + b.w/2;
+      pts = [[x0, y0], [bx, y0], [bx, b.y + H]];
+      lx = (x0 + bx)/2; ly = y0 - 7;
+    } else {
+      const x0 = a.x + a.w, y0 = a.y + (e.sy || 23);
+      const x1 = b.x,       y1 = b.y + (e.ty || 23);
+      if (e.ch){ pts = [[x0,y0], [e.ch,y0], [e.ch,y1], [x1,y1]]; }
+      else      { pts = [[x0,y0], [x1,y1]]; }
+      lx = (x0 + x1)/2; ly = Math.min(y0,y1) - 7;
+    }
+
+    const g = mk("g", {class:cls});
+    g.appendChild(mk("path", {d:ortho(pts),
+      "marker-end": e.fb ? "url(#arrowfb)" : "url(#arrow)"}));
+    if (e.label){
+      const t = mk("text", {x:lx, y:ly, "text-anchor":anchor});
+      t.textContent = e.label; g.appendChild(t);
+    }
+    g.addEventListener("click", () => {
+      svg.querySelectorAll(".fedge.sel").forEach(x => x.classList.remove("sel"));
+      g.classList.add("sel");
+      show(`${a.label}  →  ${b.label}`, e.label, [
+        ["what crosses", e.payload || e.label],
+        ["invariant", e.invariant],
+        ["gate", e.gate],
+        ["symptom if broken", e.symptom, "sym"]
+      ]);
+    });
+    svg.appendChild(g);
+  });
+
+  FLOW_NODES.forEach(n => {
+    const g = mk("g", {class:"fnode"});
+    g.appendChild(mk("rect", {x:n.x, y:n.y, width:n.w, height:H, rx:8,
+      fill:BG[n.status], stroke:COL[n.status]}));
+    const t1 = mk("text", {x:n.x + 11, y:n.y + 19});
+    t1.textContent = n.label; g.appendChild(t1);
+    const t2 = mk("text", {x:n.x + 11, y:n.y + 34, class:"fpath"});
+    t2.textContent = n.path; g.appendChild(t2);
+    g.addEventListener("click", () => {
+      svg.querySelectorAll(".fedge.sel").forEach(x => x.classList.remove("sel"));
+      const ins = FLOW_EDGES.filter(e => e.to === n.id)
+                            .map(e => byId[e.from].label).join(", ") || "(none)";
+      const outs = FLOW_EDGES.filter(e => e.from === n.id)
+                             .map(e => byId[e.to].label).join(", ") || "(none)";
+      show(n.label, n.path, [["what it does", n.detail],
+                             ["fed by", ins], ["feeds", outs]]);
+    });
+    svg.appendChild(g);
+  });
+})();
+
+/* view switching */
+(function views(){
+  const map = document.getElementById("view-map");
+  const flow = document.getElementById("view-flow");
+  const bm = document.getElementById("v-map"), bf = document.getElementById("v-flow");
+  function set(showFlow){
+    flow.classList.toggle("hidden", !showFlow);
+    map.classList.toggle("hidden", showFlow);
+    bm.setAttribute("aria-pressed", String(!showFlow));
+    bf.setAttribute("aria-pressed", String(showFlow));
+  }
+  bm.addEventListener("click", () => set(false));
+  bf.addEventListener("click", () => set(true));
+})();
+
+</script>
+</body>
+</html>

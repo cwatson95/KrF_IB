@@ -1,0 +1,61 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%   SWARM ANALYSIS NEON — headless production run
+%   (same physics as Ne_swarm_setup.in, which is kept for
+%    interactive/GUI use; this copy follows the krf0d
+%    gui-off convention so it can run unattended)
+%   Cross sections: Biagi (Magboltz v8.9), Neon/Ne_LXCat.txt,
+%   elastic momentum transfer valid to ~965 eV -> swarm grid
+%   extends to 300 Td (previous BSR set died past 150 Td).
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+workingConditions:
+  gasPressure: 133.32                         % in Pa
+  gasTemperature: 300                         % in K
+  reducedElecField: [10,15,20,25,30,35,40,45,50,55,60,65,70,75,80,100,150,200,250,300]       % in Td
+  reducedMagField: 0                          % in Hx
+  elecFieldAngle: 180                         % in degrees
+  excitationFrequency: 0                      % in Hz
+
+electronKinetics:
+  isOn: true
+  eedfType: boltzmannMC
+  ionizationOperatorType: equalSharing
+  LXCatFiles:
+    - Neon/Ne_LXCat.txt
+  gasProperties:
+    mass: Databases/masses.txt
+    fraction:
+      - Ne = 1
+    harmonicFrequency: Databases/harmonicFrequencies.txt
+    anharmonicFrequency: Databases/anharmonicFrequencies.txt
+    rotationalConstant: Databases/rotationalConstants.txt
+    electricQuadrupoleMoment: Databases/quadrupoleMoment.txt
+    OPBParameter: Databases/OPBParameter.txt
+  stateProperties:
+    % Biagi (Magboltz v8.9) set: collisions are one-way (->), so no superelastics and
+    % no statisticalWeight entries are needed; ground-state population is enough.
+    population:
+      - Ne(1S0) = 1
+    statisticalWeight:
+      - Ne(1S0) = 1
+  numericsMC:
+    nElectrons: 2E4
+    gasTemperatureEffect: smartActivation
+    nIntegrationPoints: 1E4
+    nIntegratedSSTimes: 3
+
+chemistry:
+  isOn: false
+
+gui:
+  isOn: false
+
+output:
+  isOn: true
+  folder: swarm_Ne_Biagi
+  dataFiles:
+    - eedf
+    - swarmParameters
+    - rateCoefficients
+    - powerBalance
+    - lookUpTable

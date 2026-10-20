@@ -1,0 +1,33 @@
+# Cross-Section Browser export — 2026-07-30T05:04:50Z
+# source: LXCat, www.lxcat.net (SIGLO database). SIGLO database is the electron-impact cross-section source of Chen et al., Phys. Plasmas 32, 113502 (2025), ref 22. Re-sourced from the project crossbrowser export lxcat_siglo.json, SIGLO process id SIGLO__F2__Excitation__09.
+# database: SIGLO database (LXCat)
+# process_id: e_F2_excitation_a3
+# reaction: E + F2 -> E + F2(a3)(3.16eV)
+# type: Excitation   |   category: Excitation (electronic)   |   family: Electron
+# data_kind: total
+# species: e / F2
+# threshold: 3.16 eV
+# param: E = 3.16 eV, complete set
+# comment: dissociation a[3]pi{u} -> 2 F. SIGLO dataset (Chen 2025, ref 22); re-sourced from crossbrowser lxcat_siglo.json, source id SIGLO__F2__Excitation__09. F2 a3 dissociative excitation (arf.toml R11). Cross section stored in m^2 by SIGLO (converted to cm^2 for the CSV column).
+# updated: 2010-06-24 12:24:54
+# n_points: 18
+# columns: energy [eV], cross_section [cm^2]
+energy_eV,cross_section_cm2
+3.160000e+0,0.000000e+00
+4.000000e+0,6.500000e-18
+4.200000e+0,1.000000e-17
+4.600000e+0,1.450000e-17
+5.600000e+0,2.000000e-17
+6.000000e+0,2.200000e-17
+7.000000e+0,2.300000e-17
+8.000000e+0,2.200000e-17
+1.000000e+1,2.000000e-17
+1.500000e+1,1.400000e-17
+2.000000e+1,1.070000e-17
+2.700000e+1,8.000000e-18
+3.400000e+1,6.000000e-18
+4.000000e+1,4.800000e-18
+1.000000e+2,2.400000e-18
+2.000000e+2,1.370000e-18
+5.000000e+2,6.400000e-19
+1.000000e+3,3.500000e-19

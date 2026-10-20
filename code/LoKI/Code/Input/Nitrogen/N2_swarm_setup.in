@@ -1,0 +1,76 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%   SWARM ANALYSIS NITROGEN   %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% --- configuration of the working conditions ---
+workingConditions:
+  reducedElecField: [5,10,50,100]             % in Td
+  gasPressure: 133.32                         % in Pa
+  gasTemperature: 300                         % in K
+  excitationFrequency: 0                      % in Hz
+  elecFieldAngle: 180                         % in degrees
+  reducedMagField: 0                          % in Hx
+
+% --- configuration of the electron kinetics ---
+electronKinetics:
+  isOn: true               % true or false 
+  eedfType: boltzmannMC    % boltzmannMC or prescribedEedf
+  ionizationOperatorType: usingSDCS % oneTakesAll, equalSharing, usingSDCS or randomUniform
+  LXCatFiles:            % cross section files
+    - Nitrogen/N2_LXCat.txt
+    - Nitrogen/N2_rot_LXCat.txt
+    %- Nitrogen/N2_vib_LXCat.txt
+  gasProperties:        % properties of the gases (S.I. Units)
+    mass: Databases/masses.txt
+    fraction:
+      - N2 = 1
+    harmonicFrequency: Databases/harmonicFrequencies.txt
+    anharmonicFrequency: Databases/anharmonicFrequencies.txt
+    rotationalConstant: Databases/rotationalConstants.txt
+    electricQuadrupoleMoment: Databases/quadrupoleMoment.txt
+    OPBParameter: Databases/OPBParameter.txt
+  stateProperties:      % properties of the states (S.I. Units except for the energy [eV])
+    energy:
+      %- N2(X,v=*) = morseOscillatorEnergy
+      - Nitrogen/N2energyVibLevels.txt
+      - N2(X,v=0,J=*) = rigidRotorEnergy  
+    statisticalWeight:
+      - N2(X,v=*) = 1.0
+      - N2(X,v=0,J=*) = rotationalDegeneracy_N2  
+    population:
+      - N2(X) = 1.0
+      - N2(X,v=*) = boltzmannPopulation@gasTemperature
+      - N2(X,v=0,J=*) = boltzmannPopulation@gasTemperature
+  numericsMC:
+    nElectrons: 2E4                         % number of electrons in the ensemble
+    gasTemperatureEffect: smartActivation   % false, true or smartActivation
+    nIntegrationPoints: 1E4                 % number of integration points after the steady-state is reached
+    nIntegratedSSTimes: 2                   % integrated time, given as multiples of the steady-state time
+
+% --- configuration of the graphical user interface ---
+gui: 
+  isOn: true
+  plotOptions:
+    - MCTemporalInfo
+    - MCTemporalInfo_periodic
+    - distributionFunctions
+    - swarmParameters
+    - powerBalance
+  terminalDisp:
+    - setup
+    - MCStatus
+
+% ---  configuration of the output files ---
+output: 
+  isOn: true
+  folder: swarm_N2_short
+  dataFiles:
+    - eedf
+    - evdf
+    - swarmParameters
+    - rateCoefficients
+    - powerBalance
+    - MCSimDetails
+%    - MCTemporalInfo
+    - MCTemporalInfo_periodic
+    - lookUpTable

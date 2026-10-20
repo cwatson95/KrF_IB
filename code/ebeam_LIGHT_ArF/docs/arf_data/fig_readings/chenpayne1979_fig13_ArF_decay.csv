@@ -1,0 +1,12 @@
+# Chen and Payne, IEEE JQE 15, 149 (1979), Fig. 13 p.153: ArF (193.3 nm) decay frequency vs F2; proton excitation
+# survey reading of the PDF at 300 dpi; +-0.1e7 per s
+p_ar_torr,f2_torr,decay_1e7_per_s
+600,0.600,1.811
+300,0.611,1.315
+300,0.924,2.501
+600,1.205,3.860
+300,1.703,4.615
+600,2.200,5.865
+300,2.946,8.388
+600,3.757,11.493
+600,6.492,19.191

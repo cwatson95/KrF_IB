@@ -1,0 +1,17 @@
+# ArF (Ar/F2) small-signal gain points as plotted by NRL and Keio; survey readings at 300 dpi (colour-marker centroids); P = e-beam power density
+# source,figure,label,p_atm,P_MW_cm3,g0_pct_cm,alpha_pct_cm,Isat_MW_cm2,note
+NRL_ArF_report_2023,Fig5_p9,30cm_cathode_0.82atm,0.82,0.401,1.826,,,text p.8: 1.84 at 0.395
+NRL_ArF_report_2023,Fig5_p9,30cm_cathode_1.09atm,1.09,0.500,1.764,,,text p.8: 1.77 at 0.497 (printed kW/cc)
+NRL_ArF_report_2023,Fig5_p9,30cm_cathode_1.36atm,1.36,0.590,1.275,,,text p.8: 1.29 at 0.583
+NRL_ArF_report_2023,Fig5_p9,10cm_cathode_0.82atm,0.82,1.10,3.20,,,text p.8: 3.21 at 1.09 (double pass)
+NRL_ArF_report_2023,Fig5_p9,10cm_cathode_1.36atm,1.36,1.38,2.90,,,figure only
+NRL_ArF_report_2023,Fig5_p9,Lee_APL_1988_1atm,1.0,1.21,3.97,,,NRL placement of Lee point
+Petrova_memo_2022,Fig7_p14,experiments_Electra,,0.402,1.822,,,
+Petrova_memo_2022,Fig7_p14,experiments_Electra,,0.512,1.786,,,
+Petrova_memo_2022,Fig7_p14,experiments_Electra,,1.133,3.22,,,
+Petrova_memo_2022,Fig7_p14,experiments_Electra,,1.223,3.99,,,coincides with ArF-report Lee point
+Petrova_memo_2022,Fig7_p14,experiments_Electra_Myers,0.82,0.900,3.23,0.16,10,alpha and Isat from middle and bottom panels
+Petrova_memo_2022,Fig7_p14,experiments_Lee_1988,1.0,0.688,3.99,0.24,3.2,alpha and Isat approximate
+Lee_1989_JQE,Fig5a_p2058,Ar_F2_99.6_0.4,1.0,,4.18,0.232,3.2,Ar concentration axis; pump not on figure; text p.2053 says 0.51 MW/cm3
+Lee_1989_JQE,Fig5a_p2058,Ar70_Ne29.7_F2_0.3,1.0,,4.2,0.213,2.6,
+Lee_1989_JQE,Fig5a_p2058,Ar40_balance_Ne_F2_not_read,1.0,,4.0,0.173,1.97,

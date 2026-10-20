@@ -1,0 +1,44 @@
+{
+  "schema": "cross-section-metadata/1.1",
+  "generated_utc": "2026-07-31T23:08:50Z",
+  "source": "LXCat, www.lxcat.net (SIGLO database). SIGLO database is the electron-impact cross-section source of Chen et al., Phys. Plasmas 32, 113502 (2025), ref 22. Retrieved from LXCat SIGLO download on July 31, 2026 (recommended citation: SIGLO database, www.lxcat.net, retrieved on July 31, 2026).",
+  "data_file": "e_F2_attachment.csv",
+  "data_kind": "total",
+  "process_id": "e_F2_attachment",
+  "database": "SIGLO database (LXCat)",
+  "reaction": "E + F2 -> F^-+F",
+  "type": "Attachment",
+  "category": "Attachment",
+  "family": "Electron",
+  "projectile": "e",
+  "target": "F2",
+  "mass_ratio_m_over_M": null,
+  "ion_mass_amu": null,
+  "ion_mass_ratio": null,
+  "stat_weight_ratio": null,
+  "complete_set": true,
+  "param_raw": "E = 0 eV, complete set",
+  "comment": "F^-+F,(diss. att.). SIGLO dataset (Chen 2025, ref 22); retrieved from LXCat SIGLO download on July 31, 2026. Underlying compilation cites W.L. Morgan, Plasma Chem. Plasma Process. 12, 449 (1992). Used in arf.toml R10 / krf.toml R9 (e + F2 -> F- + F, dissociative attachment). Cross section stored in m^2 by SIGLO (converted to cm^2 for the CSV column).",
+  "updated": "2010-06-24 12:26:48",
+  "n_points": 61,
+  "threshold": 0.0,
+  "axes": {
+    "x_quantity": "Energy",
+    "y_quantity": "Cross section"
+  },
+  "units": {
+    "x": "eV",
+    "y": "cm^2"
+  },
+  "source_units": {
+    "x": "eV",
+    "y": "m^2"
+  },
+  "conversion_from_source": {
+    "x": 1,
+    "y": 10000
+  },
+  "x_min": 0.0,
+  "x_max": 20.0,
+  "y_max": 7.999999999999999e-15
+}

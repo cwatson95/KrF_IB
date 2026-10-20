@@ -1,0 +1,13 @@
+# Ueda et al., Rev. Laser Eng. 11, 576 (1983), Fig. 10 p.38 (583): Ar(3P2) 696.5-nm absorption decay rate in pure Ar vs pressure (p^2 axis); two probe widths
+# survey reading of the PDF at 300 dpi; +-0.1e7 per s
+p_atm,decay_1e7_per_s,probe
+1.459,0.938,0.02nm
+1.459,1.124,0.08nm
+1.988,1.496,both
+2.483,2.085,0.02nm
+2.483,2.24,0.08nm
+3.00,2.94,0.02nm
+3.00,3.09,0.08nm
+3.37,3.80,0.08nm
+3.48,3.80,0.02nm
+4.01,4.88,0.02nm

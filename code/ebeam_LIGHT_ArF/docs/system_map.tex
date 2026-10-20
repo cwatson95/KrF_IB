@@ -1,0 +1,478 @@
+% LIGHT_ArF_ebeam system map for v0_2: energy flow through the Ar/F2 kinetics
+% with every band at its default. Every number comes from
+% system_map_numbers.tex, which make_system_map.py writes from the model.
+% Build from LIGHT_ArF_ebeam/docs:
+%   python3 make_system_map.py && latexmk -pdf system_map.tex
+% The layout, palette and rules are LIGHT's v0_2 map's
+% (LIGHT/docs/system_map_v0_2.tex), whose palette passed the dataviz
+% validator. The ArF map uses a subset of it: no KrF(C) hue.
+\documentclass[11pt]{article}
+\usepackage[a4paper,landscape,margin=0.9cm,top=0.7cm,bottom=0.6cm]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[scaled=0.95]{helvet}
+\renewcommand{\familydefault}{\sfdefault}
+\usepackage{amsmath}
+\usepackage{sansmath}
+\usepackage{booktabs,tabularx,array}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,calc,positioning}
+\pagestyle{empty}
+\setlength{\parindent}{0pt}
+
+\input{system_map_numbers}
+\makeatletter
+\newcommand\wm[1]{\ifcsname wm@#1\endcsname\csname wm@#1\endcsname
+  \else\wm@missing{#1}\fi}
+\newcommand\wm@missing[1]{\errmessage{system_map_numbers.tex has no
+  number '#1'. Rerun make_system_map.py}}
+\makeatother
+
+% LIGHT's v0_2 palette. Ions and F atoms are neutral greys (stored energy).
+\definecolor{cE}{HTML}{2A78D6}   % electron gas
+\definecolor{cX}{HTML}{EDA100}   % Ar* excitation
+\definecolor{cB}{HTML}{1BAF7A}   % ArF(B) and 193 nm
+\definecolor{cT}{HTML}{4A3AA7}   % Ar2F* and 284 nm
+\definecolor{cV}{HTML}{A63A83}   % Ar2* and 127 nm
+\definecolor{cH}{HTML}{E34948}   % heat
+\definecolor{cI}{HTML}{52514E}   % ions (stored)
+\definecolor{cF}{HTML}{A8A69E}   % F atoms (stored)
+\definecolor{ink}{HTML}{0B0B0B}
+\definecolor{ink2}{HTML}{52514E}
+\definecolor{muted}{HTML}{898781}
+
+% chemistry and units in running text or math
+\newcommand{\unit}[1]{\ensuremath{\,\mathrm{#1}}}
+\newcommand{\el}{\ensuremath{\mathrm{e}^-}}
+\newcommand{\Ars}{Ar\ensuremath{^*}}
+\newcommand{\Arp}{Ar\ensuremath{^+}}
+\newcommand{\Artp}{Ar\ensuremath{_2^+}}
+\newcommand{\Arts}{Ar\ensuremath{_2^*}}
+\newcommand{\Fm}{F\ensuremath{^-}}
+\newcommand{\AtF}{Ar\ensuremath{_2}F\ensuremath{^*}}
+\newcommand{\ArFs}{ArF\ensuremath{^*}}
+\newcommand{\Ft}{F\ensuremath{_2}}
+\newcommand{\ra}{\ensuremath{\to}\ }
+\newcommand{\hnu}{\ensuremath{h\nu}}
+\newcommand{\Edep}{\ensuremath{E_\mathrm{dep}}}
+\newcommand{\pc}[1]{\wm{#1}\,\%}
+\newcommand{\cm}[1]{\ensuremath{\,\mathrm{cm^{#1}s^{-1}}}}
+
+\tikzset{
+  band/.style={line width={max(0.6pt,(#1)*0.03mm)},
+    -{Triangle[width=2.2pt 1.8,length=2pt 1.0]}},
+  casing/.style={line width={max(0.6pt,(#1)*0.03mm)+2.4pt}, white},
+  thin arrow/.style={line width=0.6pt,
+    -{Triangle[width=2.2pt 1.8,length=2pt 1.0]}},
+  blab/.style={font=\scriptsize, text=ink, inner sep=0.8pt, fill=white,
+    fill opacity=0.85, text opacity=1},
+  nohyph/.style={execute at begin node={\hyphenpenalty=10000
+    \exhyphenpenalty=10000}},
+  proc/.style={nohyph, draw=ink2!55, fill=white, rounded corners=2pt,
+    text width=2.6cm, align=left, font=\scriptsize, inner sep=3pt,
+    text=ink},
+  spec/.style={nohyph, draw=#1, fill=#1!12, rounded corners=5pt,
+    align=center, font=\scriptsize, text=ink, inner sep=3pt,
+    text width=2.05cm, line width=0.8pt},
+  inbox/.style={nohyph, draw=ink2!55, fill=white, rounded corners=2pt,
+    text width=2.5cm, align=left, font=\scriptsize, inner sep=4pt,
+    text=ink},
+  zbox/.style={nohyph, draw=ink2!45, dashed, fill=white, rounded corners=2pt,
+    text width=2.6cm, align=left, font=\scriptsize, inner sep=3pt,
+    text=ink2},
+  tag/.style={draw=#1, fill=#1!14, rounded corners=1.5pt,
+    font=\tiny, text=ink, inner sep=1.6pt},
+  hdr/.style={font=\footnotesize\bfseries, text=ink2},
+  note/.style={nohyph, font=\tiny, text=ink2},
+}
+
+\begin{document}
+\sansmath
+
+{\large\bfseries LIGHT\_ArF\_ebeam system map, v0\_2 on LIGHT's own input: energy flow through the
+Ar/F$_2$ kinetics}\par
+\vspace{2pt}
+{\footnotesize Reference point: \wm{p}\unit{atm} of Ar with \pc{xF2} F$_2$
+at \wm{Tg0}\unit{K}, $P=\wm{P}\unit{kW\,cm^{-3}}$ for \wm{pulse}\unit{\mu s}
+so that $\Edep=\wm{Edep}\unit{J\,cm^{-3}}$, $n_e$ seeded at
+$\wm{ne}\unit{cm^{-3}}$ and then free, every band at its default, run to
+\wm{tend}\unit{\mu s}. Band width is proportional to the energy flow.
+Numbers are percent of \Edep, rounded to 0.1.}\par
+\vspace{2pt}
+
+\begin{tikzpicture}[x=1cm,y=1cm]
+% ================================================================ frames
+\node[hdr] at (1.4,15.7) {INPUT};
+\node[hdr] at (26.3,15.7) {OUTPUT at $t=\wm{tend}\unit{\mu s}$};
+\node[note] at (26.3,15.32) {percent of \Edep, sums to 100};
+\draw[draw=ink2!35, fill=black!2.5, rounded corners=6pt]
+  (3.1,0.25) rectangle (24.25,15.45);
+\node[hdr, anchor=west] at (3.3,15.08)
+  {UNIFORM INITIAL GAS\quad 0-D, constant volume};
+
+% ================================================================ inputs
+\node[inbox, line width=0.9pt, draw=cE] (pow) at (1.4,12.5) {%
+  \textbf{Power in}\\
+  $P=\wm{P}\unit{kW\,cm^{-3}}$\\ for \wm{pulse}\unit{\mu s}, uniform,\\
+  into the electrons\\
+  $\Edep=\wm{Edep}\unit{J\,cm^{-3}}$\\
+  \textcolor{ink2}{the only input}};
+\node[inbox] (seed) at (1.4,8.6) {%
+  \textbf{$n_e$ seed}\\
+  $\wm{ne}\unit{cm^{-3}}$ of \el{} and \Arp{} at $t=0$, then free\\
+  $\wm{neF2}$ while \Ft{} lasts, $\wm{nePeak}$ at the peak};
+\node[inbox, text width=2.6cm] (fill) at (1.45,4.4) {%
+  \textbf{Initial gas fill}\\
+  Ar $+$ \pc{xF2} F$_2$\\ \wm{p}\unit{atm}, \wm{Tg0}\unit{K}\\
+  \mbox{$N=\wm{N}\unit{cm^{-3}}$}\\
+  \textcolor{ink2}{one rare gas, no buffer}};
+
+% ================================================================ electron gas
+\node[draw=cE, fill=cE!10, rounded corners=5pt, line width=0.9pt,
+  minimum width=1.6cm, minimum height=11.1cm, anchor=north]
+  (eg) at (4.0,14.6) {};
+\node[align=center, font=\scriptsize, text=ink, text width=1.5cm,
+  anchor=north] at ([yshift=-4pt]eg.north) {\textbf{electron}\\
+  \textbf{gas}\\[4pt] Maxwellian\\ bulk\\ $T_e$ \wm{Te}\unit{eV}\\
+  \textcolor{ink2}{pulse mean}\\[6pt] tail above\\ \wm{E.X}\unit{eV}\\
+  $T_t$ \wm{TtMid}\unit{eV}\\ \textcolor{ink2}{mid-pulse}\\[6pt]
+  $U_e=\tfrac32 n_e T_e$};
+\node[align=center, note, text width=1.3cm, anchor=south]
+  at ([yshift=3pt]eg.south) {in: power \wm{e.P}\\ and Penning
+  \wm{e.pen}\\[3pt] captured \el{}\\ \wm{e.cap} to heat};
+
+% ================================================================ e-impact rows
+\node[note, anchor=south west, text width=5.3cm, align=left]
+  at (5.45,14.05) {$Q=k\,n_e[\mathrm{Ar}]$, $k=\langle\sigma v\rangle$ over
+  the two-temperature EEDF, IST-Lisbon and SIGLO cross sections};
+\node[proc, text width=2.4cm] (G1) at (6.75,13.25) {%
+  \textbf{G1}\quad \el{} + Ar\\ \ra \el{} + \Ars(4s)\\
+  \textcolor{ink2}{\wm{nG1} rows, \wm{g1.lo} to}\\
+  \textcolor{ink2}{\wm{g1.hi}\unit{eV}}};
+\node[proc, text width=2.4cm] (C1) at (6.75,10.95) {%
+  \textbf{C1}\quad \el{} + Ar\\ \ra Ar(4p, 3d, \dots)\\
+  \textcolor{ink2}{\wm{nC1} rows, \wm{c1.lo} to}\\
+  \textcolor{ink2}{\wm{c1.hi}\unit{eV}, cascade to \Ars}};
+\node[proc, text width=2.4cm] (F2e) at (6.75,7.2) {%
+  \textbf{ATT, DIS, VIB}\\ \el{} + \Ft{} \ra F + \Fm\\
+  or 2F, or \Ft($v$)\\
+  \textcolor{ink2}{\Fm{} holds $\wm{F2e.anion}$}};
+\node[proc, text width=2.4cm] (C2) at (6.75,5.45) {%
+  \textbf{C2}\quad \el{} + Ar\\ \ra \Arp{} + 2\el\\
+  \textcolor{ink2}{threshold \wm{E.P}\unit{eV}}};
+\node[proc, text width=2.4cm] (G6) at (6.75,4.3) {%
+  \textbf{G6}\quad elastic\\ \el{} + Ar\\
+  \textcolor{ink2}{$(2m/M)(1-T_g/T_e)$}};
+
+% ================================================================ Ar*, Ar2*, R11p
+\node[spec=cX] (AS) at (9.75,12.2) {%
+  \textbf{\Ars(4s)}\\ formed\\ $\wm{arsFormed}\unit{cm^{-3}}$};
+\node[spec=cV, text width=2.4cm] (A2S) at (9.75,9.9) {%
+  \textbf{\Arts}, \pc{brs.AK8} of \Ars\\
+  $\wm{a2sFormed}\unit{cm^{-3}}$\\
+  {\tiny AK8\_Ar: \Ars{} + 2Ar}\\
+  {\tiny $\wm{k.AK8}\cm{6}$}};
+\node[proc, text width=2.4cm] (AR) at (9.75,7.12) {%
+  \textbf{AR2\_RAD}\quad 127\unit{nm}\\ \Arts{} \ra 2Ar + \hnu\\
+  \textcolor{ink2}{$\tau=\wm{tauRAD}\unit{\mu s}$}, \pc{bra2.RAD}\\
+  \textbf{NK7, K2F\_BR}\\ \Arts{} + \Ft, \pc{bra2.F2}};
+\node[proc, text width=2.4cm] (R11) at (9.75,4.45) {%
+  \textbf{R11p}\quad \Artp{} + \el\\ \ra \Ars{} + Ar\\
+  \textcolor{ink2}{$\wm{k.R11p}\cm{3}$}\\
+  \textcolor{ink2}{$\times\,(300\,\mathrm{K}/T_e)^{\wm{pow.R11p}}$}};
+
+% ================================================================ harpoon, zero rows, ions
+\node[proc] (H) at (12.9,13.1) {%
+  \textbf{G3, G3X}\\ \Ars{} + \Ft\\
+  \textcolor{ink2}{$\wm{k.harp}\cm{3}$}\\
+  \ra ArF(B) + F, \pc{pc.harpY}\\
+  \ra Ar + 2F, \pc{pc.harpX}\\
+  takes \pc{brs.harp} of \Ars};
+\node[zbox] (Z) at (12.9,9.75) {%
+  \textbf{0 here, no}\\ \textbf{measurement}\\[1pt]
+  {\tiny\begin{tabular}{@{}l@{\hspace{4pt}}l@{}}
+  G2 & \Ars{} + \Ars\\
+  PEN\_AR2 & \Arts{} + \Arts\\
+  K2F\_F & \Arts{} + F\\
+  Q2AR & \AtF{} + Ar\\
+  \end{tabular}}\\[1pt]
+  \textcolor{ink2}{printed, not drawn}};
+\node[spec=cI] (KI) at (12.9,5.3) {%
+  \textbf{\Arp{}, \Artp{} ions}\\ {\tiny K15: \Arp{} + 2Ar \ra \Artp{} +
+  Ar}\\ {\tiny $\wm{k.K15}\cm{6}$}};
+
+% ================================================================ ArF(B), ion-ion
+\node[spec=cB] (AB) at (16.05,13.45) {%
+  \textbf{ArF(B)}\\ upper laser\\ state, no C};
+\node[proc, text width=2.6cm] (II) at (16.05,5.25) {%
+  \textbf{K26, K108}\quad \Arp{} or\\ \Artp{} + \Fm{} \ra ArF(B)\\
+  \textcolor{ink2}{\Fm{} brings $\wm{ii.anion}$}\\
+  \textcolor{ink2}{$\times\,(T_g/300)^{\wm{n3.ii}}$, 3-body part}};
+
+% ================================================================ B fates
+\node[proc] (G4) at (19.2,14.6) {%
+  \textbf{G4}\quad ArF(B)\\ \ra Ar + F + \hnu, 193\unit{nm}\\
+  \textcolor{ink2}{$\tau_B=\wm{tauB}\unit{ns}$, calculated}};
+\node[proc] (QB) at (19.2,12.62) {%
+  \textbf{QE, QF2, QAR}\\ quench ArF(B) by\\
+  \el\,\wm{B.QE}, \Ft\,\wm{B.QF2}, Ar\,\wm{B.QAR}};
+\node[proc] (TR) at (19.2,11.08) {%
+  \textbf{G5}\quad ArF(B)\\ + 2Ar \ra \AtF{} + Ar\\
+  \textcolor{ink2}{$\wm{k.G5}\cm{6}$}};
+\node[proc, text width=2.45cm] (FF) at (19.35,5.3) {%
+  \textbf{FF}\quad F + F + Ar\\ \ra \Ft{} + Ar\\
+  \textcolor{ink2}{$\wm{k.FF}\cm{6}$}\\
+  takes \wm{FF.in} of the F atoms};
+
+% ================================================================ Ar2F*
+\node[proc] (C3) at (22.7,12.85) {%
+  \textbf{C3}\quad \AtF\\ \ra 2Ar + F + \hnu\\
+  \textcolor{ink2}{284\unit{nm}, $\tau=\wm{tauC3}\unit{ns}$}\\
+  \pc{brt.C3} of \AtF};
+\node[spec=cT] (T) at (22.7,11.08) {%
+  \textbf{\AtF}\\ trimer\\
+  $\wm{a2fFormed}\unit{cm^{-3}}$};
+\node[proc] (Q2) at (22.7,9.35) {%
+  \textbf{Q2F, Q2FF}\\ \AtF{} + \Ft{}, \pc{brt.Q2F}\\
+  \AtF{} + F, \pc{brt.Q2FF}\\
+  \textcolor{ink2}{$\wm{k.Q2F}\cm{3}$ for \Ft}};
+
+% ================================================================ bands
+% inputs into the gas
+\draw[band=\wm{e.P}, cE] (pow.east) -- (pow.east -| eg.west)
+  node[blab, midway, above=2.2pt] {\wm{e.P}};
+\draw[thin arrow, ink2] (seed.east) -- (seed.east -| eg.west)
+  node[blab, midway, above=1pt, font=\tiny] {seeds $n_e$};
+\draw[thin arrow, ink2] (fill.east) -- (fill.east -| 3.1,0)
+  node[blab, midway, above=1pt, font=\tiny] {fills};
+% electron gas out to the electron-impact rows
+\foreach \n/\k in {G1/e.G1, C1/e.C1, F2e/e.F2, C2/e.C2, G6/e.G6}{
+  \draw[band=\wm{\k}, cE] (\n.west -| eg.east) -- (\n.west)
+    node[blab, midway, above=1.5pt] {\wm{\k}};
+}
+% into Ar*
+\draw[band=\wm{G1.ar}, cX] (G1.east) -- (AS.north west)
+  node[blab, midway, above right=0pt and 0pt] {\wm{G1.ar}};
+\draw[band=\wm{C1.ar}, cX] (C1.east) -- (AS.west)
+  node[blab, pos=0.45, above left=0pt and 0pt] {\wm{C1.ar}};
+% out of Ar*
+\draw[band=\wm{ars.harp}, cX] (AS.north east) -- (H.west |- AS.north east)
+  node[blab, midway, above=2pt] {\wm{ars.harp}};
+\draw[band=\wm{ars.AK8}, cX] ([xshift=0.45cm]AS.south) --
+  ([xshift=0.45cm]A2S.north)
+  node[blab, midway, right=2pt] {\wm{ars.AK8}};
+% the harpoon into ArF(B)
+\draw[band=\wm{harp.B}, cB] (H.east |- AB.west) -- (AB.west)
+  node[blab, midway, above=2pt] {\wm{harp.B}};
+% ionization into the ions
+\draw[band=\wm{C2.ion}, cI] (C2.east) -- (C2.east -| KI.west)
+  node[blab, pos=0.9, above=1.5pt] {\wm{C2.ion}};
+% Ar2* down to its fates
+\draw[band=\wm{a2s.fates}, cV] ([xshift=-0.5cm]A2S.south) --
+  ([xshift=-0.5cm]AR.north)
+  node[blab, pos=0.4, left=2pt] {\wm{a2s.fates}};
+% recombination: the ions to R11p, and R11p up the left side to Ar*, over
+% the ionization band
+\draw[band=\wm{R11p.in}, cI] (KI.south west) -- (R11.east)
+  node[blab, pos=0.5, below right=0pt and 0pt] {\wm{R11p.in}};
+\draw[casing=\wm{R11p.ar}, rounded corners=5pt]
+  (R11.west) -- (8.25,4.45) -- (8.25,10.95) -- (9.2,10.95) -- (9.2,11.6);
+\draw[band=\wm{R11p.ar}, cX, rounded corners=5pt]
+  (R11.west) -- (8.25,4.45) -- (8.25,10.95) -- (9.2,10.95) -- (9.2,11.6)
+  node[blab, pos=0.64, left=1pt] {\wm{R11p.ar}};
+% the ions to ion-ion recombination
+\draw[band=\wm{ii.in}, cI] (KI.east) -- (II.west)
+  node[blab, midway, above=1.5pt] {\wm{ii.in}};
+% light and products out of the Ar2* fates, right along the corridor. 127
+% nm to the ledger, Ar2F* up to the trimer, and ArF(B) into the ion-ion band
+\draw[casing=\wm{RAD.hv}] (AR.east |- 0,6.5) -- (24.7,6.5);
+\draw[band=\wm{RAD.hv}, cV] (AR.east |- 0,6.5) -- (24.7,6.5)
+  node[blab, pos=0.93, above=1.5pt] {\wm{RAD.hv}};
+\draw[casing=\wm{BR.a2f}, rounded corners=4pt]
+  (AR.east |- 0,6.8) -- (20.95,6.8) -- (20.95,10.2) -- (21.85,10.2)
+  -- (21.85,10.55);
+\draw[band=\wm{BR.a2f}, cT, rounded corners=4pt]
+  (AR.east |- 0,6.8) -- (20.95,6.8) -- (20.95,10.2) -- (21.85,10.2)
+  -- (21.85,10.55);
+\node[blab, anchor=south] at (12.05,6.84) {\wm{BR.a2f}};
+\draw[casing=\wm{NK7.B}]
+  (AR.east |- 0,7.45) -- ([xshift=4pt]II.north west |- 0,7.45);
+\draw[band=\wm{NK7.B}, cB]
+  (AR.east |- 0,7.45) -- ([xshift=4pt]II.north west |- 0,7.45)
+  node[blab, pos=0.2, above=1pt] {\wm{NK7.B}};
+% the ion-ion ArF(B), joined by Ar2* + F2's, up to the B state
+\draw[casing=\wm{ii.B}] ([xshift=4pt]II.north west) --
+  ([xshift=4pt]II.north west |- 0,7.45);
+\draw[band=\wm{ii.B}, cB] ([xshift=4pt]II.north west) --
+  ([xshift=4pt]II.north west |- 0,7.45);
+\node[blab, anchor=west] at ([xshift=6pt]II.north west |- 0,7.12)
+  {\wm{ii.B}};
+\draw[casing=\wm{iiNK7.B}, rounded corners=4pt]
+  ([xshift=4pt]II.north west |- 0,7.45) |- ([yshift=-7pt]AB.west);
+\draw[band=\wm{iiNK7.B}, cB, rounded corners=4pt]
+  ([xshift=4pt]II.north west |- 0,7.45) |- ([yshift=-7pt]AB.west);
+\node[blab, anchor=east] at ([xshift=2pt]II.north west |- 0,8.6)
+  {\wm{iiNK7.B}};
+% out of ArF(B)
+\draw[band=\wm{B.G4}, cB] (AB.north east) -- (G4.west)
+  node[blab, midway, above left=0pt and 0pt] {\wm{B.G4}};
+\draw[band=\wm{B.Q}, cB] (AB.east) -- (QB.west)
+  node[blab, pos=0.5, above=1pt] {\wm{B.Q}};
+\draw[band=\wm{B.G5}, cB] (AB.south east) -- (TR.west)
+  node[blab, pos=0.42, left=1pt] {\wm{B.G5}};
+% trimer and Ar2F*
+\draw[band=\wm{tri.a2f}, cT] (TR.east) -- (T.west)
+  node[blab, midway, above=2pt] {\wm{tri.a2f}};
+\draw[band=\wm{a2f.C3}, cT] (T.north) -- (C3.south)
+  node[blab, midway, right=3pt] {\wm{a2f.C3}};
+\draw[band=\wm{a2f.Q2x}, cT] (T.south) -- (Q2.north)
+  node[blab, midway, right=3pt] {\wm{a2f.Q2x}};
+% light to the outputs
+\draw[band=\wm{G4.hv}, cB] ([yshift=2pt]G4.east) -- ([yshift=2pt]G4.east -| 24.7,0)
+  node[blab, pos=0.75, above=2pt] {\wm{G4.hv}};
+\draw[band=\wm{C3.hv}, cT] (C3.east) -- (C3.east -| 24.7,0)
+  node[blab, midway, above=1.5pt] {\wm{C3.hv}};
+
+% ================================================================ loss tags
+\node[tag=cH, anchor=north east] at ([yshift=-2pt]G1.south east)
+  {heat \wm{G1.heat}};
+\node[tag=cH, anchor=north east] at ([yshift=-2pt]C1.south east)
+  {heat \wm{C1.heat}};
+\node[tag=cF, anchor=north west] at ([yshift=-2pt]F2e.south west)
+  {F atoms \wm{F2e.F}};
+\node[tag=cH, anchor=north east] at ([yshift=-2pt]F2e.south east)
+  {heat \wm{F2e.heat}};
+\node[tag=cH, anchor=north east] at ([yshift=-2pt]G6.south east)
+  {heat \wm{e.G6}, elastic};
+\node[tag=cH, anchor=north east] at ([yshift=-2pt]R11.south east)
+  {heat \wm{R11p.heat}};
+\node[tag=cH, anchor=north east] at ([yshift=-2pt]KI.south east)
+  {heat \wm{K15.heat}, K15};
+\node[tag=cH, anchor=north east] at ([yshift=-2pt]II.south east)
+  {heat \wm{ii.heat}};
+\node[tag=cH, anchor=north east] at ([yshift=-2pt]FF.south east)
+  {heat \wm{FF.heat}};
+\node[tag=cH, anchor=north east] at ([yshift=-2pt]A2S.south east)
+  {heat \wm{AK8.heat}, AK8\_Ar};
+\node[tag=cF, anchor=north west] at ([yshift=-2pt]AR.south west)
+  {F atoms \wm{A2F2.F}};
+\node[tag=cH, anchor=north east] at ([yshift=-2pt]AR.south east)
+  {heat \wm{ARx.heat}};
+\node[tag=cF, anchor=north west] at ([yshift=-2pt]H.south west)
+  {F atoms \wm{harp.F}};
+\node[tag=cH, anchor=north east] at ([yshift=-2pt]H.south east)
+  {heat \wm{harp.heat}};
+\foreach \n/\f/\h in {G4/G4.F/G4.heat, QB/QB.F/QB.heat, C3/C3.F/C3.heat,
+    Q2/Q2x.F/Q2x.heat}{
+  \node[tag=cF, anchor=north west] at ([yshift=-2pt]\n.south west)
+    {F atoms \wm{\f}};
+  \node[tag=cH, anchor=north east] at ([yshift=-2pt]\n.south east)
+    {heat \wm{\h}};
+}
+\node[tag=cH, anchor=north east] at ([yshift=-2pt]TR.south east)
+  {heat \wm{tri.heat}};
+
+% ================================================================ bands box
+\node[draw=ink2!60, dashed, rounded corners=3pt, fill=white,
+  align=left, font=\scriptsize, text=ink, anchor=south west,
+  text width=9.6cm, inner sep=4pt] (BX) at (5.45,0.3) {%
+  \textbf{Bands.} The 193-nm share at each end of one band,
+  \pc{om.basic} at the defaults.\\[1pt]
+  {\tiny\renewcommand{\arraystretch}{0.92}%
+  \begin{tabular}{@{}l@{\hspace{4pt}}r@{\hspace{14pt}}l@{\hspace{4pt}}r@{}}
+  \Arts{} + F \ra ArF & \wm{bd.ar2_f.lo193} to \textbf{\wm{bd.ar2_f.hi193}}
+    & \Ars{} + 2Ar & \wm{bd.ar2_form.lo193} to \wm{bd.ar2_form.hi193}\\
+  \ArFs{} yield of \Ars{} + \Ft & \textbf{\wm{bd.arf_yield.lo193}} to
+    \textbf{\wm{bd.arf_yield.hi193}}
+    & \Ars{} + \Ft{}, total & \wm{bd.ar_f2.lo193} to \wm{bd.ar_f2.hi193}\\
+  trimer's $k\tau_B$ & \wm{bd.arf_trimer.lo193} to
+    \textbf{\wm{bd.arf_trimer.hi193}}
+    & \Arts{} radiation & \wm{bd.ar2_rad.lo193} to \wm{bd.ar2_rad.hi193}\\
+  trimer's $T_g$ law & \textbf{\wm{bd.trimer_tg_pow.lo193}} to
+    \wm{bd.trimer_tg_pow.hi193}
+    & \Arts{} + \Ft{} & \wm{bd.ar2_f2.lo193} to \wm{bd.ar2_f2.hi193}\\
+  ArF share of \Arts{} + \Ft{} & \wm{bd.ar2_f2_arf.lo193} to
+    \wm{bd.ar2_f2_arf.hi193}
+    & ArF(B) + \el{} & \wm{bd.arf_e.lo193} to \wm{bd.arf_e.hi193}\\
+  \AtF{} + F & \wm{bd.ar2f_f.lo193} to \wm{bd.ar2f_f.hi193}
+    & \AtF{} + Ar & \wm{bd.ar2f_ar.lo193} to \wm{bd.ar2f_ar.hi193}\\
+  \Ars{} + \Ars{} & \wm{bd.ar_pen.lo193} to \wm{bd.ar_pen.hi193}
+    & \Arts{} + \Arts{} & \wm{bd.ar2_pen.lo193} to \wm{bd.ar2_pen.hi193}\\
+  \end{tabular}}\\[1pt]
+  With the electron group on the share is \pc{om.electron}.};
+
+% ================================================================ legend
+\begin{scope}[shift={(15.55,0.5)}, font=\scriptsize, text=ink]
+  \node[anchor=west, font=\scriptsize\bfseries, text=ink2] at (0,3.3)
+    {Band color is where the energy sits};
+  \foreach \c/\t [count=\i] in {cE/electron gas, cX/\Ars{} excitation,
+      cB/{ArF(B) and 193\unit{nm}}, cT/\AtF{} and 284-nm light,
+      cV/\Arts{} and 127-nm light, cI/\Arp{} and \Artp{} ions}{
+    \draw[\c, line width=1.3mm] (0,3.3-0.42*\i) -- ++(0.55,0);
+    \node[anchor=west] at (0.62,3.3-0.42*\i) {\t};
+  }
+  \node[tag=cH, anchor=west] at (4.45,2.88) {heat};
+  \node[anchor=west] at (5.15,2.88) {turns into heat};
+  \node[tag=cF, anchor=west] at (4.45,2.46) {F atoms};
+  \node[anchor=west] at (5.6,2.46) {left in free F};
+  \draw[ink2, line width={10*0.03mm}] (4.45,2.04) -- ++(0.55,0);
+  \node[anchor=west] at (5.05,2.04) {10\,\% band};
+  \draw[ink2, line width={50*0.03mm}] (4.45,1.62) -- ++(0.55,0);
+  \node[anchor=west] at (5.05,1.62) {50\,\% band};
+  \node[note, anchor=north west, text width=3.5cm, align=left]
+    at (4.4,1.3) {\Fm{} lies \wm{E.anion}\unit{eV} below Ar + \Ft{} on
+    the ledger's scale, so its flows are negative. They are printed and
+    not drawn.};
+\end{scope}
+
+% ================================================================ ledger
+\begin{scope}[font=\scriptsize, text=ink]
+  \newcommand{\ledger}[5]{% y, color, label, key, bar options
+    \node[anchor=south west, inner sep=1pt] at (24.75,#1) {#3};
+    \node[anchor=south east, inner sep=1pt, font=\scriptsize\bfseries]
+      at (27.85,#1) {$\wm{#4}$};
+    \draw[ink2!30] (24.8,#1-0.1) -- (27.8,#1-0.1);
+    \fill[#2, #5] (24.8,#1-0.1) rectangle
+      ++({3.0*max(0,\wm{#4})/100},-0.14);
+  }
+  \ledger{14.6}{cB}{193-nm emission}{out.193}{}
+  \ledger{12.85}{cT}{284-nm emission}{out.284}{}
+  \ledger{6.5}{cV}{127-nm emission}{out.127}{}
+  \ledger{5.3}{cI}{stored in ions}{out.ions}{}
+  \ledger{4.45}{cH}{reaction heat}{out.heat}{}
+  \ledger{3.6}{cH}{elastic losses}{out.elastic}{opacity=0.55}
+  \ledger{2.75}{cF}{stored in F atoms}{out.F}{}
+  \ledger{1.9}{muted}{other stores}{out.other}{}
+  \node[note, anchor=north west, text width=3.0cm, align=left,
+    inner sep=1pt] at (24.75,5.15) {the seed's ions recombine};
+  \node[note, anchor=north west, text width=3.0cm, align=left,
+    inner sep=1pt] at (24.75,1.45) {Other stores are mostly \Arts{} still
+    held at \wm{tend}\unit{\mu s} ($\tau=\wm{tauRAD}\unit{\mu s}$). The heat
+    and F tags in the gas add up to these totals. Ledger closure is below
+    $10^{-12}$ of \Edep.};
+\end{scope}
+\node[note, anchor=north west, text width=2.95cm, align=left]
+  at (0.05,3.0) {Generated from LIGHT\_ArF\_\allowbreak ebeam v0\_2
+  (\wm{version}), basic network with every band at its default, by
+  \texttt{docs/}\allowbreak\texttt{make\_system\_map.py}. No number on this
+  page is typed by hand. The rates and their sources are in
+  \texttt{accuracy\_}\allowbreak\texttt{overview.pdf}, Appendix A.};
+\end{tikzpicture}
+
+\vspace{1pt}
+{\footnotesize The notes' outputs as flows, which overlap: to \Ars{}
+\pc{notes.ars}, to \Arp{} \pc{notes.arp}, to ArF(B) \pc{arf.eff}, heat
+\pc{out.heat}, elastic losses \pc{out.elastic}, emission \pc{notes.emit}.
+Of the \Ars{} formed, \pc{brs.AK8} forms \Arts{} (\pc{brs.AK8.F2} of the
+\Ars{} used before the F$_2$ burns out), and \pc{bra2.RAD} of that \Arts{}
+radiates at 127\unit{nm}. Of the ions that recombine, \pc{ion.R11p} meet an
+electron and return to \Ars, and \pc{ion.ii} meet \Fm{} and form ArF(B). Of
+the ArF(B) formed, $\wm{arfFormed}\unit{cm^{-3}}$, \pc{frm.harp} came from
+\Ars{} + \Ft, \pc{frm.ii} from ion-ion recombination and \pc{frm.ar2} from
+\Arts{} + \Ft. Of it \pc{brf.G4} radiates at 193\unit{nm}, \pc{brf.tri}
+forms the trimer, and electrons, F$_2$ and Ar quench \pc{brf.e},
+\pc{brf.F2} and \pc{brf.Ar}. At the end of the run
+$T_g=\wm{TgEnd}\unit{K}$ and $p=\wm{pEnd}\unit{atm}$, and F$_2$ fell below
+a tenth of the fill at \wm{F2burn}\unit{ns}.}\par
+
+\end{document}

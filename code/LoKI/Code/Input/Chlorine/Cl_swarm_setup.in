@@ -1,0 +1,77 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  SWARM ANALYSIS CHLORINE %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% --- configuration of the working conditions ---
+workingConditions:
+  gasPressure: 133.32                         % in Pa
+  gasTemperature: 300                         % in K
+  reducedElecField: [20,50,100,300,1000]      % in Td
+  reducedMagField: 0                          % in Hx
+  elecFieldAngle: 180                         % in degrees
+  excitationFrequency: 0                      % in Hz
+
+% --- configuration of the electron kinetics ---
+electronKinetics:
+  isOn: true             % true or false (to activate or deactivate the electron kinetics)
+  eedfType: boltzmannMC    % boltzmann or prescribedEedf
+  ionizationOperatorType: equalSharing % oneTakesAll, equalSharing, usingSDCS, randomUniform
+  LXCatFiles:            % cross section files
+    - Chlorine/Cl_LXCat.txt
+  gasProperties:        % properties of the gases (S.I. Units)
+    mass: Databases/masses.txt
+    fraction:
+      - Cl2 = 1
+      - Cl = 0
+    harmonicFrequency: Databases/harmonicFrequencies.txt
+    anharmonicFrequency: Databases/anharmonicFrequencies.txt
+    rotationalConstant: Databases/rotationalConstants.txt
+    electricQuadrupoleMoment: Databases/quadrupoleMoment.txt
+    OPBParameter: Databases/OPBParameter.txt
+  stateProperties:      % properties of the states (S.I. Units except for the energy [eV])
+    population:
+      - Cl2(X1SIG_g^(+)) = 1
+      - Cl(-,1s) = 0
+      - Cl(2P) = 0
+      - Cl(+,3P) = 0
+      - Cl2(+,X2PIg) = 0
+      - Cl(2+,4S) = 0
+      - Cl2(2+,gnd) = 0
+%    statisticalWeight:
+%      - Cl2(X1SIG_g^(+)) = 1
+  numericsMC:
+    nElectrons: 4E4                  % increased from Ar: attachment removes electrons from swarm
+    gasTemperatureEffect: smartActivation
+    nIntegrationPoints: 1E4
+    nIntegratedSSTimes: 3
+
+% --- configuration for the heavy species kinetics ---
+chemistry:
+  isOn: false
+
+% --- configuration of the graphical user interface ---
+gui: 
+  isOn: true
+  plotOptions:
+    - MCTemporalInfo
+    - MCTemporalInfo_periodic
+    - distributionFunctions
+    - swarmParameters
+  terminalDisp:
+    - setup
+    - MCStatus
+
+% ---  configuration of the output files ---
+output: 
+  isOn: true
+  folder: swarm_Cl2_short
+  dataFiles:
+    - eedf
+%    - evdf
+    - swarmParameters
+    - rateCoefficients
+    - powerBalance
+%    - MCTemporalInfo
+    - MCTemporalInfo_periodic
+    - MCSimDetails
+    - lookUpTable

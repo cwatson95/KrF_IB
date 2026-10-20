@@ -1,0 +1,70 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%   Ar-buffer CONTROL swarm analysis at the GUI_v2 operating point
+%   Kr/F2/Ar = 0.05/0.001/0.949  (PLAN (30) owner selection)
+%   Identical grid/numerics to V2_F2001_Ne949_Kr050.in so the
+%   Ramsauer-vs-no-Ramsauer buffer comparison is apples-to-apples
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+workingConditions:
+  gasPressure: 133.32            % Pa (swarm coeffs are E/N-normalised)
+  gasTemperature: 300            % K
+  reducedElecField: [0.2]              % Td — sub-floor extension (0.1.39)
+  reducedMagField: 0
+  elecFieldAngle: 180
+  excitationFrequency: 0
+
+electronKinetics:
+  isOn: true
+  eedfType: boltzmannMC
+  ionizationOperatorType: equalSharing
+  LXCatFiles:
+    - Krypton/Kr_LXCat.txt
+    - Fluorine2/F2_LXCat.txt
+    - Argon/Ar_LXCat.txt
+
+  gasProperties:
+    mass: Databases/masses.txt
+    fraction:
+      - Kr = 0.05
+      - F2 = 0.001
+      - F = 0            % attachment product species (declared, zero fraction — F2_swarm_setup.in pattern)
+      - Ar = 0.949
+    harmonicFrequency: Databases/harmonicFrequencies.txt
+    anharmonicFrequency: Databases/anharmonicFrequencies.txt
+    rotationalConstant: Databases/rotationalConstants.txt
+    electricQuadrupoleMoment: Databases/quadrupoleMoment.txt
+    OPBParameter: Databases/OPBParameter.txt
+
+  stateProperties:
+    population:
+      - Kr(1S0) = 1
+      - F2(V0) = 1
+      - F(-,1s) = 0
+      - F(2P) = 0
+      - Ar(1S0) = 1
+    statisticalWeight:
+      - Kr(1S0) = 1
+      - Ar(1S0) = 1
+      - Ar(3P2) = 5
+
+  numericsMC:
+    nElectrons: 2E4
+    gasTemperatureEffect: smartActivation
+    nIntegrationPoints: 1E4
+    nIntegratedSSTimes: 3
+
+chemistry:
+  isOn: false
+
+gui:
+  isOn: false
+
+output:
+  isOn: true
+  folder: krf0d_sub_ar_0p2
+  dataFiles:
+    - eedf
+    - swarmParameters
+    - rateCoefficients
+    - powerBalance
+    - lookUpTable

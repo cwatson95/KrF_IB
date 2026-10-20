@@ -1,0 +1,282 @@
+{
+  "preset": "krf_hyper_mw",
+  "point": {
+    "window": {
+      "mw_t0_ns": 35.0,
+      "mw_flat_ns": 35.0,
+      "mw_rise_ns": 2.0
+    },
+    "beam": {
+      "pressure_atm": 2.0,
+      "beam_j_A_cm2": 100.0,
+      "t_end_ns": 250.0
+    },
+    "P_W": 250000.0
+  },
+  "numeric": {
+    "rows": [
+      {
+        "setting": "BDF rtol 1e-6 (engine default)",
+        "E_laser_off_J": 0.484717169070405,
+        "E_laser_on_J": 0.4854477262006878,
+        "E_MW_J": 0.009251566758702978,
+        "dE_laser_J": 0.0007305571302828051,
+        "marginal": 0.07896577405071067
+      },
+      {
+        "setting": "BDF rtol 1e-8",
+        "E_laser_off_J": 0.48471563550552865,
+        "E_laser_on_J": 0.48544659110622657,
+        "E_MW_J": 0.009249366072815235,
+        "dE_laser_J": 0.0007309556006979134,
+        "marginal": 0.07902764307775226
+      },
+      {
+        "setting": "BDF rtol 1e-10",
+        "E_laser_off_J": 0.4847155940715783,
+        "E_laser_on_J": 0.4854465582521783,
+        "E_MW_J": 0.009249341294342628,
+        "dE_laser_J": 0.00073096418059998,
+        "marginal": 0.07902878241146483
+      },
+      {
+        "setting": "BDF rtol 1e-6, max_step 1 ns",
+        "E_laser_off_J": 0.4847171690704059,
+        "E_laser_on_J": 0.48544772620068893,
+        "E_MW_J": 0.009251566758702978,
+        "dE_laser_J": 0.0007305571302830272,
+        "marginal": 0.07896577405073468
+      },
+      {
+        "setting": "BDF rtol 1e-6, atol x0.1",
+        "E_laser_off_J": 0.4847165745225745,
+        "E_laser_on_J": 0.485447283728609,
+        "E_MW_J": 0.009251444951758003,
+        "dE_laser_J": 0.0007307092060345188,
+        "marginal": 0.07898325178875609
+      },
+      {
+        "setting": "Radau rtol 1e-6 (independent integrator)",
+        "E_laser_off_J": 0.48471558757922023,
+        "E_laser_on_J": 0.4854465477715001,
+        "E_MW_J": 0.009249330292533386,
+        "dE_laser_J": 0.0007309601922798614,
+        "marginal": 0.07902844521294004
+      },
+      {
+        "setting": "Radau rtol 1e-8",
+        "E_laser_off_J": 0.4847155930171032,
+        "E_laser_on_J": 0.48544655598553077,
+        "E_MW_J": 0.009249338908162485,
+        "dE_laser_J": 0.000730962968427562,
+        "marginal": 0.07902867174458184
+      }
+    ],
+    "sigma_diff_J": 1.953509875112883e-07,
+    "sigma_abs_J": 7.579470270960549e-07,
+    "z": 3741.0073849841033,
+    "dE_min_J": 5.860529625338649e-07,
+    "P_min_W": 200.48680386827633,
+    "all_positive": true
+  },
+  "brackets": {
+    "rows": [
+      {
+        "variant": "R8 x0.333333",
+        "rid": "R8",
+        "factor": 0.3333333333333333,
+        "E_laser_off_J": 0.47656312275083923,
+        "dE_laser_J": 0.0002930974644544393,
+        "marginal": 0.03168120945265431
+      },
+      {
+        "variant": "R8 x3",
+        "rid": "R8",
+        "factor": 3.0,
+        "E_laser_off_J": 0.460801249625467,
+        "dE_laser_J": 0.0002979892548506391,
+        "marginal": 0.0322249879389508
+      },
+      {
+        "variant": "KSTEP x0.333333",
+        "rid": "KSTEP",
+        "factor": 0.3333333333333333,
+        "E_laser_off_J": 0.4958188998591459,
+        "dE_laser_J": -0.00015332310257931692,
+        "marginal": -0.016581785303889558
+      },
+      {
+        "variant": "KSTEP x3",
+        "rid": "KSTEP",
+        "factor": 3.0,
+        "E_laser_off_J": 0.4205278336547167,
+        "dE_laser_J": -0.000519830442835767,
+        "marginal": -0.056197860371462474
+      },
+      {
+        "variant": "KPS_Kr x0.333333",
+        "rid": "KPS_Kr",
+        "factor": 0.3333333333333333,
+        "E_laser_off_J": 0.4846745630785259,
+        "dE_laser_J": 0.0007302204923778643,
+        "marginal": 0.07894744211058552
+      },
+      {
+        "variant": "KPS_Kr x3",
+        "rid": "KPS_Kr",
+        "factor": 3.0,
+        "E_laser_off_J": 0.4848290854712632,
+        "dE_laser_J": 0.0007310722632746791,
+        "marginal": 0.07904082344085682
+      },
+      {
+        "variant": "URAD_Bv x0.333333",
+        "rid": "URAD_Bv",
+        "factor": 0.3333333333333333,
+        "E_laser_off_J": 0.5182685827493554,
+        "dE_laser_J": 0.0007233315459946876,
+        "marginal": 0.07821686786616303
+      },
+      {
+        "variant": "URAD_Bv x3",
+        "rid": "URAD_Bv",
+        "factor": 3.0,
+        "E_laser_off_J": 0.3997772594326553,
+        "dE_laser_J": 0.0007619208166720903,
+        "marginal": 0.08236968085309326
+      },
+      {
+        "variant": "KR2_RAD x0.04125",
+        "rid": "KR2_RAD",
+        "factor": 0.04125,
+        "E_laser_off_J": 0.5356043265425903,
+        "dE_laser_J": 0.0006699948862324279,
+        "marginal": 0.07242466364806843
+      },
+      {
+        "variant": "AR2_RAD x0.0633333",
+        "rid": "AR2_RAD",
+        "factor": 0.06333333333333334,
+        "E_laser_off_J": 0.4905176752070301,
+        "dE_laser_J": 0.0007391827738726375,
+        "marginal": 0.07991212200367855
+      },
+      {
+        "variant": "AKD_RAD x0.0375",
+        "rid": "AKD_RAD",
+        "factor": 0.0375,
+        "E_laser_off_J": 0.4702850100043466,
+        "dE_laser_J": 0.0007637959212323242,
+        "marginal": 0.08257859690236649
+      },
+      {
+        "variant": "AKF_RAD x10",
+        "rid": "AKF_RAD",
+        "factor": 10.0,
+        "E_laser_off_J": 0.4843520400595822,
+        "dE_laser_J": 0.0007303221232555779,
+        "marginal": 0.0789414497253345
+      },
+      {
+        "variant": "APS_Ar x0.1",
+        "rid": "APS_Ar",
+        "factor": 0.1,
+        "E_laser_off_J": 0.4403516268646573,
+        "dE_laser_J": 0.0002117866993956441,
+        "marginal": 0.022896282866691584
+      }
+    ],
+    "marginal_min": -0.056197860371462474,
+    "marginal_max": 0.08257859690236649,
+    "sign_survival": "11/13",
+    "bound_est_rows": [
+      "BC_Ne",
+      "CB_Ne",
+      "HK2",
+      "HK3",
+      "HK5_fBv",
+      "HK5_fC",
+      "KPS_Ne",
+      "NF3",
+      "NK1",
+      "NK1b",
+      "NK3",
+      "NK4",
+      "NK6",
+      "NK8",
+      "VREL_Ne"
+    ]
+  },
+  "tier": {
+    "loki": {
+      "E_laser_off_J": 0.484717169070405,
+      "E_laser_on_J": 0.4854477262006878,
+      "E_MW_J": 0.009251566758702978,
+      "dE_laser_J": 0.0007305571302828051,
+      "marginal": 0.07896577405071067
+    },
+    "kinetic": {
+      "E_laser_off_J": 0.47649914569504315,
+      "E_laser_on_J": 0.47608119510326025,
+      "E_MW_J": 0.009249733761077295,
+      "dE_laser_J": -0.0004179505917829007,
+      "marginal": -0.0451851483057414
+    }
+  },
+  "power_analysis": [
+    {
+      "shot_jitter": 0.01,
+      "case": "250 kW plateau, +0.15%",
+      "effect": 0.0015,
+      "pairs": 696.8888888888888
+    },
+    {
+      "shot_jitter": 0.01,
+      "case": "1 MW, +0.6%",
+      "effect": 0.006,
+      "pairs": 43.55555555555555
+    },
+    {
+      "shot_jitter": 0.01,
+      "case": "3 MW @1 atm, +3%",
+      "effect": 0.03,
+      "pairs": 1.7422222222222221
+    },
+    {
+      "shot_jitter": 0.02,
+      "case": "250 kW plateau, +0.15%",
+      "effect": 0.0015,
+      "pairs": 2787.555555555555
+    },
+    {
+      "shot_jitter": 0.02,
+      "case": "1 MW, +0.6%",
+      "effect": 0.006,
+      "pairs": 174.2222222222222
+    },
+    {
+      "shot_jitter": 0.02,
+      "case": "3 MW @1 atm, +3%",
+      "effect": 0.03,
+      "pairs": 6.9688888888888885
+    },
+    {
+      "shot_jitter": 0.05,
+      "case": "250 kW plateau, +0.15%",
+      "effect": 0.0015,
+      "pairs": 17422.222222222223
+    },
+    {
+      "shot_jitter": 0.05,
+      "case": "1 MW, +0.6%",
+      "effect": 0.006,
+      "pairs": 1088.888888888889
+    },
+    {
+      "shot_jitter": 0.05,
+      "case": "3 MW @1 atm, +3%",
+      "effect": 0.03,
+      "pairs": 43.555555555555564
+    }
+  ]
+}

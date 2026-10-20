@@ -1,0 +1,12 @@
+# Cross-Section Browser export — synthetic differential fixture
+# data_kind: differential
+# process_id: TEST__Differential__00
+# reaction: e- + Kr → Kr+ + 2e-
+# type: Ionization
+# threshold: 10 eV
+# columns: energy [eV], secondary_energy [eV], cross_section [m^2]
+energy_eV,secondary_energy_eV,cross_section_m2
+10.0,1.0,1.0e-21
+10.0,2.0,2.0e-21
+20.0,1.0,1.5e-21
+20.0,2.0,2.5e-21

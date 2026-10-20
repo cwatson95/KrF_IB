@@ -1,0 +1,667 @@
+% How accurate LIGHT 1Dv0_2 is: the 1-D model on v0_2's chemistry, its
+% accuracy, its system map and its reaction rates (Appendix A). No number
+% here is typed by hand. They come from seven generated files:
+%   system_map_v0_2_numbers.tex    make_system_map_v0_2.py
+%   overview_v0_2_rates.tex, overview_v0_2_fast.tex, overview_v0_2_slow.tex
+%                                  make_overview_v0_2.py (the chemistry's
+%                                  scores: 1Dv0_2's chemistry is v0_2's)
+%   overview_1Dv0_2_fast.tex, overview_1Dv0_2_slow.tex
+%                                  make_overview_1Dv0_2.py (the 1-D layer)
+%   energy_ladder_v0_2.tex         make_energy_ladder.py (v0_2's ladder)
+% Build from LIGHT/docs (the 1-D numbers need Python >= 3.11 with numba):
+%   ~/.venvs/f2sweep/bin/python make_overview_1Dv0_2.py
+%   python3 make_energy_ladder.py
+%   latexmk -pdf accuracy_overview_1Dv0_2.tex
+\documentclass[11pt]{article}
+\usepackage[a4paper,margin=2.2cm]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[scaled=0.95]{helvet}
+\renewcommand{\familydefault}{\sfdefault}
+\usepackage{amsmath}
+\usepackage{sansmath}
+\usepackage{booktabs,tabularx,array,longtable}
+\usepackage{xcolor}
+\usepackage{pdfpages}
+\usepackage{float}
+\usepackage{enumitem}
+\usepackage{needspace}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+\usetikzlibrary{calc,arrows.meta,decorations.pathmorphing}
+\setlist{nosep, leftmargin=1.2em}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{5pt}
+\definecolor{ink2}{HTML}{52514E}
+\definecolor{gridc}{HTML}{E1E0D9}
+% one hue, light to dark, for the meshes from coarse to fine (the dataviz
+% validator's ordinal checks pass on white)
+\definecolor{m1}{HTML}{86B6EF}
+\definecolor{m2}{HTML}{5598E7}
+\definecolor{m3}{HTML}{2A78D6}
+\definecolor{m4}{HTML}{184F95}
+
+\input{system_map_v0_2_numbers}
+\input{overview_v0_2_rates}
+\input{overview_v0_2_fast}
+\input{overview_v0_2_slow}
+\input{overview_1Dv0_2_fast}
+\input{overview_1Dv0_2_slow}
+\input{energy_ladder_v0_2}
+\makeatletter
+\newcommand\wm[1]{\ifcsname wm@#1\endcsname\csname wm@#1\endcsname
+  \else\errmessage{no map number '#1'. Rerun make_system_map_v0_2.py}\fi}
+\newcommand\wi[1]{\ifcsname wi@#1\endcsname\csname wi@#1\endcsname
+  \else\errmessage{no v0_2 overview number '#1'. Rerun
+  make_overview_v0_2.py}\fi}
+\newcommand\di[1]{\ifcsname di@#1\endcsname\csname di@#1\endcsname
+  \else\errmessage{no 1-D overview number '#1'. Rerun
+  make_overview_1Dv0_2.py}\fi}
+\newcommand\lad[1]{\ifcsname lad@#1\endcsname\csname lad@#1\endcsname
+  \else\errmessage{no ladder number '#1'. Rerun make_energy_ladder.py}\fi}
+\makeatother
+% a generated coordinate list into \addplot
+\newcommand\profile[2]{\edef\temp{\noexpand\addplot[#1] coordinates {#2};}%
+  \temp}
+
+% chemistry and units
+\newcommand{\unit}[1]{\ensuremath{\,\mathrm{#1}}}
+\newcommand{\el}{\ensuremath{\mathrm{e}^-}}
+\newcommand{\Krs}{Kr\ensuremath{^*}}
+\newcommand{\Krp}{Kr\ensuremath{^+}}
+\newcommand{\Krtp}{Kr\ensuremath{_2^+}}
+\newcommand{\Krts}{Kr\ensuremath{_2^*}}
+\newcommand{\KtF}{Kr\ensuremath{_2}F\ensuremath{^*}}
+\newcommand{\Ft}{F\ensuremath{_2}}
+\newcommand{\Fm}{F\ensuremath{^-}}
+\newcommand{\ra}{\ensuremath{\to}\ }
+\newcommand{\hnu}{\ensuremath{h\nu}}
+\newcommand{\Edep}{\ensuremath{E_\mathrm{dep}}}
+\newcommand{\gIP}{\ensuremath{g_0I_\mathrm{sat}/P_\mathrm{in}}}
+\newcommand{\x}[1]{\ensuremath{\times}#1}
+% a factor of the measurement as a percentage of it (0.89 -> 89), to the
+% factor's own precision: \pctof{x} for two decimals, \pctof[1]{x} for three
+\newcommand{\pctof}[2][0]{\pgfmathparse{100*#2}%
+  \pgfmathprintnumber[fixed,precision=#1]{\pgfmathresult}}
+% sansmath has no upright-sans uppercase Greek: take it from the normal
+% math font (LIGHT's Known-bad list)
+\newcommand{\Dt}{{\unsansmath$\Delta t$}}
+\newcommand{\Dth}{{\unsansmath$\Delta t/2$}}
+\newcommand{\Dx}{{\unsansmath$\Delta x$}}
+% Table 1 is taller than the default share of a page a top float may
+% take
+\renewcommand{\topfraction}{0.9}
+\renewcommand{\textfraction}{0.07}
+
+\begin{document}
+\sansmath
+
+{\LARGE\bfseries How accurate LIGHT 1Dv0\_2 is}\par
+\vspace{4pt}
+{\large The 1-D model on v0\_2's chemistry, version \di{version}, on 30
+September 2026, with its energy ladder, its system map and its reaction
+rates}\par
+\vspace{10pt}
+
+\noindent\fbox{\parbox{\dimexpr\linewidth-2\fboxsep-2\fboxrule\relax}{%
+\setlength{\parskip}{5pt}%
+\textbf{Bottom line.} LIGHT 1Dv0\_2 runs v0\_2's chemistry file for
+file, and that chemistry reproduces the fitted KrF decays [1, 2] within \wi{sc.train.lo}
+to \wi{sc.train.hi}\,\% rms and predicts decays that no fit used [4] within \wi{sc.xu_figs5_7}\,\% rms. At the Tahoma laser [5]
+on 1Dv0\_2's own power input the centre cell gives
+\pctof[1]{\di{tah.s13.c.x}}\,\% of the measured small-signal gain of
+\di{tah.meas}\unit{\%/cm}.
+
+The 1-D layer has no measurement to meet. Its centre cell matches v0\_2's
+0-D run to \di{ref.dev.248} at 248\unit{nm} on \di{mesh.lo} to
+\di{mesh.hi} cells, and at Tahoma the gap average on \di{tah.cells} cells
+gives \pctof{\di{tah.s13.g.x}}\,\%, where v0\_2 under the beam drive gives
+\pctof{\wi{tah.g0.x}}\,\%. The cells at the walls are unresolved sheaths,
+so a gap average approaches the interior only first order in the cell
+size and is quoted with its mesh. The C/B emission ratio of Yu and Setser [3] is matched to \wi{sc.ys_ir300}\,\%. No fit used Tahoma's numbers and no rate was set by a laser
+measurement, so the Tahoma scores are predictions.
+
+The chemistry's largest misses are on data that conflict with the fitted sets,
+\wi{sc.hakuta_fig2} and \wi{sc.hakuta_fig3}\,\% rms on the C-A decays of
+Hakuta et al.\ [6] and \wi{sc.bs_tau_b}\,\% on the KrF(B) lifetime of
+Burnham and Searles [7], and the VUV yield of pure krypton at low pump,
+\pctof{\wi{pure.vuv.x}}\,\% of Morozov's measurement [8].
+
+{\footnotesize [1] Eden, Waynant, Searles and Burnham, Appl.\ Phys.\
+Lett.\ 32, 733 (1978). [2] Gadomski, Xu, Setser and Nelson, Chem.\ Phys.\
+Lett.\ 189, 153 (1992). [3] Yu and Setser, J.\ Phys.\ Chem.\ 94, 2934
+(1990). [4] Xu, Gadomski and Setser, J.\ Chem.\ Phys.\ 99, 2591 (1993).
+[5] Spectra Technology, \emph{Experimental Support for KrF Laser
+Modeling}, final report to Los Alamos, 19 July 1989, OSTI 10136715.
+[6] Hakuta et al., Jpn.\ J.\ Appl.\ Phys.\ 29, 1194 (1990). [7] Burnham and Searles, J.\ Chem.\ Phys.\ 67, 5967 (1977).
+[8] Morozov, Heindl, Kr\"ucken, Ulrich and Wieser, J.\ Appl.\ Phys.\ 103,
+103301 (2008).\par}}}
+\medskip
+
+LIGHT 1Dv0\_2 runs v0\_2's chemistry in every cell of a gap on
+Nathaniel's Fluid1D, which it imports and never edits. Its input is
+v0\_2's, a power deposited in the electrons, uniform across a
+\di{ref.gap}-cm gap between two grounded walls. Fluid1D moves the charged
+species and the electron energy between the cells and into the walls
+under the field it solves, and every row of v0\_2's network runs in every
+cell. The chemistry is v0\_2's file for file. The \di{chem.nfiles} files
+that make it have v0\_2's md5 sums, which the generator checks before it
+writes a number, so every score of the chemistry is v0\_2's, taken here
+from the v0\_2 overview. What the 1-D layer adds has no measurement to
+meet, and its tests are internal. With uniform power the interior must be
+v0\_2's 0-D run, and at v0\_2's reference point the centre cell's 248-nm
+share is v0\_2's to \di{ref.dev.248} on \di{mesh.lo} to \di{mesh.hi}
+cells. At Tahoma on 1Dv0\_2's own power input the centre cell's gain is
+v0\_2's to \di{tah.s13.dev}, \x{\di{tah.s13.c.x}} the measured value. The
+cells next to the walls are unresolved sheaths. They cut
+\di{ref.32.cut}\,\% of the input on \di{mesh.lo} cells and
+\di{ref.256.cut}\,\% on \di{mesh.hi}, so a gap average approaches the
+interior first order in the cell size. The stage computes every rate as
+v0\_2's model does, with one difference above 30\unit{eV}
+(Section~\ref{sec:rates}). Table~\ref{tab:score} lists every test.
+
+\begin{table}[tp]
+\centering\footnotesize
+\renewcommand{\arraystretch}{1.12}
+\begin{tabularx}{\linewidth}{@{}>{\raggedright\arraybackslash}X
+  >{\raggedright\arraybackslash}p{2.6cm}>{\raggedright\arraybackslash}p{3.7cm}
+  >{\raggedright\arraybackslash}p{2.0cm}@{}}
+\toprule
+test & measured, or v0\_2 & 1Dv0\_2 & role\\
+\midrule
+chemistry files against v0\_2 \di{chem.version}'s, md5 & & all
+  \di{chem.nfiles} identical & identity\\
+every rate of the stage against v0\_2's model, \di{rates.cells} random
+  cell states & & $T_g$ and density rows \di{rates.static}, $T_e$ tables
+  $\di{rates.table}$, tail $\di{rates.tail}$ & consistency\\
+\quad \Krtp{} + \el{} above \di{rates.temax}\unit{eV} & & up to
+  \di{rates.above.ceiling}\,\% high & a difference\\
+centre cell at the reference point, \di{mesh.lo} to \di{mesh.hi} cells &
+  248\unit{nm} \di{ref.0d.248}\,\%, 147\unit{nm} \di{ref.0d.147}\,\% & to
+  \di{ref.dev.248} and \di{ref.dev.147}, $T_g$ to \di{ref.dev.tg} &
+  0-D limit\\
+\quad the same, \Krts{} + F at the top of its band & \di{band.0d.248}\,\%
+  & \di{band.c248}\,\%, to \di{band.dev} & 0-D limit\\
+centre cell at Tahoma, own input, seeds \di{tah.s13.seed} and
+  \di{tah.s15.seed}\unit{cm^{-3}} & \di{tah.s13.0d} and
+  \di{tah.s15.0d}\unit{\%/cm} & to \di{tah.s13.dev} and
+  \di{tah.s15.dev} & 0-D limit\\
+energy ledger of the gap, every run & & closes to \di{ref.closure} of the
+  input & bookkeeping\\
+energy to the walls, reference point & & \di{ref.256.walls}\,\% on
+  \di{mesh.hi} cells & transport\\
+cut by the mean-energy bounds in the wall cells & & \di{ref.32.cut} to
+  \di{ref.256.cut}\,\% of the input & unresolved sheath\\
+gap average's deficit, each doubling of the mesh & & falls
+  \x{\di{mesh.ratio.lo}} to \x{\di{mesh.ratio.hi}} & first order in
+  \Dx{}\\
+$T_e$ transient against v0\_2, \Dt{} \di{set.dt.1} to
+  \di{set.dt.3}\unit{ps} & & \di{dt.50} to \di{dt.12.5}\,\% & first order
+  in \Dt{}\\
+Tahoma from ML's seed, \di{tah.ml.seed}\unit{cm^{-3}} & & no breakdown,
+  \di{tah.ml.cut}\,\% cut & the seed\\
+\midrule
+KrF(B) and KrF(B,C) decays, Eden 1978, Gadomski 1992, Yu and Setser 1990
+  & & rms \wi{sc.train.lo} to \wi{sc.train.hi}\,\% & train\\
+KrF(B,C) decays, Xu 1993 Figs. 5 to 7 & & rms \wi{sc.xu_figs5_7}\,\% &
+  held out\\
+C-A decays, Hakuta 1990, and $\tau_B$, Burnham and Searles 1977 & &
+  rms \wi{sc.hakuta_fig2} and \wi{sc.hakuta_fig3}\,\%, and
+  \wi{sc.bs_tau_b}\,\% & held out, in conflict\\
+VUV yield of pure Kr at low pump, Morozov 2008 & \wi{pure.vuv.meas} $\pm$
+  \wi{pure.vuv.err} & \wi{pure.vuv}, \x{\wi{pure.vuv.x}} & check\\
+Tahoma $g_0$ under the beam drive, v0\_2 in 0-D &
+  \wi{tah.g0.meas}\unit{\%/cm} & \wi{tah.g0}, \x{\wi{tah.g0.x}} & device,
+  score only\\
+Tahoma $I_\mathrm{sat}$ and \gIP{}, the same & \wi{tah.isat.meas} and
+  \wi{tah.eta.meas} & \x{\wi{tah.isat.x}} and \x{\wi{tah.eta.x}} & device,
+  score only\\
+\midrule
+Tahoma $g_0$ on 1Dv0\_2's own input, centre cell &
+  \di{tah.meas}\unit{\%/cm} & \di{tah.s13.c}, \x{\di{tah.s13.c.x}} &
+  device, score only\\
+\quad the same, gap average & & \di{tah.s13.g}, \x{\di{tah.s13.g.x}} &
+  device, score only\\
+\bottomrule
+\end{tabularx}
+\caption{LIGHT 1Dv0\_2 against v0\_2 (the first block), and its
+chemistry against the data (the second, v0\_2's own scores, since the
+files are v0\_2's) and at Tahoma (the third). A relative number is
+1Dv0\_2's deviation from v0\_2's 0-D run or model, a percentage in the
+second block v0\_2's deviation from the data, and a \x{} factor the model
+over the measurement. The reference point is v0\_2's, \di{ref.p}\unit{atm}
+of Kr with \di{ref.xF2}\,\% F$_2$ at \di{ref.P}\unit{kW\,cm^{-3}} for
+\di{ref.pulse}\unit{\mu s}, run to \di{ref.tend}\unit{\mu s} with
+\Dt{} $=$ \di{ref.dt}\unit{ps}.}
+\label{tab:score}
+\end{table}
+
+\section{How the numbers were made}
+
+{\sloppy Every number in this note is written by
+\texttt{docs/make\_overview\_1Dv0\_2.py}, and those of the chemistry by
+\texttt{docs/make\_overview\_v0\_2.py} and
+\texttt{docs/make\_system\_map\_v0\_2.py}, from the models themselves, and a
+test fails when those files no longer match them. The 1-D script first
+compares the md5 sums of 1Dv0\_2's chemistry, \di{chem.files}, with
+v0\_2's and writes nothing if one differs. Fluid1D (\di{fluid1d.src})
+needs Python 3.11 or later with numba, so the 1-D numbers come from that
+interpreter, on four numba threads. The Tahoma runs take ML's B/C
+constants and conditions, as the v0\_2 overview's do, with ML bound to
+v0\_2.\par}
+
+1Dv0\_2 has no drive, beam or cavity module, which is LIGHT's rule. So it
+cannot be scored under Tahoma's electron beam, and the beam scores in
+Table~\ref{tab:score} are v0\_2's in 0-D. 1Dv0\_2 is scored at Tahoma on
+its own power input (Section~\ref{sec:tahoma}).
+
+\section{The 1-D layer}
+
+Each step of \Dt{} runs the chemistry for \Dth{}, Fluid1D's
+transport for \Dt{} and the chemistry for \Dth{} again,
+Fluid1D's source-coupled split. The chemistry stage runs every row of
+v0\_2's network in every cell with the electron energy, in substeps that
+change no density by more than \di{substep.change}\,\% (at most
+\di{substep.max} per stage), and reads the rates at each substep's
+starting state. The stage's energy source is the given power, plus the
+field's positive work on the electrons, minus v0\_2's elastic loss, which
+heats the gas. Each cell's $T_g$ rises at constant volume, as in v0\_2.
+
+Fluid1D brings what v0\_2 does not have. It solves the space-charge field
+between grounded walls and drifts and diffuses the electrons, the ions and
+the electron energy. The ion mobilities are Fluid1D's own cited table for
+\Krp, \Krtp{} and F$^-$ in Kr. The electron mobility and diffusion are a
+Maxwellian at the mean energy on 1Dv0\_2's own cross sections, and the gas
+temperature the transport reads is held at the fill's. The neutrals do not
+move, since 1\unit{\mu s} at 1\unit{atm} spreads them by microns. The mean
+electron energy is held between \di{eps.lo} and \di{eps.hi}\unit{eV}, so
+$T_e$ between \di{te.lo} and \di{te.hi}\unit{eV}.
+
+\section{The interior is v0\_2's 0-D run}
+
+With uniform power, and walls that take \di{ref.256.walls}\,\% of the
+input, the cells away from the walls see what a 0-D volume sees. At v0\_2's
+reference point the centre cell sends \di{ref.256.c248}\,\% of its input
+out at 248\unit{nm} on \di{mesh.hi} cells, where v0\_2 gives
+\di{ref.0d.248}\,\%. Over \di{mesh.lo} to \di{mesh.hi} cells it lies within
+\di{ref.dev.248} of v0\_2 at 248\unit{nm} and \di{ref.dev.147} at
+147\unit{nm}, and its gas ends within \di{ref.dev.tg} of v0\_2's
+\di{ref.0d.tg}\unit{K}. On every mesh each cell more than \di{int.cm}\unit{cm}
+from the walls sends out the centre cell's 248-nm share to \di{int.dev}.
+
+A band reaches the 1-D chemistry as it reaches v0\_2's. The centre cell on
+\di{set.band.cells} cells, with \Krts{} + F at the top of its band,
+\di{band.k}\unit{cm^3s^{-1}}, gives \di{band.c248}\,\% at 248\unit{nm} against v0\_2's
+\di{band.0d.248}\,\% with the same band, and \di{band.c147}\,\% at
+147\unit{nm} against \di{band.0d.147}\,\%.
+
+\section{The stage's rates}
+\label{sec:rates}
+
+The stage computes every rate on arrays, and a compiled kernel does the
+same inside the substeps. At \di{rates.cells} random cell states, every
+species over \di{rates.decades} decades, $T_g$ from \di{rates.tg.lo} to
+\di{rates.tg.hi}\unit{K} and $T_e$ up to \di{rates.te.hi}\unit{eV}, with
+the bands at their defaults and with the three unmeasured ones set,
+\di{rates.n} rates were compared with v0\_2's own \texttt{Model.\_k}. The
+rows that depend on $T_g$ and the densities agree \di{rates.static}. The
+rows read from $T_e$ tables agree to $\di{rates.table}$, largest just
+above the \di{rates.table.te}-eV floor of v0\_2's \Krtp{} + \el{} power
+law, where the table interpolates across the law's kink. The
+two-temperature tail agrees to $\di{rates.tail}$, and the kernel matches
+the arrays \di{rates.kernel}.
+
+There is one difference. The stage tabulates every $T_e$-dependent row on
+v0\_2's nodes, which end at \di{rates.temax}\unit{eV}, and holds it there
+above. v0\_2's cross-section tables do the same, but v0\_2 evaluates
+\Krtp{} + \el{} recombination (\di{rates.above.row}), Shiu and Biondi's
+power law, at any $T_e$. Above \di{rates.temax}\unit{eV} the stage's rate
+is therefore higher than v0\_2's, by up to \di{rates.above}\,\% among the
+random states and by \di{rates.above.ceiling}\,\% at the
+\di{te.hi}-eV ceiling. The drained wall cells sit there, and so does a
+cell that fails to break down. The interior passes \di{rates.temax}\unit{eV}
+only briefly while a low seed breaks down, when few ions exist to
+recombine. At Tahoma from a seed of \di{tah.s13.seed}\unit{cm^{-3}}, where
+v0\_2's own $T_e$ peaks at \di{tah.s13.0d.temax}\unit{eV}, the centre cell
+still gives v0\_2's gain to \di{tah.s13.dev}. The random states of
+1Dv0\_2's own rate test stay below the table's edge, which is why that
+test passes.
+
+\section{The wall cells and the mesh}
+
+The walls drain the electrons of the cells next to them, and the given
+power then heats few electrons there. The mean-energy ceiling cuts what
+they cannot hold, and Fluid1D's split gives them the field's positive
+work only and keeps out a phantom negative part. Both shrink as the mesh
+refines (Table~\ref{tab:mesh}). The deficit of the gap average below
+v0\_2's 0-D share falls by \x{\di{mesh.ratio.lo}} to
+\x{\di{mesh.ratio.hi}} with each doubling of the mesh, first order in the
+cell size. So a gap average is quoted only with its mesh, and the
+interior is the model's answer. The walls themselves take
+\di{ref.256.walls}\,\% of the input on \di{mesh.hi} cells. The ledger of
+every run closes to \di{ref.closure} of the input, recomputing the gap's
+chemical, electron and thermal energy from its state.
+
+The cells beside the wall cell do not converge. The first of them sends
+out \di{ref.32.second}, \di{ref.64.second}, \di{ref.128.second} and
+\di{ref.256.second}\,\% on \di{set.mesh.1} to \di{set.mesh.4} cells, moving
+away from the interior's value as the mesh refines. On \di{mesh.hi} cells
+the cells alternate about the interior value, and $n_e$ and $T_e$ with them
+(Figure~\ref{fig:gap}), out to \di{ref.256.reach}\unit{\mu m} from the wall
+before they agree with the centre cell to \di{near.tol}. The cells there
+are \di{cell.um}\unit{\mu m} wide, and the Debye length in the interior at
+mid-pulse is \di{debye.um}\unit{\mu m}, so no mesh here resolves the
+sheath, and the alternation is the unresolved sheath's, not physics. It
+largely cancels in the gap average, which still converges.
+
+\begin{table}[H]
+\centering\footnotesize
+\renewcommand{\arraystretch}{1.12}
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{@{}rrrrrrrr@{}}
+\toprule
+cells & \multicolumn{3}{c}{248\unit{nm}, \% of the input} & cut by the
+  & phantom work & to the & gap $T_g$\\
+\cmidrule(lr){2-4}
+ & centre & beside the & gap & bounds & kept out & walls & at the end\\
+ & cell & wall cell & & (\%) & (\%) & (\%) & (K)\\
+\midrule
+\diMesh
+\bottomrule
+\end{tabular}
+\caption{v0\_2's reference point across a \di{ref.gap}-cm gap on four
+meshes. v0\_2's 0-D run sends \di{ref.0d.248}\,\% out at 248\unit{nm} and
+ends at \di{ref.0d.tg}\unit{K}.}
+\label{tab:mesh}
+\end{table}
+
+\section{The time step}
+
+The split and the stage are first order in \Dt{}. The stage reads the
+rates at each substep's start, so a steady state is exact, and the error
+lies in transients. In a \di{dt.pulse}-ns pulse on \di{dt.cells} cells the
+centre cell's $T_e$ differs from v0\_2's by at most \di{dt.50}\,\% at
+\di{set.dt.1}\unit{ps}, \di{dt.25}\,\% at \di{set.dt.2}\unit{ps} and
+\di{dt.12.5}\,\% at \di{set.dt.3}\unit{ps}, and each halving of the step
+cuts the error by
+\x{\di{dt.ratio.lo}} to \x{\di{dt.ratio.hi}}. The reference point runs at
+\di{ref.dt}\unit{ps}.
+
+\section{Tahoma and the seed}
+\label{sec:tahoma}
+
+At Tahoma's conditions, \di{tah.f2torr}\unit{Torr} of F$_2$ in Kr at
+\di{tah.torr}\unit{Torr}, \di{tah.pin}\unit{kW\,cm^{-3}} for
+\di{tah.pulse}\unit{ns}, with ML's constants imposed and $g_0$ from KrF(B)
+over \di{tah.win.lo} to \di{tah.win.hi}\unit{ns} on \di{tah.cells} cells,
+1Dv0\_2's centre cell gives v0\_2's own-input gain to \di{tah.s13.dev}
+from a seed of \di{tah.s13.seed}\unit{cm^{-3}} and to \di{tah.s15.dev}
+from \di{tah.s15.seed} (Table~\ref{tab:tahoma}). That is
+\x{\di{tah.s13.c.x}} the measured \di{tah.meas}\unit{\%/cm}. The gap
+average, lowered by the wall cells, is \x{\di{tah.s13.g.x}}. The power
+input sets the electron gas apart from the beam's (the v0\_2 overview,
+Section~8), so this gain does not test the input either.
+
+From ML's own seed, \di{tah.ml.seed}\unit{cm^{-3}}, 1Dv0\_2 never breaks
+down. v0\_2's 0-D $T_e$ runs to \di{tah.ml.0d.temax}\unit{eV} from that
+seed before its tail reaches the Kr thresholds, and 1Dv0\_2 holds $T_e$
+below \di{tah.te.cap}\unit{eV}, so the ceiling cuts \di{tah.ml.cut}\,\% of
+the input and no KrF forms. From \di{tah.s13.seed} v0\_2's 0-D $T_e$ peaks
+at \di{tah.s13.0d.temax}\unit{eV}. So 1Dv0\_2 needs a seed of
+\di{tah.s13.seed}\unit{cm^{-3}} or more at these powers, while v0\_2's own
+gain barely moves with the seed.
+
+\begin{table}[H]
+\centering\footnotesize
+\renewcommand{\arraystretch}{1.12}
+\begin{tabular}{@{}lrrrr@{}}
+\toprule
+seed (cm$^{-3}$) & v0\_2, 0-D & centre cell & gap average & cut by the
+  bounds\\
+ & $g_0$ (\%/cm) & $g_0$ (\%/cm) & $g_0$ (\%/cm) & (\% of input)\\
+\midrule
+\diTahoma
+\bottomrule
+\end{tabular}
+\caption{Tahoma on the power input with ML's constants, v0\_2 in 0-D and
+1Dv0\_2 on \di{tah.cells} cells. Tahoma measured
+\di{tah.meas}\unit{\%/cm}.}
+\label{tab:tahoma}
+\end{table}
+
+\section{The chemistry}
+
+The chemistry is v0\_2's, and the v0\_2 overview gives its accuracy in
+full. In short, the KrF(B,C) block is a joint fit to the three kinetic
+measurement sets that agree, matched to \wi{sc.train.lo} to
+\wi{sc.train.hi}\,\% rms, and it predicts the held-out decays of Xu et
+al.\ to \wi{sc.xu_figs5_7}\,\%. The KrF(B) radiative lifetime,
+\wm{tauB}\unit{ns}, is the one KrF rate neither measured nor fitted. Under
+Tahoma's beam v0\_2 gives $g_0$ at \x{\wi{tah.g0.x}}, $I_\mathrm{sat}$ at
+\x{\wi{tah.isat.x}} and \gIP{} at \x{\wi{tah.eta.x}}, and over the B/C
+posterior $g_0$ spans \wi{post.g0.lo} to \wi{post.g0.hi}\unit{\%/cm}. The
+\Krts{} route is basic, and the rates known only as a published spread are
+bands whose default is a measurement or 0. Two bands matter at the
+reference point, \Krts{} + F (\wm{bd.kr2_f.lo248} to
+\wm{bd.kr2_f.hi248}\,\% at 248\unit{nm}) and the trimer's temperature law
+(\wm{bd.trimer_tg_pow.lo248} to \wm{bd.trimer_tg_pow.hi248}\,\%). A band
+set in 1Dv0\_2 (\texttt{Params1D.rates}, \texttt{-{}-rate}) is a constant
+of the run in every cell, as in v0\_2.
+
+\section{The system map}
+
+In the interior each cell is v0\_2's 0-D run, so its energy flow is v0\_2's
+map on the page after the gap figure. Figure~\ref{fig:gap} shows the gap
+itself at the reference point. The 248-nm share of each cell's own input
+is v0\_2's value away from the wall on every mesh. It drops to nearly
+nothing in the wall cell, which narrows as the mesh refines, and on the
+finest mesh the cells beside it alternate about the interior value. At
+\di{prof.t}\unit{ns}, mid-pulse, the finest mesh shows the wall cell's
+electrons drained and held at the mean-energy ceiling, and $n_e$ and $T_e$
+alternating beside it.
+
+\begin{figure}[H]
+\centering
+\pgfplotsset{gap/.style={xmin=0, xmax=0.06, xtick={0,0.02,0.04,0.06},
+  scaled x ticks=false, x tick label style={/pgf/number format/.cd, fixed,
+  fixed zerofill, precision=2, /tikz/.cd}, tick label style={font=\scriptsize},
+  label style={font=\footnotesize}, axis line style={ink2!50}, grid=major,
+  grid style={gridc}}}
+\begin{tikzpicture}
+\begin{axis}[gap, name=share, width=0.5\linewidth, height=6.3cm,
+  ymin=4.55, ymax=4.8, ytick={4.6,4.65,4.7,4.75,4.8},
+  y tick label style={/pgf/number format/.cd, fixed, fixed zerofill,
+  precision=2, /tikz/.cd},
+  xlabel={distance from the left wall (cm)},
+  ylabel={248 nm, \% of the cell's input},
+  legend style={font=\scriptsize, draw=none, fill=white, fill opacity=0.85,
+  text opacity=1}, legend pos=north east, legend cell align=left]
+\profile{m1, thick, mark=*, mark size=1.2pt}{\diProfA}
+\profile{m2, thick, mark=*, mark size=1.2pt}{\diProfB}
+\profile{m3, thick, mark=*, mark size=1.2pt}{\diProfC}
+\profile{m4, thick, mark=*, mark size=1.2pt}{\diProfD}
+\legend{\di{set.mesh.1} cells, \di{set.mesh.2} cells, \di{set.mesh.3}
+  cells, \di{set.mesh.4} cells}
+\end{axis}
+\begin{axis}[gap, name=ne, at={($(share.east)+(1.8cm,0)$)}, anchor=west,
+  yshift=1.8cm, width=0.43\linewidth, height=3.4cm, xticklabels={}, ymin=0,
+  ylabel={$n_e$ (cm$^{-3}$)}]
+\profile{m4, thick, mark=*, mark size=1pt}{\diNe}
+\end{axis}
+\begin{axis}[gap, at={(ne.south west)}, anchor=north west, yshift=-0.55cm,
+  width=0.43\linewidth, height=3.4cm, ymin=3, ymax=5,
+  xlabel={distance from the left wall (cm)}, ylabel={$T_e$ (eV)}]
+\profile{m4, thick, mark=*, mark size=1pt}{\diTe}
+\end{axis}
+\end{tikzpicture}
+\caption{The end of the gap at v0\_2's reference point, which is symmetric
+about its centre. Left, the 248-nm share of each cell's own input by the
+end of the run, on each mesh, about the interior's value. The wall cell's
+own share, near zero, lies below the axis. Right, $n_e$ and $T_e$ at
+\di{prof.t}\unit{ns} on \di{mesh.hi} cells, where the wall cell's $T_e$ at
+the ceiling lies above the axis. v0\_2's 0-D share is
+\di{ref.0d.248}\,\%.}
+\label{fig:gap}
+\end{figure}
+
+\includepdf[pages=1,fitpaper=true]{system_map_v0_2.pdf}
+
+\section{The energy ladder}
+
+1Dv0\_2 runs v0\_2's network in every cell, so its energy ladder,
+Figure~\ref{fig:ladder}, is v0\_2's. It places every species at its
+formation energy, the energy above ground-state Kr and \Ft{} at rest that
+Appendix~A lists, and draws the rows that move energy between them, as the
+ladder view of the website's excimer simulation does. KrF(B) lies \lad{DeB}\unit{eV} below the ion pair \Krp{} + \Fm{}, the
+measured $D_e(B)$, and \lad{BoverKrF}\unit{eV} above Kr + F. The
+\lad{wl.G4}-nm photon carries \lad{hv.G4}\unit{eV} of that and leaves
+KrF(X) only \lad{heat.G4}\unit{eV} above Kr + F. The harpoon G3 heats the
+gas by \lad{heat.G3}\unit{eV} for each KrF(B) it makes, the ion-ion
+recombination K26 by \lad{heat.K26}\unit{eV} and the trimer's formation by
+\lad{heat.G5}\unit{eV}. \KtF{} emits \lad{hv.C3}\unit{eV} at
+\lad{wl.C3}\unit{nm} and leaves \lad{heat.C3}\unit{eV} of lower-state
+repulsion. On the \Krts{} route, which is basic in v0\_2, \Krts{} emits
+\lad{hv.V}\unit{eV} at \lad{wl.V}\unit{nm} and leaves
+\lad{heat.V}\unit{eV}, or meets F$_2$ and makes KrF(B) through NK7 or
+\KtF{} through K2F\_BR.
+The 1-D layer adds no level and no row. It moves the charged species and
+the electrons' energy between the cells and into the walls.
+
+\begin{figure}[p]
+\centering
+\ladpicture
+\caption{The energy ladder of LIGHT v0\_2, version \lad{version}, in eV
+above ground-state Kr and \Ft{} at rest. A bar is a species at its
+formation energy and a dashed bar a pair, the sum of two. An arrow is a
+row, labelled with its id. It is solid in the default network and dotted
+for a band whose default is 0, \lad{zero}. The rows of the optional group
+\lad{groups} are dashed. A photon's arrow drops by its quantum, and the red
+squiggle below it is the heat its lower state gives the gas as it falls
+apart. A red stub is a quench. The energy a row releases heats the gas,
+except a photon's, which leaves, and that of \lad{toe}, which goes to the
+electrons. KrF(B) and KrF(C) lie \lad{gapBC}\unit{cm^{-1}} apart and are
+drawn as a pair of bars that every B and C row meets. The rows
+\lad{notdrawn} move nothing between levels and are not drawn.}
+\label{fig:ladder}
+\end{figure}
+
+\section{Where 1Dv0\_2 is not yet reliable}
+
+\begin{itemize}
+\item Everything that limits v0\_2 limits 1Dv0\_2, above all \Krts{} + F,
+which has no measurement, and the trimer's rate above
+\wi{tri.klimek.hi}\unit{K} (the v0\_2 overview, Section~10).
+\item Nothing measured tests the 1-D layer. No spatially resolved Kr/F$_2$
+measurement is among the sources held, and with uniform power the
+transport barely touches the interior.
+\item The wall cells are unresolved sheaths, and their share of any gap
+average is a property of the mesh. The cells beside them alternate about
+the interior and do not converge as the mesh refines. Quote the interior,
+or a gap average with its mesh.
+\item The transport's own inputs are not LIGHT's. The ion mobilities are
+Fluid1D's table, the electron transport a Maxwellian at the mean energy,
+and the gas temperature it reads is the fill's. With a nonuniform power
+profile (\texttt{-{}-profile}) these would matter.
+\item \Krtp{} + \el{} above \di{rates.temax}\unit{eV} runs at its
+\di{rates.temax}-eV value, where v0\_2 follows the power law
+(Section~\ref{sec:rates}).
+\item The seed. At hundreds of kW\,cm$^{-3}$ a seed below
+\di{tah.s13.seed}\unit{cm^{-3}} does not break down, and the summary warns.
+\item First order in \Dt{} and in \Dx{}, and the mean electron
+energy held to \di{eps.lo} to \di{eps.hi}\unit{eV}.
+\item No discharge. Fluid1D's circuit would be a drive module, which
+LIGHT does not carry, and it would need a field-driven EEDF where v0\_2's
+tail is set by the given power.
+\end{itemize}
+
+% the ladder is a float, which the appendix's longtables would hold back
+\clearpage
+\appendix
+\section{Reaction rates}
+
+The rates are v0\_2's, and 1Dv0\_2 carries its files byte for byte, so
+these tables are the v0\_2 overview's. Rates are the values at
+300\unit{K}. The column $T$ gives the law applied to them.
+Electron-impact rows use $\langle\sigma v\rangle$ over the EEDF, and
+Section A.3 lists their Maxwellian values. A row that reads a band prints
+the value it runs by default and the band's name, and Section A.4 lists
+the bands. Each row's full citation is in \texttt{1Dv0\_2/network.py}.
+
+\footnotesize
+\setlength{\tabcolsep}{3.5pt}
+\renewcommand{\arraystretch}{1.12}
+
+\subsection{The basic network, \wi{rates.nBasic} rows}
+\wi{rates.nBandRows} of them read a band.
+\begin{longtable}{@{}l>{\raggedright}p{4.1cm}>{\raggedright}p{3.1cm}
+  >{\raggedright}p{1.9cm}>{\raggedright\arraybackslash}p{4.75cm}@{}}
+\toprule
+row & reaction & rate & $T$ & source\\
+\midrule
+\endhead
+\bottomrule
+\endfoot
+\wirBasic
+\end{longtable}
+
+\subsection{Optional group on the basic network, \wi{rates.nGroups} rows}
+The group \wi{rates.groups} is off at the reference point.
+\begin{longtable}{@{}l>{\raggedright}p{4.1cm}>{\raggedright}p{3.1cm}
+  >{\raggedright}p{1.9cm}>{\raggedright\arraybackslash}p{4.75cm}@{}}
+\toprule
+row & reaction & rate & $T$ & source\\
+\midrule
+\endhead
+\bottomrule
+\endfoot
+\wirGroups
+\end{longtable}
+
+\subsection{Electron-impact rate coefficients}
+Maxwellian $\langle\sigma v\rangle$ in cm$^3$s$^{-1}$ at the $T_e$ of each
+column. The last column is the factor the two-temperature tail applies at
+the reference point's mid-pulse state in 0-D, $T_e=$
+\wi{rates.teMid}\unit{eV} with the tail at \wi{rates.rMid}\,$T_e$. The rows
+below the rule give the energy an attached electron takes from the
+electron gas. The stage reads these rows on the same $T_e$ nodes.
+\begin{center}\scriptsize
+\begin{tabular}{@{}llrrrrrr@{}}
+\toprule
+row & process & \multicolumn{5}{c}{$T_e$ (eV)} & tail\\
+\cmidrule(lr){3-7}
+ & & \wirTe & factor\\
+\midrule
+\wirXsec
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsection{The bands}
+\texttt{network.BANDS}. \texttt{Params1D.rates} sets a band, and
+\texttt{Params1D.trimer\_tg\_pow} the trimer law.
+\begin{longtable}{@{}l>{\raggedright}p{3.2cm}>{\raggedright}p{1.6cm}
+  >{\raggedright}p{2.6cm}>{\raggedright\arraybackslash}p{5.2cm}@{}}
+\toprule
+band & process & default & range & source\\
+\midrule
+\endhead
+\bottomrule
+\endfoot
+\wirBands
+\end{longtable}
+
+\needspace{20\baselineskip}
+\subsection{Formation energies}
+Energies above ground-state Kr and F$_2$ at rest. Every reaction's energy
+release is the difference of these numbers, so no row can make or lose
+energy. $c_v$ is the heat capacity per particle in units of $k_B$.
+\begin{center}
+\begin{tabular}{@{}lrrl@{}}
+\toprule
+species & $E_\mathrm{form}$ (eV) & $c_v$ & what sets it\\
+\midrule
+\wirSpecies
+\bottomrule
+\end{tabular}
+\end{center}
+
+\end{document}

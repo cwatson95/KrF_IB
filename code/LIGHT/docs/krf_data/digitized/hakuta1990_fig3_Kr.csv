@@ -1,0 +1,42 @@
+# READING of Hakuta, Fujino, Nakayama & Takuma, JJAP 29, 1194 (1990), Fig. 3 (p.1195), sources/Hakuta_1990_Jpn._J._Appl._Phys._29_1194.pdf.
+# Decay rate 1/tau of the KrF C-A fluorescence (280 nm) after 248-nm photoassociation; 10-ns time resolution (p.1194). F2 held at 1 Torr, Kr varied 1-70 Torr. The paper fits these with its eq. (3) slow rate.
+# Read 2026-09-27: page rendered at 600 dpi (Ghostscript), frame and tick marks located in the image (ticks read back within 0.03 axis units),
+# the filled circles fitted as a union of equal disks; pairs closer than 0.6 radius merged. Overlapping clusters may hide or split a point.
+# Centroid uncertainty ~+-0.03 x 1e7 s^-1 and +-0.2 Torr Kr.
+P_Kr_Torr,rate_1e7_per_s
+0.96,2.65
+1.33,3.50
+1.82,3.64
+3.05,3.51
+3.92,3.68
+4.84,4.29
+4.90,3.40
+5.83,4.17
+5.89,3.58
+7.18,4.50
+7.31,4.80
+9.65,4.33
+9.90,4.88
+10.02,4.52
+11.81,4.46
+11.81,4.59
+13.78,4.88
+13.85,5.27
+15.76,5.38
+15.76,6.07
+17.73,5.78
+17.79,6.05
+19.61,5.77
+19.95,6.02
+19.95,6.30
+29.63,7.68
+29.88,6.95
+39.75,7.26
+39.87,7.71
+49.68,8.52
+49.74,8.65
+50.79,7.53
+50.79,8.15
+59.79,8.07
+69.78,8.18
+69.78,9.38

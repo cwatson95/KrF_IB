@@ -1,0 +1,42 @@
+# Cross-Section Browser export — 2026-07-30T15:18:05Z
+# source: LXCat, www.lxcat.net (SIGLO database). SIGLO database is the electron-impact cross-section source of Chen et al., Phys. Plasmas 32, 113502 (2025), ref 22. Re-sourced from the project crossbrowser export lxcat_siglo.json, SIGLO process id SIGLO__F2__Excitation__07.
+# database: SIGLO database (LXCat)
+# process_id: e_F2_vib_3
+# reaction: E + F2 -> E + F2(V3)(0.324eV)
+# type: Excitation   |   category: Excitation (vibrational)   |   family: Electron
+# data_kind: total
+# species: e / F2
+# threshold: 0.324 eV
+# param: E = 0.324 eV, complete set
+# comment: vibrational excitation. SIGLO dataset (Chen 2025, ref 22); re-sourced from crossbrowser lxcat_siglo.json, source id SIGLO__F2__Excitation__07. F2 vibrational excitation v=3 (threshold 0.324 eV); electron energy-loss channel. SIGLO export used for electron transport (the two-term Boltzmann solve that supplies mu_e/D_e and the electron-impact rate coefficients), Chen et al. Phys. Plasmas 32, 113502 (2025), ref 22. Cross section stored in m^2 by SIGLO (converted to cm^2 for the CSV column).
+# updated: 2010-06-24 12:23:27
+# n_points: 27
+# columns: energy [eV], cross_section [cm^2]
+energy_eV,cross_section_cm2
+3.400000e-1,0.000000e+00
+4.000000e-1,5.200000e-17
+5.000000e-1,6.300000e-17
+6.000000e-1,6.100000e-17
+7.000000e-1,5.300000e-17
+8.000000e-1,4.300000e-17
+1.000000e+0,2.700000e-17
+1.200000e+0,1.600000e-17
+1.400000e+0,1.000000e-17
+1.600000e+0,6.900000e-18
+1.800000e+0,5.000000e-18
+2.000000e+0,3.900000e-18
+2.200000e+0,3.100000e-18
+2.400000e+0,2.500000e-18
+2.600000e+0,2.100000e-18
+2.800000e+0,1.700000e-18
+3.000000e+0,1.500000e-18
+3.200000e+0,1.300000e-18
+3.400000e+0,1.100000e-18
+3.600000e+0,1.000000e-18
+3.800000e+0,8.800000e-19
+4.000000e+0,7.900000e-19
+4.200000e+0,7.100000e-19
+4.400000e+0,6.400000e-19
+4.600000e+0,5.800000e-19
+4.800000e+0,5.300000e-19
+5.000000e+0,0.000000e+00

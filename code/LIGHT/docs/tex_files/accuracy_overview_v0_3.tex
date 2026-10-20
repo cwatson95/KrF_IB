@@ -1,0 +1,499 @@
+% How accurate LIGHT v0_3 is: v0_2 with the kinetic EEDF in the loop. The
+% v0_2 overview describes the chemistry, which v0_3 keeps, and its rates
+% (its Appendix A). No number here is typed by hand. They come from
+%   overview_v0_3_fast.tex, overview_v0_3_slow.tex   make_overview_v0_3.py
+%   overview_v0_2_fast.tex, overview_v0_2_slow.tex   make_overview_v0_2.py
+%   energy_ladder_v0_3.tex                           make_energy_ladder.py
+% Build from LIGHT/docs:
+%   python3 make_overview_v0_3.py && python3 make_energy_ladder.py v0_3
+%   latexmk -pdf accuracy_overview_v0_3.tex
+\documentclass[11pt]{article}
+\usepackage[a4paper,margin=2.2cm]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[scaled=0.95]{helvet}
+\renewcommand{\familydefault}{\sfdefault}
+\usepackage{amsmath}
+\usepackage{sansmath}
+\usepackage{booktabs,tabularx,array}
+\usepackage{xcolor}
+\usepackage{float}
+\usepackage{enumitem}
+\usepackage{needspace}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,decorations.pathmorphing}
+\setlist{nosep, leftmargin=1.2em}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{5pt}
+\definecolor{ink2}{HTML}{52514E}
+
+\input{overview_v0_2_fast}
+\input{overview_v0_2_slow}
+\input{overview_v0_3_fast}
+\input{overview_v0_3_slow}
+\input{energy_ladder_v0_3}
+\makeatletter
+\newcommand\wi[1]{\ifcsname wi@#1\endcsname\csname wi@#1\endcsname
+  \else\errmessage{no v0_2 number '#1'. Rerun make_overview_v0_2.py}\fi}
+\newcommand\wk[1]{\ifcsname wk@#1\endcsname\csname wk@#1\endcsname
+  \else\errmessage{no v0_3 number '#1'. Rerun make_overview_v0_3.py}\fi}
+\newcommand\lad[1]{\ifcsname lad@#1\endcsname\csname lad@#1\endcsname
+  \else\errmessage{no ladder number '#1'. Rerun make_energy_ladder.py}\fi}
+\makeatother
+
+% chemistry and units
+\newcommand{\unit}[1]{\ensuremath{\,\mathrm{#1}}}
+\newcommand{\el}{\ensuremath{\mathrm{e}^-}}
+\newcommand{\Krs}{Kr\ensuremath{^*}}
+\newcommand{\Krp}{Kr\ensuremath{^+}}
+\newcommand{\Krtp}{Kr\ensuremath{_2^+}}
+\newcommand{\Krts}{Kr\ensuremath{_2^*}}
+\newcommand{\KtF}{Kr\ensuremath{_2}F\ensuremath{^*}}
+\newcommand{\Ft}{F\ensuremath{_2}}
+\newcommand{\Fm}{F\ensuremath{^-}}
+\newcommand{\ra}{\ensuremath{\to}\ }
+\newcommand{\Edep}{\ensuremath{E_\mathrm{dep}}}
+\newcommand{\gIP}{\ensuremath{g_0I_\mathrm{sat}/P_\mathrm{in}}}
+\newcommand{\x}[1]{\ensuremath{\times}#1}
+% a factor of the measurement as a percentage of it (0.89 -> 89), to the
+% factor's own precision: \pctof{x} for two decimals, \pctof[1]{x} for three
+\newcommand{\pctof}[2][0]{\pgfmathparse{100*#2}%
+  \pgfmathprintnumber[fixed,precision=#1]{\pgfmathresult}}
+
+\begin{document}
+\sansmath
+
+{\LARGE\bfseries How accurate LIGHT v0\_3 is}\par
+\vspace{4pt}
+{\large The basic network of LIGHT v0\_3, version \lad{version}, on 30
+September 2026: v0\_2 with the kinetic EEDF in the loop, with its electron
+side, its energy ladder and its checks}\par
+\vspace{10pt}
+
+\noindent\fbox{\parbox{\dimexpr\linewidth-2\fboxsep-2\fboxrule\relax}{%
+\setlength{\parskip}{5pt}%
+\textbf{Bottom line.} LIGHT v0\_3 reproduces the fitted KrF decays [1, 2]
+within \wk{sc.train.lo} to \wk{sc.train.hi}\,\% rms and predicts decays
+that no fit used [4] within \wk{sc.xu_figs5_7}\,\% rms, as v0\_2 does, and
+at the Tahoma laser [5] it gives \pctof{\wk{tah.g0.x}}\,\% of the measured
+small-signal gain of \wk{tah.g0.meas}\unit{\%/cm}, where v0\_2 gives
+\pctof{\wi{tah.g0.x}}\,\%.
+
+Its electrons, solved kinetically during the run, land within
+\wk{el.abs.g0}\,\% of the gain and \wk{el.abs.te}\,\% of the electron
+temperature of ML's self-consistent LIGHT-Boltzmann loop at Tahoma. It
+gives \pctof{\wk{tah.isat.x}}\,\% of Tahoma's saturation intensity and
+\pctof{\wk{tah.eta.x}}\,\% of its formation efficiency, and the C/B
+emission ratio of Yu and Setser [3] is matched to \wk{sc.ys_ir300}\,\%.
+No fit used Tahoma's numbers and no rate was set by a laser measurement.
+
+Its largest misses are v0\_2's, on data that conflict with the fitted sets,
+\wk{sc.hakuta_fig2} and \wk{sc.hakuta_fig3}\,\% rms on the C-A decays of
+Hakuta et al.\ [6] and \wk{sc.bs_tau_b}\,\% on the KrF(B) lifetime of
+Burnham and Searles [7], and the VUV yield of pure krypton at low pump,
+\pctof{\wk{pure.vuv.x}}\,\% of Morozov's measurement [8].
+
+{\footnotesize [1] Eden, Waynant, Searles and Burnham, Appl.\ Phys.\
+Lett.\ 32, 733 (1978). [2] Gadomski, Xu, Setser and Nelson, Chem.\ Phys.\
+Lett.\ 189, 153 (1992). [3] Yu and Setser, J.\ Phys.\ Chem.\ 94, 2934
+(1990). [4] Xu, Gadomski and Setser, J.\ Chem.\ Phys.\ 99, 2591 (1993).
+[5] Spectra Technology, \emph{Experimental Support for KrF Laser
+Modeling}, final report to Los Alamos, 19 July 1989, OSTI 10136715.
+[6] Hakuta et al., Jpn.\ J.\ Appl.\ Phys.\ 29, 1194 (1990). [7] Burnham and Searles, J.\ Chem.\ Phys.\ 67, 5967 (1977).
+[8] Morozov, Heindl, Kr\"ucken, Ulrich and Wieser, J.\ Appl.\ Phys.\ 103,
+103301 (2008).\par}}}
+\medskip
+
+LIGHT v0\_3 is v0\_2 with the kinetic EEDF in the loop. Its chemistry,
+its bands and its input are v0\_2's, and the v0\_2 overview describes
+them. What changes is where the electron rates come from. v0\_2 integrates
+every electron rate over a Maxwellian at $T_e$ with a tail read from a
+table. v0\_3 solves the two-term Boltzmann equation with
+electron-electron collisions during the run, at LIGHT's own mean energy,
+and takes every electron rate, the elastic loss and the energy a captured
+electron carries from that solution. The \wk{sc.same} kinetic datasets
+have no electrons, so v0\_3 scores them exactly as v0\_2, and
+\texttt{make\_overview\_v0\_3.py} refuses to write a number that differs.
+The tests with electrons are Tahoma's, the pure-krypton yield and the
+electron closure, and Table~\ref{tab:score} lists every test.
+
+\begin{table}[h]
+\centering\footnotesize
+\renewcommand{\arraystretch}{1.12}
+\begin{tabularx}{\linewidth}{@{}>{\raggedright\arraybackslash}X
+  >{\raggedright\arraybackslash}p{2.3cm}>{\raggedright\arraybackslash}p{2.3cm}
+  >{\raggedright\arraybackslash}p{2.3cm}>{\raggedright\arraybackslash}p{1.9cm}@{}}
+\toprule
+test & measured & v0\_3 & v0\_2 & role of the data\\
+\midrule
+energy ledger closure & & below \wk{closure.max} of \Edep{} in
+  \wk{closure.runs} runs & below \wi{closure.max} & bookkeeping\\
+KrF(B) decay against Kr and F$_2$, Eden 1978 & & rms \wk{sc.eden_kr} and
+  \wk{sc.eden_f2}\,\% & the same & train\\
+KrF(B,C) slow decay, Gadomski 1992 Figs.\ 1 and 2 & & rms
+  \wk{sc.ksu_fig1} and \wk{sc.ksu_fig2}\,\% & the same & train\\
+C/B emission ratio at 300\unit{K}, Yu and Setser 1990 & \wi{ys.meas}
+  $\pm$ \wi{ys.err} & \wk{sc.ys_ir300}\,\% & the same & train\\
+KrF(B,C) decays, Xu 1993 Figs.\ 5 to 7 & & rms \wk{sc.xu_figs5_7}\,\% &
+  the same & held out\\
+decay constants Xu 1993 printed, 50 and 100 Torr Kr & \wi{xu.50.meas}
+  and \wi{xu.100.meas}\unit{s^{-1}} & \x{\wk{xu.50}} and \x{\wk{xu.100}} &
+  the same & structure check\\
+C-A decays, Hakuta 1990 & & rms \wk{sc.hakuta_fig2} and
+  \wk{sc.hakuta_fig3}\,\% & the same & held out, in conflict\\
+$\tau_B$, Burnham and Searles 1977 & \wi{sc.bs.meas} $\pm$
+  \wi{sc.bs.err}\unit{ns} & \wk{sc.bs_tau_b}\,\% & the same & held out, in
+  conflict\\
+C/B ratio 230\unit{K} over 300\unit{K}, Yu and Setser & \wi{ysr.meas}
+  $\pm$ \wi{ysr.err} & \wk{sc.ys_ratio_230_300}\,\% & the same & held out\\
+\midrule
+VUV yield of pure Kr at low pump, Morozov 2008 & \wk{pure.vuv.meas}
+  $\pm$ \wk{pure.vuv.err} & \wk{pure.vuv}, \x{\wk{pure.vuv.x}} &
+  \wi{pure.vuv}, \x{\wi{pure.vuv.x}} & check\\
+electron closure at Tahoma, ML's kinetic loop & $T_e$
+  \wk{el.loop.te}\unit{eV} & \wk{el.own.te}\unit{eV} &
+  \wi{el.light.te}\unit{eV} & reference\\
+\midrule
+Tahoma small-signal gain $g_0$ & \wk{tah.g0.meas}\unit{\%/cm} &
+  \wk{tah.g0}, \x{\wk{tah.g0.x}} & \wi{tah.g0}, \x{\wi{tah.g0.x}} &
+  device, score only\\
+\quad the same, Kannari's two \Krts{} estimates & & \wk{tah.kannari.g0},
+  \x{\wk{tah.kannari.x}} & \wi{tah.kannari.g0}, \x{\wi{tah.kannari.x}} &
+  device, score only\\
+\quad the same, \Krts{} + F at the top of its band & & \wk{tah.hiF.g0},
+  \x{\wk{tah.hiF.x}} & \wi{tah.hiF.g0}, \x{\wi{tah.hiF.x}} & device,
+  score only\\
+\quad the same, trimer on $T_g^{-1/2}$ & & \wk{tah.tri.g0},
+  \x{\wk{tah.tri.x}} & \wi{tah.tri.g0}, \x{\wi{tah.tri.x}} & device,
+  score only\\
+Tahoma saturation intensity $I_\mathrm{sat}$ & \wk{tah.isat.meas} $\pm$
+  \wi{tah.isat.err}\unit{MW/cm^2} & \wk{tah.isat}, \x{\wk{tah.isat.x}} &
+  \wi{tah.isat}, \x{\wi{tah.isat.x}} & device, score only\\
+Tahoma formation efficiency \gIP & \wk{tah.eta.meas} & \wk{tah.eta},
+  \x{\wk{tah.eta.x}} & \wi{tah.eta}, \x{\wi{tah.eta.x}} & device, score
+  only\\
+\bottomrule
+\end{tabularx}
+\caption{LIGHT v0\_3 against the data, beside v0\_2, every band at its
+default unless a row says otherwise. A percentage is the deviation from
+the data, signed for a single value and rms for a set. A \x{} factor is
+the model over the measurement. ``The same'' is checked: the generator
+stops if v0\_3's number differs from v0\_2's.}
+\label{tab:score}
+\end{table}
+
+\section{What v0\_3 changes}
+
+The kinetic EEDF comes from \texttt{v0\_3/boltzmann.py}, ML's two-term
+scheme with its electron-electron term, written on sparse matrices. It
+carries exactly the electron processes the basic network books, so its
+energy balance and LIGHT's ledger close the same budget. Penning
+ionization injects its electrons at the energy the network gives them,
+\Krtp{} recombination removes them with $\sigma v \propto \varepsilon^n$,
+the template of its $T_e^n$ law, and the growth term carries the net. A
+beam's secondary electrons are injected with the sub-excitation spectrum
+of the degradation cascade, as ML's beam-sustained solver injects them.
+The elastic and field powers LIGHT reads are the parts of the solver's own
+Scharfetter-Gummel fluxes, so they are the energy it exchanges.
+
+Every solution has LIGHT's mean energy, $\tfrac32 T_e$, held by a field
+$E/N\ge0$, which in the pulse stands for the power the electrons take and
+after it for the energy they still carry. Where even the solution without
+a field is hotter than LIGHT's electrons, the field is 0. LIGHT reads a
+table of the kinetic rates, captured energies and elastic power at five
+mean energies around its own, renewed when any input of the kinetic state
+drifts, and past the table's ends it carries them with its own Maxwellian
+dependence on $T_e$. In the pulse the EEDF is advanced in time, one
+backward-Euler step from the last update's to LIGHT's mean energy, with
+the population's own change in the growth term. After the pulse it is
+solved steady, and there the growth term is dropped where it cannot give
+LIGHT's mean energy, where it moves more energy than the heating brings
+and the gas does not relax the shape first, and where it has no positive
+solution. \texttt{v0\_3/README.md} gives the design and what was found on
+the way.
+
+\section{How the numbers were made}
+
+Every number in this note is written by
+\texttt{docs/make\_overview\_v0\_3.py} from v0\_3 and from \texttt{ML/}, and
+a test fails when those files no longer match the model. ML runs v0\_3
+when \texttt{LIGHT\_VERSION} names it. As for v0\_2, Tahoma and pure
+krypton run under the prototype beam drive, a test fixture in
+\texttt{docs/} and not part of the model, whose ion pairs, excited atoms
+and secondary-electron energy enter LIGHT's equations. Its secondary
+electrons now enter the kinetic equation as well. ML's Tahoma
+configuration is v0\_2's, the default network with every band at its
+default and $n_e$ free from a seed of \wi{tah.seed}\unit{cm^{-3}}, now
+with the kinetic EEDF in the loop. Each run is a process of its own, and
+a Tahoma run takes minutes where v0\_2 takes seconds.
+
+\section{The electron side at Tahoma}
+
+ML's kinetic loop runs LIGHT on its Maxwellian closure, scales each
+electron row by the ratio of a beam-sustained Boltzmann solution's rate
+to the Maxwellian's at the same mean energy, and iterates until the
+factors stop changing. v0\_3 does the same inside the run, at every
+moment. Over Tahoma's \wi{tah.win.lo} to \wi{tah.win.hi}\unit{ns} window
+the two agree:
+
+\begin{table}[H]
+\centering\footnotesize
+\begin{tabular}{@{}lrrrr@{}}
+\toprule
+ & $T_e$ (eV) & $n_e$ (cm$^{-3}$) & $g_0$ (\%/cm) & formation\\
+\midrule
+ML's loop, \wk{el.passes} passes & \wk{el.loop.te} & \wk{el.loop.ne} &
+  \wk{el.loop.g0} & \wk{el.loop.form}\\
+v0\_3 & \wk{el.own.te} & \wk{el.own.ne} & \wk{el.own.g0} &
+  \wk{el.own.form}\\
+v0\_3 against the loop, \% & \wk{el.dev.te} & \wk{el.dev.ne} &
+  \wk{el.dev.g0} & \wk{el.dev.formation}\\
+v0\_2 against the loop, \% & \wi{el.dev.te} & \wi{el.dev.ne} &
+  \wi{el.dev.g0} & \wi{el.dev.formation}\\
+\bottomrule
+\end{tabular}
+\caption{v0\_3's electrons against ML's self-consistent loop at Tahoma.
+v0\_2's deviations are absolute, v0\_3's signed.}
+\end{table}
+
+In the window LIGHT's mean energy is the kinetic one at \wk{tah.reached}
+update, held by a field of at most \wk{tah.en}\unit{Td}, since the beam's
+secondaries alone heat the electrons almost to it. The two energy
+balances agree to \wk{tah.gap} of the beam's electron power.
+Table~\ref{tab:factors} shows what the kinetic EEDF does to each electron
+row, as its rate over LIGHT's Maxwellian rate at the same $T_e$.
+
+\begin{table}[H]
+\centering\footnotesize
+\begin{tabular}{@{}lrr@{}}
+\toprule
+row & reference point, \wk{fac.ref.t}\unit{ns}, $T_e$ \wk{fac.ref.te}\unit{eV}
+  & Tahoma, \wk{fac.tah.t}\unit{ns}, $T_e$ \wk{fac.tah.te}\unit{eV}\\
+\midrule
+\wkFactors
+\bottomrule
+\end{tabular}
+\caption{The kinetic rate over the Maxwellian rate at the same $T_e$, for
+each electron row the kinetic EEDF carries: G1 and C1a to C1c excite Kr,
+C2 ionizes it, ATT attaches to \Ft{}, DIS\_a3 and DIS\_A1 dissociate it,
+VIB1 and VIB4 are its first and last vibrational rows and R11p is \Krtp{}
+recombination.}
+\label{tab:factors}
+\end{table}
+
+\section{Tahoma and the bands}
+
+Under the beam drive v0\_3 gives $g_0=$ \wk{tah.g0}\unit{\%/cm}, the
+saturation intensity \wk{tah.isat}\unit{MW/cm^2} and \gIP{} $=$
+\wk{tah.eta}, against v0\_2's \wi{tah.g0}, \wi{tah.isat} and
+\wi{tah.eta}. Each band alone at its two ends moves the window's gain as
+Table~\ref{tab:tahbands} shows. Of the bands, \wk{tah.bd.widest} spans the
+most, as in v0\_2.
+
+\begin{table}[H]
+\centering\footnotesize
+\begin{tabular}{@{}lll@{}}
+\toprule
+band & $g_0$ (\%/cm), low to high end & over the measured $g_0$\\
+\midrule
+\wkTahBands
+\bottomrule
+\end{tabular}
+\caption{Each band alone at its two ends at Tahoma under v0\_3, the
+others at their defaults, over the \wi{tah.win.lo} to
+\wi{tah.win.hi}\unit{ns} window. With every band at its default these
+runs give \wk{tah.win.g0}\unit{\%/cm}. ML's formation run, the same
+network with ML's formation channels added, gives the \wk{tah.g0} of
+Table~\ref{tab:score}.}
+\label{tab:tahbands}
+\end{table}
+
+\section{The reference point}
+
+At the notes' reference point, \wk{ref.p}\unit{atm},
+\wk{ref.xf2}\,\% \Ft{}, \wk{ref.P}\unit{kW\,cm^{-3}} for
+\wk{ref.pulse}\unit{\mu s} and run to \wk{ref.tend}\unit{\mu s}, v0\_3
+and v0\_2 give these shares of the deposited energy:
+
+\begin{table}[H]
+\centering\footnotesize
+\begin{tabular}{@{}lrrr@{}}
+\toprule
+ & v0\_3 & v0\_2 & v0\_3 over v0\_2, \%\\
+\midrule
+248\unit{nm}, KrF B-X & \wk{ref.248} & \wk{ref.248.v02} & \wk{ref.248.d}\\
+272\unit{nm}, KrF B-A & \wk{ref.272} & \wk{ref.272.v02} & \wk{ref.272.d}\\
+275\unit{nm}, KrF C-A & \wk{ref.275} & \wk{ref.275.v02} & \wk{ref.275.d}\\
+420\unit{nm}, \KtF{} & \wk{ref.420} & \wk{ref.420.v02} & \wk{ref.420.d}\\
+147\unit{nm}, \Krts{} & \wk{ref.147} & \wk{ref.147.v02} & \wk{ref.147.d}\\
+all bands & \wk{ref.all} & \wk{ref.all.v02} & \\
+to \Krs{}, gross & \wk{ref.krstar} & \wk{ref.krstar.v02} & \\
+to \Krp{} & \wk{ref.krplus} & \wk{ref.krplus.v02} & \\
+KrF(B) formed & \wk{ref.krfb} & \wk{ref.krfb.v02} & \\
+elastic heating & \wk{ref.elastic} & \wk{ref.elastic.v02} & \\
+$T_g$ at the end (K) & \wk{ref.tg} & \wk{ref.tg.v02} & \\
+\bottomrule
+\end{tabular}
+\caption{The reference point, percent of \Edep{} unless a row says
+otherwise. v0\_2's numbers are v0\_3's run on v0\_2's closure, which is
+v0\_2 (a test checks it).}
+\end{table}
+
+The kinetic electrons spend less on elastic heating and ionization and
+more on exciting Kr, and more KrF(B) forms. Over the pulse's second half
+the field brings \wk{ref.ratio.lo} to \wk{ref.ratio.hi} times the input
+power. The excess is the table's renewal. Between renewals LIGHT runs on
+a table made at the last renewal's electron density and gas. So at each
+renewal its electrons sit off the fresh table's balance by the excess,
+and they regain that balance well before the next renewal. Renewed every
+\wk{conv.dt.ns}\unit{ns}, the excess is at most \wk{ref.ratio.dt.hi}.
+With LIGHT's own $n_e\,d\langle\varepsilon\rangle/dt$ at the renewal, less
+the step's own, the two balances agree to \wk{ref.gap} of the input
+power. The run takes \wk{ref.solutions} kinetic solutions, with $E/N$
+between \wk{ref.en.lo} and \wk{ref.en.hi}\unit{Td}.
+Renewing the table at half the drift moves no band by more than
+\wk{conv.step} of itself, renewing it every \wk{conv.dt.ns}\unit{ns} by
+\wk{conv.dt}, and doubling the energy cells by \wk{conv.cells}.
+
+\section{The first nanosecond}
+\label{sec:first}
+
+In the reference pulse's first \wk{first.t}\unit{ns} the electrons heat
+from the gas temperature, and most of the input power goes into raising
+their mean energy, which no steady solution holds. Solved steady, as
+v0\_3 solved it until 1 October 2026, the EEDF dropped the growth term at
+\wk{first.steady.goff} of its \wk{first.steady.n} updates there, its
+field carried \wk{first.steady.ratio.lo} to \wk{first.steady.ratio.hi} of
+the input power, and its energy balance missed LIGHT's by up to
+\wk{first.steady.gap} of it. In the pulse v0\_3 now advances the EEDF in
+time, one backward-Euler step from the last update's to LIGHT's mean
+energy, with the population's own change in the growth term and no rule
+to drop it. In the first nanosecond the field then carries
+\wk{first.mem.ratio.lo} to \wk{first.mem.ratio.hi} of the input power,
+\wk{first.mem.goff} of the \wk{first.n} updates drop the growth term, and
+after \wk{first.t.split}\unit{ns} the two energy balances agree to
+\wk{first.mem.gap}. Before that, while the electrons are thermal and a
+cell is as wide as $kT$, they agree to \wk{first.mem.gap0}.
+
+The bands barely notice. The steady first nanosecond moves no band at
+the reference point by more than \wk{first.d.steady} of itself, and
+LIGHT's own Maxwellian closure in it moves none by more than
+\wk{first.d.maxwell}, since only \wk{first.edep} of the pulse's energy
+enters then. At Tahoma a steady start moves the window's gain by
+\wk{first.tah.d} and $n_e$ by \wk{first.tah.ne.d}, and
+\wk{first.tah.steady.unreached} of its first nanosecond's steady
+solutions missed LIGHT's mean energy, against
+\wk{first.tah.mem.unreached} of the time steps.
+
+\section{Pure krypton}
+
+Under the beam drive pure krypton at Morozov's low pump gives a VUV yield
+of \wk{pure.vuv} with v0\_3, \x{\wk{pure.vuv.x}} the measured
+\wk{pure.vuv.meas}, against v0\_2's \wi{pure.vuv}. At
+\wk{pure.hi.P}\unit{kW\,cm^{-3}} it gives \wk{pure.hi}, against v0\_2's
+\wi{pure.hi.def}. The kinetic
+electrons do not close v0\_2's gap at low pump, which stays either physics
+LIGHT lacks or a systematic error of the measurement.
+
+\section{The kinetic EEDF's own checks}
+
+\begin{itemize}
+\item With ML's electron-electron quadrature the solver is ML's dense one
+(\texttt{ee.solve\_field}) to \wk{ml.dF} in $F$ and \wk{ml.dk} in every
+rate at \wk{ml.states} states with the growth term. v0\_3's own quadrature
+moves $F$ by \wk{ml.own} at most there.
+\item The growth frequency is the solution's own net frequency, and the
+energy a field and the Penning electrons bring equals what the
+collisions, the captures and the growth term take, to \wk{bal.pulse} in
+the pulse and \wk{bal.nofield} with no field. Without the growth term the
+net loss of electrons comes back in the first cell, and with that
+injection the balance closes to \wk{bal.nogrowth}, a residual first order
+in the cell width.
+\item With no drive the solution is the grid's Maxwellian at the gas
+temperature to \wk{und.600.dev}, and it exchanges no energy with the gas
+to round-off. Taken by central differences, the elastic power gave it a
+loss to the gas, and late in an afterglow LIGHT's electrons cooled below
+the kinetic solution's mean. With ML's quadrature, $F$ constant in
+each cell, the undriven solution condenses into the first cell, to a mean
+energy of
+\wk{und.600.cell}\unit{eV} on \wk{und.lo} cells and
+\wk{und.2400.cell}\unit{eV} on \wk{und.hi}, where the gas gives
+\wk{und.32kt}\unit{eV}.
+\item \wk{s.t}\unit{ns} into the reference pulse, at
+\wk{s.field}\unit{Td}, the problem without the growth term has two
+solutions, \wk{s.hot}\unit{eV} from a hot start and \wk{s.cold}\unit{eV}
+from a cold one, and at a fixed mean energy it has one. The field that
+mean energy needs falls from \wk{s.en.006}\unit{Td} at
+\wk{s.m.006}\unit{eV} to \wk{s.en.02}\unit{Td} at \wk{s.m.02}\unit{eV}
+and rises to \wk{s.en.05}\unit{Td} at \wk{s.m.05}\unit{eV}.
+\item The beam's secondaries reach the grid with the injected mean energy
+to \wk{inj.dev} of it.
+\item A time step too long to matter is the steady growth solution to
+\wk{step.big}, and one too short to matter, with no field, leaves $F$
+where it was to \wk{step.tiny}. With e-e left out, a picosecond's step
+from the gas's Maxwellian under a Joule power of
+\wk{step.power}\unit{eV/s} per electron raises the mean energy by what
+the field and the sources bring less what the collisions, the captures
+and the population's change take, to \wk{step.energy}. With e-e at
+thermal energies, where a cell is as wide as $kT$, the flux scheme's
+energy exchange holds only to \wk{step.ee600} on \wk{und.lo} cells and
+\wk{step.ee2400} on \wk{und.hi}.
+\end{itemize}
+
+\section{The energy ladder}
+
+v0\_3's network is v0\_2's, and so is its ladder (Figure~\ref{fig:ladder}).
+KrF(B) lies \lad{DeB}\unit{eV} below the ion pair \Krp{} + \Fm{} and
+\lad{BoverKrF}\unit{eV} above Kr + F, and the \lad{wl.G4}-nm photon
+carries \lad{hv.G4}\unit{eV} of that.
+
+\begin{figure}[p]
+\centering
+\ladpicture
+\caption{The energy ladder of LIGHT v0\_3, version \lad{version}, in eV
+above ground-state Kr and \Ft{} at rest. A bar is a species at its
+formation energy and a dashed bar a pair, the sum of two. An arrow is a
+row, labelled with its id. It is solid in the default network and dotted
+for a band whose default is 0, \lad{zero}. The rows of the optional group
+\lad{groups} are dashed. A photon's arrow drops by its quantum, and the red
+squiggle below it is the heat its lower state gives the gas as it falls
+apart. A red stub is a quench. The energy a row releases heats the gas,
+except a photon's, which leaves, and that of \lad{toe}, which goes to the
+electrons. KrF(B) and KrF(C) lie \lad{gapBC}\unit{cm^{-1}} apart and are
+drawn as a pair of bars that every B and C row meets. The rows
+\lad{notdrawn} move nothing between levels and are not drawn.}
+\label{fig:ladder}
+\end{figure}
+
+\section{Where v0\_3 is not yet reliable}
+
+\begin{itemize}
+\item Everything in v0\_2's list, since the chemistry is v0\_2's: \Krts{}
++ F, the trimer above \wi{tri.klimek.hi}\unit{K}, \Krs{} + 2Kr above its
+measured range, hot gas, ion-ion recombination near atmospheric pressure,
+the two Penning rates, \Krts's well, and Hakuta's and Burnham and Searles'
+conflicts.
+\item The steady shape after the pulse. There the kinetic EEDF is a
+steady solution, while the electrons' shape is set by their history, and
+v0\_3 takes the steady shape at their mean energy. In the pulse it now
+follows the history (Section~\ref{sec:first}).
+\item The first cell. Where the growth term is dropped, after the pulse
+only, the net loss of electrons comes back cold in the first cell, which
+cools a solution at low field. v0\_3 holds LIGHT's mean energy regardless,
+so this moves the field and the low-energy shape.
+\item Thermal electrons. On the default \wk{und.lo} cells the grid's
+Maxwellian at \wk{und.tg}\unit{K} has a mean energy of
+\wk{und.600.mean}\unit{eV}, below the \wk{und.32kt}\unit{eV} of the gas,
+so late in an afterglow LIGHT's electrons sit a few percent below the gas
+temperature. \wk{und.hi} cells give \wk{und.2400.mean}\unit{eV}.
+\item Cost. A run takes minutes, so the bands' scans and the scan over the
+notes' ranges are hours under the kinetic closure.
+\end{itemize}
+
+\appendix
+\section{Reaction rates}
+
+v0\_3's rows, rates and bands are v0\_2's, and the v0\_2 overview's
+Appendix~A lists them. Its electron-impact rows run at the kinetic EEDF's
+rates, which Table~\ref{tab:factors} compares with the Maxwellian ones.
+
+\end{document}

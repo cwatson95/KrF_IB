@@ -1,0 +1,7 @@
+# latexmk build files (system_map.pdf itself is the deliverable and stays)
+*.aux
+*.log
+*.fls
+*.fdb_latexmk
+*.out
+*.synctex.gz

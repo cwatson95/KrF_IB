@@ -1,0 +1,5704 @@
+U.S.  DEPARTMENT  OF  COMMERCE 
+National  Technical  Information  Service 
+
+
+AD-A033  997 
+
+
+NEW  ELECTRONIC-TRANSITION  LASER  SYSTEMS , PART  I, 
+ELECTRON  PUMPED  SYSTEMS.  PART  II.  CHEMICALLY 
+PUMPED  SYSTEMS 
+
+
+Stanford  Research  Institute 
+Menlo  Park,  California 
+
+
+December  1976 
+
+
+V. 
+
+
+J 
+
+
+A DAO  33  99? 
+
+
+3 
+
+
+01  0027 
+
+
+Final  Technical  Report  December  1976 
+
+Covering  the  Period  8 February  1974  to  15  December  1976 
+SRI  No.  MP  76-99 
+
+
+NEW  ELECTRONIC-TRANSITION  LASER  SYSTEMS 
+Part  I:  Electron  Pumped  Systems 
+
+
+By:  H.  H.  NAKANO,  R.  M.  HILL,  D.  C.  LORENTS, 
+
+D.  L.  HUESTIS,  and  M.  V.  McCUSKER 
+
+
+Part  II:  Chemically  Pumped  Systems 
+
+
+By:  D.  J.  ECKSTROM 
+
+
+Prepared  for: 
+
+DEFENSE  ADVANCED  RESEARCH  PROJECTS  AGENCY 
+WASHINGTON,  D.  C.  20301 
+AND 
+
+U.  S.  ARMY  MISSILE  COMMAND 
+REDSTONE  ARSENAL,  ALABAMA  35809 
+
+
+ARPA  Order  No.  1180 
+
+Contract  DAAH0T74-C-0524  (8  February  1974  to  15  December  1976) 
+Contract  Amount  $852,268 
+
+
+SRI  Project  PYU-3190 
+
+
+N 
+
+
+The  views  and  conclusions  contained  in  this  document  are  those  of  the  authors  and 
+should  not  be  interpreted  as  necessarily  representing  the  official  policies,  either  expressed 
+or  implied,  of  the  Advanced  Research  Projects  Anenrv  or  the  U.  S.  Government. 
+PEPRODUCED  BY 
+
+NATIONAL  TECHNICAL 
+INFORMATION  SERVICE 
+
+U.  L DEPARTMENT  OF  COMMERCE 
+SPRINGFIELD.  VA.  22161 
+
+STANFORD  RESEARCH  INSTITUTE 
+
+Menlo  Park,  California  94025  • U S A. 
+
+
+1977 
+
+
+PTr!TtUBUT10N  STATEMENT  A 
+
+a ppiovec*  f'i  public  release; 
+Distribution  Uniuiiitcd 
+
+
+UEEILUIJEIhJ 
+
+B 
+
+
+4 
+
+
+SECURITY  CLASSIFICATION  of  THIS  RACE  Dmtm  E«r#r*rfj 
+
+
+REPORT  DOCUMENTATION  PAGE 
+
+
+«.  TtTLI  (anp  Svhlllla) 
+
+NEW  ELECTRONIC  TRANSITION  LASER  SYSTEMS 
+Part  I:  Electron  Pumped  Systems 
+
+Part  II:  Chemically  Pumped  Systems 
+
+
+7 AUTMORfA) 
+
+Part  I:  H.  H.  Nakano,  R.  M.  Hill,  D.  C.  Lorents, 
+
+D.  L.  Huestis,  and  M.  V.  McCusker 
+Part  II:  D.  J.  Eckstrom 
+
+
+t.  PERFORMING  ORGANIZATION  NAME  ANO  ADDRESS 
+
+Stanford  Research  Institute 
+333  Ravenswood  Avenue 
+
+Menlo  Park,  California  94025  
+
+
+II.  CONTROLLING  OFFICE  HAVE  ANO  AOORESS 
+
+Defense  Advanced  Research  Projects  Agency 
+1400  Wilson  Boulevard 
+
+Arlington,  Virginia  22209 
+
+
+M MONITORING  AGENCY  NAME  A AOORES PMarant  ham  Controlling  Olllca) 
+
+U.S.  Army  Missile  Command 
+Redstone  Arsenal,  Alabama  35809 
+
+
+It  DISTRIBUTION  STATEMENT  ( at  thla  haparl) 
+
+Distribution  of  this  document  is  unlimited. 
+
+
+READ  INSTRUCTIONS 
+BEFORE  COMPLETING  FORM 
+
+
+».  RECIPIENT'S  CATALOG  NUMRCR 
+
+
+1.  TYRE  OF  REPORT  • PERIOD  COVERED 
+
+Final  Technical  Report 
+8 Feb  1974-15  Dec  1975 
+
+
+A.  PERFORMING  ORG.  REPORT  NUMBER 
+
+MP  76-99 
+
+
+ONTRACT  OR  GRANT  HUMBERT*) 
+
+
+DAAH01-74-C-0524 
+
+
+10.  PROGRAM  ELEMENT.  PROJECT.  TASK 
+AREA  A WORK  UNIT  NUMBERS 
+
+
+IS.  REPORT  DATE 
+
+December  1976 
+
+
+IS.  NUMBER  OF  PAGES 
+
+114 
+
+
+IS.  SECURITY  CLASS,  (ot  I hi,  rapott) 
+
+
+Unclassified 
+
+
+ASSIFICATION' DOWNGRADING 
+SOLE 
+
+
+17  DISTRIBUTION  STATEMENT  f*f  |A*  aSatract  «(«•< In  Black  20,  II  milacant  ham  h apart) 
+
+
+It  KEY  BONUS  (Canttnua  an  rararaa  ,lpa  II  nacaaamy  ana  Ipanrltr  tp  Hack  rrumhar) 
+
+excimer  lasers,  e-beam  pumping,  rare  gas-halide  lasers,  electronic  transition, 
+chemically  pumped  lasers 
+
+
+>0  ABSTRACT  (Camtlmm  an  rararaa  at  Pa  II  nacaaaarr  an 4 laanllfr  *r  Hack  rajmkat) 
+
+This  report  consists  of  two  parts.  Part  I describes  our  program  to  develop 
+a kinetic  model  for  the  energy  flow  in  electron-beam  pumped  rare  gas-halide 
+lasers.  Our  experimental  program  involves  observations  of  fluorescence  from 
+argon/krypton/fluorine  mixtures  pumped  by  a short  pulse  electron  beam.  In 
+addition  to  the  emissions  at  193  ran  (ArF*)  and  248  nm  (KrF  ) we  observe 
+significant  broad  band  emissions  near  290  nm  and  400  nm  which  we  assign 
+
+
+I JAN  T»  1473  EOITION  OF  I NOV  tt  It  OBSOLETE 
+
+
+SECURITY  CLASSIFICATION  OF  THIS  PAOE  f* Iran  Data  Bntarag) 
+
+
+J 
+
+
+20.  Abstract  (continued) 
+
+
+to  Ar2F  and  Kr2F  . The  formation  of  these  triatomics  plays  a significant 
+role  in  the  total  KrF*  laser  kinetics;  in  particular  the  dominant  formation 
+reaction  chain  of  Kr2F*  involves  interception  of  the  precursors  of  KrF  . 
+
+The  important  reactions  that  form  ArF*  and  KrF*  are  also  discussed  in 
+this  report. 
+
+Part  II  summarizes  the  status  of  electronic-transition  chemical  laser 
+development.  There  has  not  yet  bee't  a demonstration  of  gain  in  a visible 
+chemical  laser  systems,  and  it  appears  unlikely  that  practical  lasers  of 
+this  type  will  be  developed  in  the  near  future.  Substantial  progress  has 
+been  made  toward  understanding  the  kinetics  of  highly  exothermic  reactions, 
+but  a complete  knowledge  of  any  one  system  is  still  to  be  achieved. 
+
+
+CONTENTS 
+
+
+i 
+
+
+1 
+
+
+LIST  OF  ILLUSTRATIONS ii 
+
+LIST  OF  TABLES iv 
+
+SUMMARY  OF  THE  REPORT 1 
+
+Part  I:  Electron-Pumped  Systems  1 
+
+Part  II:  Chemically  Pumped  Systems  2 
+
+OVERVIEW  OF  THE  PROGRAM 5 
+
+Part  I:  Electron-Pumped  Systems  5 
+
+Part  II:  Chemically  Pumped  Systems  6 
+
+PART  I:  ELECTRON -PUMPED  SYSTEMS  9 
+
+1.  Introduction 11 
+
+2.  Experimental  Procedure  17 
+
+3.  Identification  of  Optical  Emissions:  Emissions 
+
+from  Excited  Ar/Kr/F2  Mixtures  23 
+
+4.  ArF/KrF  Kinetics  35 
+
+Overview  of  Energy  Flow  Concepts  35 
+
+Overview  of  Kinetic  Data  38 
+
+Details  of  the  Kinetic  Model 45 
+
+Kinetic  Conclusions  77 
+
+REFERENCES,  Part  I 81 
+
+APPENDIX  "Gain  Measurements  at  4416  X on  ArXeF 
+
+and  Kr^F" 85 
+
+PART  II:  CHEMICALLY  PUMPED  SYSTEMS  97 
+
+1.  Introduction 99 
+
+2.  Summary  of  Recent  Work 101 
+
+3.  Current  Status 103 
+
+4.  Conclusions 108 
+
+REFERENCES,  Part  II 109 
+
+
+i 
+
+
+LIST  OF  ILLUSTRATIONS 
+
+
+i, 
+
+
+1 Schematic  diagram  of  the  energy  flow  pathways 
+
+applicable  to  the  rare  gas  halides 14 
+
+2 Schematic  diagram  of  apparatus  19 
+
+3 Ar^F  emission  band  near  290  nm 24 
+
+4 Argon  pressure  dependence  of  193  nm  band  and  290  nm  band 
+
+fluorescence  yields  26 
+
+5 Kr^F  emission  band  near  400  nm  27 
+
+6 Krypton  pressure  dependence  of  the  rare  gas  halide 
+
+fluorescence  yields  28 
+
+7 Relevant  ArF  and  Ar^F  energy  levels 33 
+
+8 Energy  flow  diagram  for  Ar/Kr/F2 34 
+
+9 Krypton  pressure  dependence  of  ArF  fluorescence  yield  ....  50 
+
+10  Argon  pressure  dependence  of  ArF  fluorescence  yield  51 
+
+11  Fluorine  pressure  dependence  of  ArF  fluorescence 
+
+yield  (Kr  = 0) 52 
+
+12  Comparison  of  experimental  ArF  fluorescence  yields  with 
+
+kinetic  model  53 
+
+
+13  Reciprocal  of  ArF  fluorescence  yield  versus  krypton  pressure  . 55 
+
+14  Reciprocal  of  ArF  fluorescence  yield  versus  the  square  of 
+
+the  argon  pressure  56 
+
+•k 
+
+15  Ar2F  and  Ar^  decay  frequencies  versus  F2  and  NF^ 
+
+pressures  (Kr  =0) 58 
+
+16  Ar2F,  KrF,  and  Kr2F  decay  frequencies  versus  krypton  pressure  59 
+
+17  Ar2F  fluorescence  yield  versus  fluorine  pressure  62 
+
+18  Ar2F  fluorescence  yield  versus  krypton  pressure  64 
+
+19  Ar2F  fluorescence  yield  versus  argon  pressure  66 
+
+20  KrF  decay  frequency  versus  argon  pressure  69 
+
+21  KrF  fluorescence  yield  versus  krypton  pressure  72 
+
+22  KrF  fluorescence  yield  versus  argon  pressure  74 
+
+
+ii 
+
+
+List  of  Illustrations  (continued) 
+
+
+23  Kr^F  decay  frequency  versus  fluorine  pressure  76 
+
+24  Kr^F  fluorescence  yield  versus  argon  pressure  78 
+
+25  Kr^F  fluorescence  yield  versus  krypton  pressure  79 
+
+
+I 
+
+
+j 
+
+I 
+
+
+iii 
+
+
+r, 
+
+
+LIST  OF  TABLES 
+
+
+1 Summary  of  Recent  Rare  Gas  Halide  Laser  Demonstrations  ....  13 
+
+2 Reactions  and  Rate  Constants  Relevant  to  the  Rare  Gas 
+
+
+Halide  Kinetic  Modeling  46 
+
+•k 
+
+3  Sources  of  KrF  . 71 
+
+
+iv 
+
+- J 
+
+
+SUMMARY  OF  THE  REPORT 
+
+
+Part  I:  Electron-Pumped  Systems 
+
+During  the  last  year,  significant  progress  has  been  made  in  the 
+development  of  efficient  high-energy  rare  gas  halide  lasers.  At  the  pre- 
+
+k 
+
+sent  time,  efforts  to  scale  KrF  lasers  to  intermediate  sizes  are  in 
+
+progress.  The  introduction  to  this  report  presents  a summary  of  the 
+
+published  results  that  characterize  the  rare  gas  halide  lasers.  Our 
+
+program  has  been  oriented  toward  the  development  of  a kinetic  model  of 
+
+the  energy  flow  within  gas  mixtures  that  will  produce  laser  action.  To 
+
+develop  this  kinetic  model,  we  have  made  extensive  studies  of  the  intensity 
+
+and  time  behavior  of  the  optical  emissions  that  arise  from  electron- 
+
+pumped  mixtures  of  argon  and  fluorine  and  mixtures  of  argon/krypton/ 
+
+fluorine.  These  data  are  compared  in  an  iterative  fashion  with  the 
+
+computed  predictions  of  a simple  kinetic  model  that  includes  up  to  30 
+
+molecular  reactions  relevant  to  these  systems.  The  rate  constants  used 
+
+in  the  model  were  adjusted  until  consistent  and  reasonable  agreement 
+
+between  predictions  and  experiment  were  obtained.  This  modeling  process 
+
+and  the  t etails  of  the  dominant  energy  flow  pathways  elucidated  by  this 
+
+model  are  described  in  Sections  1-4  of  this  report. 
+
+One  of  our  most  significant  observations  was  detection  of  intense 
+
+fluorescence  in  broad  bands  at  290  nm  and  400  nm,  in  addition  to  the  well- 
+
+k k 
+
+known  laser  transitions  at  193  nm  (ArF  ) and  248  nm  (KrF  ).  These  new  bands 
+
+were  especially  pronounced  at  higher  total  gas  pressures.  In  Section  3 of 
+
+Part  I,  we  diccuss  our  tentative  assignments  of  these  bands  as  arising  from 
+k k 
+
+triatomic  Ar^F  and  Kr^F  . As  described  in  Section  4,  the  kinetics  that 
+
+k 
+
+lead  to  these  emissions  are  critical  to  the  operation  of  large  KrF  laser 
+systems  because  of  our  conclusion  that  their  formation  is  due  to  an 
+
+1 
+
+
+interception  of  the  precursors  of  the  diatomic  KrF  laser  molecules 
+
+rather  than  a quenching.  If  the  formation  had  been  via  a quenching 
+
+: A* 
+
+reacrion,  efficient  lasing  on  KrF  could  be  recovered  by  raising  the 
+cavity  flux.  Thus,  the  results  of  our  modeling  efforts  indicate  a limited 
+range  of  operating  pressures  over  which  KrF  lasers  will  operate  effi- 
+ciently. It  must  be  emphasized  that  our  understanding  of  these  processes 
+is  incomplete  and  it  would  be  desirable  to  extend  the  range  of  experi- 
+mental results  in  order  to  improve  our  knowledge  of  the  complete  reaction 
+kinetics  of  this  laser  medium. 
+
+In  cooperation  with  R.  Hunter  of  Maxwell  Laboratories  in  San  Diego, 
+California,  we  made  an  experimental  gain  measurement  on  the  400  nm 
+transitions  in  e-beam  pumped  and  e-beam  sustained  discharge  excited 
+Ar/Kr/F^  mixtures.  Using  the  441.6  nm  line  from  an  He-Cd  laser,  we 
+observed  a small  net  absorption  under  the  limited  range  of  experimental 
+conditions  available  in  the  apparatus.  This  effort  and  its  impact  on 
+future  efforts  to  develop  a triatomic  rare  gas  halide  laser  are  described 
+in  the  Appendix  of  Part  I. 
+
+Part  II;  Chemically  Pumped  Systems 
+
+There  has  not  yet  been  a demonstration  of  gain  in  a visible  chemical 
+laser  system,  and  the  development  of  practical  lasers  of  this  type  appears 
+unlikely  in  the  near  future.  In  view  of  that  conclusion,  studies  of 
+chemically  pumped  systems  were  de-emphasized  during  the  last  portion  of 
+the  contract  period.  Our  experimental  efforts  were  confined  to  some 
+intracavity  dye  laser  spectroscopy  studies  of  reactions  of  Ba,  Ca,  c. 
+
+Sr  with  N^O  + CO.  These  studies  revealed  absorption  rather  than  gain 
+on  several  candidate  molecular  transitions.  We  also  carried  out  some 
+laser-induced  fluorescence  studies  in  an  attempt  to  measure  the  distri- 
+butions among  vibrational  levels  of  BaO(X^Z)  in  the  Ba  + N^O  reaction. 
+Analytical  studies  included  an  extension  of  our  vibrational  relaxation 
+
+
+2 
+
+
+modeling  program  and  a completion  of  our  numerical  solution  for  the 
+spherical  diffusion  flame  with  multiple  reactions.  All  of  these  studies 
+have  been  described  in  a series  of  preprints  that  have  been  iabmitted 
+for  publication. 
+
+
+3 
+
+
+I 
+
+OVERVIEW  OF  THE  PROGRAM 
+
+Part  I;  Electron-Pumped  Systems 
+
+Prior  to  June  of  1975,  studies  of  the  kinetics  of  e-beam  pumped 
+molecular  lasers  at  SRI  were  carried  out  under  ARPA  contract  N00014-72- 
+C-0478.  The  work  under  that  contract  was  summarized  in  the  final  report 
+[GHH75] . These  studies  were  continued  under  the  present  contract  that 
+supported  both  the  chemical  laser  studies  and  the  studies  of  electron- 
+pumped  media . 
+
+These  efforts  were  first  oriented  toward  an  understanding  of  the 
+kinetic  processes  in  electron-beam  pumped  molecular  halogen  lasers, 
+particularly  molecular  iodine.  This  effort  was  particularly  motivated 
+by  our  observations  that  very  large  fluorescence  efficiencies  could  be 
+obtained  in  the  near  uv  from  electron-beam  pumped  chlorine,  bromine,  or 
+iodine . 
+
+Our  conclusions,  described  in  a previous  report  [MLH76J , were  that 
+
+the  upper  laser  level  of  molecular  iodine  is  efficiently  populated  through 
+
+a two-step  energy  transfer  mechanism.  The  excited  noble  gas  atoms  or 
+
+molecules  (argon)  produced  by  the  electron  beam  react  with  the  halogen- 
+
+k 
+
+bearing  additive  to  form  excited  halogen  atoms  (I  ) . These  atoms 
+subsequently  collide  with  the  additive  to  yield  excited  homonuclear 
+
+k 
+
+halogen  molecules  (I  ) . Vibrational  and  electronic  relaxation  to  the 
+upper  laser  level  is  rapid  and  efficient. 
+
+We  concluded  that  these  media  showed  excellent  prospects  for  an 
+efficient,  scalable  laser.  Further,  we  noted  that  these  media  were 
+suitable  for  pumping  by  e-beams,  e-beam  sustained  discharges,  or  neutron- 
+generated fission  fragments. 
+
+
+Preceding  page  blank 
+
+
+5 
+
+
+Since  the  last  technical  report  for  this  contract  [MLH76J , we  have 
+
+concentrated  our  efforts  on  determining  the  kinetic  processes  important 
+
+* 
+
+to  e-beam  and  discharge  pumped  rare  gas  halide  lasers,  especially  KrF  . 
+The  results  of  this  effort  are  presented  in  detail  in  this  report. 
+
+
+1 
+
+
+Part  II:  Chemically  Pumped  Systems 
+
+Our  attempts  to  develop  a visible  chemical  laser  began  in  1973.  At 
+that  time,  there  was  virtually  no  quantitative  data  base  for  assessing 
+the  prospects  of  this  attempt,  and  so  early  studies  concentrated  on 
+determination  of  visible  photon  yields  in  exothermic  reactions  and  on 
+spectral  characterization  of  the  emissions.  Our  efforts  have  involved 
+reactions  of  metal  atoms  with  oxygen  or  halogen  donors,  with  metal  atoms 
+generated  in  electrically  heated  ovens,  by  thermal  decomposition  of 
+volatile  metal  compounds  in  shock  tubes,  or  by  stripping  of  volatile 
+polyhalides  in  an  excess  of  alkali  atoms.  Most  of  our  studies  have  been 
+carried  out  in  diffusion  flames,  using  both  excess  oxidizer  and  excess 
+metal . 
+
+The  photon  yield  measurement  program  indicated  a number  of  reactions 
+with  large  yields,  including- 
+
+Pressure  at 
+
+
+Reaction 
+
+Yield 
+
+Maximum  Yi> 
+
+Ba  + N20 
+
+0.25 
+
+4 
+
+Ba  + 03 
+
+0.36 
+
+1.7 
+
+Ba  + NF3 
+
+0.50 
+
+2 
+
+Sm  + NO 
+
+0.38 
+
+3 
+
+Sm  + F2 
+
+0.64 
+
+0.8 
+
+Sm  + NF3 
+
+0.70 
+
+2.3 
+
+Eu  + N„0 
+
+0.20 
+
+1.1 
+
+2 
+
+V 
+
+
+We  carried  out  unsuccesful  lasing  attempts  and  resonant  cavity  spectros- 
+
+
+f 
+
+t j 
+
+i 
+
+! 
+
+
+copy  studies  of  the  Ba  + N^O  and  Sm  + NF^  reactions.  We  also  searched 
+unsuccessfully  for  gain  in  Ba,  Ca,  or  Sr + N^O + CO  flames  using  sensitive 
+intracavity  dye  laser  spectroscopy.  We  concentrated  more  detailed  study 
+on  the  Ba  + ^0  reaction,  including  studies  of  quenching  by  Ba  carried 
+out  in  a heat-pipe-oven  reactor  and  laser-induced  fluorescence  studies 
+of  BaO(X^L,v/ ) distributions. 
+
+In  spite  of  the  studies  carried  out  at  SRI  and  elswhere,  no  one 
+candidate  reaction  is  yet  completely  understood.  In  addition,  many  of 
+the  straightforward  approaches  toward  achieving  a visible  chemical  laser 
+have  been  tried.  The  status  of  several  approaches  is  described  in 
+Part  II  of  this  report.  It  seems  likely  that  an  extended  period  of 
+fundamental  research  will  be  required  before  a successful  visible 
+chemical  laser  is  developed. 
+
+
+! 
+
+
+I 
+
+
+7 
+
+
+PART  I: 
+
+
+ELECTRON -PUMPED  SYSTEMS 
+
+
+Receding  page  blank 
+
+
+9 
+
+
+1. 
+
+
+INTRODUCTION 
+
+
+During  the  last  two  years,  remarkable  progress  has  been  achieved 
+in  the  development  of  large,  efficient  noble  gas  halide  lasers.  Such 
+developments  have  been  carried  out  primarily,  but  not  entirely,  in  labora- 
+tories supported  by  ARPA.  In  addition  to  the  DoD  requirements,  the 
+wavelengths  available  in  lasers  and  lamps  that  operate  on  transitions  in 
+these  molecules  also  appear  to  have  applicability  to  isotope  separation 
+schemes  of  interest  to  ERDA.  This  report  details  the  results  of  our 
+ARPA-funded  program  that  seeks  to  provide  the  kinetic  information  vital 
+to  the  full  exploitation  and  scaling  of  these  systems. 
+
+The  first  suggestion  of  the  possibility  of  lasing  on  these  molecules 
+was  presented  by  Setser  in  June  of  1974  [KS74J  at  the  Fourth  Conference 
+on  Chemical  and  Molecular  Lasers.  This  work  was  subsequently  published 
+
+in  expanded  form  in  March  of  1975  [VS75J . That  paper  described  the  emission 
+* * * * 
+
+spectra  of  XeF  , XeCl  , XeBr  , and  Xel  and  emphasized  the  similarity 
+between  the  physical  and  electronic  properties  of  alkali  atoms  with  the 
+corresponding  metastable  rare  gases.  Independently,  Golde  and  Thrush 
+used  this  resemblance  to  discuss  emissions  they  observed  from  ArCl*[GT74J. 
+Ewing  and  Brau  used  this  model  to  predict  the  structure  and  emission 
+spectra  in  most  of  the  diatomic  rare  gas  halogen  molecule:  [EB75c].  They 
+illustrated  the  success  of  the  prescription  by  comparing  their  predictions 
+
+k 
+
+with  spectra  observed  from  Xel  . They  placed  particular  emphasis  on  the 
+impact  of  these  molecules  on  future  laser  development.  In  a subsequent 
+paper,  they  further  confirmed  the  model  by  comparing  predicted  and 
+
+JL  * ^ ^ 
+
+experimental  results  of  emission  from  XeBr  , XeCl  , XeF  and  KrF  [Be75a], 
+The  first  noble  gas  halide  excimer  laser  was  demonstrated  at  NRL  by 
+
+k 
+
+Searles  and  Hart  [SH75J  who  used  XeBr  . Groups  at  AVCO,  Northrop,  and 
+
+
+Preceding  page  blank 
+
+
+a 
+
+
+Sandia  all  demonstrated  laser  action  on  a variety  of  noble  gas  halogen 
+pairs.  Since  these  initial  demonstrations,  several  other  laboratories 
+have  also  demonstrated  lasers  based  on  these  systems  (see  Table  1)  using 
+electron  beams  for  excitation.  The  use  of  an  e-beam  sustained  discharge 
+to  pump  noble  gas  halide  lasers  was  first  demonstrated  at  AVCO  [MJ75] . 
+
+These  systems  can  be  pumped  by  other  methods  as  well;  in  September 
+of  1975,  Burnam  et  al.  reported  lasing  on  XeF*  by  avalanche  discharge 
+pumping  [BHD75J.  While  such  pumping  methods  appear  to  offer  no  promise 
+of  the  efficiencies  and  scalability  required  by  ARPA  at  the  present  time, 
+the  high  repetition  rate  available  with  this  pumping  method  is  particularly 
+attractive  for  other  use*:.  This  activity  has  proceeded  so  rapidly  that 
+at  least  two  commercial  companies  offer  electrical  drives  that  can  be 
+used  to  pump  XeF,  KrF , and  ArF  (Tachisto  and  NRG)  [BHD76,  BB76,  SSG76, 
+
+BD76] . In  addition,  a scheme  was  recently  described  whereby  energy  from 
+a pulsed  nuclear  reactor  could  be  used  to  pump  these  molecules  [LMR76J. 
+
+The  potential  scalability  and  high  efficiency  of  these  systems  has 
+motivated  the  present  DoD  interest.  Table  1 presents  a summary  of  some 
+of  the  values  of  energy  and  efficiency  that  have  been  published  or 
+reported.  This  table  is  incomplete;  several  efforts  described  at  con- 
+ferences reported  values  that  exceed  those  in  the  tables  but  have  been 
+omitted  because  complete  information  is  lacking.  Direct  comparisons  of 
+laser  systems  operated  in  different  laboratories  should  be  made  cautiously. 
+However,  a clear  record  of  progress  can  be  seen. 
+
+Whether  rare  gas  halide  lasers  are  pumped  by  pure  electron  beams  or 
+
+by  discharges,  a kinetic  model  must  depict  the  energy  transfer  from  the 
+
+* * * 
+source  (in  this  case  Ar  ) to  the  laser  molecule  (KrF  or  XeF  ) . Several 
+
+processes  can  reduce  the  selectivity  of  this  transfer,  and  others  can  act 
+
+to  quench  the  laser  molecule  once  it  is  formed.  These  processes  are 
+
+schematically  illustrated  in  Figure  1.  The  optimum  energy  flow  path 
+
+: k 
+
+proceeds  from  the  pump  to  Ar  and  subsequently,  through  possible 
+
+
+12 
+
+
+FIGURE  1 SCHEMATIC  DIAGRAM  OF  THE  ENERGY  FLOW  PATHWAYS  APPLICABLE  TO  THE  RARE  GAS  HALIDES 
+
+
+I 
+
+
+intermediates,  to  the  laser  molecule  (Steps  1 and  2).  At  every  inter- 
+mediate point,  however,  reactions  may  exist  that  quench  or  remove  energy 
+from  this  preferred  path  (Steps  3 and  4).  This  energy  is  generally  not 
+recoverable;  the  function  of  the  kinetic  model  is  to  determine  those 
+operating  conditions  that  minimize  the  contributions  of  these  deleterious 
+effects.  Processes  for  quenching  of  the  laser  molecule  by  atoms  or 
+electrons  (see,  for  example,  MJD76)  are  similar;  however,  the  negative 
+effect  here  may  be  offset  by  increasing  the  cavity  flux  to  stimulate 
+the  laser  molecule  to  radiate  more  rapidly  than  it  is  quenched.  This 
+option  is  not  available  if  the  quenching  process  intercepts  the  precursors. 
+Thus,  the  determination  of  the  relative  rates  of  Process  5 to  Processes 
+3 and  4 is  of  key  importance  in  future  laser-scaling  efforts. 
+
+Once  the  laser  radiation  is  produced,  photoabsorption  processes 
+(Steps  6 and  7)  may  severely  reduce  the  extraction  and  efficiency.  Such 
+absorptions  have  been  studied  recently  in  pure  rare  gases  [ZHL76J  and  in 
+rare  gas  oxygen  mixtures  [MP75J . We  have  recently  noted  their  importance 
+in  halogen-containing  mixtures  [HOH76,  see  the  appendix  of  this  reportj  . 
+Such  absorptions  may  occur  in  the  precursors  (ionization,  detachment  or 
+dissociation  by  the  laser  photon)  or  possibly  in  the  laser  molecule. 
+Photoabsorption  may  also  occur  in  species  that  are  not  direct  intermediates 
+in  the  energy  flow  chain  (ground  states  such  as  F^)  or  fragments  such  as 
+NF^.  The  nature  and  magnitude  of  these  effects  should  be  the  subject 
+of  considerable  future  research. 
+
+One  of  our  most  significant  interests  in  the  initiation  of  this 
+
+work  was  to  determine  the  kinetics  of  the  energy  flow  chain  and  particu- 
+
+k 
+
+larly  to  emphasize  the  quenching  processes  that  deactivate  KrF  and 
+
+k 
+
+XeF  . During  these  studies,  we  discovered  that  some  of  the  eventual 
+products  of  these  interception  and  quenching  reactions  were  triatomic 
+molecules  that  under  appropriate  conditions  were  capable  of  radiating 
+a considerable  fraction  of  the  pump  energy.  Since  these  radiators  could 
+
+
+15 
+
+
+be  efficiently  created,  we  considered  the  possibility  that  laser  action 
+could  be  produced  on  them  in  preference  to  the  diatomics.  This  led  to 
+a collaborative  effort  with  R.  0.  Hunter  and  his  colleagues  at  Maxwell 
+Laboratories  to  measure  gain  on  these  molecules.  A preprint  describing 
+this  effort  is  being  submitted  for  publication  and  is  included  as  the 
+appendix  in  this  report. 
+
+
+2. 
+
+
+EXPERIMENTAL  PROCEDURE 
+
+
+The  experimental  technique  has  been  discussed  in  many  of  our  previous 
+
+reports  [MLH76,  GHH75,  HGH75,  HGH74J  and  will  be  outlined  only  briefly 
+
+here.  Those  aspects  of  particular  interest  to  the  studies  of  the  rare 
+
+gas  halogen  system  will  be  given  in  more  detail.  The  excitation  source 
+
+is  a high-power  electron  beam  from  a Hewlett-Packard  Febetron  706  (500  kV, 
+
+2 
+
+2000  A/cm  , 3 ns) . The  beam  is  turned  on  for  a time  short  compared  with 
+that  of  the  kinetic  steps  under  study.  The  excitation  occurs  in  the 
+dominant  rare  gas,  usually  Ar.  Because  of  the  rare  gas  pressure  and 
+excitation  density,  the  rate  of  production  of  Ar-excited  states  is  also 
+fast  in  comparison  with  that  in  the  other  kinetic  processes  being 
+studied  [L76J  . The  emissions  of  the  rare  gas  excimers,  the  diatomic 
+rare  gas  halides,  and  the  triatomic  rare  gas  halides  are  then  studied 
+as  a function  of  time  and  wavelength.  The  photon  detection  system, 
+including  lenses,  spectrometer,  and  photomultiplier  tube, is  calibrated 
+so  that  the  absolute  intensity  of  the  emission  as  a function  of  time  can 
+be  determined. 
+
+For  all  of  these  measurements,  the  photomultiplier  output  was  recorded 
+by  a Tektronix  Transient  Digitizer  System  (WP2222) , in  digital  form. 
+
+These  data  can  be  analyzed  to  yield  decay  times  and  integrated  intensities, 
+and  the  data  can  be  graphically  recorded  by  the  display  unit. 
+
+We  used  a mixture  of  Ar  + 57<,  N^  to  determine  the  energy  deposition 
+by  measuring  the  absolute  intensity  of  the  second  positive,  2+,  radiation 
+in  the  same  experimental  setup  used  for  the  rare  gas  halides.  In  addition, 
+we  used  an  Optical  Multichannel  Analyzer  (Princeton  Applied  Research) 
+that  provides  a time-integrated  spectrum  over  a broad  wavelength  range 
+as  a check  on  both  the  reproducibility  and  the  absolute  value  of  the 
+energy  deposition. 
+
+
+17 
+
+
+Figure  2 is  a block  diagram  of  the  experimental  apparatus.  The 
+
+
+electron  beam  source  is  a Febetron  706,  providing  a pulse  of  electrons 
+
+-9  2 
+
+at  approximately  500  kV  for  3 x 10  sec  and  about  2000  amps/cm  through 
+the  foil  in  the  gas  cell.  The  gas  cell  is  similar  to  those  previously 
+used;  it  has  a cylindrical  stainless-steel  chamber  with  two  MgF^  windows, 
+a thin  metal  foil  mounted  on  a perforated  stainless-steel  grid  connected 
+to  the  electron-beam  source,  and  a magnetically  activated  stirring  rod 
+enclosed  off  the  optical  axis  to  permit  dynamical  mixing  of  the  gases. 
+
+The  optical  radiations  are  observed  with  a %-meter  McPherson  vacuum  uv 
+spectromter  using  a 1P28  photomultiplier.  For  measurements  in  the  vuv 
+region,  the  photomultiplier  tube  is  coated  with  sodium  salicylate.  This 
+optical  detection  system  was  calibrated  over  the  range  from  120  nm  to 
+700  nm  using  a combination  of  standard  lamp  and  molecular  branching  ratio 
+techniques.  This  method  is  discussed  in  an  earlier  report  [GHH75] . It 
+has  been  possible  to  determine  the  transmission  characteristics  of  the 
+spectrometer  independent  of  the  photomultiplier  tube  by  making  an  absolute 
+calibration  of  the  sensitivity  of  the  photomultiplier  tube  at  one  wave- 
+length using  a calibrated  optical  filter.  This  greatly  speeds  up  the 
+calibration  procedures  since  it  is  no  longer  necessary  to  remeasure  the 
+entire  wavelength  spectrum  where  the  photomultiplier  has  to  be  changed. 
+
+The  optical  multichannel  analyzer  is  connected  to  the  second  exit  window 
+as  shown  in  Figure  2 and  has  been  used  to  measure  the  relative  integrated 
+intensity  from  200-600  nm. 
+
+We  have  encountered  several  experimental  problems  with  the  rare 
+gas  halogen  systems.  In  particular,  the  diatomic  rare  gas  halide  emissions 
+occur  very  rapidly;  in  order  to  get  accurate  temporal  information,  a 
+change  in  our  photomultiplier  structure  was  required.  Some  signal 
+reproducibility  problems  were  traced  to  difficulty  in  determining  the 
+partial  pressures  of  each  gas.  Getting  accurate  measurements  of  fluores- 
+cence yields  for  the  various  observed  emissions  required  considerable 
+
+
+I 
+
+
+18 
+
+
+FIGURE  2 SCHEMATIC  DIAGRAM  OF  APPARATUS 
+
+
+9 
+
+
+effort.  Although  the  absolute  accuracy  with  which  tnesa  were  determined 
+
+
+is  not  high,  the  relative  accuracy  is  good. 
+
+"k  k 
+
+Both  ArF  radiation  at  193.0  nm  and  KrF  at  248.4  nm  were  observed 
+to  have  rapid  rise  and  decay  when  the  Kr  partial  pressures  were  in  excess 
+of  50  torr.  As  noted  in  the  discussions  of  the  kinetic  model,  these 
+decay  rates  were  150  MHz  or  more.  Our  initial  attempts  to  measure  these 
+decays  gave  results  that  were  very  noisy,  both  in  intensity  versus  time 
+and  in  the  derived  value  of  the  decay  frequency.  We  believe  that  this 
+difficulty  results  from  operating  the  photomultiplier  tube  under  maximum 
+gain  conditions  for  such  short  but  incense  signals.  Under  maximum  gain, 
+the  maximum  number  of  photoelectrons  that  can  be  accepted  per  resolution 
+time  without  saturating  the  FMP  output  is  small.  To  keep  the  photo- 
+multiplier from  saturating  or  being  nonlinear,  the  number  of  photoelectrons 
+
+that  may  enter  the  first  dynode  within  the  resolution  time  (~  3 nsec)  is 
+
+6 
+
+probably  less  than  10.  For  example,  a 1P28  with  a gain  of  2 x 10  and  a 
+
+resolution  time  of  3 nsec  would  have  a current  at  the  final  anode  of 
+-9  6 15 
+
+I = 10/3x10  x 2 x 10  w 6x10  e/sec,  which  is  close  to  the  saturation 
+value  for  this  tube. 
+
+Collecting  such  a small  number  of  photoelectrons  will  produce  signals 
+that  have  large  statistical  fluctuations.  Since  the  saturation  condition 
+is  determined  by  the  space  charge  at  the  collection  anode,  we  operated 
+the  photomultiplier  with  fewer  stages  and  increased  the  optical  signal 
+on  the  photocathode.  This  was  done  by  picking  off  the  current  at  the  7th 
+rather  than  the  10th  dynode  in  the  photomultiplier  chain,  thus  decreasing 
+the  overall  gain  of  the  system  without  achieving  a saturation  current 
+density.  This  technique  did  not  degrade  the  time  resolution  of  the 
+photomultiplier,  but  it  reduced  the  overall  noise  level  by  approximately 
+a factor  of  10. 
+
+We  experienced  severe  difficulty  in  obtaining  reproducible  data. 
+
+This  problem  was  traceable  to  the  difficulty  in  getting  known  partial 
+
+
+20 
+
+
+pressures  of  the  various  gases.  The  method  that  finally  led  to  repro- 
+ducible results  involved  filling  the  cell  from  3 separate  bottles,  F , 
+
+Kr,  and  Ar,  in  that  order  and  measuring  the  pressure  of  each  constituent 
+separately.  The  cell  was  first  evacuated  to  a pressure  of  10  torr. 
+Fluorine  was  first  admitted  to  the  cell,  and  the  pressure  was  measured 
+by  a Tru-Torr  capacitance  manometer  pressure  gauge.  The  Tru-Torr  gauge 
+was  then  valved  off  and  Kr  was  admitted  to  the  cell.  The  total  pressure 
+was  measured  with  a diaphragm  manometer.  The  Ar  was  then  admitted  and 
+the  pressure  measured  by  a second  diaphragm  manometer.  With  this 
+technique,  signal  amplitude  values  could  be  measured  that  were  repro- 
+ducible within  the  variability  of  the  deposition  from  the  Febetron.  Only 
+the  first  data  point  per  gas  fill  was  used.  We  found  significant 
+decreases  in  light  output  for  subsequent  Febetron  shots  apparently  due 
+to  a decrease  in  available  F^.  This  rather  elaborate  procedure  was 
+adapted  after  concluding  that  long-term  storage  of  prepared  argon/fluorine 
+mixtures  in  passivated  storage  cells  led  to  poor  reproducibility. 
+
+We  have  calibrated  the  fluorescence  yield  measurements  in  much  the 
+same  way  as  was  reported  earlier  [MLH76,  GHH75,  HGH74J  . The  energy 
+deposition  from  the  e-beam  is  measured  by  determining  the  second 
+positive  (2+)  band  emission  from  Ar  + 5%  mixtures  excited  in  the  same 
+experimental  apparatus.  The  fluorescence  yield  for  this  system  has  been 
+determined  in  our  previous  studies  to  be  17.670/P,  where  P is  the  argon 
+pressure  in  atmospheres.  Therefore,  by  measuring  the  total  photon 
+emission  in  the  band  under  study  and  comparing  it  with  that  observed 
+from  the  ^(2+)  at  the  same  argon  pressure,  the  fluorescence  yield  can 
+be  determined.  We  found  that  small  quantities  of  residual  F£  or  Kr  had 
+a strong  influence  on  the  observed  N^(2+)  emission.  These  calibration 
+measurements  were  reliable  when  the  experimental  cell  was  evacuated 
+properly . 
+
+The  OMA  allowed  us  to  make  a cross-check  on  the  broad  400-nm  band 
+
+k 
+
+of  Kr^F  . This  instrument  can  be  used  to  measure  the  integrated  band 
+
+
+1 
+
+
+i 
+
+
+L 
+
+
+21 
+
+
+intensity  directly.  The  N^(2+)  0~3  band  at  405.9  nm  which  contains 
+4.270  of  the  total  band  emission  can  be  used  to  calibrate  the  400  nm  Kr^F 
+emissions.  The  number  of  counts  in  the  405.9-nm  band  N,,(2+)  taken  with 
+an  Ar  + 5%  gas  fill  could  be  compared  directly  with  the  number  of  signal 
+counts  observed  in  the  much  broader  410-nm  band  from  Kr^F. 
+
+
+22 
+
+
+3.  IDENTIFICATION  OF  OPTICAL  EMISSIONS: 
+
+EMISSIONS  FROM  EXCITED  Ar/Kr/F2  MIXTURES 
+
+
+We  have  been  studying  e-beam  excited  Ar/Kr/F2  mixtures  in  order  to 
+establish  the  important  energy  flow  pathways  and  to  determine  the 
+essential  reaction  rate  constants.  As  described  in  Section  2,  a 
+Febetron  706  has  been  used  to  excite  the  gas  mixtures  with  a 3-ns  pulse 
+of  500-keV  electrons.  To  establish  and  monitor  the  important  reactions 
+and  energy  flow  channels,  we  have  observed  the  available  radiative 
+emissions  and  measured  their  intensities  and  time  evolution  as  a 
+function  of  the  densities  of  the  mixture  components.  Spectra  have 
+been  obtained  on  film  with  a calibrated  photomultiplier-spectrometer 
+combination  and  with  an  optical  multichannel  analyzer  that  permits  the 
+measurements  of  time-integrated,  single-shot  spectra. 
+
+k 
+
+In  the  Ar/Kr/F2  mixture,  the  known  observable  emitters,  Ar2  (126  nm) , 
+
+Kr2  (147  nm) , ArF  (193  nm)  and  KrF  (248  nm) , were  monitored  with  the 
+
+primary  objective  of  improving  the  understanding  of  the  formation  and 
+
+k 
+
+decay  kinetics  of  KrF  . In  the  course  of  these  studies,  we  have  observed 
+two  additional  emissions  indicative  of  two  additional  radiating  species 
+that  must  be  included  in  the  energy  flow  scheme.  These  emissions  are 
+structureless,  broadband,  and  peaked  at  290  and  400  nm.  Our  initial 
+observations  of  these  emissions  were  described  at  a recent  conference 
+[LHH76J.  The  band  shapes  and  widths  are  independent  of  pressure.  In 
+
+k 
+
+Ar/F2  mixtures  without  Kr,  only  the  126-nm  (Ar^  ),  ]93-nm  (ArF),  and 
+290-nm  emissions  are  observed.  A scan  of  the  290-nm  band  is  shown  in 
+Figure  3.  Neither  the  broad  bandwidth  nor  the  energy  of  this  transition 
+can  be  explained  by  the  accepted  energy  level  structure  of  ArF  [MH76, 
+
+HD76J . Evidently,  the  emitter  is  an  excited  molecule  consisting  of  only 
+
+k k 
+
+Ar  and  F atoms,  Ar  F , but  is  not  ArF  . 
+
+
+23 
+
+
+sj|un  Ajejnqje 
+
+H1DN313AVM  1IND  U3d  A1ISN31NI 
+
+
+24 
+
+
+The  pressure  dependence  of  the  fluorescence  yield  of  the  193-nm 
+and  290-nm  bands  is  shown  in  Figure  4.  The  fluorescence  yield  is  defined 
+as  the  ratio  of  the  total  number  of  photons  emitted  in  a band  to  the 
+total  number  of  excited  states  produced  initially  in  the  host  gas  (as 
+described  in  the  previous  section)  . That  the  total  fluorescence  yield 
+does  not  add  up  to  100%  suggests  that  some  nonradiative  processes  are 
+also  significant.  These  data  taken  from  the  time  and  wavelength 
+
+integrated  emission  profiles  show  that  the  dominant  emission  at  higher 
+
+/ 
+
+argon  pressures  and  lower  fluorine^ -pressures  is  at  290  nm  rather  than 
+
+/ 
+
+193  nm.  The  decrease  of  the  Ar^  emission  and  the  much  slower  decrease  of 
+
+/ 
+
+290-nm  emission  as  the  Ar  pressure  is  increased  suggests  that  the  290-nm 
+emission  is  not  from  the  same  upper  level  as  the  193-nm  radiation  and 
+that  it  lies  lower  than  the  ArF  level.  The  general  downward  flow  of 
+electronic  energy  to  the  lowest  stable  emitter  under  high-density, 
+collision-dominated  conditions  supports  this  suggestion.  In  addition, 
+we  have  observed  the  decay  time  of  the  290-nm  emission  to  be  considerably 
+
+k 
+
+longer  (T  rs  10t  ) than  the  ArF  decay  time  indicating  again  that  the 
+
+290  193 
+
+290-nm  emitter  is  not  the  same  as  the  193-nm  emitter  and  that  it  is 
+
+either  formed  later  in  the  kinetic  chain  or  has  a icnger  radiative  lifetime. 
+
+A similar  set  of  observations  has  been  conducted  on  the  400-nm  band. 
+
+k 
+
+This  band  is  observed  together  with  the  248-nm  band  of  KrF  in  Kr/F^ 
+
+k 
+
+mixturas  containing  no  Ar  and  therefore  is  identified  as  a Kr  F molecule. 
+
+m n 
+
+Observation  of  this  band  has  also  been  reported  by  Lawrence  Livermore 
+Laboratory  [RW76],  The  emission  profile  of  the  400-nm  band  is  shown  in 
+Figure  5.  The  Kr  pressure  dependence  of  the  fluorescence  yields  of  each 
+of  the  radiators  in  an  Ar /Kr /F^  mixture  is  shown  in  Figure  6.  In  this 
+case,  we  observe  that  the  400-nm  band  becomes  the  dominant  emitter  as 
+the  Kr  pressure  is  increased  above  about  20  torr  in  a mixture  of  5-atm 
+Ar  and  1-torr  As  in  the  case  of  290-nm  emission  from  Ar/F^  mixtures, 
+
+the  decay  time  of  the  400-nm  emission  in  the  Ar/Kr/F^  mixtures  is  much 
+
+25 
+
+
+1 
+
+
+in  o in  o 
+
+t—  r- 
+
+onva  0131A  30N3Dsaaomd 
+
+
+FIGURE  4 ARGON  PRESSURE  DEPENDENCE  OF  193  nm  BAND  AND  290  nm  BAND  FLUORESCENCE  YIELDS 
+
+
+FIGURE  6 KRYPTON  PRESSURE  DEPENDENCE  OF  THE  RARE  GAS  HALIDE  FLUORESCENCE  YIELDS 
+
+
+longer  than  that  of  any  of  the  other  emissions.  Thus,  we  conclude  that 
+
+in  this  case  the  400-nm  emitter  is  the  lower-lying  electronic  level  to 
+
+which  most  of  the  energy  is  flowing.  Since  the  total  fluorescence  yield 
+
+is  not  100%,  some  of  the  emission  is  being  quenched,  probably  by  F . 
+
+* * 
+
+There  is  also  some  radiation  at  126  nm  (Ar^  ) an(*  147  nm  (Kr^  )• 
+
+We  have  also  observed  the  same  400-nm  band  in  Ar/Kr/NF^  mixtures,  as 
+has  Northrop  [B76].  In  this  mixture,  the  fluorescence  yield  is  higher 
+and  the  decay  time  slower  than  they  are  in  Ar/Kr/F^  mixtures.  The  same 
+general  characteristics  are  observed  for  the  290-nm  band  in  Ar/NF^ 
+mixtures . 
+
+In  Ar/Xe/F2  mixtures,  we  have  observed  a broadband  emission  peaked 
+at  about  460  nm.  This  band,  which  was  also  seen  by  Brau  and  Ewing  [BE75aJ  , 
+but  identified  as  a L-n  transition  in  diatomic  XeF,  behaves  differently 
+from  the  broadband  emissions  described  above.  Its  decay  rate  is  fast 
+
+k 
+
+and  identical  to  that  of  the  351-nm  XeF  emission.  However,  the  ratio  of 
+
+the  intensities  of  the  460-  and  351-nm  emissions  is  found  to  increase  with 
+
+increasing  Ar  density.  For  this  reason,  the  460  nm  emission  cannot  arise 
+
+from  the  same  state  as  the  XeF  351  nm  emission.  Further,  the  fluorescence 
+
+yield  of  the  460-nm  radiation  increases  with  decreasing  Xe.  We  conclude 
+
+that  the  460-nm  emitter  requires  both  an  Ar  and  Xe  atom  and  therefore  is 
+
+of  the  form  ArXeF  . The  simplest  case  requires  n = l.  We  have  not  as  yet 
+n 
+
+been  able  to  observe  an  emission  in  mixtures  that  behaves  like  the 
+
+400-nm  emission  in  Kr/F2» 
+
+The  400-nm  band  cannot  be  explained  in  terms  of  the  well-established 
+electronic  structure  of  the  KrF  molecule  [BE75a,  DH76,  THH76J  . Nor  is 
+it  possible  to  explain  the  290-nm  band  in  terms  of  the  structure  of  ArF 
+[HD76,  MH76] . We  conclude  that  these  bands  are  iot  emitted  by  a diatomic, 
+and  the  next  simplest  species  to  consider  are  triatomics.  In  analogy 
+with  the  Ar+F  and  Kr+F  ionic  bonds,  two  possible  ionically  bonded 
+triatomics,  Ar^+F  and  Ar+F^  > (similarly  for  Kr)  can  be  suggested. 
+
+
+29 
+
+
+Either  of  these  excited  states  should  lie  lower  in  energy  than  the 
+corresponding  diatomic  because  of  the  energy  of  the  additional  bond; 
+this  is  the  diatomic  rare  gas  ion  bond  in  one  case  (~  1.2  eV)  and  the 
+bond  (~  1.4  eV)  in  the  other  case.  In  contrast,  the  ground  state  of 
+Ar^F  will  certainly  be  repulsive  due  to  the  repulsive  interaction  between 
+the  Ar  atoms  (the  Ar-F  interaction  is  probably  very  weak  at  the  expected 
+internuclear  separations).  However,  ArF^  in  the  ground  state  may  have 
+some  binding  (with  respect  to  ArF  + F)  due  to  the  strong  F^  bond,  but 
+in  any  case  should  not  be  repulsive.  These  arguments  are  dependent  upon 
+the  geometry  assumed  for  the  ionic  upper  state  at  its  minimum.  However, 
+it  is  difficult  to  imagine  any  geometry  of  ArF^  that  will  be  sufficiently 
+repulsive  in  the  ground  state  to  explain  both  the  energy  and  bandwidth 
+
+of  the  observed  transitions.  Hence,  we  are  led  to  suggest  that  the 
+
+^ & 
+
+290-nm  emitter  is  Ar  F and  that  the  400-nm  emitter  is  Kr  F . This 
+
+2 2 
+
+conclusion  is  substantiated  further  by  the  observation  of  the  same  bands 
+in  mixtures  in  which  the  F^  is  replaced  by  NF^.  analogy  with  the 
+
+alkali  halides,  these  species  are  formed  by  charge  transfer  interactions, 
+it  is  most  likely  that  only  F is  abstracted  from  the  fluorine  donor. 
+
+These  assignments  are  given  further  support  by  studies  of  the 
+analogous  dialkali-halide  molecules.  Ewing  and  Brau  [BE75a,EB75J  had 
+
+k 
+
+considerable  success  in  predicting  the  bond  energies  of  RgX  ionic  states 
+using  the  known  bond  energies  of  corresponding  alkali  halides,  AX.  The 
+utility  of  this  method  of  estimating  bond  strengths  is  due  to  the  strongly 
+
+k 
+
+ionic  nature  of  both  the  AX  and  RgX  bonds  together  with  the  similarity 
+
+in  sizes  of  adjacent  A+  and  Rg+  ions. 
+
+Since  the  Rg^+  and  A + diatomic  ions  are  stable  and  bound  with 
+
+* 
+
+energies  of  0.5  to  1.0  eV,  an  analog  to  the  Rg^X  excited  state  should  be 
+the  corresponding  A^X  ground-state  molecule.  Unfortunately,  because  of 
+the  lack  of  spectroscopic  studies  of  A^X  molecules,  the  ground-state 
+surfaces  of  these  molecules  are  not  well  understood.  However,  the 
+
+
+30 
+
+
+existence  of  bound  A2X  molecules  has  been  established  from  beam-scattering 
+studies  of  with  X where  A2X  is  observed  as  a long-lived  intermediate 
+complex  that  decays  into  the  products  AX  + X [FKG72,  SXM75,  WHG73J  . It 
+is  generally  established  that  the  intermediate  complex  is  formed  by  the 
+crossing  from  a covalent  to  a bonding  ionic  surface  (also  known  as  the 
+harpoon  or  electron  jump  model) . In  the  single-collision  case  in  which 
+the  total  energy  remains  positive,  the  collision  complex  usually  decays 
+via  an  intersection  with  a second  covalent  surface.  For  example,  the 
+reaction  K + Cl  K +Cl  -*  K + KC1  is  observed  with  a cross  section  of 
+50-100  X;  the  reaction  also  branches  to  K + KC1  about  equally.  The 
+A^  + X2  collisions  are  also  observed  to  proceed  through  an  intermediate 
+ionic  complex  that  usually  decays  to  A + AX  + X. 
+
+Stimulated  by  these  measurements,  several  groups  have  theoretically 
+investigated  the  structure  of  the  A2X  surfaces  using  pseudo-potential 
+techniques  [LWG73,  RC68,  S73J . It  was  found  that  these  molecules  are 
+bound  ionically,  with  the  most  stable  geometry  being  triangular.  The 
+potential  energy  well  depths  with  respect  to  A + AX  dissociation  are  in 
+the  range  from  0.5  to  1 eV.  Although  the  triatomic  analogy  to  Rg2X  is 
+not  as  obvious  as  the  diatomic  case,  the  suggestion  that  the  Rg,,X  will 
+have  stable  ionic  states  (Rg2  X ) that  are  formed  by  a harpooning 
+
+k 
+
+reaction  of  Rg2  with  X2  is  strongly  supported  by  the  observations  on 
+
+the  A^X  molecules.  Further,  we  expect  the  stable  geometry  of  Rg2X  to 
+
+be  triangular.  In  contrast  to  the  beam  case,  the  strongly  exoergic 
+k 
+
+Rg2  + X2  react*-ons  are  occurring  in  a high-density  environment  where 
+multiple  collisions  during  the  lifetime  of  the  complex  can  relax  it  to 
+the  stable  potential  minimum  before  it  radiates  or  dissociates.  We  can 
+
+k 
+
+also  expect  that  bound  Rg2X  molecules  will  be  formed  by  the  reaction 
+
+RgX*  + 2Rg  - Rg2X*  + Rg 
+
+
+L 
+
+
+31 
+
+
+The  relevant  energy  levels  for  the  ArF  molecules  and  the  postulated 
+
+
+Ar^F  molecule  are  shown  in  Figure  7.  Here  we  have  assumed  a triangular 
+geometry  for  the  excited  ionic  state  with  the  Ar+-Ar  spacing  equal  to 
+
+
+the  Ar^  equilibrium  separation.  A vertical  transition  to  the  ground 
+
+
+state  ends  on  a repulsive  state  having  an  energy  of  about  1 eV  due  to 
+
+
+the  Ar^  repulsion  at  that  internuclear  separation  (the  Ar-F  ground-state 
+
+
+interaction  is  assumed  to  be  negligible).  The  upper  level  is  then 
+
+
+determined  by  the  290-nm  transition  wavelength  and  lies  about  1.1  eV 
+
+
+below  ArF  . If  we  now  assume  that  the  slope  of  the  ground  state  Ar^F 
+
+
+potential  at  R is  equal  to  that  of  Ar  at  the  equilibrium  separation  of 
+. e 2 
+k 
+
+Ar^  and  the  shape  of  the  upper  states  is  similar,  then  the  bandwidth  of 
+
+k 
+
+the  400-nm  band  is  easily  scaled  from  the  bandwidth  of  Ar^  emission  at 
+
+
+125  nm.  This  scaling  gives  a value  of  41  nm-full  width  at  half  maximum 
+
+
+as  compared  with  the  observed  value  of  52.5  nm.  In  the  Kr^F  case,  the 
+
+
+bandwidth  scaling  gives  53  nm  as  compared  with  60  nm  observed. 
+
+The  pseudo-potertial  calculations  referred  to  above  have  indicated 
+that  heteronuclear  dialkali-halides  may  also  have  stable  ionic  ground 
+states.  This  suggests  the  possibility  of  stable  heteronuclear  excited 
+
+
+rare  gas  halide  triatomics  and  supports  the  suggested  identification  of 
+
+
+emission  from  ArXeF  in  Ar/Xe/F^  mixtures.  Although  no  optical  emission 
+
+: k 
+
+has  been  clearly  identified  with  ArKrF  , the  suggestion  that  this  species 
+
+
+plays  a role  in  the  reaction  kinetics  is  certainly  plausible. 
+
+
+Evidence  in  the  kinetic  data  also  supports  the  conclusions  that  the 
+
+
+broadband  emissions  are  due  to  Rg^X  molecules.  In  the  following  section, 
+
+k 
+
+data  are  presented  showing  that  the  temporal  decay  rate  of  Ar^F  exactly 
+
+k k 
+
+follows  that  of  Ar^  under  conditions  where  the  ArF  is  disappearing 
+
+k 
+
+much  faster.  The  same  behavior  is  observed  in  the  decay  of  Kr^F  and 
+* 
+
+
+Kr^  as  demonstrated  in  Section  4 (see  Figure  15) . It  is  concluded  that 
+
+
+these  decay  rates  reflect  the  formation  rates  of  Ar„F  and  Kr  F from 
+1 2 2 
+
+
+the  reactions 
+
+
+32 
+
+
+1 
+
+
+w 
+
+
+Ar+  + F 
+Arj  + F 
+Ar2  + F 
+
+
+2Ar  + F 
+FIGURE  7 
+
+
+Ar$  J—  F- 
+-\ 
+
+
+Ar+  + F" 
+Ar*  + F 
+Ar*  + F2 
+
+
+SA-3190-1 19 
+
+RELEVANT  ArF  AND  Ar2F  ENERGY  LEVELS 
+
+
+33 
+
+
+W 
+
+
+(5) 
+
+
+& "k 
+
+Ar2  + F2  ”*  Ar2F  + F 
+
+
+Kr2  + F2  - Kr2F  + F 
+
+
+(21) 
+
+
+Reaction  (5)  is  obviously  consistent  with  the  predominance  of  Ar2F 
+
+emission  at  high  densities  of  Ar  where  Ar  is  formed  rapidly  by  the 
+
+1 * 
+
+three-body  process.  It  is  significant  to  note  from  Figure  7 that  ArF 
+could  energetically  be  formed  from  the  reaction  of  Ar2  + F . However, 
+it  is  clear  from  the  very  different  decay  times  and  fluorescence  yields 
+of  the  two  species  that  the  contribution  from  this  channel  is  not  very 
+significant . 
+
+
+34 
+
+
+4.  ArF/KrF  KINETICS 
+
+
+Overview  of  Energy  Flow  Concepts 
+
+In  the  following  sections  we  will  describe  in  some  detail  our  experi- 
+mental observations  of  the  fluorescence  yield  and  time  decay  of  each  of 
+the  various  emissions  arising  from  electron-beam  excited  argon/krypton/ 
+fluorine  mixtures.  A kinetic  model  will  be  presented  that  explains  most 
+of  the  observations.  Many  of  the  rate  coefficients  have  been  estimated 
+by  numerical  comparison  of  the  kinetic  model  with  the  experimental  data. 
+The  gas  pressures  chosen  and  the  excitation  conditions  used  are  not 
+necessarily  typical  of  those  chosen  for  laser  operation.  Rather,  the 
+pressures  have  been  chosen  to  isolate  or  emphasize  one  or  another  of  the 
+kinetic  processes  under  investigation.  The  fast, high-intensity , small- 
+volume  excitation  source  is  used  because  of  its  convenience  in  making 
+time-decay  measurements. 
+
+One  might  argue  that  the  excitation  conditions  we  have  chosen  will 
+not  be  representative  of  the  slow,  low-current,  large-volume  e-beam/ 
+discharge  devices  now  under  development.  While  a number  of  differences 
+exist  between  the  kinetic  processes  operating  under  the  two  types  of 
+excitation  conditions,  all  of  the  kinetic  processes  that  are  important 
+under  e-beam  excitation  are  also  important  under  e-beam/discharge  excita- 
+tion, as  we  will  show  below. 
+
+The  details  of  the  rare  gas  energy  flow  kinetics  have  been  discussed 
+at  some  length  previously  [L76,  LEH73,  L072J  and  need  only  brief  review 
+here.  The  primary  electrons  deposit  their  energy  through  ionization 
+
+e + X - X+  + 2e  . 
+
+The  resulting  secondary  electrons  cool  through  successive  ionization  steps 
+and  atomic  excitation 
+
+
+35 
+
+
+* 
+
+e + X -*  X + e 
+
+until  their  energy  drops  below  the  excitation  threshold.  Subsequent 
+elastic  collisions  rapidly  cool  the  electrons  to  a few  tenths  of  an  eV 
+where  continued  cooling  is  retarded  by  the  Ramsauer  minimum  in  the  cross 
+section. 
+
+The  electron-ion  recombination  in  the  pur'"?  rare  gases  occurs  mainly 
+through  the  dissociative  mechanism  involving  the  molecular  ion 
+
+X+  + 2X  - X o+  + X 
+2 
+
++ ** 
+
+X2  + e - X + X 
+
+populating  predominately  the  second  group  of  atomic  excited  states, 
+
+X(np^ (n+1) p) . These  p levels  relax  via  the  reactions 
+
+**  ** 
+
+X + 2X  - X2  + X 
+
+ick  k 
+
+X2  + (X)  - X + X + (X) 
+
+to  the  s levels  that  finally  populate  the  excimer  levels 
+
+* *1.3+ 
+
+X + 2X  -•  X„  ( £ ) + X 
+
+2 u 
+
+The  interpretation  of  the  fluorescence  from  the  singlet  and  triplet 
+excimers  is  complicated  [under  the  normal  high  excitation  density  con- 
+ditions] by  the  near  coincidence  of  the  two  levels  (less  than  1000-cm  ^ 
+separation),  the  greatly  differing  radiative  lifetimes  [e.g.,  4 nsec  for 
+
+k 1 -f-  k 3 -f 
+
+Ar  ( Z ) and  3 n,sec  for  Ar  ( £ )]  , and  by  the  rapid  mixing  of  the 
+
+2 u 2 u 
+
+two  levels  by  the  secondary  plasma  electrons. 
+
+Subsequent  reactions  of  the  excited  rare  gas  species  with  additive 
+gases  have  been  under  investigation  for  several  years.  Lasers  have  been 
+demonstrated  based  on  energy  transfer  from  the  excited  atoms  [Ar/N2  (HGH74)J 
+
+
+36 
+
+
+or  from  the  excimers  [XeO  (HGH75) J . As  will  be  shown  below,  reactions 
+of  excited  atoms  and  excimers  both  give  rise  to  important  emissions  in 
+
+
+i 
+
+
+f 
+
+I 
+
+ft 
+
+
+Ar/Kr/F^  mixtures. 
+
+One  of  the  complicated  features  which  arises  with  the  use  of  fluorine 
+(or  halogen-containing  molecules  generally)  is  dissociative  electron 
+attachment.  Under  the  Febetron  706  excitation  conditions  used  here,  the 
+competition  between  the  reactions 
+
++ * 
+
+e + Ar„  -•  Ar  + Ar 
+
+2 
+
+and 
+
+e + - F + F 
+
+appears  to  be  decided  in  favor  of  electron  recombination  under  most 
+
+pressure  conditions.  Further,  about  one-fourth  of  the  electron  beam 
+
+* 
+
+energy  is  deposited  directly  into  Ar  . The  rate  coefficient  for  electron 
+
+“73  -6  3 
+
+recombination  varies  from  10  cm  /sec  at  1 eV  to  10  cm  /sec  [BB70J  at 
+
+thermal  energies.  Taking  the  electron  attachment  rate  coefficient  to  be 
+
+-9  15  -3 
+
+10  [H76,  JM76J  and  the  charge  density  10  [Ar(atm)]cm  , we  see  at 
+
+3-atm  Ar  and  1-torr  F that  the  electron-recombination  proceeds  at  a 
+8 9-1 
+
+frequency  of  3 x 10  to  3 x 10  sec  while  the  attachment,  at  about 
+3 x 107  sec  1 , cannot  compete.  Of  course,  under  lower-excitation  density 
+conditions  in  which  the  electron  density  is  low  and  electron-ion  recombi- 
+nation slowed,  electron  attachment  may  become  more  important. 
+
+Under  e-beam  controlled  discharge  excitation,  it  is  expected  that 
+most  of  the  energy  deposition  is  to  be  accomplished  through  excitation  by 
+the  discharge  electron  reactions: 
+
+k 
+
+e + Ar  -•  Ar  + e 
+
+* 
+
+e + Kr  -*  Kr  + e , 
+
+and  that  the  subsequent  energy  flow  will  be  through  neutral  reaction 
+channels . 
+
+37 
+
+
+d 
+
+
+Thus,  under  the  conditions  reported  here,  we  may  consider  that  the 
+energy  deposited  by  the  electron  beam  rapidly  finds  its  way  to  the  lowest 
+few  excited  states  of  the  argon  atom.  The  dominant  energy  pathways  to 
+
+k k k 
+
+the  important  emitting  species  (ArF  , Ar^F  , KrF  , and  Kr^F  ) are 
+
+
+& k 
+
+- ArF  -*  KrF 
+
+
+■k  * 
+
+Ar  -»  Ar  F 
+
+I 2 2 
+
+I •*  * 
+
+
+- KrF 
+* 
+
+ArKr  — 
+
+
+* 
+
+Kr  F 
+2 
+
+
+The  multitude  of  kinetic  steps  are  illustrated  in  Figure  8. 
+
+
+Overview  of  the  Kinetic  Data 
+
+In  this  subsection  we  present  a brief  summary  of  the  experimental 
+observations  and  the  preliminary  qualitative  conclusions.  A detailed 
+comparison  of  the  data  with  the  kinetic  model  is  in  the  following  sub- 
+section. 
+
+k k k 
+
+We  have  followed  the  four  major  emitting  species  ArF  , Ar^F  , KrF  , 
+
+* 
+
+and  Kr^F  , which  vary  in  decay  time  and  relative  intensity  as  a function 
+of  the  three  gas  pressures  (Ar,  Kr,  F^) . The  most  reliable  technique 
+for  measuring  rate  coefficients  depends  on  the  linear  relationship  between 
+the  reaction  frequency  and  a product  of  the  appropriate  reactant 
+pressures.  For  a multireaction  process  one  does  not  always  know  which 
+reaction  in  the  kinetic  chain  is  the  rate-determining  step.  In  particu- 
+lar, a common  problem  which  is  present  for  each  of  the  rare  gas  halide 
+species,  is  that  the  formation  kinetics  are  always  slower  than  the  sum 
+of  radiation  and  quenching.  Since  the  observed  decay  always  represents 
+the  slowest  important  kinetic  step,  the  radiative  lifetimes  and  quenching 
+coefficients  cannot  be  determined  from  a simple  decay- frequency  plot. 
+
+
+38 
+
+
+PUMP 
+
+
+Ar 
+
+* 
+
+126 
+
+nm 
+
+Ar2F 
+290  nm 
+
+
+Kr  + Ar  I 2Ar 
+
+
+KrF 
+
+248  nm 
+
+
+ArKr* 
+135  nm 
+
+
+ArKrF 
+
+(?) 
+
+
+Kr2* 
+
+' F2 
+
+Kr2F* 
+
+147  nm 
+
+400  nm 
+
+SA-3190-123 
+
+
+FIGURE  8 ENERGY  FLOW  DIAGRAM  FOR  Ar/Kr/F2.  MAJOR  PATHWAYS  SHOWN 
+AS  BOLD  ARROWS.  ALL  RARE  GAS  HALIDES  SUBJECT  TO  RAPID 
+QUENCHING  BY  FLUORINE. 
+
+
+Emissions  of  ArF 
+
+* 
+
+The  time-dependent  population  of  ArF  was  monitored  through  its 
+emission  near  193  nm.  The  signal  was  observed  to  decay  very  rapidly 
+(40-250  MHz) --so  rapidly  that  due  to  the  limitations  of  the  detection 
+instrumentation  and  the  pulse  length  of  the  Febetron  itself,  irrepro- 
+ducibility  of  the  time-decay  data  prevented  direct  determinations  of  the 
+relevant  reaction  rate  coefficients.  Generally,  the  decay  became  more 
+rapid  if  any  of  the  argon,  krypton,  or  fluorine  pressures  were  increased. 
+
+■ k 
+
+Such  behavior  is  consistent  with  known  rapid  reactions  of  Ar  , the  pre- 
+
+* * f * 
+
+cursor  of  ArF  , with  F^  ArF  [Reaction  (1)J  and  with  2Ar  -*  Ar^ 
+
+* k 
+
+[Reaction  (3)J,  as  well  as  the  presumed  rapid  radiation  of  ArF  , quenching 
+by  F^  [Reaction  (8) J and  exchange  with  Kr  -•  KrF  [Reaction  (9)J.  At  very 
+low  fluorine  pressures  (<  0.2  torr)  or  high  argon  pressures  (>  5 atm)  a 
+long-lived  component  appears.  This  is  evidently  due  to  reaction 
+
+• k k 
+
+Ar^  -t-  F -*  ArF  + Ar  with  a slower  decay-time  that  is  characteristic  of 
+* 
+
+the  decay  of  Ar^  . 
+
+The  ArF  fluorescence  yields  were  surprisingly  small  (30%  being  the 
+
+greatest  observed).  They  decreased  rapidly  with  added  krypton  [exchange 
+
+k k 
+
+Reaction  (9)J  and  added  argon  [interception  of  Ar  to  Ar^  , Reaction  (3)J. 
+They  were  relatively  independent  of  fluorine  pressure  [evidence  for 
+quenching  by  F^,  Reaction  (8)] . 
+
+
+Emissions  of  Ar„F 
+
+The  broadband  emission  in  the  region  from  260  nm  to  320  ran  has  been 
+
+* 
+
+characterized  above  as  arising  from  the  triatomic  rare  gas  halide  Ar^F  . 
+The  decay  of  emissions  in  this  wavelength  region  are  typically  much 
+
+k 
+
+slower  than  those  of  ArF  , specifically  from  (4-160  MHz),  although  at 
+the  higher  krypton  pressures  they  became  similar.  This  indicates  that 
+
+
+Reaction  numbers  refer  to  the  reactions  listed  in  the  next  subsection 
+(Table  2). 
+
+
+40 
+
+
+ArF  cannot  be  the  dominant  source  [Reaction  ( 10 ) J of  Ar^F  (for 
+
+F^  5 7 torr,  Kr  ^ 50  torr,  Ar  s,  9 atm).  Generally  the  decay  frequencies 
+
+were  independent  of  the  argon  pressure  and  increased  linearly  with  added 
+
+fluorine  or  krypton.  All  of  this  is  consistent  with  rate-determining 
+
+k 
+
+steps  being  that  at  which  the  precursor  Ar  either  reacts  with  F to 
+
+* * 
+give  Ar^F  [Reaction  ( 5 ) J , reacts  with  Kr  to  give  Kr  [Reaction  (4)J  , 
+
+or  radiates  to  give  126  nm  photons  [Reaction  (6)]. 
+
+The  fluorescence  yields  were  surprisingly  high  (40-507,)  even  at 
+
+low  argon  pressures.  As  expected,  the  fluorescence  yields  decreased 
+
+k 
+
+rapidly  with  added  krypton  [Reaction  (4)J  , as  more  and  more  of  the  Ar^ 
+
+precursor  was  consumed  by  energy  transfer  to  krypton  (some  direct  quench- 
+* 
+
+ing  of  Ar^F  by  krypton  is  also  probable  [Reaction  ( 13) J ) . The  decrease 
+
+of  the  fluorescence  yield  with  added  fluorine  is  attributed  to  the 
+k k 
+
+interception  of  Ar  (the  precursor  of  Ar  which  itself  is  the  precursor 
+
+k k 
+
+of  Ar^F  ) to  make  ArF  [Reaction  (1)]  . Surprisingly,  the  Ar^F  also 
+
+decreased  slightly  with  increasing  argon  pressure.  This  is  in  contrast 
+
+to  the  expected  rise  from  low  values  at  low  argon  pressures  to  a plateau 
+
+at  higher  pressures.  This  apparent  contradiction  may  be  due  in  part  to 
+
+* * * 
+reaction  of  Ar^  with  fluorine  atoms  to  produce  ArF  instead  of  Ar^F  . 
+
+
+Emissions  of  KrF 
+
+
+The  time-dependent  population  of  KrF  was  monitored  through  its 
+emission  near  248  nm.  The  time  scale  of  the  fluorescence  decay  was 
+
+k 
+
+observed  to  be  quite  similar  to  that  of  Ar^F  (20-200  MHz)  under  the 
+same  conditions,  and  again, for  Kr  < 50  torr,  was  much  slower  than  the  decay 
+of  ArF  . The  time-decay  of  KrF  was  dominated  under  most  conditions  by 
+
+k 
+
+the  time  dependence  of  its  slowest  precursor,  Kr  . At  low  krypton 
+
+k 
+
+pressures  (<  50  torr) , the  KrF  decay  frequency  increased  linearly  as  a 
+
+k k 
+
+function  of  added  krypton,  following  the  reaction  Ar^  + Kr  Kr  as 
+
+k 
+
+described  above  for  the  decay  of  Ar  F . Above  50  torr  of  krypton,  both 
+k k 
+
+KrF  and  Ar^F  decayed  immeasurably  fast  (>  150  MHz) . 
+
+
+41 
+
+
+The  decay  frequency  also  increased  with  added  argon  pressure. 
+
+■k 
+
+Under  most  conditions,  KrF  decayed  much  more  rapidly  than  we  would  expect 
+
+* 
+
+from  the  two  straightforward  loss  processes  for  Kr  : 
+
+
+* * 
+
+Kr  + F2  - KrF  + F 
+
+
+& • k 
+
+Kr  + Kr  + Ar  - Kr  + Ar 
+2 
+
+
+Since  the  decay  of  a species  cannot  proceed  faster  than  the  decay  of  the 
+
+k 
+
+slowest  of  its  important  sources,  we  must  conclude  that  Kr  has  some 
+more  rapid  means  of  decay.  The  most  plausible  suggestion  is 
+
+"k  k 
+
+Kr  + Ar  + Ar  -*  ArKr  + Ar 
+
+
+While  this  reaction  is  not  well  characterized  (the  postulated  product 
+
+has  been  observed  in  emission  [CGR73,  VOF75J),  it  is  needed  to  explain 
+* 
+
+
+the  observed  KrF  decay  frequencies. 
+
+The  dependence  of  the  decay  frequency  on  fluorine  pressure  was  less 
+
+thoroughly  investigated,  but  as  expected,  it  generally  increased  as  the 
+
+fluorine  pressure  was  increased.  We  also  note  that  at  all  F^  pressures, 
+
+there  was  a very  slow  component  to  the  KrF  decay.  At  very  low  F2,  most 
+
+of  the  signal  intensity  is  in  the  slow  component.  The  interpretation 
+
+* * 
+
+
+is  that  this  component  results  from  the  reaction  Kr^  + F KrF  + Kr 
+
+* 
+
+and  that  the  decay  of  Kr^  is  quite  slow,  as  we  see  below. 
+
+* 
+
+
+The  fluorescence  yield  of  KrF  was  observed  to  be  very  high, 
+
+approaching  100%  at  low  argon  pressures.  The  fluorescence  yield  decreased 
+
+rapidly  as  the  argon  pressure  was  increased.  This  may  be  explained  as 
+
+r * 
+
+a combination  interception  (less  ArF  to  exchange  with  [Reactions  (1), 
+
+k k k 
+
+
+(3),  (9),  (10)],  conversion  of  Kr  — ArKr  -*  Kr^  [Reactions  (14) , (16), 
+(19)]}  and  quenching  to  the  as  yet  unobserved  ArKrF  [Reaction  ( 25 ) J . 
+
+The  fluorescence  yield  was  observed  to  decrease  slowly  as  the  krypton 
+pressure  was  increased.  This  is  interpreted  as  a decrease  in  the 
+
+
+42 
+
+
+importance  of  ArKr  as  a source  of  KrF  [Reaction  (18) J , as  Reaction  (19), 
+"k  k 
+
+ArKr  + Kr  -»  Kr^  + Ar  becomes  more  rapid. 
+
+* 
+
+Emissions  of  Kr„F 
+
+Kr^F  has  been  assigned  above  as  the  radiator  of  the  400  + 30-nm 
+band  observed  in  e-beam  excited  Ar/Kr/F2  mixtures.  The  time  evolution  of 
+this  species  was  monitored  as  a function  of  argon,  krypton,  and  fluorine 
+pressures.  It  was  the  observation  of  no  dependence  of  "he  decay  frequency 
+on  the  argon  and  krypton  pressures  and  the  linear  dependence  on  fluorine 
+pressure  which  led  to  the  identification  of  the  reaction 
+
+Kr2*  + F2  - Kr2F*  + F (21) 
+
+as  the  rate-determining  kinetic  step  and  helped  identify  Kr^F  as  the 
+
+k 
+
+radiating  molecule.  However,  as  we  will  discuss  below,  Kr2  may  not  be 
+
+k 
+
+the  only  source  of  Kr2F  . An  additional  source  is  probably 
+
+
+k k 
+
+ArKrF  + Kr  - K^F  + Ar 
+
+
+(28) 
+
+
+The  Kr^F  fluorescence  yield  increased  and  reached  a plateau  as  the 
+argon  or  krypton  pressure  was  increased.  The  increased  argon  pressure 
+
+k k k 
+
+facilitated  the  three  body  reactions  leading  from  Ar  -*  Ar  -»  Kr  "• 
+
+k k k k k k 
+
+ArKr  - Kr^  - Kr2F  and  KrF  -*  ArKrF  ~*  Kr2F  . An  increase  in  the 
+
+k 
+
+krypton  pressure  accomplishes  an  interception  of  the  formation  of  KrF 
+* * * 
+
+
+by  ArKr  + Kr  — Kr^  [Reaction  (19) J and  rapidly  converts  ArKrF  into 
+k 
+
+Kr2F  [Reaction  (28) J . An  increase  in  the  F2  pressure  reduced  the  Kr2F 
+
+k & 
+
+fluorescence  yield.  This  is  explained  by  interception  of  Kr  or  ArKr 
+* * 
+
+
+to  make  KrF  [Reactions  (14),(18)J  and  by  quenching  of  Kr2F  by  F2 
+[Reaction  (30)J  . 
+
+
+43 
+
+
+Details  of  che  Kinetic  Model 
+
+
+L 
+
+
+In  this  subsection,  we  present  a preliminary  kinetic  model  for  the 
+
+
+energy  flow  in  electron-beam  excited  Ar/Kr/F^  mixtures.  The  model  is 
+
+
+based  on  the  assumption  (discussed  above)  that  the  energy  deposited  by 
+the  electron-beam  is  rapidly  collected  in  the  lower  excited  states  of 
+atomic  argon.  We  postulate  a collection  of  30  reactions  listed  in 
+Table  2,  and  use  these  reactions  to  explain  the  observed  time  decay  and 
+fluorescence  yield  of  each  of  the  emitting  species.  The  data  are  used 
+to  establish  consistent  values  of  the  rate  coefficients  (few  of  which  are 
+available  in  the  literature) . 
+
+The  model  and  the  values  of  the  rate  coefficients  must  be  considered 
+preliminary  for  three  basic  reasons: 
+
+• The  data  are  incomplete.  A variety  of  other  combinations  of 
+gas  pressures  are  yet  to  be  investigated  and  many  of  the 
+experiments  must  be  repeated  before  they  can  be  considered 
+sufficiently  accurate. 
+
+• The  model  does  not  yet  accurately  predict  the  data  that  have 
+been  taken.  Only  the  first  iteration  has  been  completed  in 
+the  determination  of  the  rate  coefficients. 
+
+
+An  important  class  of  reactions  has  not  yet  been  included; 
+
+
+namely,  reactions  of  Ar^  and  Kr^  with  F atoms  produced  by 
+
+
+previous  dissociation  of  the  F^.  This  makes  the  calculation 
+
+
+of  the  various  fluorescence  yields  inaccurate  above  5 atm  or 
+total  pressure  since  under  those  conditions  as  much  as  one- 
+
+
+third  of  the  F2  can  be  dissociated. 
+
+
+Nevertheless,  the  progress  that  has  been  made  is  very  encouraging.  It 
+appears  that  most  of  the  important  energy  pathways  have  been  identified, 
+and  the  important  rate  coefficients  appear  to  be  determined  to  within 
+at  least  a factor  of  two. 
+
+
+45 
+
+
+Preceding  page  blank 
+
+
+Table  2 
+
+
+REACTIONS  AND  RATE  CONSTANTS  RELEVANT  TO  THE  RARE  GAS  HALIDE  KINETIC  MODELING 
+
+Uncer-*3 
+
+
+Reaction 
+
+Rate3 
+
+taintv 
+
+Ref. 
+
+Remarks  j 
+
+(1) 
+
+* * 
+
+Ar  + F2  - ArF  + F 
+
+7.5xlO*10 
+
+0.1 
+
+VKS76 
+
+(2) 
+
+* -k 
+
+Ar  + Kr  - Kr  + Ar 
+
+6xl0‘12 
+
+0.1 
+
+PSC75 
+
+(3) 
+
+k k 
+
+Ar  + 2Ar  -•  Ar^  + Ar 
+
+-32 
+
+1x10 
+
+0.3 
+
+HGH74 
+
+W 
+
+★ 
+
+Ar^  "•  hv  (126nm)  + 2Ar 
+
+6 
+
+3.8x10 
+
+0.5 
+
+TWC 
+
+Effective  value  in  the  presence  of 
+
+F , 1-9  atm  Ar 
+
+(5) 
+
+Ar2*  + F2  Ar2F*  + F 
+
+2.5xl0"10 
+
+0.2 
+
+TW 
+
+k k 
+
+From  decay  of  Ar^  and  Ar^F  vs  F^ 
+
+(6) 
+
+* * 
+
+Ar2  + Kr  -*  Kr  + 2Ar 
+
+8x10  "U 
+
+0.2 
+
+TW, 
+
+Z76 
+
+k * 
+
+From  decay  of  AroF  and  KrF  vs  Kr 
+
+k 
+
+[Zamir  Ar,,  vs  KrJ 
+
+(7) 
+
+* 
+
+ArF  - hv(193nm)  + Ar  + F 
+
+3.3xl07 
+
+1.0 
+
+TW 
+
+“k 
+
+From  ArF  fluorescence  yield, 
+relative  to  ArF*  + F^ 
+
+(8) 
+
+* 
+
+ArF  +F2  — products 
+
+io'9 
+
+1.0 
+
+TW 
+
+Guessed 
+
+(9) 
+
+•/f  ^ 
+
+ArF  + Kr  KrF  + Ar 
+
+1.5xl0‘10 
+
+1.0 
+
+TW 
+
+* 
+
+From  ArF  fluorescence  yield  vs 
+Kr,  relative  to  ArF*  + F2 
+
+(10) 
+
+* ^ 
+
+ArF  + 2Ar  - Ar^F  + Ar 
+
+2x10 ‘ 33 
+
+2.0 
+
+TW 
+
+k 
+
+From  ArF  fluorescence  yield. 
+
+relative  to  ArF  + F2  (minor 
+
+2xl08 
+
+reaction) 
+
+(U) 
+
+Ar2F  -•  hv(290nm) 
+
+2.0 
+
+TW 
+
+From  Ar2F*  fluorescence  yield, 
+
++ 2Ar  + F 
+
+relative  to  Ar  F*  + F 
+
+(12) 
+
+* 
+
+Ar^F  +F2  - products 
+
+io'9 
+
+1.0 
+
+TW 
+
+Guessed 
+
+(13) 
+
+"k  k 
+
+Ar^F  + Kr  -*  ArKrF  + Ar 
+
+io-10 
+
+2.0 
+
+TW 
+
+* 
+
+From  Ar2F  fluorescence  yield  vs 
+
+Kr, relative  to  Ar2F*  + F2  (minor 
+
+reaction)  | 
+
+(14) 
+
+* * 
+
+Kr  +F2  - KrF  + F 
+
+7.2xl0_1° 
+
+0.1 
+
+VKS76 
+
+j 
+
+(15) 
+
+k k 
+
+Kr  + Kr  + Ar  - Kr2  + Ar 
+
+-32 
+
+5x10 
+
+1.0 
+
+KVC73 
+
+(minor  reaction) 
+
+(16) 
+
+k k 
+
+Kr  + 2Ar  - ArKr  + Ar 
+
+-32 
+
+1x10 
+
+1.0 
+
+TW 
+
+From  decay  and  fluorescence  yield 
+of  KrF*  vs  Ar 
+
+(17) 
+
+* 
+
+ArKr  - hv(135nm) 
++ Ar  + Kr 
+
+6 
+
+3x10 
+
+2.0 
+
+TW 
+
+* 
+
+Guessed  in  analogy  with  Ar,  and 
+
+(18) 
+
+k k 
+
+ArKr  +F  - KrF 
+
+6xl0"10 
+
+2.0 
+
+TW 
+
+k k 
+
+From  KrF  and  K^F  fluorescence  j 
+
++ Ar  + F 2 
+
+yields  vs  F, 
+
+(19) 
+
+* * 
+ArKr  + Kr  - Kr  + Ar 
+L 
+
+lxlO_1° 
+
+1.0 
+
+TW 
+
+From  decay  and  fluorescence  yield 
+
+of  KrF*  vs  Kr  relative  to 
+
+ArKr*  + F2 
+
+
+46 
+
+
+Oncer-*5 
+
+Reaction 
+
+Rate  a 
+
+tainty 
+
+Ref. 
+
+Remarks 
+
+-0) 
+
+★ 
+
+Kr^  — hv(147nm)+2Kr 
+
+3.3xl06 
+
+0.5 
+
+TW 
+
+Effective  value  in  the  presence  of 
+
+F2> 1-9  atm  argon, and  5-500  torr  Kr 
+
+(21) 
+
+Kr2*  + F2  - Kr2F*  + F 
+
+3xl0"10 
+
+0.3 
+
+TW 
+
+k k 
+
+From  decay  of  Kr2  and  K^F  vs  F2 
+
+(22) 
+
+KrF*  - hv(248  nm) 
+
+1.5xl08 
+
+1.0 
+
+HD76 
+
+* 
+
+Constant  with  KrF  fluorescence 
+
++ Kr  + F 
+
+yield 
+
+(23) 
+
+* 
+
+KrF  +F2  -•  products 
+
+-9 
+
+1x10 
+
+1.0 
+
+IW 
+
+Guessed 
+
+(24) 
+
+KrF*  + Kr  + Ar  - Kr  F* 
+
+-33 
+
+2x10 
+
+2.0 
+
+TW 
+
+Guessed  by  analogy  to  ArF  + 2Ar 
+
++ Ar 
+
+(minor  reaction) 
+
+(25) 
+
+* * 
+KrF  + 2Ar  - ArKrF 
+
+-33 
+
+4x10 
+
+2.0 
+
+TW 
+
+* 
+
+Estimated  from  KrF  fluorescence 
+
++ Ar 
+
+yield  vs  Ar  relative  to  KrF*+F2 
+
+(26) 
+
+★ 
+
+ArKrF  - hv  + Ar  + Kr  + F 
+
+5xl07 
+
+2.0 
+
+TW 
+
+Guessed  in  analogy  to  other 
+lifetimes 
+
+(27) 
+
+k 
+
+ArKrF  +F2  — products 
+
+io'9 
+
+2.0 
+
+TW 
+
+Guessed 
+
+(28) 
+
+ArKrF* + Kr  - Kr  F*+Ar 
+
+10-10 
+
+2.0 
+
+TW 
+
+Guessed  in  analogy  with  other 
+
+L 
+
+exchange  reactions  consistent  with 
+Kr  F fluorescence  yields 
+
+(29) 
+
+k 
+
+Kr2F  — hv(400nm) 
+
+6.7xl07 
+
+1.0 
+
+TW 
+
+From  K^F  fluorescence  yield  vs 
+
++ 2Kr  + F 
+
+F2  relative  to  Kr2F*  + F2 
+
+(30) 
+
+k 
+
+Kr2F  + F2  — products 
+
+io*9 
+
+1.0 
+
+TW 
+
+Guessed 
+
+a.  (cm^/sec,  etc.) 
+
+b.  as  a fraction  of  the  value  of  the  rate  coefficient.  An  uncertainty  of  0.2  means 
+20% ; an  uncertainty  of  1.0  means  a factor  of  two. 
+
+c.  TW  = This  Work 
+
+
+47 
+
+
+Reactions  of  Ar  and  ArF 
+
+
+k 
+
+The  reactions  of  Ar  have  received  considerable  study  in  recent 
+years.  Three  reactions  of  importance  in  the  current  instance  are 
+
+
+k 
+
+k 
+
+-10  3 , 
+
+a) 
+
+Ar 
+
++ 
+
+F2 
+
+- ArF  + F 
+
+kl  = 7.5  x 
+
+10  cm  /sec 
+
+* 
+
+k 
+
+k^  = 6 x 10 
+
+-12  3 , 
+
+(2) 
+
+Ar 
+
++ 
+
+Kr 
+
+- Kr  + Ar 
+
+cm  /sec 
+
+k 
+
+k 
+
+-32 
+
+6 , 
+
+Ar 
+
++ 
+
+2Ar 
+
+Ar^  + Ar 
+
+k3  = 10 
+
+cm  /sec 
+
+(3) 
+
+Flowing  afterglow  studies  by  Setser  and  colleagues  [PSC75,  VKS76J  and 
+
+3 
+
+others  [HGH74,  L76]  have  characterized  the  reactions  of  Ar(  P^)  well 
+
+3 
+
+and  to  a less  extent  Ar(  P ) . Under  the  e-beam  excitation  conditions  of 
+
+° 13 
+
+the  work  reported  here,  the  contribution  of  Ar(  P ) and  Ar(  P ) will  be 
+expected  to  be  important.  Lacking  other  information,  we  chose  the 
+reaction  rate  coefficients  to  be  the  same  for  all  four  low-lying  argon 
+
+
+excited  states. 
+
+k 
+
+The  reactions  of  ArF  have  only  recently  come  under  investigation. 
+Four  of  these  are  considered  here: 
+
+
+ArF 
+
+* 
+
+ArF  + F 
+
+
+Ar  + F + hv 
+
+products 
+
+
+k k 
+
+ArF  + Kr  - KrF  + Ar 
+
+
+ArF  + 2Ar 
+
+
+Ar  F + Ar 
+2 
+
+
+3.3  x 107  sec 
+-9  3 
+
+10  cm  /sec 
+
+-10  3, 
+
+1 .5  x 10  cm  /sec 
+
+
+10 
+
+
+« 2 x 10 
+
+
+-33 
+
+
+(7) 
+
+(8) 
+
+(9) 
+
+(10) 
+
+
+As  mentioned,  the  observed  decay  of  ArF  was  so  rapid  that  its  dependence 
+
+on  the  gas  pressures  was  an  unreliable  approach  for  determining  the 
+
+various  rate  coefficients.  Instead,  we  examined  the  pressure  dependence 
+
+of  the  fluorescence  yield  (determined  experimentally  as  explained  above) . 
+
+* 
+
+The  kinetic  model  suggests  that  the  ArF  fluorescence  yield  at 
+
+
+193  nm  may  be  represented  by 
+
+
+48 
+
+
+I 
+
+
+FY 
+
+
+193 
+
+
+V2 
+
+
+k^  + k^Kr  + k^Ar 
+
+
+k 
+
+7 
+
+
+k + k F. 
+7 8 2 
+
+
+k Kr  + k,  Ar 
+9 10 
+
+
+* 
+
+
+The  first  of  these  factors  gives  the  probability  that  Ar  reacts  with 
+
+k k k 
+
+to  give  ArF  instead  of  reacting  with  Kr  or  2Ar  to  give  Kr  or  Ar^  . The 
+
+k 
+
+second  factor  gives  the  probability  that  the  ArF  , once  made,  succeeds 
+
+in  radiating  instead  of  reacting  with  F^*  Kr,  or  2Ar . We  immediately  see 
+
+that  the  fluorescence  yield  should  drop  rapidly  as  the  Kr  or  Ar  pressure 
+
+is  increased.  The  dependence  upon  the  pressure  will  be  slightly  more 
+
+complicated;  namely,  rising  from  zero  at  zero  F , reaching  a peak  when 
+* * 
+
+
+most  of  the  Ar  has  been  converted  to  ArF  , and  finally  decreasing  again 
+as  F^  quenching  dominates.  These  trends  can  be  seen  in  Figures  9-11. 
+
+The  lines  drawn  near  the  data  are  calculated  through  the  kinetic  model 
+equation  given  above.  As  further  illustrated  in  Figure  12,  tie  agreement 
+between  the  kinetic  model  and  the  experimental  values  may  be  considered 
+adequate  (factor  of  2)  although  not  complete.  The  model  overestimates 
+the  low  experimental  values  observed. 
+
+Since  investigation  of  the  fluorescence  yields  can  only  give  relative 
+values  of  the  rate  coefficients,  we  have  chosen  the  quenching  of  all  of 
+
+k k k k k 
+
+the  rare  gas  halides  (ArF  , Ar  F , KrF  , ArKrF  , and  Kr  F ) to  occur  with 
+
+-9  3 
+
+the  same  rate  coefficient  of  10  cm  /sec.  The  low  fluorescence  yields 
+
+observed  at  Ar  = 1 atm  and  F ^ = 1-6  torr  indicate  that  fluorine  quenching 
+
+* 
+
+
+must  compete  effectively  with  ArF  radiation  at  all  of  these  fluorine 
+pressures.  This  suggests  a rather  long  radiative  lifetime.  The  prelimi- 
+nary value  is  30  nsec  [Reaction  (7)J  . 
+
+We  may  examine  the  Kr  and  Ar  pressure  dependence  more  simply  through 
+the  reciprocal  of  the  fluorescence  yield 
+
+
+FY 
+
+
+193 
+
+
+k^2  + k2Kr  + k^Ar 
+
+V2 
+
+
+k7  + k8F2  + k9Kr  + R10Ar 
+
+
+49 
+
+
+ArF  FLUORESCENCE  YIELD 
+
+
+FLUORINE  (torr) 
+
+
+FIGURE  11 
+
+
+SA-3190-1 34 
+
+FLUORINE  PRESSURE  DEPENDENCE  OF  ArF  FLUORESCENCE  YIELD  (Kr  = 
+
+
+ArF  FLUORESCENCE  YIELD  (experimental) 
+
+
+ArF  FLUORESCENCE  YIELD  (kinetic  model) 
+
+SA-3190-1 35 
+
+FIGURE  12  COMPARISON  OF  EXPERIMENTAL  ArF  FLUORESCENCE  YIELDS 
+WITH  KINETIC  MODEL 
+
+
+53 
+
+
+-4 
+
+
+Since,  as  we  will  find,  and  k^  » k , a graph  of  versus 
+
+Kr  or  Ar^  will  be  dominated  by  k^  and  k^  respectively.  This  is  illustrated 
+in  Figures  13  and  14.  In  Figure  13,  for  example,  we  can  see  that  the  slope 
+near  Kr  = 0 should  give 
+
+
+Slope 
+
+
+klF2+k3Ar  S 
+
+
+which  provides  a value  of  k^  (relative  to  k^) . Similarly  in  Figure  14, 
+the  slope  (versus  Ar^)  near  Ar=0  gives 
+
+
+Slope 
+
+
+VlVVL k9Kr 
+
+
+The  ratio  of  k /k  so  determined  is  consistent  with  the  literature  values. 
+
+1 2 
+Further,  the  small  (or  nonexistent)  curvature  versus  Ar  can  be  used  to 
+
+■*33  6 
+
+set  an  upper  limit  on  k (of  2 x 10  cm  /sec)  . 
+
+
+* * 
+
+Reactions  of  Ar^  and  Ar„F 
+
+* * 
+
+In  the  current  context,  the  reactions  of  Ar ^ and  Ar^F  are  important 
+
+k k k k 
+
+because  Ar^  is  the  dominant  source  of  Kr  which  leads  to  KrF  and  Ar  F 
+2 2 
+
+is  a potential  laser  molecule  in  its  own  right.  Over  the  last  few  years, 
+considerable  effort  has  been  dedicated  toward  the  understanding  of  the 
+rare  gas  excimer  kinetics  [L76]  leading  to  the  development  of  rare  gas 
+excimer  lasers,  fluorescence  light  sources,  and  energy  transfer  lasers. 
+
+The  observed  time  decay  of  the  excimer  fluorescence  is  affected  by  a 
+number  of  rather  subtle  factors,  not  the  least  of  which  is  the  effect  of 
+collisions  with  the  0.1  to  0.5-eV  secondary  electrons.  The  energy  distri- 
+bution of  the  secondary  electrons  is  expected  to  be  strongly  influenced  by 
+
+inelastic  collisions  with  added  molecular  gases--in  this  case  fluorine. 
+
+* 
+
+Under  the  conditions  investigated  here,  the  Ar  is  rapidly  formed 
+
+* * 
+
+by  the  three-body  reaction  (3)  discussed  above  (Ar  + 2Ar  “•  Ar^  + Ar) . 
+
+
+54 
+
+
+The  subsequent  decay  is  dominated  by  the  reactions  listed  below. 
+
+
+Ar^  -*  2Ar  + hv  (126  nm) 
+
+
+Ar2  + F2  "*  Ar2F  + F 
+•fc  -ft 
+
+Ar2  + Kr  - Kr  + 2Ar 
+
+
+6 -1 
+
+k = 3.8  x 10  sec 
+h 
+
+-10  3 
+
+kr  = 2.5  x 10  cm  /sec 
+
+-11  3 
+
+k = 8 x 10  cm  /sec 
+6 
+
+
+Only  with  some  difficulty  can  the  Ar  fluorescence  be  observed  directly 
+
+at  126  nm  in  Ar/Kr/F2  mixtures.  Quenching  by  Y ^ and  Kr  is  rather  rapid, 
+
+and  the  fluorescence  presumably  is  further  attenuated  by  F^  photo- 
+
+k 
+
+absorption.  As  we  will  conclude  below,  Ar2F  radiates  much  more  rapidly 
+
+than  it  is  produced  and  hence  serves  as  a monitor  of  the  time  decay  of 
+
+* 
+
+its  source,  i.e.  Ar^  . 
+
+k 
+
+Figure  15  shows  the  observed  decay  frequency  of  Ar2F  versus  fluorine 
+
+pressure.  As  we  can  see,  the  argon  pressure  dependence  is  negligible  and 
+
+the  fluorine  pressure  dependence  is  linear.  We  interpret  the  slope  of 
+
+the  line  drawn  through  the  data  as  representing  Reaction  (15) , 
+
+* * 
+
+Ar2  + F^  — Ar^F  + F,  with  the  rate  coefficient  stated  above.  A few 
+decay  measurements  were  made  with  NF^  as  the  source  of  fluorine  atoms, 
+yielding  the  data  points  shown  in  Figure  15.  The  value  obtained  for  the 
+rate  coefficient  is 
+
+
+k k 
+
+Ar2  + NF3  - Ar2F  + NF2 
+
+
+-11  3 
+
+k =9  + 2x10  cm  /sec.  (5a) 
+
+33 
+
+
+The  common  intercept  observed  with  F.  and  NFq  suggests  that  we  choose  an 
+
+2 J i 
+
+argon  pressure-independent  value  of  3.8  x 10  sec  for  the  radiative 
+
+k 
+
+decay  frequency  of  Ar2  . 
+
+k 
+
+Figure  16  shows  the  observed  decay  frequency  of  Ar2F  (as  well  as 
+k k 
+
+KrF  and  K^F  to  be  discussed  subsequently)  versus  krypton  pressure. 
+
+Once  again  we  interpret  the  slope  of  the  line  drawn  through  the  data  as 
+
+k k 
+
+representing  Reaction  (6),  Ar2  + Kr  -»  Kr  + 2Ar.  The  rate  coefficient 
+
+
+57 
+
+
+DECAY  FREQUENCY  (106  sec"1) 
+
+
+SA-3190-139 
+
+
+FIGURE  16  Ar2F,  KrF,  AND  Kr?F  DECAY  FREQUENCIES  VERSUS  KRYPTON  PRESSURE 
+
+
+-11  3 
+
+obtained  (8  + 2 x 10  cm  /sec)  is  in  excellent  agreement  with  the 
+
+value  of  7 + 2 x 10  obtained  independently  by  Zamir  [ Z76J  by  monitoring 
+* 
+
+
+the  decay  of  Ar^  at  126  nm  versus  krypton  pressure.  Conclusive  identifi- 
+
+
+cation of  the  product  of  this  energy -transfer  reaction  has  not  yet  been 
+
+* 
+
+
+obtained.  There  is  a remote  possibility  that  the  product  is  ArKr  , a 
+molecule  to  be  discussed  subsequently. 
+
+
+As  mentioned  above,  the  use  of  Ar^F  as  a monitor  of  the  reactions 
+
+* * 
+of  Ar^  depends  upon  the  conclusion  that  Ar^F  radiates  or  is  quenched 
+
+
+much  more  rapidly  than  it  is  formed.  The  strongest  support  for  this 
+
+
+conclusion  would  be  based  on  a study  of  the  pressure  dependence  of  the 
+
+•k  * * 
+
+decay  of  Ar^  and  the  presumed  agreement  of  Ar^  and  Ar^F  decay  fre- 
+quencies. To  date,  this  has  been  accomplished  only  at  one  fluorine 
+
+
+(1  torr)  and  argon  pressure  (5  atm)  shown  in  Figure  15.  Further  evidence 
+
+
+will  be  provided  below  in  the  consideration  of  the  pressure  dependence 
+* 
+
+
+of  the  Ar„F  fluorescence  yields. 
+2 * 
+
+
+The  reactions  of  Ar^F  to  be  considered  are: 
+
+
+* 
+
+Ar  F - hv 
+2 
+
+(290  nm)  + 2Ar  + F 
+
+kll~ 
+
+2 x 10^  sec  ^ 
+
+(ID 
+
+* 
+
+-9  3 , 
+
+Ar„F  + F„ 
+2 2 
+
+quenched 
+
+k12~ 
+
+10  cm  /sec 
+
+(12) 
+
+* 
+
+-10  3, 
+
+Ar^F  + Kr 
+
+- ArKrF  + Ar 
+
+k13~ 
+
+10  cm  /sec 
+
+(13) 
+
+To  study  Reactions  (11)  and  (12),  we  examine  the  fluorine  pressure 
+
+
+dependence  of  the  Ar^F  fluorescence  yield.  Examination  of  the  reactions 
+
+* 
+
+
+of  ArF  discussed  above  leads  to  the  conclusion  that  ArF  + 2Ar  -*  Ar^F  + Ar  can 
+make  only  a negligible  contribution  to  the  A.r^F*f luorescence . The  Ar^F* 
+
+
+fluorescence  yield  then  consists  of  three  factors  (or  branching  ratios): 
+
+
+1 
+
+
+60 
+
+
+k Ar 
+
+3 * * 
+
+f = ; the  probability  that  Ar  makes  Ar  , 
+
+k F + k Ar 
+12  3 
+
+k5F2 
+
+f * = 7 : — ~ ; the  probability  that  Ar  makes  Ar  F, 
+
+2 k4  + V2  2 
+
+
+f3  ~ k 
+
+
+11 
+
+
+U + k12F2 
+
+
+the  probability  that  Ar^F  radiates. 
+
+
+Figure  17  shows  the  observed  Ar^F  fluorescence  yields  for  Ar  = 2 atm  and 
+
+Kr=0  versus  fluorine  pressure.  Also  shown  are  graphs  of  the  fluorescence 
+
+yield  computed  from  the  full  kinetic  model  (f^*f  ‘±  + contributions  from 
+
+* 
+
+ArF  and  2Ar)  and  the  formation  branching  ratios  (f  and  f *f  ).  We 
+
+* 1 2 
+
+can  see  that  the  probability  of  forming  Ar^F  (i.e.,  f^-f^)  is  very  close 
+
+to  the  observed  fluorescence  yields.  We  conclude  that  Ar^F*  is  not 
+
+strongly  quenched  by  F^ . As  explained  above,  all  of  the  rate  coefficients 
+
+for  quenching  of  the  rare  gas  halides  by  F have  been  chosen  to  have  the 
+-9  3 
+
+common  value  of  10  cm  / sec.  The  observation  of  rather  high  fluorescence 
+yields  would  then  require  a short  radiative  lifetime  for  Ar^F  (t  nsec). 
+The  alternative  interpretation  of  the  decay  frequencies  shown  in 
+
+
+Figure  15  is  that  the  observed  decay  represents  the  quenching  of  Ar  F 
+
+* 2 
+
+which  is  somehow  rapidly  formed,  from  Ar^  , presumably.  An  upper  gound 
+to  the  expected  fluorescence  yield  can  then  be  computed  from  two  factors: 
+
+2 
+
+
+fl  = 
+
+
+k3Ar 
+
+
+k, F + k Ar 
+12  3 
+
+
+* * 
+
+the  probability  that  Ar  makes  Ar 
+(as  above) 
+
+
+and 
+
+
+f4 
+
+
+3.8  x 10 
+
+
+3.8  x 106  + 2.5  x 10_1°F, 
+
+
+the  probability  that  Ar^F 
+radiates. 
+
+
+61 
+
+
+2 4 6 8 
+
+FLUORINE  (torr) 
+
+SA-3190-140 
+
+FIGURE  17  Ar2F  FLUORESCENCE  YIELD  VERSUS  FLUORINE  PRESSURE. 
+
+COMPARISON  BETWEEN  KINETIC  MODEL  AND  EXPERIMENT. 
+
+
+A plot  of  the  product  (f  *f  ) of  these  two  is  shown  in  Figure  17.  It  is 
+apparent  that  this  procedure  predicts  far  too  small  a fluorescence  yield 
+
+k 
+
+and  supports  the  conclusion  that  the  observed  decay  of  Ar^F  is  indicative 
+
+* 
+
+of  the  decay  of  its  source  (Ar^  ) rather  than  the  radiation  and  quenching 
+* 
+
+of  Ar2F  itself. 
+
+k 
+
+The  Reaction  (13)  of  krypton  with  Ar2F  is  rather  difficult  to 
+
+k k 
+
+monitor  directly  since  Reaction  (6)  with  Ar2  , the  precursor  of  Ar^F  , 
+
+is  relatively  rapid.  The  situation  is  further  complicated  by  a secondary 
+k 
+
+KrF  emission  feature  near  270  nm  that  would  interfere  with  observation 
+
+k 
+
+of  Ar  F at  high  krypton  pressures.  Finally,  the  nature  of  the  product 
+^ * 
+
+resulting  from  A^F  + Kr  [Reaction  (13) J is  not  well  established.  We 
+
+have  arbitrarily  chosen  the  product  resulting  from  replacement  of  one 
+
+* * 
+argon  atom  (ArKrF  ),  although  one  may  argue  plausibly  that  KrF  could 
+
+be  preferred.  In  any  case,  this  is  not  an  important  energy  pathway. 
+
+k 
+
+Having  decided  that  the  decay  frequency  of  A^F  is  representative 
+* * 
+
+of  the  decay  of  Ar^  , we  must  again  turn  to  the  Ar^F  fluorescence  yield 
+
+k 
+
+to  follow  the  reaction  Ar2F  + Kr.  Following  the  procedure  used  above, 
+k 
+
+we  write  the  Ar2F  fluorescence  yield  as  a product  of  the  factors 
+
+
+fl  = 
+
+
+k Ar 
+3 
+
+
+klF2k2Kr  + k3Ar 
+
+
+— ; probability  of  making  Ar2  , 
+
+
+and 
+
+
+SF2 
+
+f2  ' k4Tk5F2  rr6Kt'  ; pr°babllIty  Of  Ar2F  , 
+
+
+11  * 
+
+f = * ; ; ; probability  that  Ar  F radiates, 
+
+3 k + k12F2  + kuKr  2 
+
+
+Figure  18  shows  the  krypton  pressure  dependence  of  observed  Ar^F 
+fluorescence  yielc  . As  we  can  see  from  the  plot  of  f^*f 2 , the  probability 
+
+
+63 
+
+
+* * 
+of  Ar^F  formation,  the  effect  of  interception  of  Ar^  by  Kr  is  rather 
+
+pronounced.  Choosing  a krypton  quenching  rate  coefficient  of  k = 
+
+-10  3 13 
+
+10  cm  /sec  gives  the  lower  curve  shown  in  Figure  18  (labeled  f^-f^-f^) 
+
+in  reasonable  agreement  with  the  observations.  As  mentioned  above,  this 
+
+determination  is  rendered  imprecise  by  the  contribution  of  the  270-nm 
+* 
+
+band  of  KrF  . Further,  the  model  predicts  a fluorescence  yield  that  is 
+much  too  high  at  zero  krypton  pressure,  so  that  an  absolute  comparison 
+of  the  computed  and  observed  fluorescence  yields  is  unreliable. 
+
+The  argon  pressure  dependence  of  the  Ar^F*  fluorescence  yield  is 
+shown  in  Figure  19.  As  is  obvious  from  the  figure,  the  data  and  the 
+kinetic  model  disagree  on  the  trend.  The  data  show  a gradual  decrease 
+with  increasing  argon  pressure  while  the  model  predicts  an  increase.  The 
+only  plausible  explanation  which  has  surfaced  to  date  is  that  at  the 
+higher  argon  pressures  a significant  fraction  of  the  fluorine  is 
+
+dissociated  by  energy  transfer  (about  1/3  torr  at  10  atmospheres)  and 
+
+* * -10 
+that  if  the  reaction  Ar^  + F -*  ArF  + Ar  is  sufficiently  rapid  (3-10  x 10  ) 
+
+ft 
+
+a significant  fraction  of  the  Ar  population  will  be  redirected  toward 
+
+* * 
+
+ArF  instead  of  Ar^F  . This  subject  obviously  requires  further  work  to 
+understand  the  data  we  have  obtained,  and  because  reactions  with  F atoms 
+
+
+are  certain  to  be  important  in  laser  media  with  long  pumping  pulses. 
+
+
+65 
+
+
+r ■— 
+
+
+* * 
+
+Reactions  of  Kr  , ArKr  , and  KrF 
+
+The  reactions  to  be  considered  in  this  section  are: 
+
+
+k 
+
+„ -10  3, 
+
+Kr*  + 
+
+F„  - KrF  + F 
+2 
+
+k14 
+
+= 7.2  x 10  cm  /sec 
+
+(14) 
+
+* 
+
+* 
+
+r -32  6 
+
+Kr  + 
+
+Kr  + Ar  -»  Kr  + Ar 
+
+2 
+
+k15 
+
+~ 5 x 10  cm  /sec 
+
+(15) 
+
+* 
+
+k 
+
+-32  6 , 
+
+Kr  + 
+
+2Ar  -*  ArKr  + Ar 
+
+k16 
+
+~ 10  cm  /sec 
+
+(16) 
+
+* 
+
+6 -1 
+
+ArKr 
+
+-*  h\>(135nm)  +Ar  + Kr 
+
+k17 
+
+~ 3 x 10  sec 
+
+(17) 
+
+* 
+
+* 
+
+-10  3 
+
+ArKr 
+
++ F2  -*  KrF  + Ar  + F 
+
+00 
+
+H 
+
+~ 6 x 10  cm  /sec 
+
+(18) 
+
+n * 
+
+k 
+
+-10  3 , 
+
+ArKr 
+
++ Kr  Kr^  + Ar 
+
+k19 
+
+~ 10  cm  / sec 
+
+(19) 
+
+! 1 
+
+* 
+
+8 -1 
+
+KrF  - 
+
+hv ( 248nm)  + Kr  + F 
+
+k22 
+
+= 1.5  x 10  sec 
+
+(22) 
+
+* 
+
+-9  3 . 
+
+KrF  + 
+
+F^  quenched 
+
+k23 
+
+~ 10  cm  /sec 
+
+(23) 
+
+* 
+
+k 
+
+-33  6, 
+
+KrF  + 
+
+i 
+
+Kr  + Ar  -•  Kr^F  + Ar 
+
+k24 
+
+~ 2 x 10  cm  /sec 
+
+(24) 
+
+i 
+
+k 
+
+* 
+
+, , -33  6 
+
+KrF  + 
+
+i 
+
+2Ar  ->  ArKrF  + Ar 
+
+k25 
+
+~ 4 x 10  cm  /sec 
+
+(25) 
+
+i 
+
+
+The  reaction  of  Kr  with  fluorine  has  been  studied  by  Setser  and  colleagues 
+[VKS76J  . They  found  the  value  listed  above  [Reaction  (14) J , and  that  this 
+
+• k 
+
+reaction  has  essentially  a 100%  branching  ratio  to  yield  excited  KrF  . 
+
+•k 
+
+The  formation  of  Kr^  in  pure  krypton  is  also  well  characterized  [KVC73J  . 
+
+The  rate  coefficient  with  argon  as  the  third  body  has  apparently  not  been 
+
+determined.  We  have  chosen  the  value  found  in  pure  krypton.  Due  to  the 
+
+low  density  of  krypton  (compared  with  that  of  argon) , this  reaction  is 
+
+of  little  importance  in  the  present  study. 
+
+Before  discussing  the  remaining  reactions,  it  will  be  useful  to 
+
+* 
+
+remember  that  the  fluorescence  day  of  KrF  serves  as  a monitor  for  its 
+sources  rather  than  for  the  time  scale  of  its  own  radiation  and  quenching. 
+
+
+67 
+
+
+S 
+
+
+Perhaps  the  most  important  single  number  we  wished  to  obtain  was  the 
+* 
+
+KrF  radiative  lifetime.  Unfortunately,  under  all  the  conditions  we 
+
+k 
+
+have  examined,  the  KrF  radiative  decay  frequency  is  camouflaged  by  its 
+
+production  kinetics.  We  are  reduced  to  the  statement  that  the  value  of 
+
+7 nsec  reported  by  Hay  and  Dunning  [DH76,  HD76J  is  consistent  with  our 
+
+observations,  having  chosen  the  fluorine  quenching  to  proceed  with  a rate 
+-9  3 
+
+coefficient  of  10  cm  /sec. 
+
+k 
+
+In  Figure  20,  the  KrF  decay  frequency  is  shown  as  a function  of  the 
+argon  pressure.  The  dashed  line  near  the  bottom  of  the  figure  shows  the 
+
+k 
+
+decay  frequency  expected  for  Kr  if  Reaction  (16)  were  not  operative. 
+k k 
+
+Clearly,  if  Kr  is  an  important  source  of  KrF  , which  we  will  demonstrate 
+
+k 
+
+to  be  the  case  at  the  higher  argon  pressures,  Kr  must  be  disappearing 
+
+much  more  rapidly  than  predicted  by  Reactions  (14)  and  (15)  above. 
+
+Further,  if  we  choose  the  quite  plausible  Reaction  (16)  as  suggested,  a 
+
+-32  6 
+
+value  of  the  rate  coefficient  nearly  as  large  as  10  cm  /sec  must  be 
+
+k k 
+
+used  to  explain  the  rapid  disappearance  of  KrF  and  hence  Kr  . Despite 
+
+* 
+
+the  likelihood  that  the  ArKr  well  depth  is  less  than  that  for  the 
+homonuclear  rare  gas  excimers,  the  suggested  formation  rate  coefficient 
+is  reasonable. 
+
+k 
+
+Since  the  existence  of  the  mixed  excimer  ArKr  is  necessary  to 
+k 
+
+explain  the  KrF  decay  frequencies,  we  are  faced  with  the  difficult  task 
+of  identifying  the  reactions  in  which  it  participates  and  determining 
+or  at  least  estimating  the  rate  coefficients.  On  the  basis  of  the 
+identification  of  Cheshnovsky  et  al.  [CGR73J  and  Verkhovtseva  et  al. 
+
+k 
+
+[VOF75j,we  expect  ArKr  to  radiate  near  135  nm.  We  have  arbitrarily 
+
+6 -1 
+
+chosen  a radiative  transition  rate  of  k^  = 3 x 10  sec  in  analogy 
+
+k 
+
+with  the  effective  value  in  the  presence  of  F^  used  above  for  Ar^  and 
+
+k k 
+
+the  value  obtained  below  for  Kr„  . The  reaction  of  ArKr  with  F„  is 
+
+2 . 2 
+k 
+
+difficult  to  monitor  directly  since  neither  ArKr  nor  one  possible 
+
+k 
+
+product,  ArKrF  , has  been  observed  in  our  laboratory.  We  will  argue 
+
+* 
+
+that  in  order  to  explain  the  observed  KrF  fluorescence  yields, the 
+
+
+68 
+
+
+k 
+
+product  must  be  KrF  and  suggest  a plausible  value  for  the  rate 
+
+k 
+
+coefficient  k . Reaction  (19),  ArKr  + Kr,  is  obviously  the  most 
+
+18  * * 
+important  source  of  Kr^  since  the  three-body  Reaction  (15),  Kr  + Kr  + Ar, 
+
+k k 
+
+is  much  slower.  We  will  use  the  KrF  and  Kr^F  fluorescence  yields  to 
+
+estimate  the  rate  coefficient  k^. 
+
+k 
+
+The  quenching  of  KrF  by  three-body  reactions  with  Kr  + Ar  [Reac- 
+tion ( 19) J or  with  2Ar  [Reaction  ( 20) J has  recently  been  proposed  [MJ76, 
+JMS76J  to  explain  the  reduction  in  KrF* fluorescence  as  the  argon  or  kryp-.on 
+pressure  is  increased.  We  will  show  that  the  reduction  in  the  fluores- 
+cence yield  is  almost  completely  explained  by  the  interception  of  the 
+k k k 
+
+KrF  precursor,  Kr  + 2Ar  -•  ArKr  + Ar  [Reaction  (16)]  and  the  subsequent 
+* ■* 
+
+
+reaction  ArKr  + Kr  -*  Kr^  + Ar  [Reaction  (19) J . 
+
+k 
+
+The  three  most  important  sources  of  KrF  : 
+
+& k 
+
+ArF  + Kr  -*  KrF  + Ar 
+
+* * 
+
+Kr  + F2  - KrF  + F 
+
+ArKr*  + KrF*+  Ar  + F 
+
+
+(9) 
+
+(14) 
+
+(18) 
+
+
+contribute  to  the  KrF  fluorescence  yield  as  shown  in  Table  3.  The 
+
+k 
+
+probability  that  the  KrF  , once  made,  will  radiate  is 
+
+
+22 
+
+
+k _ + k F + k KrAr  + k Ar 
+22  23  2 24  25 
+
+
+This  suggests  that  as  the  krypton  pressure  is  increased  the  fluorescence 
+
+k k 
+
+that  results  from  reactions  of  ArF  and  Kr  can  only  increase.  Figure  21 
+
+k 
+
+illustrates  the  observed  gradual  decrease  of  the  KrF  fluorescence  yield 
+as  the  krypton  pressure  is  increased.  This  is  interpreted  to  indicate 
+
+k k 
+
+the  importance  (at  low  krypton  pressure)  of  ArKr  as  a source  of  KrF  ; 
+this  source  is  rapidly  consumed  by  added  krypton  through  the  reaction 
+
+k k 
+
+ArKr  + Kr  -•  Kr^  + Ar  [Reaction  (19)]. 
+
+
+70 
+
+
+Table 
+
+
+Finally,  the  argon  pressure  dependence  of  the  KrF  fluorescence 
+
+
+yield  is  shown  in  Figure  22.  Inspection  of  the  formulas  in  Table  3 of 
+
+
+' fr  k 
+
+the  contributions  of  the  various  sources  of  KrF  shows  that  ArF  and 
+
+
+Kr  are  both  strongly  intercepted  by  added  argon  [Reactions  (10)  and  (16) J . 
+
+
+Their  contribution  to  the  KrF  fluorescence  yield  should  decrease  sharply 
+
+
+with  increased  argon  pressure.  This  leaves  only  ArKr  as  a source  of 
+
+
+k k 
+
+KrF  [Reaction  (18)]  , but  it  reacts  very  rapidly  with  Kr  to  give  Kr^ 
+
+* * 
+
+[Reaction  ( 19) J so  Kr  once  converted  to  ArKr  is  essentialy  lost  (for 
+
+
+Kr  s 50  torr)  as  a source  of  KrF  . This  strong  interception  by  argon  of 
+
+
+the  sources  of  KrF  is  nearly  enough  to  explain  the  argon  pressure 
+
+
+-33  6 , 
+
+dependence  shown  in  Figure  22.  The  value  specified  (k^  ~ 4 x 10  cm  /sec) 
+
+
+for  the  reaction 
+
+
+k k 
+
+KrF  + 2Ar  -»  ArKrF  + Ar 
+
+
+(25) 
+
+
+can  be  taken  as  an  upper  bound.  This  is  to  be  compared  with  the  value 
+
+
+_ 3^  5 
+
+suggested  by  Jacobs  et  al.  [JMS76]  of  1.2  x 10  cm  /sec  in  the  absence 
+
+
+of  interception.  Under  the  highest  pressure  conditions  that  we  have 
+investigated  (9  atm).  Reaction  (25)  reduces  the  fluorescence  by  about  a 
+factor  of  two,  in  addition  to  the  much  larger  decreased  caused  by  the 
+interception  Reaction  (16) . 
+
+
+* * * 
+Reactions  of  Kr„  , ArKrF  , and  Kr^F 
+
+
+The  relevant  reactions  are; 
+
+
+Kr^  "•  hv(147nm)  + 2Kr 
+
+
+k = 3.3  x 10^  sec  ^ 
+
+
+k k 
+
+Kr  + F„  Kr„F  + F 
+2 2 2 
+
+
+-10  3 
+
+k^  = 3 x 10  cm  /sec 
+
+
+(20) 
+
+(21) 
+
+
+1 
+
+
+73 
+
+
+ARGON  (atm) 
+
+SA-3190-128 
+
+
+FIGURE  22  KrF  FLUORESCENCE  YIELD  VERSUS  ARGON  PRESSURE 
+
+
+k 
+
+ArKrF  - hv(?)  + Ar  + Kr  + F 
+
+k26 
+
+~ 5 x 107  sec  ^ 
+
+(26) 
+
+k 
+
+ArKrF  + quenched 
+
+k27 
+
+-9  3 
+
+~ 10  cm  /sec 
+
+(27) 
+
+ArKrF  + Kr  - Kr?F*+  Ar 
+
+00 
+
+CM 
+
+-10  3, 
+
+~ 10  cm  /sec 
+
+(28) 
+
+* 
+
+Kr^F  - hv(400run)  + 2Kr  + F 
+
+K29 
+
+~ 6 . 7 x 10 7 sec 
+
+(29) 
+
+k 
+
+Kr  F + F -*  quenched 
+2 2 
+
+k30 
+
+-9  3 
+
+~ 10  cm  / sec 
+
+(30) 
+
+The  same  arguments  apply  here  to  justify  the  use  of  the  time  decay  of 
+
+* * * * 
+Kr„F  to  follow  its  precursor  Kr  , as  were  used  in  the  case  of  ArF  /Ar 
+2 * * 2 2 2 
+
+and  KrF  /Kr  . 
+
+
+Figure  23  shows  the  Kr^F  decay  frequency  as  a function  of  fluorine 
+
+k 
+
+pressure.  Two  data  points  given  also  show  the  decay  of  Kr^  at  1 and  2 
+torr  of  fluorine.  A few  data  points  taken  with  NF^  as  the  source  of 
+fluorine  are  shown  as  well.  The  slopes  give 
+
+
+-10  3 -11  3 
+
+k (F  ) = 3 + 1 x 10  cm  /sec,  k (NF  ) = 2.5  +0 .5  x 10  cm  /sec  . 
+
+21  2 — 21a  3 — 
+
+6 — 1 
+
+The  intercept  with  respect  to  fluorine  (3.3  x 10  sec  ) is  taken  to  be 
+
+k 
+
+the  effective  Kr  radiative  decay  frequency.  (The  NF  data  taken  while 
+
+^ 6^  -1 
+
+this  report  was  being  written  suggest  that  5 + 2 x 10  sec  is  more 
+
+reasonable)  . 
+
+k 
+
+The  rate  coefficients  for  the  reactions  of  ArKrF  are  essentially 
+
+subject  to  arbitrary  specification.  Indeed,  the  species  has  not  been 
+
+identified  experimentally  and  apparently  could  be  eliminated  from  the 
+
+kinetic  model  with  only  minor  consequences.  Under  the  current  version  of 
+
+* 
+
+the  kinetic  model,  relatively  little  ArKrF  is  produced.  At  the  higher 
+
+k 
+
+krypton  pressure  (>  20  torr)  normally  used,  the  ArKrF  is  rapidly  con- 
+
+k 
+
+verted  into  Kr^F  in  any  case.  The  values  given  have  been  guessed  in 
+analogy  with  the  other  reactions  of  the  same  general  types  discussed 
+above . 
+
+
+75 
+
+
+DECAY  FREQUENCY  (106  sec'1) 
+
+
+F2  (torr) 
+
+SA-3190-129 
+
+FIGURE  23  Kr2F  DECAY  FREQUENCY  VERSUS  FLUORINE  PRESSURE 
+
+
+76 
+
+
+L 
+
+
+4 
+
+
+Figure  24  shows  the  Kr^F  fluorescence  yield  as  a function  of  the 
+
+argon  pressure  and  Figure  25  for  the  krypton  pressure.  In  both  cases, 
+
+the  kinetic  model  does  a reasonable  job  of  describing  the  observations. 
+
+The  only  rate  coefficient  yet  to  be  determined  is  the  radiative  decay 
+* 
+
+frequency  of  Kr^F  [Reaction  (29) J . Relative  to  the  stipulated  F quench- 
+ing rate  coefficient  [Reaction  ( 30) J , this  may  be  estimated  from  the 
+
+* 
+
+reduction  in  the  Kr^F  fluorescence  yield  shown  in  Figure  25  as  the  F^ 
+pressure  is  raised  from  1 to  3 torr.  Part  of  the  reduction  is  due  to 
+interception  of  Kr  (the  precursor  of  ArKr  , of  Kr^  , and  of  Kr^F  ) by 
+F2  [Reaction  (14) J . The  remainder  may  be  attributed  to  quenching  of 
+
+k 
+
+Kr^F  by  F^  [Reaction  (30) J , which  we  have  used  to  estimate  the  radiative 
+decay  frequency  [Reaction  (29) j . 
+
+
+Kinetic  Conclusions 
+
+An  experimental  and  modeling  study  of  the  energy  transfer  kinetics 
+in  e-beam  pumped  argon-krypton-fluorine  mixtures  has  been  carried  out. 
+For  the  high  excitation  density  conditions  of  a fast  e-beam  pump,  the 
+kinetics  are  dominated  by  the  multistep  neutral  reaction  scheme. 
+
+Ar*  - ArF*  - KrF* 
+
+
+L * 
+
+'—*■  Ar 
+
+
+•fe  k 
+
+Kr  - KrF 
+
+
+ArKr  “•  Kr 
+
+
+* * 
+> ~Kr2F 
+
+
+Under  appropriate  conditions,  a high  (30-100%)  fluorescence  yield  can  be 
+
+"k  k k k 
+
+obtained  on  each  of  the  rare  gas  fluorides  (ArF  , Ar^F  , KrF  , Kr^F  ) . 
+
+Assuming  that  all  of  the  rare  gas  fluorides  are  quenched  by  fluorine 
+
+-9  3 
+
+with  the  same  rate  coefficient  (10  cm  /sec),  estimates  are  provided 
+
+
+for  the  radiative  lifetimes. 
+
+
+77 
+
+
+Kr,F  FLUORESCENCE  YIELD 
+
+
+KRYPTON  (torr) 
+
+
+SA-3190-1 31 
+
+
+FIGURE  25  Kr,F  FLUORESCENCE  YIELD  VERSUS  KRYPTON  PRESSURE 
+
+
+30  + 15  nsec 
+
+
+ArF 
+
+
+* 
+
+Ar2F  : 
+* 
+
+KrF  : 
+
+
+Kr2F 
+
+
+5 to  10  nsec 
+5 to  10  nsec 
+15+5  nsec 
+
+
+We  suggest  that  KrF  is  more  weakly  quenched  by  argon  (which  would 
+* 
+
+give  ArKrF  ) than  was  indicated  by  Mangano  et  al.  [MJ76,JMS76J  . Rather, 
+
+^ ij!f  ^ ^ 
+
+its  precursors  are  intercepted  by  argon  (Ar  -*  Ar2  ArKr  -*  Kr2  ) . 
+
+This  makes  the  choice  of  laser  operating  pressures  more  critical.  Quench- 
+ing of  the  laser  molecule  can  be  overcome  by  an  increase  in  the  intra- 
+cavity flux,  but  interception  can  be  avoided  only  by  optimal  choice  of 
+the  argon,  krypton,  and  fluorine  pressures. 
+
+Approximate  values  of  most  of  the  important  rate  coefficients  are 
+provided.  It  is  expected  that  this  contribution  to  the  understanding  of 
+
+the  dominant  energy  flow  pathways  in  Ar/Kr/F2  mixtures  can  assist  the 
+
+“fc  “ic 
+
+optimization  of  the  existing  ArF  and  KrF  lasers,  and  it  may  lead  to  new 
+
+•k 
+
+lasers  operating  on  the  transitions  near  290  nm  and  400  nm  in  Ar  F and 
+
+* ^ 
+
+Kr2F  respectively. 
+
+
+80 
+
+
+REFERENCES 
+Part  I 
+
+
+ABB  75 
+
+
+E.  R.  Ault,  R.  S.  Bradford,  Jr.,  and  M.  L.  Bhaumik,  Appl.  Phys . 
+Lett.  27,  413  (1975)  . 
+
+
+B76  M.  L.  Bhaumik,  private  communication. 
+
+BB70  J.  N.  Bardsley  and  M.  A.  Biondi  in  Advances  in  Atomic  and 
+
+Molecular  Physics,  Academic  Press,  New  York,  1970,  Chap.  I. 
+
+BB76  I.  J.  Bigio  and  R.  F.  Begley,  Appl.  Phys.  Lett.  28,  263  (1976). 
+
+BBA76  M.  L.  Bhaumik,  R.  S.  Bradford,  Jr.,  and  E.  R.  Ault,  Appl.  Phys. 
+
+Lett.  28,  23  (1976)  . 
+
+BD76  R.  Burnham  and  N.  Djeu,  Appl.  Phys.  Lett.  29_,  707  (1976). 
+
+BE75a  C.  A.  Brau  and  J.  J.  Ewing,  J.  Chem.  Phys.  £3,  4640  (1975). 
+
+BE75b  C.  A.  Brau  and  J.  J.  Ewing,  Appl.  Phys.  Lett.  2_7,  435  (1975). 
+
+BHD75  R.  Burnham,  D.  Harris,  and  N.  Djeu,  Postdeadline  paper  at  the 
+
+Second  Summer  Colloquium  on  Electronic  Transition  Lasers,  Woods 
+Hole,  Mass.,  September  1975. 
+
+BHD76  R.  Burnham,  D.  Harris  and  N.  Djeu,  Appl.  Phys.  Lett.  28,  86  (1976). 
+
+CGR73  0.  Cheshnovsky,  A.  Gedanken,  B.  Raz,  and  J.  Jortner,  Chem.  Phys. 
+
+Lett.  22,  23  (1973)  . 
+
+DH76  T.  H.  Dunning  and  P.  J.  Hay,  Appl.  Phys.  Lett.  28,  649  (1976). 
+
+EB75a  J.  J.  Ewing  and  C.  A.  Brau,  Appl.  Phys.  Lett.  2J_,  350  (1975). 
+
+EB75c  J.  J.  Ewing  and  C.  A.  Brau,  Phys.  Rev.  A12,  129  (1975). 
+
+FKG72  P.  B.  Fcreman,  G.  M.  Kendall,  and  R.  Grice,  Mol.  Phys.  23.,  127 
+(1972) . 
+
+GHH75  R.  A.  Gutcheck,  R.  M.  Hill,  D.  L.  Huestis,  D.  C.  Lorents,  and 
+M.  V.  McCusker,  "Studies  of  E-Beam  Pumped  Molecular  Lasers," 
+
+Final  Report,  Contract  N00014-72-C-0478 , SRI  MP75-43,  Stanford 
+Research  Institute,  August  1975. 
+
+
+81 
+
+
+GT74  M.  F.  Golde  and  B.  A.  Thrush,  Chem.  Phys.  Lett.  29_,  486  (1974). 
+
+H76  R.  L.  Hunter,  private  communication. 
+
+HD76  P.  J.  Hay  and  T.  H.  Dunning,  Jr.,  Third  Summer  Colloquium  on 
+Electronic  Transition  Lasers,  Snowmass-at-Aspen,  Colorado, 
+
+September  1976. 
+
+HGH74  R.  M.  Hill,  R.  A.  Gutcheck,  D.  L.  Huestis,  D.  Mukherjee,  and 
+D.  C.  Lorents,  "Studies  of  E-beam  Pumped  Molecular  Lasers," 
+
+Tech.  Report  No.  3,  Contract  N00014-72-C-0478 , SRI  MP74-39, 
+
+Stanford  Research  Institute,  1974. 
+
+HGH75  D.  L.  Huestis,  R.  A.  Gutcheck,  R.  M.  Hill,  M.  V.  McCusker,  and 
+D.  C.  Lorents,  "Studies  of  E-Beam  Pumped  Molecular  Lasers," 
+
+Tech.  Report  No.  4,  Contract  N00014-72-C-0478 , SRI  MP75-43, 
+
+Stanford  Research  Institute,  January  1975. 
+
+HH076  R.  Hunter,  C.  Howton,  J.  Oldnettel,  Postdeadline  paper  at  the 
+
+Third  Summer  Colloquium  on  Electronic  Transition  Lasers,  Snowmass- 
+at-Aspen,  Colorado,  September  1976.  Machine  parameters  were 
+provided  to  us  by  private  communication  from  R.  Hunter. 
+
+HHT76  J.  M.  Hoffman,  A.  K.  Hayes,  and  G.  C.  Tisone,  Appl.  Phys.  Lett. 
+
+28,  538  (1976). 
+
+HOH76  R.  0.  Hunter,  J.  Oldnettel,  C.  Howton,  and  M.  V.  McCusker, 
+
+"Gain  Measurements  at  4416  X on  ArXeF  and  K^F",  (to  be  published). 
+
+JM76  J.  H.  Jacob  and  J.  A.  Mangano,  private  communication. 
+
+JMS76  J.  H.  Jacob,  J.  A.  Mangano,  and  E.  T.  Salesky,  29th  Gaseous 
+
+Electronics  Conference,  Cleveland,  Ohio,  Paper  Al,  October  1976. 
+
+KS74  D.  L.  King  and  D.  W.  Setser,  Fourth  Conference  on  Chemical  and 
+
+Molecular  Lasers,  St.  Louis,  Missouri,  October  1974,  IEEE  J.  Quant. 
+Elect.  QE-11 , 708  (1975)  . 
+
+KVC73  R.  T.  Ku,  J.  T.  Verdeyen,  B.  E.  Cherrington,  and  J.  C.  Eden, 
+
+Phys.  Rev.  A8,  3123  (1973). 
+
+L76  D.  C.  Lorents,  Physica  82C , 19  (1976). 
+
+
+82 
+
+
+LEH73  D.  C.  Lorents,  D.  J.  Eckstrom  and  D.  L.  Huestis,  "Excimer 
+Formation  and  Decay  Processes  in  Rare  Gases,"  Final  Report 
+MP73-2,  Contract  N00014-72-C-0457 , SRI  Project  2018,  Stanford 
+Research  Institute,  Menlo  Park,  Ca . , September  1973. 
+
+LHH76  D.  C.  Lorents,  R.  M.  Hill,  D.  L.  Huestis,  M.  V.  McCusker,  and 
+H.  H.  Nakano,  Third  Summer  Colloquium  on  Electronic  Transition 
+Lasers,  Snowmass-at-Aspen,  Colorado,  September  1976. 
+
+LMR76  D.  C.  Lorents,  M.  V.  McCusker,  and  C.  K.  Rhodes,  "Nuclear  Fission 
+Fragment  Excitation  of  Electronic  Transition  Laser  Media",  in 
+"Partially  Ionized  Plasmas  including  the  Third  Symposium  on 
+Uranium  Plasmas,"  Princeton  University  Conference,  Meeting  133, 
+Princeton,  New  Jersey,  June  10-12,  1976. 
+
+L072  D.  C.  Lorents  and  R.  E.  Olson,  "Excimer  Formation  and  Decay  Processes 
+in  Rare  Gases,"  Semiannual  Tech.  Report  No.  1,  Contract  N00014-72- 
+C-0457,  SRI  Froject  2018,  Stanford  Research  Institute,  Menlo  Park, 
+Ca.,  December  1972. 
+
+LWG73  S.  M.  Lin,  J.  G.  Wharton,  and  R.  Grice,  Mol.  Phys.  26,  317  (1973). 
+
+MH76  H.  H.  Michels  and  R.  H.  Hobbs,  Third  Summer  Colloquium  on  Electronic 
+
+Transition  Lasers,  Snowmass-at-Aspen,  Colorado,  September  1976. 
+
+MJ75  J.  A.  Mangano  and  J.  H.  Jacob,  Appl.  Phys.  Lett.  2J_,  495  (1975). 
+
+MJ76  J.  A.  Mangano  and  J.  H.  Jacob,  Third  Summer  Colloquium  on  Electronic 
+
+Transition  Lasers,  Snowmass-at-Aspen,  Colorado,  September  1976. 
+
+MJD76  J.  A.  Mangano,  J.  H.  Jacob,  and  J.  B.  Dodge,  Appl.  Phys.  Lett. 
+
+29,  426  (1976). 
+
+MLH76  M.  V.  McCusker,  D.  C.  Lorents,  D.  L.  Huestis,  R.  M.  Hill,  H.  H. 
+
+Nakano,  and  J.  A.  Margevicius,  "New  Electronic  Transition  Laser 
+Systems,"  Technical  Report  No.  4A,  Contract  DAAH01-74-C-0624, 
+
+SRI  MP76-46,  Stanford  Research  Institute,  May  1976. 
+
+MP76  J.  R.  Murray  and  H.  T.  Powell,  Appl.  Phys.  Lett.  29,  252  (1976). 
+
+PM75  H.  T.  Powell  and  J.  R.  Murray,  LLL  Laser  Program  Annual  Report 
+
+1974  (March  1975,  unpublished). 
+
+
+83 
+
+
+PCS  75 
+
+
+L.  G.  Piper,  D.  W.  Setser,  and  M.  A.  A.  Clyne,  J.  Chem.  Phys . 
+
+63,  4018  (1975). 
+
+RC68  A.  C.  Roach  and  M.  S.  Child,  Mol.  Phys.  _14,  1 (1968). 
+
+RW76  T.  N.  Rescigno  and  N.  W.  Winter,  Third  Summer  Colloquium  on 
+
+Electronic  Transition  Lasers,  Snowmass-in-Aspen,  Colorado, 
+September  1976. 
+
+S73  W.  S.  Struve,  Mol.  Phys.  25,  777  (1973). 
+
+SH75  S.  K.  Searles  and  G.  A.  Hart,  Appl.  Phys.  Lett.  27,  243  (1975). 
+
+SKM75  W.  S.  Struve,  J.  R.  Krenos,  D.  L.  McFadden,  and  D.  R.  Herschbach, 
+
+J.  Chem.  Phys.  j62,  404  (1975). 
+
+SSG76  D.  G.  Sutton,  S.  N.  Suchard,  0.  L.  Gibb,  and  C.  P.  Wang,  Appl. 
+Phys.  Lett.  28,  522  (1976). 
+
+THH76  J.  Tellinghuisen,  A.  K.  Hays,  J.  M.  Hoffman,  and  G.  C.  Tisone, 
+
+J.  Chem.  Phys.,  (to  be  published). 
+
+VKS76  J,  E.  Velazco,  J.  H.  Kolts,  and  D.  W.  Setser,  J.  Chem.  Phys.  65 , 
+3469  (1976). 
+
+VOF75  E.  T.  Verkhovtseva,  A.  E.  Ovechkin,  Ya.  M.  Fagel,  Chem.  Phys. 
+
+Lett.  30,  120  (1975). 
+
+VS75  J.  E.  Velazco  and  D.  W.  Setser,  J.  Chem.  Phys.  62,  1990  (1975). 
+
+WHG73  J.  C.  Whitehead,  D.  R.  Hardin  and  R.  Grice,  Mol.  Phys.  2j>,  515 
+(1973) . 
+
+Z76  E.  Zamir,  private  communication. 
+
+ZHL76  E.  Zamir,  D.  L.  Huestis,  D.  C.  Lorents,  and  H.  H.  Nakano,  "Visible 
+Absorptions  by  Electron  Beam  Pumped  Rare  Gases,"  Third  Summer 
+Colloquium  on  Electronic  Transition  Lasers,  Snowmass-in-Aspen, 
+Colorado,  September  1976. 
+
+
+84 
+
+
+Appendix 
+
+
+GAIN  MEASUREMENTS  AT  4416  X ON  ArXeF*and  Kr^F* 
+
+R.  0.  Hunter,  J.  Oldenettel  and  C.  Howton 
+Maxwell  Laboratories,  Inc. 
+
+9244  Balboa  Avenue 
+San  Diego,  California  92123 
+
+and 
+
+M.  V.  McCusker 
+Stanford  Research  Institute 
+333  Ravenswood  Avenue 
+Menlo  Park,  California  94025 
+
+
+ABSTRACT 
+
+Recent  measurements  of  radiation  from  certain  rare  gas-halogen 
+
+mixtures  have  indicated  the  efficient  production  of  broad  band  emitters 
+
+in  the  visible.  ^ This  paper  reports  a gain  measurement  at  4416  X of 
+
+two  emitters  tentatively  identified  as  Kr„F  (X  = 4000  X , FWHM  = 900  X) 
+
+2 max 
+
+and  ArXeF  (X  = 4600  X,  FWHM  = 900  X) . Attenuation  of  the  4416  A probe 
+max 
+
+laser  during  electron-beam  and  electron-beam-sustained  discharge  excita- 
+tion of  2-3  atmosphere  pressure  mixtures  of  argon-krypton-fluorine  and 
+argon-xenon-fluorine  indicates  absorption  only.  The  fluorescence  signals 
+from  ArXeF  and  XeF  (Ar/Xe/F^  mixture),  and  Krl^  and  Kr^F*  (Ar/Kr/F^  mixtures) 
+were  monitored  simultaneously  with  the  absorption  of  the  probe  laser. 
+
+Since  the  absorption  was  not  proportional  to  the  fluorescence  of  these 
+species,  it  is  tentatively  concluded  that  it  is  due  to  another  transient 
+
+^Spectroscopy  and  Kinetics  of  the  248  and  414  nm  Bands  from  Electron  Beam 
+Pumped  Argon-Krypton-Fluorine  Mixtures,  D.  C.  Lorents,  R.  M.  Hill, 
+
+D.  L.  Huestis,  M.  V.  McCusker,  and  H.  H.  Nakano,  Presented  at  the  3rd 
+Conference  on  Electronic  Transition  Lasers. 
+
+
+85 
+
+
+-3  -1 
+
+species.  Typical  absorptions  of  10  cm  were  observed  at  pump  levels 
+3 -3 
+
+of  10  watts  cm  . A knowledge  of  the  absorption  mechanism  will  be 
+required  to  assess  the  efficiency  with  which  such  lasers  can  be  made  to 
+operate,  if  at  all. 
+
+
+INTRODUCTION 
+
+Recently,^  efficient  visible  radiation  production  from  electron  beam 
+pumped  mixtures  of  rare  gases  and  fluorine  has  been  reported.  These  broad 
+band  emission  continua  have  been  ascribed  to  transitions  in  triatomic 
+
+
+species  from  a bound  excited  state  to  an  unbound  lower  state.  In  mixtures 
+
+of  Ar/Kr/F^,  the  continuum  centered  at  4000  X has  been  assigned  to  Kr^F*; 
+
+in  Ar/Xe/F^  mixtures  the  4500  A continuum  has  been  assigned  to  ArXeF* . 
+
+A ratio  of  stimulated  emission  cross  sections  on  the  order  of  1/5  is 
+
+anticipated  for  such  triatomic  species  to  that  of  the  corresponding 
+* * 
+
+diatomic  (KrF  or  XeF)  under  ideal  conditions  (assuming  no  absorption  from 
+other  species  or  the  excited  state).  As  candidates  for  visible  lasers, 
+then,  these  species  are  extremely  attractive,  offering  high  potential 
+efficiencies  in  the  visible,  tunability,  and  ready  scalability  to  large 
+energies . 
+
+The  work  reported  in  this  paper  consists  of  gain  measurements  made  at 
+
+a single  wavelength  (4416  X)  at  moderate  pressures  (2-3  atmospheres)  in 
+
+elec tron -beam  and  electron -beam-sustained  discharge  configurations  at 
+5 -3 
+
+pump  levels  of  10  watts  cm  . This  probe  wavelength  falls  near  the  center 
+
+of  the  transition  ascribed  to  ArXeF* and  corresponds  to  about  1/3  the  peak 
+
+of  the  Kr^F  emission  on  the  red  side  of  the  line  center.  Figure  1 shows 
+
+the  shape  of  the  emission  spectrum  for  Kr^F  . Also,  an  attempt  was  made 
+
+to  achieve  lasing  in  a broadband  cavity  that  had  an  equivalent  optical 
+-3  -1 
+
+loss  of  2.5  x 10  cm  . No  lasing  was  observed,  and  under  all  conditions 
+
+tested  the  probe  indicated  net  absorption  in  the  medium  on  the  order  of 
+-3  -1 
+
+10  cm  . However,  the  tests  were  not  conducted  under  conditions  optimum 
+
+
+86 
+
+
+higher  pressure.  In  any  case,  even  if 
+
+
+| 
+
+i 
+
+
+! 
+
+
+t 
+
+
+! 
+
+! 
+
+
+for  achieving  net  gains,  i.e., 
+net  gain  is  observed,  the  presence  of  absorption  of  this  magnitude  would 
+seriously  limit  the  performance  of  the  transition  in  a laser  device.  In 
+conjunction  with  the  gain  measurements  the  fluorescence  from  both  the 
+diatomic  counterpart  (XeF  and  KrF  ) and  the  triatomic  species  were  monitored . 
+It  did  not  correlate  with  the  temporal  behavior  of  the  absorption,  indica- 
+ting that  the  absorption  is  not  due  primarily  to  the  diatomic  or  triatomic 
+species,  but  rather  to  other  unidentified  species. 
+
+EXPERIMENTAL 
+
+The  experimental  apparatus  includes  three  main  types  of  equipment: 
+
+(1)  the  means  of  generating  and  delivering  into  the  active  region  the 
+electron  beam  and  the  electrical  pulse  to  drive  the  discharge,  (2)  the 
+high  pressure  container  and  the  associated  gas  handling  system,  and 
+(3)  the  optical  train,  including  the  probe  laser  and  optical  detectors 
+for  monitoring  the  various  emissions.  Figure  2 shows  the  basic  layout. 
+
+ELECTRON  BEAM  AND  DISCHARGE  PARAMETERS 
+
+The  electron  beam  is  generated  in  a vacuum  region  and  injected  into 
+
+the  high  pressure  region  through  a 0.001  in.  Ti  foil.  The  voltage  is 
+
+-6 
+
+nominally  400  kV,  the  pulse  lengths  is  10  sec,  and  the  transmitted 
+
+2 
+
+current  density  is  10  amperes/cm  for  the  direct  pumped  cases.  The 
+
+energy  deposition  is  estimated  from  one-dimensional  deposition  curves 
+
+scaled  from  data  in  Ar  and  from  earlier  pressure  rise  measurements. 
+
+The  discharge,  when  it  is  utilized,  is  driven  by  a fast  capacitor 
+
+*8 
+
+bank  (10  microfarads,  up  to  60  kV  charge  voltage,  ~ 5.0  x 10  Henry 
+inductance) . Voltage  and  current  monitors  for  both  systems  are  calibrated 
+with  reference  injected  pulses.  The  voltage  probes  are  resistive 
+dividers,  and  the  current  probes  two  arrays  of  B loops,  the  signals  of 
+which  are  integrated  in  the  screen  room. 
+
+87 
+
+
+PUMPING  CHAMBER  AND  GAS  HANDLING  SYSTEM 
+
+
+The  active  region  is  8 cm  x 20  cm  x 200  cm  and  is  contained  within 
+a 300  liter  pressure  vessel  constructed  of  aluminum  and  high  density 
+polyethylene.  Seals  are  made  with  Viton  0-rings  and  Buna-N  flat  gaskets. 
+
+The  chamber  is  pumped  through  a gate  valve  by  a 260  liter/sec  turbo- 
+
+-4 
+
+molecular  pump  and  is  evacuated  to  a pressure  less  than  10  torr  prior 
+to  a passivation  or  fill  procedure.  The  maximum  pressure  for  this  experi- 
+ment was  set  by  the  structural  characteristics  of  the  chamber.  The  long 
+axis  of  the  active  region  is  terminated  by  two  end  bells  that  contain 
+mirrors.  Ten  ports  with  CaF^  or  MgF^  windows  are  mounted  at  various 
+positions  to  permit  optical  diagnostics  of  the  active  region. 
+
+The  gases  are  mixed  turbulently  in  this  300  liter  chamber  by  means 
+of  fast  injection  through  a perforated  pipe  running  the  length  of  the 
+cavity  (~  2 meters).  The  mixing  is  observed  to  be  good  since  several  shots 
+may  be  made  with  a single  mixture.  The  fluorescence  signals,  discharge 
+behavior,  and  lasing  behavior  are  reproducible  from  shot  to  shot  and  fill 
+to  fill,  with  the  exception  of  a slight  change  due  to  F^  removal  by  the 
+chamber  walls.  During  operation  the  chamber  is  evacuated,  then  passivated 
+by  exposure  to  5-10  torr  of  F^  for  several  hours,  then  purged  with  N^,  and 
+finally  filled.  After  each  run,  it  is  again  evacuated  and  the  procedure 
+repeated.  The  F^  is  not  purified  beyond  the  level  stated  by  the  supplier, 
+i.e.,  98?o  minimum  purity.  The  argon,  krypton,  and  xenon  are  also  used  as 
+supplied  and  are  specified  to  be  greater  than  99.99%  pure  in  the  case  of 
+krypton  and  xenon,  and  99.999%  in  the  case  of  the  argon. 
+
+
+OPTICAL  INSTRUMENTATION  AND  LAYOUT 
+
+The  behavior  of  the  excited  state  population  of  the  dimer  and  trimer 
+species  is  monitored  by  viewing  the  short  axis  (20  cm)  of  the  active 
+region  by  fast  photodiodes  through  appropriate  interference  or  color 
+filters.  All  of  the  oscilloscope,  cable  and  photodiode  combinations  have 
+
+
+88 
+
+
+better  than  a 5 x 10  second  response.  In  order  to  ensure  that  radiate 'n 
+
+from  KrF* lasing  near  2500  % did  not  enter  the  longer  wavelength  detectors, 
+
+plastic  sheets  with  a cutoff  near  3600  X were  also  placed  in  some  of  the 
+
+optical  trains.  Noise  due  to  electrical  pickup  or  X-ray  signals  is  less 
+
+than  1%  of  the  optical  emission  signal  for  these  monitors.  Lasing  was 
+
+looked  for  by  viewing  the  long  axis  of  the  active  region  through  a hole 
+
+in  one  of  the  resonator  mirrors  with  similar  detector-filter  combinations. 
+
+The  laser  cavity  was  formed  by  an  unstable  resonator  having  an  equivalent 
+-3  -1 
+
+loss  of  - 2.5  x 10  cm  , including  mirror  reflectivity  losses. 
+
+The  absorption  measurements  were  made  by  transmitting  the  output  from 
+a He-Cd  laser  into  the  chamber,  bringing  the  signal  out  and  into  the  screen 
+room  after  multiple  reflections  in  the  laser  cavity.  There  it  was  focussed 
+on  the  entrance  slits  of  a 1 meter  Jarrell-Ash  spectrograph.  Detection 
+was  accomplished  by  means  of  a high  gain  photomultiplier.  The  photo- 
+multiplier was  gated  on  approximately  1 p.s  prior  to  the  electron  beam 
+pulse  by  changing  the  potential  of  the  first  grid.  The  observed  decay 
+time  of  this  pulsing  circuitry  was  greater  than  20  ps , so  that  during  the 
+1 p.s  electron  pulse,  the  detected  laser  light  level  was  essentially  flat 
+in  the  absence  of  absorption.  The  photomultiplier,  cable  and  oscilloscope 
+combination  have  a response  time  of  less  than  10  ^ seconds  in  the  configura- 
+tion utilized.  A major  difficulty  with  this  apparatus  is  the  high  level 
+of  fluorescence  produced  by  the  active  region.  Very  narrow  slits  and 
+careful  adjustment  prior  to  each  shot  were  necessary  to  reduce  the  detected 
+fluorescence  signal  to  a small  fraction  of  that  due  to  the  laser.  Elec- 
+trical pickup  and  signal  due  to  X-rays  are  less  than  ~ 5%  of  the  detected 
+laser  signal. 
+
+
+RESULTS 
+
+
+Lasing,  as  would  be  indicated  by  an  enhancement  of  the  signal  from 
+the  transverse  photodiode  relative  to  that  of  fluorescence  photodiode, 
+was  not  observed  on  either  transition. 
+
+The  4416  X probe  laser  transmission  during  the  pump  pulse  always 
+indicated  net  absorption  in  the  optical  train.  A representative  set  of 
+traces  are  shown  in  Figure  3.  In  this  particular  case  the  optical  cavity 
+was  lasing  at  2485  8;  note  how  the  Kr^F*  signal  closely  follows  that  of 
+
+•ff  x 
+
+the  KrF  signal,  indicating  that  KrF  is  a direct  predecessor  of  Kr^F  , or 
+
+that  the  optical  field  is  interfering  with  the  formation  of  Kr^F*,  or  that 
+
+the  two  species  have  a common  precursor.  Of  particular  interest  is  the 
+
+observation  that  the  absorption  does  not  directly  follow  the  fluorescence 
+
+signal  and  appears  to  have  a 200  ns  afterglow.  This  leads  to  the  conclusion 
+
+that  the  absorption  is  not  due  to  the  radiating  species. 
+
+A summary  of  the  shots  taken  is  shown  in  Table  1.  The  absorption 
+
+value  represents  the  peak  during  the  pulse. 
+
+-3  -1 
+
+The  absorptions  are  typically  10  cm  at  this  pump  level  and  are 
+remarkably  constant  with  respect  to  the  change  from  xenon  to  krypton  as 
+the  added  gas. 
+
+DISCUSSION 
+
+The  observation  of  net  absorption  in  these  mixtures  under  conditions 
+
+-3  -1  1 
+
+in  which  gains  on  the  order  of  10  cm  are  expected  leads  immediately 
+
+to  the  question  of  the  identity  of  the  absorber(s)  and  the  mechanisms 
+
+controlling  the  level  of  absorption.  The  temporal  behavior  of  the 
+
+absorption  during  the  excitation  indicates  that  it  is  not  due  to  absorption 
+
+from  its  excited  state  or  that  of  the  associated  diatomic  species.  The 
+
+2 
+
+recent  measurements  of  Zamir  et  al.  of  three  types  of  visible  absorption 
+in  electron  beam  pumped  rare  gases  are  of  interest.  Those  measurements 
+showed  (a)  a bound-bound  absorption  from  low-lying  excited  atomic  states 
+in  the  rare  gases,  (b)  absorption  attributed  to  molecular  transitions 
+
+
+90 
+
+
+an  enhancement  ratio  of  3 was  utilized. 
+
+
+from  the  two  low-lying  bound  states  in  the  dimers,  ’ and  (c)  a broad, 
+
+continuous  absorption  throughout  the  visible  that  has  uncertain  origin. 
+
+Only  the  latter  absorption  is  of  primary  interest  for  obtaining  lasing 
+
+on  these  new  systems,  since  the  others  are  of  characteristic  width  of 
+
+~ 10-100  A.  With  such  widths  it  should  be  possible  to  find  a region 
+
+under  the  broad  fluorescence  (—  900  X FWHM)  that  is  not  absorbing  at  a 
+
+-17  2 
+
+prohibitive  level.  However,  the  lumped  cross  sections  (10  cm  per 
+
+excitation)  observed  in  the  visible  in  their  experiment  are  comparable  to 
+
+the  absorptions  observed  in  this  experiment  where  the  excited  state  density 
+14  -3 
+
+is  approximately  10  cm  . Other  candidates  for  the  absorbing  species 
+
+include  the  dimer  ion  species  Kr^+  and  Xe^"*",  which  are  anticipated  to  be 
+
+2 + 9 + 
+
+the  dominant  positive  ion  species  for  these  mixtures.  The  A E -*  D L 
+
+u g 
+
+dissociative  transition  from  the  ground  state  of  the  homonuclear  ions^  should 
+
+4 
+
+be  intense  and  lie  in  the  wavelength  range  of  interest. 
+
+Another  possibility  is  an  absorber  associated  with  . However, 
+our  data  is  not  sufficient  to  resolve  such  questions.  The  main  question 
+of  interest  for  the  trimers  as  laser  candidates  is  the  scaling  of  the 
+absorption  to  higher  pressures.  For  systems  such  as  Ar/I^  and  Ar/Xe/F^ 
+that  lase  on  transitions  near  3500  X,  the  presence  of  absorption  of  this 
+size  has  serious  implications  if  it  extends  that  far  into  the  blue. 
+
+Thus,  the  origin  of  the  observed  absorption  is  not  only  of  interest  as 
+
+it  it 
+
+far  as  obtaining  laser  action  on  ArXeF  and  Kr^F,  but  also  has  a major 
+
+it  it 
+
+bearing  on  the  efficiency  of  XeF  and  I lasers. 
+
+
+CONCLUSIONS 
+
+
+Absorption  has  been  observed  in  electron  beam  romped  mixtures  at  a 
+
+single  wavelength  (4416  X)  which  falls  within  a factor  of  3 of  the  peak 
+
+* * 
+
+gain  anticipated  in  Kr^F  and  ArXeF.  Further  work  should  be  directed 
+toward  conditions  (higher  total  pressure)  and  wavelengths  nearer  line 
+
+
+92 
+
+
+A 
+
+
+f 
+
+
+center  which  are  more  promising.  The  identity  of  the  absorbing  mechanism 
+is  of  interest  not  only  for  these  lasers  but  for  others  involving  the 
+same  types  of  gases.  With  regard  to  these  visible  laser  candidates, 
+the  major  question  is  whether  or  not  the  absorption  processes  are  truly 
+continuous.  The  experiments  indicate  that  self-absorption  is  not  the 
+major  contribution;  hence,  the  present  experiments  are  inconclusive  with 
+respect  to  the  possibility  of  obtaining  efficient  output  in  the  visible 
+from  such  transitions. 
+
+ACKNOWLEDGEMENTS 
+
+Discussions  with  D.  L.  Huestis  about  the  origin  of  the  emissions 
+and  the  nature  of  the  absorptions  are  gratefully  acknowledged. 
+
+REFERENCES 
+
+1.  D.  C.  Lorents,  R.  M.  Hill,  D.  L.  Huestis,  M.  V.  McCusker  and 
+
+H.  H.  Nakano,  "Spectroscopy  and  Kinetics  of  the  248  and  410  nm 
+Bands  from  Electron  Beam  Pumped  Argcn/Krypton/Fluorine  Mixtures," 
+Paper  presented  at  the  Summer  Colloquium  on  Electronic  Transition 
+Lasers,  Snowmass,  Colorado,  September  7-10,  1976. 
+
+2.  E.  Zamir,  D.  L.  Huestis,  D.  C.  Lorents  and  H.  H.  Nakano,  "Visible 
+Absorption  by  Electron-Beam  Pumped  Rare  Gases",  Paper  presented 
+at  the  Summer  Colloquium  on  Electronic  Transition  Lasers, 
+
+Snowmass,  Colorado,  September  7-10,  1976. 
+
+3.  R.  S.  Mulliken,  J.  Chem.  Phys.  52,  5170  (1970). 
+
+4.  Private  conversations  with  M.  Krauss,  National  Bureau  of  Standards, 
+Washington,  D.C.  and  D.  Huestis,  SRI. 
+
+
+93 
+
+
+PER  UN 
+
+
+Photomultiplier 
+
+
+CO  Q,  ® 
+O 3 5, 
+
+w go 
+
+
+m M 
+
+o 1 c 
+
+Cm  ° 
+
+« -a  * S3 
+o o o « 
+co  4-<  a 
+CD  T3  .3 
+
+^ ° fa  -s 
+
+o +?  w c 
+
+3 O C 
+
+ci  -C  O 
+fa  fa  O 
+
+
+Figure  2.  Experimental  Schematic 
+
+
+Figure  3 
+
+
+ELECTRON  BEAM  DRIVEN  Kr  F GAIN  MEASUREMENT 
+
+Ct 
+
+1.5torrF^  lOOtorrKr  1500  torrAr 
+
+
+4000  Jt  Fluorescence  (200  ns/dlv) 
+
+
+2485  k Fluorescence  (200  ns/dlv) 
+
+
+4416  k Probe  Laser  (500  ns/dlv) 
+
+
+Copy  avci'cjb!#  to  DDC  do?s  not 
+penmt  fully  legible  leproduotioa 
+
+
+96 
+
+
+Absorption 
+
+
+i 
+
+
+| 
+
+PART  II:  CHEMICALLY  PUMPED  SYSTEMS 
+
+
+1. 
+
+
+INTRODUCTION 
+
+
+This  report  marks  the  completion  of  a four-year  program,  under 
+Contracts  DAAH01-73-C-0444  and  DAAH01-74-C-0524,  that  has  been  devoted 
+to  the  development  of  electronic  transition  (visible)  chemical  lasers. 
+Efforts  to  date  have  been  described  in  a number  of  technical  reports 
+[EEB74a,  EEH74,  EPP76J  and  publications  [ EEB74b , BLE74,  EEP74,  EEH75, 
+LEE76,  AE76,  EBH76,  EH76,  EFE7b] . Related  work  has  been  carried  out  at 
+SRI  under  different  sponsorship  [EL76,  LEB76a,  LEB76b,  LEB76c,  LEB76dJ . 
+
+The  objective  of  the  work  has  been  to  find  highly  exothermic 
+chemical  reactions  that  deposit  (or  transfer)  a substantial  fraction  of 
+their  excess  energy  into  electronic  states  of  the  newly  formed  molecule 
+or  into  a radical  atom  or  molecule  from  one  of  the  reactants.  That 
+such  reactions  occur  was  known  from  observations  of  visible  chemilumi- 
+nescence in  low-pressure  flames  and  afterglows.  The  requirement  for  a 
+high  branching  ratio  into  an  excited  state  is  coupled  with  the  require- 
+ment that  the  overall  kinetics  of  the  reaction  be  such  that  population 
+inversions  between  electronic  states  sufficient  for  lasing  can  be 
+generated  and  maintained. 
+
+We  approached  our  objectives  through  a combination  of  experimental, 
+analytical,  and  theoretical  studies.  Host  of  our  experimental  work 
+involved  reactions  of  metal  atoms  with  oxidizers  (oxygen-  or  halogen-atom 
+donors).  These  involved  cw  diffusion  flames  with  evaporation  metal 
+sources,  both  with  metal  in  excess  [EEH74,  EPP76,  EEB74b,  BLE74,  EEP74, 
+EEH75,  EPE76]  and  oxidizer  in  excess  [EEB74a,  EEH74,  EPP76,  EEB74b] , 
+diffusion  flames  with  metal  carbonyls  and  metal  alkyls  [EEB74a,  BLE74J  , 
+ternary  flames  that  used  alkali  metal  reactions  to  strip  volatile  metal 
+polyhalides  [LEB76a-dJ , and  pulsed  eactions  that  used  thermal  heating 
+by  a shock  wave  to  dissociate  volatile  metal  carbonyls  or  metal  alkyls 
+[EPP76J  . Early  efforts  centered  on  quantifying  the  photon  yields  and 
+
+
+| 
+
+; 
+
+
+Preceding  page  blank 
+
+
+99 
+
+
+radiating  states  for  a large  number  of  such  reactions.  We  also  carried 
+out  direct  lasing  attempts  on  the  Ba  + N^O  and  Sm  + NF^  reactions  [EEH74J  . 
+Later,  we  made  sensitive  gain/absorption  measurements  by  intracavity  dye 
+laser  spectroscopy  on  Ba  + N.,0,  Ca  + IS^O  + CO,  and  Sr  + ^0  + CO  flames 
+[EBH76j  . Finally,  we  studied  ground-state  BaO  population  distributions 
+by  the  laser-induced  fluorescence  technique  [EH76,  EL76] . 
+
+Analytical  studies  included:  extensive  kinetic  modeling  calculations 
+
+aimed  a*-  determining  energy  pathways  by  comparison  with  experimental 
+results  [EEH74J  ; a numerical  solution  for  a spherical  diffusion  flame 
+with  variable  temperature,  finite  convective  velocities,  and  multiple 
+reactions  [AE76J  ; and  numerical  solutions  of  the  vibrational  relaxation 
+equations  that  predict  ground-state  vibrational  distributions,  again 
+for  comparison  with  experimental  data  [EH76] . 
+
+The  results  of  these  various  studies  have  already  been  reported  in 
+detail  as  indicated  by  the  references,  or  are  now  available  in  preprint 
+form.  In  following  sections,  we  briefly  summarize  those  results  and 
+give  an  overview  of  visible  chemical  laser  development. 
+
+
+100 
+
+
+2.  SUMMARY  OF  RECENT  WORK 
+
+
+Spherical  Diffusion  Flame  Model 
+
+Preliminary  results  from  a numerical  solution  of  the  spherical 
+diffusion  flame  that  incorporates  multiple  reaction  kinetics,  temperature 
+variations  in  the  flame,  and  convective  velocity  effects  have  been 
+presented  previously  [EEH74(c)].  This  work  has  now  been  refined  and 
+completed,  and  the  results  prepared  for  publication  [AE76]. 
+
+
+Vibrational  Distribution  Modeling 
+
+The  vibrational  distribution  model  and  preliminary  results  have 
+
+been  reported  previously  [EEH74(c)].  Additional  calculations  have  now 
+
+been  made  for  the  Ba  + ^0  reaction,  and  the  results  compared  with  the 
+
+limited  experimental  data  for  this  reaction  [RWH76].  We  have  concluded 
+
+from  the  comparison  that  the  Ba  + N^O  reaction  primarily  populates  a 
+
+state  that  is  collisionally  isolated  from  low  vibrational  levels  of  the 
+
+ground  state,  and  that  the  latter  levels  are  populated  primarily  by 
+
+radiative  cascade.  The  reservoir  states,  which  are  probably  the 
+3 3 + 
+
+a II  or  x £ metastable  electronic  states,  may  be  populated  by  collisional 
+processes  following  the  initial  reaction.  The  work  is  described  in  a 
+
+t 
+
+new  preprint  [EH76]. 
+
+Laser-Induced  Fluorescence  Studies 
+
+We  used  a nitrogen-laser-pumped  dye  laser  to  optically  pump 
+BaOCX^Ejv")  levels  produced  in  Ba  + N^O  and  Ba  + 0^  reactions,  with 
+detection  of  the  fluorescence  by  a monochromator-gated  photomultiplier- 
+boxcar  integrator  system.  Although  product  distributions  from  the 
+Ba  + reaction  could  be  readily  determined,  we  were  unable  to  detect 
+products  from  the  Ba  + ^0  reaction  The  implications  of  this  observation 
+are  discussed  in  the  work  on  vibrational  modeling  described  above. 
+
+
+101 
+
+
+We  extended  our  work  on  Ba  + N^O,  described  previously  [EPP76], to 
+include  the  BaO  [A^£,v/=  1 -*  X^E.v"  = 7]  transition  as  7904  A.  The 
+transition  was  transparent  at  a sensitivity  for  absorption  or  gain  of 
+~ 10  7cm.  We  also  studied  the  arc  bands  of  CaO  and  SrO  from  Ca(Sr)  + 
+N^O  + CO  flames,  which  were  considered  laser  candidates  [BSH76] . We 
+found  absorptions  on  the  green  arc  bands  of  CaO  and  the  red  arc  bands 
+of  SrO.  Our  results  are  consistent  with  assignment  of  these  bands  to 
+transitions  between  excited  electronic  states  of  the  diatomic  metal 
+oxide  . This  work  is  described  in  a new  preprint  [EBH76]. 
+
+
+102 
+
+
+3 . CURRENT  STATUS 
+
+
+Although  the  base  of  knowledge  required  for  development  of 
+electronic  transition  chemical  lasers  has  been  advanced  considerably  in 
+the  last  few  years,  we  must  emphasize  that  the  level  of  understanding 
+of  the  energy  flow  processes  in  exothermic  reactions  is  still  extremely 
+elementary.  While  there  have  been  no  discoveries  of  basic  physical 
+limitations  that  preclude  achievement  of  these  lasers,  it  is  by  now 
+obvious  that  the  task  will  not  be  easily  accomplished.  In  particular, 
+the  most  promising  ideas  for  near-term  laser  development  have  been  tried, 
+without  apparent  cause  for  optimism  (a  possible  exception  to  this  is  the 
+H + NF^  -*  HF  + NF(a^A)  reaction  under  study  at  Aerospace  Corporation 
+[HC73]).  It  is  our  view  that  considerably  more  basic  research  is  required 
+before  this  major  technological  advancement  will  be  achieved. 
+
+In  our  own  studies,  we  have  considered  four  classes  of  excitation 
+reaction: 
+
+Reaction  Classification 
+
+
+-k 
+
+
+(1) 
+
+A + 
+
+BC  -«  AB  + C 
+
+Metathesis 
+
+(2) 
+
+* 
+
+AB 
+
+k 
+
++ C - AB  + C 
+
+Molecule  -*  Atom 
+
+Transfer 
+
+(3) 
+
+A + 
+
+B + C -»  AB"  + C 
+
+Atom  Assoc1' ation 
+
+(Recombination) 
+
+(4) 
+
+ABC 
+
++ D - AB"  + CD 
+
+Elimination 
+
+Most  of  our  interest  and  attention  has  been  on  metathesis  reactions  with 
+metal  atoms,  but  we  have  had  at  least  a small  look  at  the  other  classes 
+as  well.  We  summarize  what  we  have  observed  and  what  we  think  about 
+each  class  as  a basis  for  our  above  conclusion,  as  follows: 
+
+(1)  Metathesis 
+
+• Our  qualitative  theoretical  model  [EEH74]  predicts  that 
+reactions  of  all  but  the  lightest  atoms  produce  primarily 
+vibrationally  excited,  ground  state  molecules  rather  than 
+
+103 
+
+
+electronically  excited  molecules  in  the  first  step. 
+
+However,  there  is  no  experimental  verification  of  th.j.s 
+prediction,  and  recent  analytical  and  experimental  studies 
+in  alkaline  earth  + N^O  reactions  appear  to  challenge  it 
+[EH76].  The  energy  flow  in  exothermic  metathesis  reactions 
+is  not  established,  even  for  the  well-studied  Ba  + N^O  reaction. 
+In  particular,  no  currently  proposed  kinetic  model  predicts 
+all  of  the  experimental  observations.  It  seems  likely  that 
+the  production  of  radiating  states  is  much  more  complex  than 
+originally  thought. 
+
+• Secondary  reactions  that  interfere  with  the  production  of 
+ex  :ited  molecules  are  likely  tc  be  a serious  problem, 
+particularly  when  scaling  the  reaction  rates  to  laser 
+threshold  values.  For  example,  in  metal- in-excess  flames, 
+our  work  on  Ba  + N^O  [EEH74,  EPE76]  and  on  ternary  flames 
+[LEB76]  in  heat-pipe-oven  reactois  shows  that  metal-atom 
+quenching  seriously  reduces  molecular  photon  yields.  We 
+think  that  this  is  primarily  an  energy-transfer  process  that 
+should  be  rapid  when  the  atom  has  energy  states  below  those 
+of  the  excited  states  of  the  molecule.  (There  is  no  evidence 
+for  resonant  energy  transfer  in  this  case.)  This  postulate 
+is  supported  by  our  observations  of  high  populations  of  Ba 
+in  Ba  + N^O  flames  [EF.H76,  EBH76,  EPE76].  Likewise,  Felder, 
+Goui-d,  and  Fontijn  [FGF75]  have  found  that  0 ^ and  N^O  quench 
+
+*k 
+
+BaO  emission  with  gas  kinetic  efficiency.  This  could  be 
+because  of  reactions  such  as  BaO  + N^O  -•  Ba02  *-  . Since 
+
+many  of  the  candidate  laser  molecules  are  radicals  (BaO, 
+
+SmF,  SnO,  ScF' , second-step  reactions  with  the  oxidizer  may 
+
+•k 
+
+Some  complex- forming  reactions  do  yield  excited  atomic  states,  but  in  a 
+statistical  fashion.  In  the  case  of  i<2  + CJL  -•  KC1  + K ' , the  statistical 
+weight  of  the  4P  state  is  three  times  that  of  the  4S  state,  and  one  observes 
+50-757.  production  of  excited  atomic  states. 
+
+
+104 
+
+
+I 
+
+1 
+
+
+be  rapid  and  thus  pose  a serious  quenching  problem. 
+
+Finally,  quenching  by  product  molecules  could  be  important. 
+Fontijn  and  Felder  have  observed  such  a process  in  Sn  + N^O 
+reactions  [F76].  Furthermore,  the  falloff  of  the  Ba  + N^O 
+photon  yield  at  higher  pressures  in  diffusion  flames 
+[EEP74, EEH75]  could  be  due  to  quenching  by  products  rather 
+than  by  argon. 
+
+• There  are  some  reasons  to  believe  that  rapidly  initiated 
+pulsed  reactions  in  shock  tubes  or  reactions  carried  out 
+with  high  convective  velocities,  as  in  shock  t-mnels,  would 
+more  likely  achieve  population  inversions  and  gain.  However, 
+results  at  SRI  [EPP76]  and  elsewhere  [JSW74,  C76]  have  not 
+yet  borne  out  that  hope. 
+
+
+(2)  Molecule-Atom  Transfer 
+
+
+• We  believe  that  the  strong  quenching  of  molecular  emission 
+by  atoms  is  due  to  a V - E energy-transfer  process,  and 
+that  in  general  this  process  has  large  cross  sections. 
+
+• For  every  case  we  have  examined,  the  atomic  state  popula- 
+tions we  could  determine  were  not  inverted.  This  applied 
+
+k 
+
+to  Ba  populations  in  Ba  + N20  flames  [EEH74,  EPE76],  and 
+
+k 
+
+to  alkali  populations  in  ternary  flame  systems  [LEE76J. 
+However,  these  were  all  CW  flames;  pulsed  reactions  may 
+lead  to  different  results. 
+
+• In  our  opinion,  the  prospects  for  V -•  E chemical  lasers 
+are  very  small.  There  is  no  evidence  to  suggest  that 
+
+V -*  E transfer  is  likely  to  produce  a population  inversion. 
+
+
+I 
+
+I 
+
+
+' 
+
+
+105 
+
+
+(3)  Atom-Association  Reactions 
+
+
+I 
+
+
+• It  is  well  known  that  such  reactions  produce  excited  states 
+in  afterglows,  flames,  etc.  However,  it  seems  likely  that 
+the  atomic  concentrations  required  to  make  a chemical  laser 
+could  only  be  achieved  in  a shock-tube  expansion  nozzle 
+device . 
+
+• The  spectroscopic  and  kinetic  properties  of  most  molecules 
+are  not  known  in  sufficient  detail  to  predict  the  prospects 
+for  success  in  such  a shock  tunnel  scheme.  For  some  of  the 
+few  cases  known  (0  + 0 + M,  CX  + Ci  + M,  Br  + Br  + M) , we 
+have  carried  out  a simple  calculation  that  predicts  gains 
+less  than  10  ^/cm  for  plausible  atom  concentrations  [EPP76]. 
+
+On  the  basis  of  this  calculation,  we  do  not  consider  this 
+class  of  reactions  sufficiently  promising  to  warrant  experi- 
+mental studies. 
+
+• The  predictions  above  are  consistent  with  negative  experimental 
+results  in  other  laboratories  [VDK76,  WBF76]. 
+
+(4)  Elimination  Reactions 
+
+• Spin  conservation  rules  should  apply  for  light  molecules  in 
+reactions  of  this  class,  so  that  high  excited-state  yields 
+are  plausible.  By  spin  conservation,  as  well,  one  expects 
+the  excited  products  to  have  long  radiative  lifetimes. 
+
+• We  studied  some  alkali  + NF^  reactions  where  stripping 
+
+'V 
+
+reactions  could  lead  to  NF  production.  However,  we  never 
+
+* 
+
+detected  any  NF  spectroscopically  [LEE76J  and  concluded  that 
+
+& 
+
+NF  + alkali  reactions  were  also  probably  rapid.  In  contrast, 
+work  at  UCSB  on  aluminum  + NF^  did  yield  weak  NF  emission  [r76]. 
+
+• The  H + NF^  system  being  studied  at  Aerospace  Corporation 
+[HC73]  deserves  more  work  in  view  of  the  reported  high  yields 
+
+
+f 
+
+
+j 
+
+
+106 
+
+
+{ 
+
+f 
+
+
+i 
+
+
+r 
+
+
+! 
+
+
+1 13 
+
+of  NF(a  A)  in  the  reaction.  However,  the  gain  of  NF(a  A-»X  Z”) 
+
+is  extremely  low  because  of  the  long  radiative  lifetime,  and 
+
+selective  transfer  of  the  excitation  to  another  state  which 
+
+then  becomes  the  upper  laser  level  may  be  difficult. 
+
+
+I 
+
+
+107 
+
+
+4.  CONCLUSIONS 
+
+
+It  is  our  conclusion  that  achievement  of  a visible  chemical  laser 
+in  the  near  future  is  possible  but  unlikely.  Furthermore,  development 
+of  a practical  device  as  opposed  to  a laboratory  tool  will  be  particularly 
+difficult  because  of  the  problems  inherent  in  generating  and  handling 
+metal  atoms  and  metal  oxides  or  metal  halides  as  required  in  most  of  the 
+candidate  systems  now  under  study.  Thus,  ARPA  should  be  aware  that  the 
+time  scale  for  chemical  laser  development  is  considerably  longer  than 
+for  electron-beam  or  discharge-pumped  systems. 
+
+The  data  base  for  understanding  of  chemiluminescent  reactions  has 
+been  greatly  increased  during  this  research,  and  several  important  new 
+diagnostic  methods  for  studying  these  reactions  have  recently  been 
+developed.  While  we  cannot  claim  to  understand  any  one  reaction  system, 
+it  seems  that  the  necessary  tools  and  much  of  the  required  information 
+are  rapidly  being  assembled.  We  believe  that  it  is  worthwhile  to 
+continue  the  basic  research  aspects  of  this  program  with  the  goal  of 
+advancing  our  understanding  of  exothermic  reaction  dynamic.'!  and,  ultimately 
+of  achieving  a visible  chemical  laser. 
+
+
+REFERENCES 
+Part  II 
+
+AE76  C.  M.  Ablow  and  D.  J.  Eckstrom,  "Numerical  Solutions  of  the 
+
+Spherical  Diffusion  Flame  with  Application  to  Chemiluminescence 
+Studies,"  (to  be  published). 
+
+BLE74  G.  Black,  M.  Luria,  D.  J.  Eckstrom,  S.  A.  Edelstein,  and  S.  W. 
+Benson,  J.  Chem.  Phys . 60,  3709  (1974). 
+
+BSH76  D.  J.  Benard,  W.  D.  Slafer,  and  J.  Hecht,  Third  Summer 
+
+Colloquium  on  Electronic  Transition  Lasers,  Snowmass- in-Aspen, 
+Colorado  (September  1976);  submitted  to  J.  Chem.  Phys. 
+
+C76  T.  A.  Cool,  Cornell  University  (private  communication). 
+
+EBH76  D.  J.  Ecksurom,  J.  R.  Barker,  J.  G.  Hawley,  and  J.  P.  Reilly, 
+"Intracavity  Dye  Laser  Spectroscopy  Studies  of  the  Ba  + i^O, 
+
+Ca  + ^0  + CO,  and  Sr  + N^O  + CO  Reactions,"  (to  be  published). 
+
+EEB74a  D.  J.  Eckstrom,  S.  A.  Edelstein,  S.  W.  Benson,  G.  Black,  and 
+M.  Luria,  Technical  Report  RK-CR-73-6,  Contract  DAAH01-73-C- 
+0444. 
+
+EEB74b  D.  J.  Eckstrom,  S.  A.  Edelstein,  and  S.  W.  Benson,  J.  Chem. 
+Phys.  60,  2930  (1974). 
+
+EEH74  D.  J.  Eckstrom,  S.  A.  Edelstein,  D.  L.  Huestis,  B.  E.  Perry, 
+and  S.  W.  Benson,  (a)  Semiannual  Technical  Report  No.  1, 
+
+August  1974;  (b)  Semiannual  Technical  Report  No.  2,  April  1975; 
+(c)  Semiannual  Technical  Report  No.  3,  September  1975, 
+
+Contract  DAAH01-74-C-0524 . 
+
+EEH75  D.  J.  Eckstrom,  S.  A.  Edelstein,  D.  L Huestis,  6.  E.  Perry, 
+and  S.  W.  Benson,  J.  Chem.  Phys.  ^3,  3828  (1975). 
+
+EEP74  S.  A.  Edelstein,  D.  J.  Eckstrom,  B.  E.  Perry,  and  S.  W.  Benson, 
+J.  Chem.  Phys.  61,  4932  (1974). 
+
+EH76  D.  J.  Eckstrom  and  D.  L.  Huestis,  "Analytical  Modeling  of 
+
+Vibrational  Distributions  of  BaO(X^S)  in  the  Ba  + N2O  Reaction 
+and  Comparison  with  E.periment,"  (to  be  published). 
+
+EL76  D.  J.  Eckstrom  and  M.  Lev-On,  Final  Technical  Report,  Contract 
+
+AT(04-3) -115 , Project  Agreement  No.  98,  October  1976. 
+
+
+109 
+
+
+EPE76  D.  J.  Eckstrom,  B.  E.  Perry,  and  S.  A.  Edelstein,  "Heat-Pipe-Oven- 
+Reactor  Studies.  IV.  BaO*  and  Ba  Emission  from  the  Ba  + N£0 
+Reaction  as  a Function  of  Ba  Concentration,"  (to  be  published). 
+
+EPP76  D.  J.  Eckstrom,  S.  G.  Prakash,  B.  E.  Perry,  and  S.  W.  Benson, 
+Semiannual  Technical  Report  No.  4B,  Contract  DAAH01-74-C-0524, 
+
+May  1976. 
+
+F76  W.  Felder,  AeroChem  Corporation  (private  communication) . 
+
+FGF75  W.  Felder,  R.  K.  Gould,  and  A.  Fontijn,  AeroChem  TP-325, 
+
+July  1975. 
+
+HC73  J.  M.  Herbelin  and  N.  Cohen,  Chem.  Phys . Lett.  20,  605  (1973); 
+
+D.  J.  Spencer,  J.  M.  Herbelin,  and  M.  A.  Kwok,  Third  Summer 
+Colloquium  on  Electronic  Transition  Lasers,  Snowmass,  CO, 
+
+September  1976. 
+
+JSW74  S.  E.  Johnson,  P.  B.  Scott,  and  G.  Watson,  J.  Chem.  Phys.  6_1,  2834 
+(1974) . 
+
+LEB76a  M.  Luria,  D.  J.  Eckstrom,  and  S.  W.  Benson,  AFWL-TR-75-194, 
+
+Final  Technical  Report,  Contract  F29601-74-C-0071 , March  1976. 
+
+LEB76b  M.  Luria,  D.  J.  Eckstrom,  and  S.  W.  Benson,  J.  Chem.  Phys.  64, 
+
+3103  (1976). 
+
+LEB76c  M.  Luria,  D.  J.  Eckstrom,  and  S.  W.  Benson,  J.  Chem.  Phys.  64, 
+
+1595  (1976). 
+
+LEB76d  M.  Luria,  D.  J.  Eckstrom,  and  S.  W.  Benson,  J.  Chem.  Phys.  65, 
+
+1581  (1976). 
+
+LEE76  M.  Luria,  D.  J.  Eckstrom,  S.  A.  Edelstein,  B.  E.  Perry,  and  S.  W. 
+Benson,  J.  Chem.  Phys.  64,  2247  (1976). 
+
+R76  S.  Rosenwaks,  J.  Chem.  Phys.  65,  3668  (1976). 
+
+RWH76  M.  A.  Revelli,  B.  G.  Wicke,  and  D.  0.  Harris,  Chem.  Phys. 
+
+Lett.  39,  454  (1976);  J.  Chem.  Phys.  (to  be  published). 
+
+VDK76  A.  Y.  Volkov,  A.  I.  Dyomin,  E.  M.  Kudryavtsev,  and  N.  N. 
+
+Sobolev,  in  Electronic  Transition  Lasers,  edited  by 
+J.  1.  Steinfeld,  MIT  Press,  1976. 
+
+
+110 
+
+
+WBF76 
+
+
+J.  Wilson,  J.  Bouesc,  B.  Fontaine,  and  B.  Forestier,  in 
+Electronic  Transition  Lasers,  edited  by  J.  I.  Steinfeld, 
+MIT  Press,  1976. 
+
+
+Ill 
+
+

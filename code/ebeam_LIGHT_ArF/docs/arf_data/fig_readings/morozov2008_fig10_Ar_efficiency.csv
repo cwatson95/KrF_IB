@@ -1,0 +1,26 @@
+# Morozov et al., J. Appl. Phys. 103, 103301 (2008), Fig. 10 Ar panel p.103301-7: VUV efficiency (4pi emitted over deposited) vs pressure; two symbol sets not separated
+# survey reading of the PDF at 300 dpi; systematic +-0.04 (paper)
+p_hPa,efficiency
+151,0.228
+199,0.275
+199,0.260
+248,0.283
+299,0.306
+399,0.303
+402,0.312
+500,0.313
+598,0.321
+598,0.304
+698,0.325
+698,0.310
+801,0.328
+900,0.327
+900,0.318
+1000,0.327
+1100,0.326
+1199,0.337
+1199,0.324
+1299,0.338
+1299,0.324
+1399,0.332
+1399,0.323

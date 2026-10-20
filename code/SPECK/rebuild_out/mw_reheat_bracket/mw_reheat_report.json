@@ -1,0 +1,74 @@
+{
+  "preset": "krf_arpa_mw",
+  "baseline": {
+    "E_beam_dep_J": 554.0589943934143,
+    "E_laser_J": 11.953936609937715,
+    "eta_intrinsic": 0.021575205403938844,
+    "g0_peak_m1": 1.9541558313852203,
+    "ne_at_window_start_m3": 2.7081210355226123e+20,
+    "ne_at_window_end_m3": 37888412643328.0,
+    "Tg_end_K": 354.5791956906076,
+    "regime": "mode=krf drive=beam grid=1x1x1 (1 cells, 169 reactions) 2 atm | beam yields via spencer_fano, sub-table rates = MEASURED relax curves (F-,el:Ar,el:F2,el:Kr,vib; <eps> in-coverage 100%, below it the taper extrapolates from the measured floor) | drive 5.541e+02 J, laser 1.195e+01 J (eta 2.16%) | ledger residual max 9.10e-13 | validity: ionization 3.6e-05 of N, F2 burn 43.7%, <eps> in-table 8% | wall 11.9 s | cells are independent reactors (no inter-cell transport; coarse device grid, not a PIC grid)"
+  },
+  "window_ns": [
+    130.0,
+    300.0
+  ],
+  "feed_budget_W": 1000000.0,
+  "scan": [
+    {
+      "mw_power_W": 100000000.0,
+      "E_MW_absorbed_J": 15.999032173439673,
+      "E_MW_quad_J": 15.999101142085475,
+      "E_injected_J": 16.0,
+      "absorbed_frac": 0.9999395108399796,
+      "en_window_start_td": 0.001,
+      "en_window_end_td": 1.9411369003181163,
+      "E_laser_J": 11.800201381348879,
+      "dE_laser_J": -0.15373522858883604,
+      "marginal_eff": -0.009609033029138793,
+      "eta_intrinsic": 0.020700000405949905,
+      "Te_peak_window_eV": 3.286759815344027,
+      "ne_window_end_m3": 2.9484921971949154e+19,
+      "within_1MW_budget": false,
+      "validity": {
+        "mw_power_W": 100000000.0,
+        "mw_window_ns": [
+          130.0,
+          300.0
+        ],
+        "mw_en_max_td": 300.0,
+        "mw_eps_swarm_at_cap_eV": 8.3772812204815,
+        "mw_nu_over_omega_at_cap": 163.7964018944369,
+        "mw_cap_in_table": false
+      }
+    },
+    {
+      "mw_power_W": 1000000000.0,
+      "E_MW_absorbed_J": 159.98455446936214,
+      "E_MW_quad_J": 159.98267823759824,
+      "E_injected_J": 160.0,
+      "absorbed_frac": 0.9999034654335134,
+      "en_window_start_td": 0.001,
+      "en_window_end_td": 1.4847141412977534,
+      "E_laser_J": 11.749873656487345,
+      "dE_laser_J": -0.20406295345036973,
+      "marginal_eff": -0.001275516590505922,
+      "eta_intrinsic": 0.01645540202022806,
+      "Te_peak_window_eV": 3.1499357520526488,
+      "ne_window_end_m3": 3.824628196758374e+20,
+      "within_1MW_budget": false,
+      "validity": {
+        "mw_power_W": 1000000000.0,
+        "mw_window_ns": [
+          130.0,
+          300.0
+        ],
+        "mw_en_max_td": 300.0,
+        "mw_eps_swarm_at_cap_eV": 8.3772812204815,
+        "mw_nu_over_omega_at_cap": 163.7964018944369,
+        "mw_cap_in_table": false
+      }
+    }
+  ]
+}

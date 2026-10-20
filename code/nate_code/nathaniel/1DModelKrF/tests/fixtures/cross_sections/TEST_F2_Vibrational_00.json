@@ -1,0 +1,30 @@
+{
+  "schema": "cross-section-metadata/1.1",
+  "data_file": "TEST_F2_Vibrational_00.csv",
+  "data_kind": "total",
+  "process_id": "TEST__F2__Vibrational__00",
+  "reaction": "e- + F2 -> e- + F2 (V=1)",
+  "type": "Vibrational",
+  "category": "Vibrational",
+  "projectile": "e",
+  "target": "F2",
+  "threshold": 0.109,
+  "n_points": 4,
+  "complete_set": false,
+  "axes": {
+    "x_quantity": "Energy",
+    "y_quantity": "Cross section"
+  },
+  "units": {
+    "x": "eV",
+    "y": "m^2"
+  },
+  "source_units": {
+    "x": "eV",
+    "y": "m^2"
+  },
+  "conversion_from_source": {
+    "x": 1,
+    "y": 1
+  }
+}

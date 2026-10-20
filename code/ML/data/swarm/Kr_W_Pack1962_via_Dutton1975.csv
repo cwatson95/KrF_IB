@@ -1,0 +1,56 @@
+# Pure krypton: electron drift velocity W versus E/N (MEASURED, printed values)
+# Original measurement: J. L. Pack, R. E. Voshall and A. V. Phelps, Phys. Rev. 127, 2084 (1962)
+# Transcribed from: J. Dutton, "A survey of electron swarm data", J. Phys. Chem. Ref. Data 4, 577 (1975)
+#   Table 1.9(a) "Values of W for krypton at ambient temperatures and above" and
+#   Table 1.9(b) "Values of W for krypton at 195 K", journal page 615 (PDF page 39 of srd.nist.gov/JPCRD/jpcrd69.pdf)
+# Gas / conditions: pure Kr; T_gas = 300 K (key a), 368 K (key b), 195 K (Table 1.9b). Pressure not given in the table.
+# Units: E/N in Td (1 Td = 1e-17 V cm^2, the table's unit); W in cm/s (table unit 1e5 cm/s, multiplied out here)
+# Uncertainty: not stated in Dutton's table. Dutton (sec. 3.1.g) calls these the most reliable Kr data for E/N < 4 Td
+#   and states that no other published W values for Kr existed for higher E/N as of 1972.
+# Values: PRINTED in the source (not digitized). Transcribed from the page image and checked visually.
+# NOTE: the table prints W = 1.04e5 at both 0.02772 and 0.0306 Td, and W = 2.51e5 at both 1.786 and 2.440 Td;
+#   copied as printed (possible typos in the compilation; the original Pack et al. table was not accessible).
+# Coverage vs. the requested 1-1000 Td: only the 4 points at 1.53-3.06 Td lie inside it. Above ~1.5 Td these values
+#   are 5-21 % higher than the digitized Nakamura (1991) W (file Kr_W_NDL_Nakamura1991_JPSabstract_digitized.csv).
+E_N_Td,W_cm_per_s,T_gas_K,dutton_key
+0.000791,1.08e3,300,a
+0.000924,1.28e3,300,a
+0.001525,2.26e3,368,b
+0.002144,3.1e3,368,b
+0.00306,4.2e3,368,b
+0.00308,3.6e3,300,a
+0.00458,5.8e3,300,a
+0.00461,6.6e3,368,b
+0.00617,8.5e3,300,a
+0.00622,9.5e3,368,b
+0.00774,1.06e4,300,a
+0.00918,1.33e4,300,a
+0.01254,2.10e4,300,a
+0.01550,3.3e4,300,a
+0.01712,4.2e4,300,a
+0.01838,5.1e4,300,a
+0.02118,6.2e4,300,a
+0.02440,8.6e4,300,a
+0.02772,1.04e5,300,a
+0.0306,1.04e5,300,a
+0.0758,1.27e5,300,a
+0.1496,1.34e5,300,a
+0.304,1.57e5,300,a
+0.609,1.78e5,300,a
+0.892,2.00e5,300,a
+1.53,2.30e5,300,a
+1.786,2.51e5,300,a
+2.440,2.51e5,300,a
+3.06,3.2e5,300,a
+0.001210,1.58e3,195,table1.9b
+0.001561,1.74e3,195,table1.9b
+0.001851,2.38e3,195,table1.9b
+0.00308,3.8e3,195,table1.9b
+0.00465,5.2e3,195,table1.9b
+0.00617,6.9e3,195,table1.9b
+0.00918,1.09e4,195,table1.9b
+0.01236,1.62e4,195,table1.9b
+0.01891,4.0e4,195,table1.9b
+0.02475,8.0e4,195,table1.9b
+0.0442,1.19e5,195,table1.9b
+0.0924,1.27e5,195,table1.9b

@@ -1,0 +1,80 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+%   SWARM ANALYSIS CO2   %
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+workingConditions:
+  reducedElecField: [1,10,50,100,1000]        % in Td
+  gasPressure: 133.32                         % in Pa
+  gasTemperature: 300                         % in K
+  excitationFrequency: 0                      % in Hz
+  elecFieldAngle: 180                         % in degrees
+  reducedMagField: 0                          % in Hx
+
+% --- configuration of the electron kinetics ---
+electronKinetics:
+  isOn: true               % true or false 
+  eedfType: boltzmannMC    % boltzmannMC or prescribedEedf
+  ionizationOperatorType: usingSDCS % oneTakesAll, equalSharing, usingSDCS or randomUniform
+  LXCatFiles:            % cross section files
+    - CO2/CO2_LXCat.txt
+  effectiveCrossSectionPopulations:   % see doc
+    - CO2/CO2_effectivePop.txt
+  gasProperties:         % properties of the gases (S.I. Units)
+    mass: Databases/masses.txt
+    fraction:
+      - CO2 = 1.0 
+%     harmonicFrequency: Databases/harmonicFrequencies.txt
+%     anharmonicFrequency: Databases/anharmonicFrequencies.txt
+%     rotationalConstant: Databases/rotationalConstants.txt
+%     electricQuadrupoleMoment: Databases/quadrupoleMoment.txt
+    OPBParameter: Databases/OPBParameter.txt
+  stateProperties:       % properties of the states (S.I. Units except for the energy [eV])
+    statisticalWeight:
+      - CO2(X,v=000) = 1
+      - CO2(X,v=010) = 2
+      - CO2(X,v=020) = 3
+      - CO2(X,v=100) = 1
+      - CO2(X,v=001) = 1
+      - CO2(X,v=030+110) = 6
+      - CO2(X,v=040+120+011) = 10
+      - CO2(X,v=200) = 1
+      - CO2(X,v=050+210+130+021+101) = 16
+      - CO2(X,v=300) = 1
+      - CO2(X,v=060+220+140) = 15
+    population:
+      - CO2(X) = 1.0
+      - CO2(X,v=000) = 0.9254 
+      - CO2(X,v=010) = 0.0746 
+  numericsMC:
+    nElectrons: 2E4                         % number of electrons in the ensemble
+    gasTemperatureEffect: smartActivation   % false, true or smartActivation
+    nIntegrationPoints: 1E4                 % number of integration points after the steady-state is reached
+    nIntegratedSSTimes: 3                   % integrated time, given as multiples of the steady-state time
+
+% --- configuration of the graphical user interface ---
+gui: 
+  isOn: true
+  plotOptions:
+    - MCTemporalInfo
+    - MCTemporalInfo_periodic
+    - distributionFunctions
+    - swarmParameters
+    - powerBalance
+  terminalDisp:
+    - setup
+    - MCStatus
+
+% ---  configuration of the output files ---
+output: 
+  isOn: true
+  folder: swarm_CO2_short
+  dataFiles:
+    - eedf
+%    - evdf
+    - swarmParameters
+    - rateCoefficients
+    - powerBalance
+    - MCSimDetails
+%    - MCTemporalInfo
+    - MCTemporalInfo_periodic
+    - lookUpTable

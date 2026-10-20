@@ -1,0 +1,15 @@
+# Python
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# macOS
+.DS_Store
+
+# LaTeX build files (the PDFs are the deliverables and stay)
+*.aux
+*.log
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+overview/build/

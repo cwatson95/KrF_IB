@@ -1,0 +1,64 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%   krf0d-generated swarm analysis: Kr/F2/He mixture
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+workingConditions:
+  gasPressure: 133.32            % Pa (swarm coeffs are E/N-normalised)
+  gasTemperature: 300       % K
+  reducedElecField: [10,15,20,25,30,35,40,45,50,55,60,65,70,75,80,100,150,200]      % in Td
+  reducedMagField: 0
+  elecFieldAngle: 180
+  excitationFrequency: 0
+
+electronKinetics:
+  isOn: true
+  eedfType: boltzmannMC
+  ionizationOperatorType: equalSharing
+  LXCatFiles:
+    - Krypton/Kr_LXCat.txt
+    - Fluorine2/F2_LXCat.txt
+    - Helium/He_LXCat.txt
+
+  gasProperties:
+    mass: Databases/masses.txt
+    fraction:
+      - Kr = 0.095
+      - F2 = 0.005
+      - He = 0.9
+    harmonicFrequency: Databases/harmonicFrequencies.txt
+    anharmonicFrequency: Databases/anharmonicFrequencies.txt
+    rotationalConstant: Databases/rotationalConstants.txt
+    electricQuadrupoleMoment: Databases/quadrupoleMoment.txt
+    OPBParameter: Databases/OPBParameter.txt
+
+  stateProperties:
+    population:
+      - Kr = 1
+      - F2 = 1
+      - He = 1
+    statisticalWeight:
+      - Kr = 1
+      - F2 = 1
+      - He = 1
+
+  numericsMC:
+    nElectrons: 2E4
+    gasTemperatureEffect: smartActivation
+    nIntegrationPoints: 1E4
+    nIntegratedSSTimes: 3
+
+chemistry:
+  isOn: false
+
+gui:
+  isOn: false
+
+output:
+  isOn: true
+  folder: krf0d_F2005_He900_Kr095
+  dataFiles:
+    - eedf
+    - swarmParameters
+    - rateCoefficients
+    - powerBalance
+    - lookUpTable

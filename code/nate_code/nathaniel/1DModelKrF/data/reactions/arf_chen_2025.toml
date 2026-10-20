@@ -1,0 +1,50 @@
+# REPRODUCTION ONLY — printed Chen et al. (2025) Table III values.
+#
+# This overlay deliberately restores the paper's printed values/products where arf.toml applies
+# a cited physical correction, and disables post-publication/cited additions absent from Table III.
+# It is not the production chemistry model.  The loader expands this overlay against arf.toml so
+# shared rows, identifiers, units, and cross-section bindings cannot silently drift.
+
+base_network = "arf.toml"
+reproduction_only = true
+disable_reactions = ["R21b", "R29c"]
+
+[[override]]
+id = "R13"
+K0 = 2.08e-8
+
+[[override]]
+id = "R14"
+K0 = 5.61e-9
+
+[[override]]
+id = "R19"
+te_power = 0.5
+
+[[override]]
+id = "R23"
+k = 2.5e-43
+
+[[override]]
+id = "R24"
+k = 4.0e-40
+
+[[override]]
+id = "R26"
+products = "Ne+ + 2 Ar"
+
+[[override]]
+id = "R30"
+k = 9.1e-13
+
+[[override]]
+id = "R31"
+k = 9.26e-13
+
+[[override]]
+id = "R36"
+k = 3.5e-45
+
+[[override]]
+id = "R39"
+products = "Ar + hv95"

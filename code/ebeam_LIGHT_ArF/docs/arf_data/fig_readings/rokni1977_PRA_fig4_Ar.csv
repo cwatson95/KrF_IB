@@ -1,0 +1,19 @@
+# Rokni et al. PRA 16, 2216 (1977), Fig. 4 p.2219: ArF fluorescence (relative) vs Ar, 2 Torr F2, 5 A/cm2; not normalised to deposition
+# survey reading of the PDF at 300 dpi; +-2 units
+ar_atm,I_rel
+0.243,109.2
+0.243,102.8
+0.494,198.9
+0.494,194.1
+0.748,235.7
+0.999,264.0
+1.001,255.5
+1.258,259.7
+1.501,244.2
+1.503,254.9
+1.997,233.6
+2.000,227.2
+2.502,214.9
+3.009,204.7
+3.501,183.9
+4.003,178.6

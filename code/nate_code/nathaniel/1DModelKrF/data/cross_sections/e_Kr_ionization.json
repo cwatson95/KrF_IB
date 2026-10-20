@@ -1,0 +1,44 @@
+{
+  "schema": "cross-section-metadata/1.1",
+  "generated_utc": "2026-07-04T02:51:37Z",
+  "source": "LXCat, www.lxcat.net; NIST Electron-Impact Cross Section Database (SRD 107), https://dx.doi.org/10.18434/T4KK5C; LXCat, www.lxcat.net (SIGLO & Morgan databases); GitHub mirror lindsayad/pythonForBolos/LXCat-June2013.txt; IAEA AMDIS CollisionDB, https://db-amdis.org/collisiondb/; MPI-Mainz UV/VIS Spectral Atlas, https://uvvis.mpch-mainz.gwdg.de/; K.S. Jancaitis, LLNL UCRL-53465 (1983), Table II",
+  "data_file": "e_Kr_ionization.csv",
+  "data_kind": "total",
+  "process_id": "e_Kr_ionization",
+  "database": "SIGLO database (LXCat)",
+  "reaction": "E + Kr -> E + E + Kr+",
+  "type": "Ionization",
+  "category": "Ionization",
+  "family": "Electron",
+  "projectile": "e",
+  "target": "Kr",
+  "mass_ratio_m_over_M": null,
+  "ion_mass_amu": null,
+  "ion_mass_ratio": null,
+  "stat_weight_ratio": null,
+  "complete_set": false,
+  "param_raw": "threshold energy = 14.0",
+  "comment": "IONISATION (taken from poster figure) Krypton set distributed via the SIGLO database on LXCat, digitized from H. Date, Y. Sakai & H. Tagashira, J. Phys. D 22, 1478 (1989) (Nov 2012). Cross section already in m^2. Retrieved from the GREPHE/LAPLACE LXCat export 'LXCat-June2013.txt' (downloaded 4 Jun 2013), public GitHub mirror lindsayad/pythonForBolos. Re-pull from lxcat.net for canonical provenance. Digitized curve; (E,sigma) pairs sorted by energy.",
+  "updated": "2012-10-12 09:34:55",
+  "n_points": 220,
+  "threshold": 14,
+  "axes": {
+    "x_quantity": "Energy",
+    "y_quantity": "Cross section"
+  },
+  "units": {
+    "x": "eV",
+    "y": "cm^2"
+  },
+  "source_units": {
+    "x": "eV",
+    "y": "m^2"
+  },
+  "conversion_from_source": {
+    "x": 1,
+    "y": 10000
+  },
+  "x_min": 14,
+  "x_max": 962.51,
+  "y_max": 4.1467e-16
+}

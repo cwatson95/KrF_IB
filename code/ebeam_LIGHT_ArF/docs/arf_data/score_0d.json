@@ -1,0 +1,1961 @@
+{
+ "model": "LIGHT_ArF_ebeam v0_2",
+ "chemistry_md5": {
+  "model.py": "437b0c6e23a167dd1a74b61648276252",
+  "network.py": "6e993849a0ed218a40ea6437def51b4d",
+  "species.py": "9b0879e84013eff94858aa65104a5f19",
+  "xsec.py": "5ef7969005120cc58c54fc75fd9596b6",
+  "data/ar_tail_ratio.txt": "6e5fabde6aaf46750aff7de176c7f35b",
+  "beam.py": "1d44bb31a800fdd5a0543330597fb902"
+ },
+ "tests": {
+  "electra_formation": {
+   "kind": "device",
+   "doc": "Electra (Wolford 2020 p.2, Obenschain 2020 p.7): 0.82 atm, 0.3 % F2, 1.09 MW/cc: g0 3.21 %/cm, Isat 10 MW/cm2, so g0 Isat / P = 0.29, the ArF(B) formation efficiency (hv times the B loss rate, which is its formation rate at the quasi-steady peak). Petrova's Fig. 7 plots the same point at 0.90 MW/cc: 0.36.",
+   "own": [
+    {
+     "x": 1.09,
+     "measured": 0.29449541284403663,
+     "model": 0.1888844510534507,
+     "state": {
+      "eff": 0.1888844510534507,
+      "nB": 262503760019824.3,
+      "te": 4.066867977454924,
+      "ne": 478859460806670.0,
+      "f2_left": 0.4936726598737851
+     }
+    },
+    {
+     "x": 0.9,
+     "measured": 0.35666666666666663,
+     "model": 0.1969765204991024,
+     "state": {
+      "eff": 0.1969765204991024,
+      "nB": 228055023777928.34,
+      "te": 4.390650759997627,
+      "ne": 381102018210910.75,
+      "f2_left": 0.5648168746270265
+     }
+    }
+   ],
+   "beam": [
+    {
+     "x": 1.09,
+     "measured": 0.29449541284403663,
+     "model": 0.24763646919814183,
+     "state": {
+      "eff": 0.24763646919814183,
+      "nB": 259538021782460.2,
+      "te": 1.6091114473411006,
+      "ne": 2334533588900076.5,
+      "f2_left": 0.4995404619981145
+     }
+    },
+    {
+     "x": 0.9,
+     "measured": 0.35666666666666663,
+     "model": 0.25828817039976787,
+     "state": {
+      "eff": 0.25828817039976787,
+      "nB": 235442056047420.94,
+      "te": 1.6350390067852274,
+      "ne": 1909180893145830.5,
+      "f2_left": 0.5702926897071243
+     }
+    }
+   ]
+  },
+  "electra_yield_band": {
+   "kind": "sensitivity",
+   "doc": "Sensitivity, not a score of the defaults: Electra's formation efficiency with the ArF* yield of Ar* + F2 at the top of its band, 1.0 (every published ArF model's value), against the measured 0.29. The default, 0.5, is Setser's low-pressure measurement.",
+   "own": [
+    {
+     "x": 1.09,
+     "measured": 0.29449541284403663,
+     "model": 0.35145923775690496,
+     "state": {
+      "eff": 0.35145923775690496,
+      "nB": 489425867734836.25,
+      "te": 4.052599484938801,
+      "ne": 481498910058516.0,
+      "f2_left": 0.4784454281807559
+     }
+    }
+   ],
+   "beam": [
+    {
+     "x": 1.09,
+     "measured": 0.29449541284403663,
+     "model": 0.31722279235747936,
+     "state": {
+      "eff": 0.31722279235747936,
+      "nB": 331937941117033.6,
+      "te": 1.60856620396689,
+      "ne": 2338701224544559.5,
+      "f2_left": 0.494742968835834
+     }
+    }
+   ]
+  },
+  "electra_gain_trend": {
+   "kind": "device",
+   "doc": "Electra single pass, 30-cm cathode (NRL ArF report p.8): g0 1.84, 1.77, 1.29 %/cm at (0.82 atm, 0.395 MW/cc), (1.09, 0.497), (1.36, 0.583). The ratios to the first point need no cross section; the model's are its ArF(B) density ratios. g0 with Lee's calculated 2.75e-16 cm2 is given as information.",
+   "own": [
+    {
+     "x": 0.82,
+     "measured": 1.0,
+     "model": 1.0,
+     "g0_calc_pct_cm": 3.042423913899199,
+     "g0_meas_pct_cm": 1.84,
+     "state": {
+      "eff": 0.2141874653492848,
+      "nB": 110633596869061.78,
+      "te": 6.295985395779465,
+      "ne": 151302325739535.47,
+      "f2_left": 0.7883252266804345
+     }
+    },
+    {
+     "x": 1.09,
+     "measured": 0.9619565217391304,
+     "model": 0.991065499849848,
+     "g0_calc_pct_cm": 3.015241376983641,
+     "g0_meas_pct_cm": 1.77,
+     "state": {
+      "eff": 0.22522148572291592,
+      "nB": 109645140981223.3,
+      "te": 7.305629532520019,
+      "ne": 143634066915126.5,
+      "f2_left": 0.7845209005763532
+     }
+    },
+    {
+     "x": 1.36,
+     "measured": 0.7010869565217391,
+     "model": 0.9209575567062163,
+     "g0_calc_pct_cm": 2.80194329420917,
+     "g0_meas_pct_cm": 1.29,
+     "state": {
+      "eff": 0.2317942012974375,
+      "nB": 101888847062151.64,
+      "te": 8.325278504162423,
+      "ne": 135637165612156.08,
+      "f2_left": 0.7886405095393729
+     }
+    }
+   ],
+   "beam": [
+    {
+     "x": 0.82,
+     "measured": 1.0,
+     "model": 1.0,
+     "g0_calc_pct_cm": 3.616883300287449,
+     "g0_meas_pct_cm": 1.84,
+     "state": {
+      "eff": 0.2854799322751094,
+      "nB": 131523029101361.8,
+      "te": 1.7310694456564009,
+      "ne": 844718066108225.5,
+      "f2_left": 0.7893658436135125
+     }
+    },
+    {
+     "x": 1.09,
+     "measured": 0.9619565217391304,
+     "model": 0.9883553833006563,
+     "g0_calc_pct_cm": 3.574766080609345,
+     "g0_meas_pct_cm": 1.77,
+     "state": {
+      "eff": 0.291319174288416,
+      "nB": 129991493840339.81,
+      "te": 1.7658178376304712,
+      "ne": 829368516439286.9,
+      "f2_left": 0.7895945556973264
+     }
+    },
+    {
+     "x": 1.36,
+     "measured": 0.7010869565217391,
+     "model": 0.9240142181932913,
+     "g0_calc_pct_cm": 3.342051595011479,
+     "g0_meas_pct_cm": 1.29,
+     "state": {
+      "eff": 0.29549127493466054,
+      "nB": 121529148909508.33,
+      "te": 1.7923587876545253,
+      "ne": 802257244010231.9,
+      "f2_left": 0.7953980705572768
+     }
+    }
+   ]
+  },
+  "electra_gain_pump": {
+   "kind": "device",
+   "doc": "Electra at 0.82 atm: 3.21 %/cm at 1.09 MW/cc (10-cm cathode, double pass) against 1.84 %/cm at 0.395 (30-cm, single pass): ratio 1.745. The two configurations differ, so this ratio carries their systematics.",
+   "own": [
+    {
+     "x": 2.759493670886076,
+     "measured": 1.7445652173913042,
+     "model": 2.372730955593042
+    }
+   ],
+   "beam": [
+    {
+     "x": 2.759493670886076,
+     "measured": 1.7445652173913042,
+     "model": 1.9733275879955605
+    }
+   ]
+  },
+  "keio_formation": {
+   "kind": "device",
+   "doc": "Keio (Lee et al. 1989 text p.2053 and Fig. 5(a)): 1 atm, 0.4 % F2, 65-ns pulse; g0 4.18 %/cm, Is 3.2 MW/cm2 (figure reading) at the printed 0.51 MW/cm3: g0 Is / P = 0.26 (NRL replots the point at 1.21 MW/cm3, which would make it 0.11).",
+   "own": [
+    {
+     "x": 0.51,
+     "measured": 0.2622745098039216,
+     "model": 0.22503898157471386,
+     "state": {
+      "eff": 0.22503898157471386,
+      "nB": 117386614997042.28,
+      "te": 7.310594200394261,
+      "ne": 141907946441965.6,
+      "f2_left": 0.8585502025380378
+     }
+    },
+    {
+     "x": 1.21,
+     "measured": 0.11054545454545454,
+     "model": 0.21794178336060419,
+     "state": {
+      "eff": 0.21794178336060419,
+      "nB": 267791808911335.8,
+      "te": 5.0055268930474615,
+      "ne": 357671808264379.7,
+      "f2_left": 0.6864986417908041
+     }
+    }
+   ],
+   "beam": [
+    {
+     "x": 0.51,
+     "measured": 0.2622745098039216,
+     "model": 0.29776066113845134,
+     "state": {
+      "eff": 0.29776066113845134,
+      "nB": 143949279860644.0,
+      "te": 1.836612638515343,
+      "ne": 726362482563282.5,
+      "f2_left": 0.8601788542260879
+     }
+    },
+    {
+     "x": 1.21,
+     "measured": 0.11054545454545454,
+     "model": 0.28317481129977934,
+     "state": {
+      "eff": 0.28317481129977934,
+      "nB": 293686402919108.8,
+      "te": 1.729710086668866,
+      "ne": 1682896881182462.2,
+      "f2_left": 0.6943726555523598
+     }
+    }
+   ]
+  },
+  "sandia_formation": {
+   "kind": "device",
+   "doc": "Sandia (Adams & Dillon 1991, abstract): about 5 MW/cm3, 963 Torr (953 Ar + 8 F2, second-hand), g0 12.1 %/cm, Is 6.7 MW/cm2: 0.16. The pulse length is not in the abstract: 30 ns, window 10-25 ns.",
+   "own": [
+    {
+     "x": 5.0,
+     "measured": 0.16214,
+     "model": 0.2245474285219055,
+     "state": {
+      "eff": 0.2245474285219055,
+      "nB": 712452639904368.5,
+      "te": 4.685234945004853,
+      "ne": 820947594641412.0,
+      "f2_left": 0.765889456461488
+     }
+    }
+   ],
+   "beam": [
+    {
+     "x": 5.0,
+     "measured": 0.16214,
+     "model": 0.29522041738401267,
+     "state": {
+      "eff": 0.29522041738401267,
+      "nB": 795343255766782.4,
+      "te": 1.8722575249406797,
+      "ne": 2906401698194107.0,
+      "f2_left": 0.7713871172413195
+     }
+    }
+   ]
+  },
+  "rokni_vs_ar": {
+   "kind": "shape",
+   "doc": "Rokni, Jacob & Mangano 1977 Fig. 4: 193-nm fluorescence at 2 Torr F2 and 5 A/cm2 against Ar, 300-ns pulse (steady state). The beam's deposition scales with the Ar density, 20 kW/cm3 per atm (an estimate, 18.8 by the drive's stopping power on a straight ray). Both curves are normalised at 1 atm. The Te column is the model's mean Te over 250-300 ns.",
+   "own": [
+    {
+     "x": 0.24,
+     "measured": 0.4080846968238691,
+     "model": 0.5519234463128061,
+     "te": 20.54939446547686
+    },
+    {
+     "x": 0.49,
+     "measured": 0.7564966313763234,
+     "model": 0.8637148758450381,
+     "te": 26.647854306295844
+    },
+    {
+     "x": 0.75,
+     "measured": 0.9074109720885466,
+     "model": 0.9804733454741922,
+     "te": 31.526241189937313
+    },
+    {
+     "x": 1.0,
+     "measured": 1.0,
+     "model": 1.0,
+     "te": 35.17687630559289
+    },
+    {
+     "x": 1.26,
+     "measured": 0.9998075072184792,
+     "model": 0.9716469101440471,
+     "te": 38.36952650415262
+    },
+    {
+     "x": 1.5,
+     "measured": 0.9607314725697786,
+     "model": 0.9287749639674232,
+     "te": 40.37854350454164
+    },
+    {
+     "x": 2.0,
+     "measured": 0.8870067372473531,
+     "model": 0.8240299365225731,
+     "te": 43.89438999210874
+    },
+    {
+     "x": 2.5,
+     "measured": 0.8273339749759384,
+     "model": 0.7277102668464048,
+     "te": 44.65516619964575
+    },
+    {
+     "x": 3.01,
+     "measured": 0.788065447545717,
+     "model": 0.6624483389716302,
+     "te": 43.80375610108721
+    },
+    {
+     "x": 3.5,
+     "measured": 0.7079884504331088,
+     "model": 0.6080949290500272,
+     "te": 43.3973975253914
+    },
+    {
+     "x": 4.0,
+     "measured": 0.6875842155919153,
+     "model": 0.556480262601261,
+     "te": 43.158414766906276
+    }
+   ],
+   "beam": [
+    {
+     "x": 0.24,
+     "measured": 0.4080846968238691,
+     "model": 0.5018445877911504,
+     "te": 2.2123891754953937
+    },
+    {
+     "x": 0.49,
+     "measured": 0.7564966313763234,
+     "model": 0.8117158655643647,
+     "te": 2.0888144875196315
+    },
+    {
+     "x": 0.75,
+     "measured": 0.9074109720885466,
+     "model": 0.9583762820517137,
+     "te": 1.9924801645369457
+    },
+    {
+     "x": 1.0,
+     "measured": 1.0,
+     "model": 1.0,
+     "te": 1.9183044520976469
+    },
+    {
+     "x": 1.26,
+     "measured": 0.9998075072184792,
+     "model": 0.9902932587285698,
+     "te": 1.8539346773357308
+    },
+    {
+     "x": 1.5,
+     "measured": 0.9607314725697786,
+     "model": 0.9586936831010462,
+     "te": 1.802618398896005
+    },
+    {
+     "x": 2.0,
+     "measured": 0.8870067372473531,
+     "model": 0.8707783151527648,
+     "te": 1.714095807897624
+    },
+    {
+     "x": 2.5,
+     "measured": 0.8273339749759384,
+     "model": 0.7833537897708627,
+     "te": 1.6425506882035148
+    },
+    {
+     "x": 3.01,
+     "measured": 0.788065447545717,
+     "model": 0.7053160471747184,
+     "te": 1.581029396828761
+    },
+    {
+     "x": 3.5,
+     "measured": 0.7079884504331088,
+     "model": 0.6412665793739524,
+     "te": 1.5306671788312907
+    },
+    {
+     "x": 4.0,
+     "measured": 0.6875842155919153,
+     "model": 0.5855160701372419,
+     "te": 1.4858438016172821
+    }
+   ]
+  },
+  "rokni_current_ratio": {
+   "kind": "shape",
+   "doc": "Rokni 1977 Fig. 5: the 193-nm fluorescence ratio for a x25 beam current change, about 25 at every pressure (the ion channel forms ArF* with branching near one). The Te columns are the model's mean Te over 250-300 ns at the full current and at 1/25 of it.",
+   "own": [
+    {
+     "x": 0.258,
+     "measured": 25.59,
+     "model": 26.958571092970836,
+     "te": 21.007803303873956,
+     "te_low": 94.24765776580762
+    },
+    {
+     "x": 1.01,
+     "measured": 26.61,
+     "model": 50.62904735363069,
+     "te": 35.31903974336782,
+     "te_low": 71.0155842025144
+    },
+    {
+     "x": 2.025,
+     "measured": 24.47,
+     "model": 52.069910899847045,
+     "te": 43.99379806356361,
+     "te_low": 55.12755606328165
+    },
+    {
+     "x": 3.53,
+     "measured": 24.31,
+     "model": 44.145043467587556,
+     "te": 43.3763058493336,
+     "te_low": 39.616612333632105
+    }
+   ],
+   "beam": [
+    {
+     "x": 0.258,
+     "measured": 25.59,
+     "model": 23.558158103258055,
+     "te": 2.201986588189041,
+     "te_low": 2.2199879961755906
+    },
+    {
+     "x": 1.01,
+     "measured": 26.61,
+     "model": 24.821355827541836,
+     "te": 1.9156141748819315,
+     "te_low": 1.9308291362165122
+    },
+    {
+     "x": 2.025,
+     "measured": 24.47,
+     "model": 24.69108262076034,
+     "te": 1.7101851091072864,
+     "te_low": 1.725210950695641
+    },
+    {
+     "x": 3.53,
+     "measured": 24.31,
+     "model": 24.618100379720115,
+     "te": 1.5278071246576286,
+     "te_low": 1.5488470659543767
+    }
+   ]
+  },
+  "jancaitis_scan": {
+   "kind": "shape",
+   "doc": "Jancaitis & Powell 1983 Fig. 3: peak ArF* and Ar2F* fluorescence against current density, 5 Torr F2 + 1500 Torr Ar, 50-ns pulse; the deposition is 25 mJ/cm3 per atm at 100 A/cm2 (0.5 MW/cm3 per atm). Each curve normalised at its point nearest 74 A/cm2. The Te column is the model's mean Te over 20-50 ns, the pulse after its start-up.",
+   "own": [
+    {
+     "x": 4.31,
+     "species": "ArF",
+     "measured": 0.03704545454545454,
+     "model": 0.0469443323167544,
+     "te": 19.4015057994509
+    },
+    {
+     "x": 10.18,
+     "species": "ArF",
+     "measured": 0.09840909090909089,
+     "model": 0.10669718818140343,
+     "te": 18.91117911195169
+    },
+    {
+     "x": 13.96,
+     "species": "ArF",
+     "measured": 0.1356060606060606,
+     "model": 0.15861775542713213,
+     "te": 18.621226759984566
+    },
+    {
+     "x": 31.2,
+     "species": "ArF",
+     "measured": 0.27954545454545454,
+     "model": 0.3989404693811357,
+     "te": 16.257767052534255
+    },
+    {
+     "x": 74.3,
+     "species": "ArF",
+     "measured": 1.0,
+     "model": 1.0,
+     "te": 11.276812990612337
+    },
+    {
+     "x": 185.8,
+     "species": "ArF",
+     "measured": 2.8863636363636362,
+     "model": 2.5196291913039004,
+     "te": 7.108071609044336
+    },
+    {
+     "x": 448.6,
+     "species": "ArF",
+     "measured": 6.833333333333333,
+     "model": 5.460925155474493,
+     "te": 4.645033731557387
+    },
+    {
+     "x": 562.0,
+     "species": "ArF",
+     "measured": 9.09090909090909,
+     "model": 6.5107719565919755,
+     "te": 4.211374959684062
+    },
+    {
+     "x": 4.31,
+     "species": "Ar2F",
+     "measured": 0.049201277955271565,
+     "model": 0.03305528002599268,
+     "te": 19.4015057994509
+    },
+    {
+     "x": 10.18,
+     "species": "Ar2F",
+     "measured": 0.12651757188498403,
+     "model": 0.10681181176639387,
+     "te": 18.91117911195169
+    },
+    {
+     "x": 13.96,
+     "species": "Ar2F",
+     "measured": 0.16751863684771034,
+     "model": 0.15948666367426562,
+     "te": 18.621226759984566
+    },
+    {
+     "x": 31.2,
+     "species": "Ar2F",
+     "measured": 0.3634717784877529,
+     "model": 0.40794025128920625,
+     "te": 16.257767052534255
+    },
+    {
+     "x": 72.6,
+     "species": "Ar2F",
+     "measured": 1.0,
+     "model": 1.0,
+     "te": 11.398781745647074
+    },
+    {
+     "x": 185.8,
+     "species": "Ar2F",
+     "measured": 2.0394036208732698,
+     "model": 2.5368685817324867,
+     "te": 7.108071609044336
+    },
+    {
+     "x": 430.0,
+     "species": "Ar2F",
+     "measured": 3.3333333333333335,
+     "model": 5.16944503205399,
+     "te": 4.732420475438522
+    },
+    {
+     "x": 540.0,
+     "species": "Ar2F",
+     "measured": 3.578274760383387,
+     "model": 5.967156330118597,
+     "te": 4.285253788227382
+    }
+   ],
+   "beam": [
+    {
+     "x": 4.31,
+     "species": "ArF",
+     "measured": 0.03704545454545454,
+     "model": 0.07143782064680787,
+     "te": 1.9960441576302659
+    },
+    {
+     "x": 10.18,
+     "species": "ArF",
+     "measured": 0.09840909090909089,
+     "model": 0.1415489691775068,
+     "te": 1.9884210040089974
+    },
+    {
+     "x": 13.96,
+     "species": "ArF",
+     "measured": 0.1356060606060606,
+     "model": 0.19371531479006568,
+     "te": 1.9820394859094987
+    },
+    {
+     "x": 31.2,
+     "species": "ArF",
+     "measured": 0.27954545454545454,
+     "model": 0.42947403325666167,
+     "te": 1.95030916679259
+    },
+    {
+     "x": 74.3,
+     "species": "ArF",
+     "measured": 1.0,
+     "model": 1.0,
+     "te": 1.8857903198806396
+    },
+    {
+     "x": 185.8,
+     "species": "ArF",
+     "measured": 2.8863636363636362,
+     "model": 2.312547347026691,
+     "te": 1.7907254464353357
+    },
+    {
+     "x": 448.6,
+     "species": "ArF",
+     "measured": 6.833333333333333,
+     "model": 4.666523089834222,
+     "te": 1.6834979687802119
+    },
+    {
+     "x": 562.0,
+     "species": "ArF",
+     "measured": 9.09090909090909,
+     "model": 5.467284385343183,
+     "te": 1.6546525847578215
+    },
+    {
+     "x": 4.31,
+     "species": "Ar2F",
+     "measured": 0.049201277955271565,
+     "model": 0.06445393595123808,
+     "te": 1.9960441576302659
+    },
+    {
+     "x": 10.18,
+     "species": "Ar2F",
+     "measured": 0.12651757188498403,
+     "model": 0.14791641370725725,
+     "te": 1.9884210040089974
+    },
+    {
+     "x": 13.96,
+     "species": "Ar2F",
+     "measured": 0.16751863684771034,
+     "model": 0.20147064818147176,
+     "te": 1.9820394859094987
+    },
+    {
+     "x": 31.2,
+     "species": "Ar2F",
+     "measured": 0.3634717784877529,
+     "model": 0.44292246854325273,
+     "te": 1.95030916679259
+    },
+    {
+     "x": 72.6,
+     "species": "Ar2F",
+     "measured": 1.0,
+     "model": 1.0,
+     "te": 1.8878323531360912
+    },
+    {
+     "x": 185.8,
+     "species": "Ar2F",
+     "measured": 2.0394036208732698,
+     "model": 2.3361646845543844,
+     "te": 1.7907254464353357
+    },
+    {
+     "x": 430.0,
+     "species": "Ar2F",
+     "measured": 3.3333333333333335,
+     "model": 4.2933798808853885,
+     "te": 1.6887805638214444
+    },
+    {
+     "x": 540.0,
+     "species": "Ar2F",
+     "measured": 3.578274760383387,
+     "model": 4.801658544359175,
+     "te": 1.6598246323536718
+    }
+   ]
+  },
+  "sri_vs_ar": {
+   "kind": "yield",
+   "doc": "SRI MP-76-99 Fig. 4: 193- and 290-nm photons per excited state made initially (ions + excited atoms, p.25) after a 3-ns Febetron pulse, 1 Torr F2, against Ar. Seeded start: 1e15 ions per atm (p.37), the beam drive's excited atoms per ion at the fill (0.39) and its secondaries' share (4.4 eV each) in the electron gas.",
+   "own": [
+    {
+     "x": 1.0,
+     "band": "193",
+     "measured": 0.3,
+     "model": 0.24155637763677865
+    },
+    {
+     "x": 2.0,
+     "band": "193",
+     "measured": 0.147,
+     "model": 0.1019680936665692
+    },
+    {
+     "x": 3.0,
+     "band": "193",
+     "measured": 0.124,
+     "model": 0.05581218496330619
+    },
+    {
+     "x": 5.0,
+     "band": "193",
+     "measured": 0.036,
+     "model": 0.024014930323820637
+    },
+    {
+     "x": 5.0,
+     "band": "193",
+     "measured": 0.027,
+     "model": 0.024014930323820637
+    },
+    {
+     "x": 7.0,
+     "band": "193",
+     "measured": 0.023,
+     "model": 0.013170783959964287
+    },
+    {
+     "x": 1.0,
+     "band": "290",
+     "measured": 0.419,
+     "model": 0.14549230330888366
+    },
+    {
+     "x": 2.0,
+     "band": "290",
+     "measured": 0.381,
+     "model": 0.24892314446969427
+    },
+    {
+     "x": 2.0,
+     "band": "290",
+     "measured": 0.513,
+     "model": 0.24892314446969427
+    },
+    {
+     "x": 3.0,
+     "band": "290",
+     "measured": 0.41,
+     "model": 0.30947800289832395
+    },
+    {
+     "x": 5.0,
+     "band": "290",
+     "measured": 0.348,
+     "model": 0.3721356987733182
+    },
+    {
+     "x": 5.0,
+     "band": "290",
+     "measured": 0.308,
+     "model": 0.3721356987733182
+    },
+    {
+     "x": 5.0,
+     "band": "290",
+     "measured": 0.182,
+     "model": 0.3721356987733182
+    },
+    {
+     "x": 7.0,
+     "band": "290",
+     "measured": 0.315,
+     "model": 0.3993554956108973
+    },
+    {
+     "x": 9.0,
+     "band": "290",
+     "measured": 0.298,
+     "model": 0.41201805111188006
+    }
+   ]
+  },
+  "sri_vs_f2": {
+   "kind": "yield",
+   "doc": "SRI MP-76-99 Fig. 11: the 193-nm yield against F2 at 1, 2, 5 atm.",
+   "own": [
+    {
+     "x": 0.48,
+     "ar_atm": 1.0,
+     "measured": 0.238,
+     "model": 0.2464463556014477
+    },
+    {
+     "x": 0.99,
+     "ar_atm": 1.0,
+     "measured": 0.298,
+     "model": 0.24166204288438614
+    },
+    {
+     "x": 1.99,
+     "ar_atm": 1.0,
+     "measured": 0.318,
+     "model": 0.22953951057690183
+    },
+    {
+     "x": 2.99,
+     "ar_atm": 1.0,
+     "measured": 0.278,
+     "model": 0.21685222900467835
+    },
+    {
+     "x": 3.99,
+     "ar_atm": 1.0,
+     "measured": 0.305,
+     "model": 0.20517247486107515
+    },
+    {
+     "x": 3.99,
+     "ar_atm": 1.0,
+     "measured": 0.286,
+     "model": 0.20517247486107515
+    },
+    {
+     "x": 6.0,
+     "ar_atm": 1.0,
+     "measured": 0.221,
+     "model": 0.18457894800931818
+    },
+    {
+     "x": 0.49,
+     "ar_atm": 2.0,
+     "measured": 0.105,
+     "model": 0.10500103274275735
+    },
+    {
+     "x": 0.98,
+     "ar_atm": 2.0,
+     "measured": 0.145,
+     "model": 0.10205627287618542
+    },
+    {
+     "x": 1.99,
+     "ar_atm": 2.0,
+     "measured": 0.124,
+     "model": 0.09887205299681914
+    },
+    {
+     "x": 3.0,
+     "ar_atm": 2.0,
+     "measured": 0.127,
+     "model": 0.09647400582247687
+    },
+    {
+     "x": 4.0,
+     "ar_atm": 2.0,
+     "measured": 0.123,
+     "model": 0.09418670030590728
+    },
+    {
+     "x": 4.0,
+     "ar_atm": 2.0,
+     "measured": 0.106,
+     "model": 0.09418670030590728
+    },
+    {
+     "x": 6.0,
+     "ar_atm": 2.0,
+     "measured": 0.117,
+     "model": 0.0897530355293962
+    },
+    {
+     "x": 0.5,
+     "ar_atm": 5.0,
+     "measured": 0.0188,
+     "model": 0.024022333038705882
+    },
+    {
+     "x": 1.0,
+     "ar_atm": 5.0,
+     "measured": 0.0334,
+     "model": 0.024014930323820637
+    },
+    {
+     "x": 0.99,
+     "ar_atm": 5.0,
+     "measured": 0.0258,
+     "model": 0.02402068562723844
+    },
+    {
+     "x": 1.0,
+     "ar_atm": 5.0,
+     "measured": 0.0237,
+     "model": 0.024014930323820637
+    },
+    {
+     "x": 1.5,
+     "ar_atm": 5.0,
+     "measured": 0.0265,
+     "model": 0.023698113653919845
+    },
+    {
+     "x": 2.0,
+     "ar_atm": 5.0,
+     "measured": 0.026,
+     "model": 0.023401115468881406
+    }
+   ]
+  },
+  "morozov_vuv": {
+   "kind": "pure",
+   "doc": "Morozov et al. 2008: pure-Ar VUV power into 4 pi over deposited power, 0.33 +- 0.04 at 500-1400 hPa (printed), independent of power; Fig. 10 points. LIGHT_ArF on pure Ar at a low pump (330 W/cm3 for 450 ns, as ML's pure-Kr check), photons counted to 20 us after the pulse.",
+   "own": [
+    {
+     "x": 151.0,
+     "measured": 0.228,
+     "model": 0.5114082759778188
+    },
+    {
+     "x": 199.0,
+     "measured": 0.2675,
+     "model": 0.6233566972334673
+    },
+    {
+     "x": 248.0,
+     "measured": 0.283,
+     "model": 0.6721913190374608
+    },
+    {
+     "x": 299.0,
+     "measured": 0.306,
+     "model": 0.6879532633389136
+    },
+    {
+     "x": 399.0,
+     "measured": 0.303,
+     "model": 0.6905159501974677
+    },
+    {
+     "x": 402.0,
+     "measured": 0.312,
+     "model": 0.6904410198928486
+    },
+    {
+     "x": 500.0,
+     "measured": 0.313,
+     "model": 0.687032295874289
+    },
+    {
+     "x": 598.0,
+     "measured": 0.3125,
+     "model": 0.6829980211989041
+    },
+    {
+     "x": 698.0,
+     "measured": 0.3175,
+     "model": 0.6787980339188023
+    },
+    {
+     "x": 801.0,
+     "measured": 0.328,
+     "model": 0.6745257858841588
+    },
+    {
+     "x": 900.0,
+     "measured": 0.3225,
+     "model": 0.6705136198538145
+    },
+    {
+     "x": 1000.0,
+     "measured": 0.327,
+     "model": 0.6665676356958036
+    },
+    {
+     "x": 1100.0,
+     "measured": 0.326,
+     "model": 0.6627307141075078
+    },
+    {
+     "x": 1199.0,
+     "measured": 0.3305,
+     "model": 0.6590370097932539
+    },
+    {
+     "x": 1299.0,
+     "measured": 0.331,
+     "model": 0.6554074586827027
+    },
+    {
+     "x": 1399.0,
+     "measured": 0.3275,
+     "model": 0.651874783292334
+    }
+   ],
+   "beam": [
+    {
+     "x": 151.0,
+     "measured": 0.228,
+     "model": 0.40355860071282473
+    },
+    {
+     "x": 199.0,
+     "measured": 0.2675,
+     "model": 0.49800457847426294
+    },
+    {
+     "x": 248.0,
+     "measured": 0.283,
+     "model": 0.5416545494751782
+    },
+    {
+     "x": 299.0,
+     "measured": 0.306,
+     "model": 0.5576486718296488
+    },
+    {
+     "x": 399.0,
+     "measured": 0.303,
+     "model": 0.5624762466345996
+    },
+    {
+     "x": 402.0,
+     "measured": 0.312,
+     "model": 0.5624402157543225
+    },
+    {
+     "x": 500.0,
+     "measured": 0.313,
+     "model": 0.5594122882226814
+    },
+    {
+     "x": 598.0,
+     "measured": 0.3125,
+     "model": 0.5558682016207506
+    },
+    {
+     "x": 698.0,
+     "measured": 0.3175,
+     "model": 0.5529867013714597
+    },
+    {
+     "x": 801.0,
+     "measured": 0.328,
+     "model": 0.5507067336804332
+    },
+    {
+     "x": 900.0,
+     "measured": 0.3225,
+     "model": 0.549004192241871
+    },
+    {
+     "x": 1000.0,
+     "measured": 0.327,
+     "model": 0.5476383832079846
+    },
+    {
+     "x": 1100.0,
+     "measured": 0.326,
+     "model": 0.5465341951558772
+    },
+    {
+     "x": 1199.0,
+     "measured": 0.3305,
+     "model": 0.5456336105210126
+    },
+    {
+     "x": 1299.0,
+     "measured": 0.331,
+     "model": 0.5448720168643684
+    },
+    {
+     "x": 1399.0,
+     "measured": 0.3275,
+     "model": 0.5442258874025091
+    }
+   ]
+  },
+  "kinetic_decays": {
+   "kind": "kinetic",
+   "doc": "Decay rates against the network's constants (analytic: the rates the model uses, summed). Ar*: k(Ar*+F2)[F2] + k(Ar*+2Ar)[Ar]^2. Ar2F*: 1/tau + k(Ar2F*+F2)[F2] (+ Ar2F* + Ar, 0 by default). These sources gave the constants (as means), so this is consistency, not accuracy.",
+   "own": [
+    {
+     "set": "Chen & Payne Fig. 13, ArF* (follows Ar*)",
+     "x": 0.6,
+     "measured": 18110000.0,
+     "model": 17881273.46304
+    },
+    {
+     "set": "Chen & Payne Fig. 13, ArF* (follows Ar*)",
+     "x": 0.611,
+     "measured": 13150000.0,
+     "model": 16489639.44576
+    },
+    {
+     "set": "Chen & Payne Fig. 13, ArF* (follows Ar*)",
+     "x": 0.924,
+     "measured": 25010000.0,
+     "model": 24650263.085759997
+    },
+    {
+     "set": "Chen & Payne Fig. 13, ArF* (follows Ar*)",
+     "x": 1.205,
+     "measured": 38600000.0,
+     "model": 33655002.86304
+    },
+    {
+     "set": "Chen & Payne Fig. 13, ArF* (follows Ar*)",
+     "x": 1.703,
+     "measured": 46150000.0,
+     "model": 44960569.205759995
+    },
+    {
+     "set": "Chen & Payne Fig. 13, ArF* (follows Ar*)",
+     "x": 2.2,
+     "measured": 58650000.0,
+     "model": 59596921.46304001
+    },
+    {
+     "set": "Chen & Payne Fig. 13, ArF* (follows Ar*)",
+     "x": 2.946,
+     "measured": 83880000.0,
+     "model": 77368413.24576
+    },
+    {
+     "set": "Chen & Payne Fig. 13, ArF* (follows Ar*)",
+     "x": 3.757,
+     "measured": 114930000.0,
+     "model": 100191461.42303999
+    },
+    {
+     "set": "Chen & Payne Fig. 13, ArF* (follows Ar*)",
+     "x": 6.492,
+     "measured": 191910000.0,
+     "model": 171499147.22303998
+    },
+    {
+     "set": "Chen & Payne Fig. 14, Ar2F*",
+     "x": 0.757,
+     "measured": 12130000.0,
+     "model": 9620731.774885245
+    },
+    {
+     "set": "Chen & Payne Fig. 14, Ar2F*",
+     "x": 0.757,
+     "measured": 11319999.999999998,
+     "model": 9620731.774885245
+    },
+    {
+     "set": "Chen & Payne Fig. 14, Ar2F*",
+     "x": 0.768,
+     "measured": 10620000.0,
+     "model": 9689066.898885246
+    },
+    {
+     "set": "Chen & Payne Fig. 14, Ar2F*",
+     "x": 0.801,
+     "measured": 9970000.0,
+     "model": 9894072.270885244
+    },
+    {
+     "set": "Chen & Payne Fig. 14, Ar2F*",
+     "x": 0.877,
+     "measured": 14660000.0,
+     "model": 10366205.854885245
+    },
+    {
+     "set": "Chen & Payne Fig. 14, Ar2F*",
+     "x": 1.171,
+     "measured": 15089999.999999998,
+     "model": 12192617.350885246
+    },
+    {
+     "set": "Chen & Payne Fig. 14, Ar2F*",
+     "x": 1.171,
+     "measured": 14070000.0,
+     "model": 12192617.350885246
+    },
+    {
+     "set": "Chen & Payne Fig. 14, Ar2F*",
+     "x": 1.705,
+     "measured": 18810000.0,
+     "model": 15509977.006885245
+    },
+    {
+     "set": "Chen & Payne Fig. 14, Ar2F*",
+     "x": 2.152,
+     "measured": 17870000.0,
+     "model": 18286867.954885244
+    },
+    {
+     "set": "Chen & Payne Fig. 14, Ar2F*",
+     "x": 2.882,
+     "measured": 24040000.0,
+     "model": 22821835.274885245
+    },
+    {
+     "set": "Chen & Payne Fig. 14, Ar2F*",
+     "x": 2.892,
+     "measured": 23020000.0,
+     "model": 22883958.114885245
+    },
+    {
+     "set": "Chen & Payne Fig. 14, Ar2F*",
+     "x": 3.808,
+     "measured": 32400000.000000004,
+     "model": 28574410.258885242
+    },
+    {
+     "set": "Chen & Payne Fig. 14, Ar2F*",
+     "x": 6.548,
+     "measured": 47440000.0,
+     "model": 45596068.41888524
+    },
+    {
+     "set": "Chen & Payne Fig. 14, Ar2F*",
+     "x": 6.548,
+     "measured": 46580000.0,
+     "model": 45596068.41888524
+    },
+    {
+     "set": "Chen & Payne Fig. 14, Ar2F*",
+     "x": 6.548,
+     "measured": 45660000.0,
+     "model": 45596068.41888524
+    },
+    {
+     "set": "Jancaitis Fig. 7, Ar2F*, Ar/F2 300",
+     "x": 297.5,
+     "measured": 10930000.0,
+     "model": 11058080.926420128
+    },
+    {
+     "set": "Jancaitis Fig. 7, Ar2F*, Ar/F2 300",
+     "x": 443.5,
+     "measured": 13790000.0,
+     "model": 14071348.248679265
+    },
+    {
+     "set": "Jancaitis Fig. 7, Ar2F*, Ar/F2 300",
+     "x": 595.0,
+     "measured": 17920000.0,
+     "model": 17198129.06595501
+    },
+    {
+     "set": "Jancaitis Fig. 7, Ar2F*, Ar/F2 300",
+     "x": 595.0,
+     "measured": 16339999.999999998,
+     "model": 17198129.06595501
+    },
+    {
+     "set": "Jancaitis Fig. 7, Ar2F*, Ar/F2 300",
+     "x": 749.5,
+     "measured": 18740000.0,
+     "model": 20386826.335058004
+    },
+    {
+     "set": "Jancaitis Fig. 7, Ar2F*, Ar/F2 300",
+     "x": 906.7,
+     "measured": 24300000.0,
+     "model": 23631248.410805512
+    },
+    {
+     "set": "Jancaitis Fig. 7, Ar2F*, Ar/F2 300",
+     "x": 1204.0,
+     "measured": 28960000.0,
+     "model": 29767168.786885243
+    },
+    {
+     "set": "Jancaitis Fig. 7, Ar2F*, Ar/F2 300",
+     "x": 1510.0,
+     "measured": 34820000.0,
+     "model": 36082646.87326398
+    },
+    {
+     "set": "Jancaitis Fig. 7, Ar2F*, Ar/F2 300",
+     "x": 1510.0,
+     "measured": 33800000.0,
+     "model": 36082646.87326398
+    },
+    {
+     "set": "Jancaitis Fig. 7, Ar2F*, Ar/F2 300",
+     "x": 1909.0,
+     "measured": 38130000.0,
+     "model": 44317534.96628723
+    },
+    {
+     "set": "Jancaitis Fig. 7, Ar2F*, Ar/F2 300",
+     "x": 1909.0,
+     "measured": 36850000.0,
+     "model": 44317534.96628723
+    },
+    {
+     "set": "Jancaitis Fig. 7, Ar2F*, Ar/F2 600",
+     "x": 297.5,
+     "measured": 7990000.0,
+     "model": 7993165.04978042
+    },
+    {
+     "set": "Jancaitis Fig. 7, Ar2F*, Ar/F2 600",
+     "x": 443.5,
+     "measured": 8970000.0,
+     "model": 9502305.588881917
+    },
+    {
+     "set": "Jancaitis Fig. 7, Ar2F*, Ar/F2 600",
+     "x": 595.0,
+     "measured": 10020000.0,
+     "model": 11068297.312675595
+    },
+    {
+     "set": "Jancaitis Fig. 7, Ar2F*, Ar/F2 600",
+     "x": 749.5,
+     "measured": 12050000.0,
+     "model": 12665298.773574097
+    },
+    {
+     "set": "Jancaitis Fig. 7, Ar2F*, Ar/F2 600",
+     "x": 965.6,
+     "measured": 14310000.0,
+     "model": 14899033.503025014
+    },
+    {
+     "set": "Jancaitis Fig. 7, Ar2F*, Ar/F2 600",
+     "x": 1204.0,
+     "measured": 17240000.0,
+     "model": 17363273.94495513
+    },
+    {
+     "set": "Jancaitis Fig. 7, Ar2F*, Ar/F2 600",
+     "x": 1510.0,
+     "measured": 19950000.0,
+     "model": 20526267.129647307
+    },
+    {
+     "set": "Jancaitis Fig. 7, Ar2F*, Ar/F2 600",
+     "x": 1909.0,
+     "measured": 23400000.0,
+     "model": 24650562.16458907
+    },
+    {
+     "set": "Jancaitis Fig. 7, Ar2F*, Ar/F2 600",
+     "x": 1909.0,
+     "measured": 21000000.0,
+     "model": 24650562.16458907
+    },
+    {
+     "set": "Ueda 1983 Fig. 8, Ar2F*",
+     "x": 0.698,
+     "measured": 19060000.0,
+     "model": 18389432.786885243
+    },
+    {
+     "set": "Ueda 1983 Fig. 8, Ar2F*",
+     "x": 1.209,
+     "measured": 28500000.0,
+     "model": 28251732.786885243
+    },
+    {
+     "set": "Ueda 1983 Fig. 8, Ar2F*",
+     "x": 1.038,
+     "measured": 25000000.0,
+     "model": 24951432.786885243
+    },
+    {
+     "set": "Ueda 1983 Fig. 8, Ar2F*",
+     "x": 1.855,
+     "measured": 40500000.0,
+     "model": 40719532.78688525
+    },
+    {
+     "set": "Ueda 1983 Fig. 8, Ar2F*",
+     "x": 1.481,
+     "measured": 33900000.0,
+     "model": 33501332.786885247
+    },
+    {
+     "set": "Ueda 1983 Fig. 8, Ar2F*",
+     "x": 2.451,
+     "measured": 49700000.0,
+     "model": 52222332.78688525
+    },
+    {
+     "set": "Ueda 1983 Fig. 8, Ar2F*",
+     "x": 1.864,
+     "measured": 39400000.0,
+     "model": 40893232.78688525
+    },
+    {
+     "set": "Ueda 1983 Fig. 8, Ar2F*",
+     "x": 3.064,
+     "measured": 61700000.0,
+     "model": 64053232.78688524
+    },
+    {
+     "set": "Ueda 1983 Fig. 8, Ar2F*",
+     "x": 2.17,
+     "measured": 49200000.0,
+     "model": 46799032.78688524
+    },
+    {
+     "set": "Ueda 1983 Fig. 8, Ar2F*",
+     "x": 3.66,
+     "measured": 77000000.0,
+     "model": 75556032.78688525
+    },
+    {
+     "set": "Ueda 1983 Fig. 12, Ar*(3P2) at 2.5 atm",
+     "x": 0.0,
+     "measured": 21100000.0,
+     "model": 22441218.671040002
+    },
+    {
+     "set": "Ueda 1983 Fig. 12, Ar*(3P2) at 2.5 atm",
+     "x": 0.049,
+     "measured": 58000000.0,
+     "model": 46692524.34487899
+    },
+    {
+     "set": "Ueda 1983 Fig. 12, Ar*(3P2) at 2.5 atm",
+     "x": 0.098,
+     "measured": 91400000.0,
+     "model": 70943840.79499118
+    },
+    {
+     "set": "Ueda 1983 Fig. 12, Ar*(3P2) at 2.5 atm",
+     "x": 0.148,
+     "measured": 118500000.0,
+     "model": 95690093.1790191
+    },
+    {
+     "set": "Ueda 1983 Fig. 12, Ar*(3P2) at 2.5 atm",
+     "x": 0.2,
+     "measured": 151000000.0,
+     "model": 121426207.56123053
+    },
+    {
+     "set": "Ueda 1983 Fig. 10, Ar*(3P2) in pure Ar",
+     "x": 1.459,
+     "measured": 9380000.0,
+     "model": 7643231.328302097
+    },
+    {
+     "set": "Ueda 1983 Fig. 10, Ar*(3P2) in pure Ar",
+     "x": 1.459,
+     "measured": 11240000.000000002,
+     "model": 7643231.328302097
+    },
+    {
+     "set": "Ueda 1983 Fig. 10, Ar*(3P2) in pure Ar",
+     "x": 1.988,
+     "measured": 14960000.0,
+     "model": 14190548.435750196
+    },
+    {
+     "set": "Ueda 1983 Fig. 10, Ar*(3P2) in pure Ar",
+     "x": 2.483,
+     "measured": 20850000.0,
+     "model": 22137055.779065207
+    },
+    {
+     "set": "Ueda 1983 Fig. 10, Ar*(3P2) in pure Ar",
+     "x": 2.483,
+     "measured": 22400000.000000004,
+     "model": 22137055.779065207
+    },
+    {
+     "set": "Ueda 1983 Fig. 10, Ar*(3P2) in pure Ar",
+     "x": 3.0,
+     "measured": 29400000.0,
+     "model": 32315354.886297602
+    },
+    {
+     "set": "Ueda 1983 Fig. 10, Ar*(3P2) in pure Ar",
+     "x": 3.0,
+     "measured": 30900000.0,
+     "model": 32315354.886297602
+    },
+    {
+     "set": "Ueda 1983 Fig. 10, Ar*(3P2) in pure Ar",
+     "x": 3.37,
+     "measured": 38000000.0,
+     "model": 40778028.21202147
+    },
+    {
+     "set": "Ueda 1983 Fig. 10, Ar*(3P2) in pure Ar",
+     "x": 3.48,
+     "measured": 38000000.0,
+     "model": 43483541.53500205
+    },
+    {
+     "set": "Ueda 1983 Fig. 10, Ar*(3P2) in pure Ar",
+     "x": 4.01,
+     "measured": 48800000.0,
+     "model": 57737126.45635045
+    }
+   ]
+  },
+  "stern_volmer": {
+   "kind": "kinetic",
+   "doc": "Stern-Volmer plots, 1/I(193) normalised at the first point: Chen & Payne Figs. 16 (F2 at 600 Torr Ar) and 17 (Ar^2 at 0.84 Torr F2), from a dilute seeded start (proton excitation, n_e < 1e12); Rokni Fig. 3 (F2 at 150 Torr Ar) as a steady e-beam run. These gave the k tau products: consistency.",
+   "own": [
+    {
+     "set": "Chen & Payne Fig. 16, 1/I vs F2 at 600 Torr Ar",
+     "x": 1.202,
+     "measured": 1.0,
+     "model": 1.0
+    },
+    {
+     "set": "Chen & Payne Fig. 16, 1/I vs F2 at 600 Torr Ar",
+     "x": 2.196,
+     "measured": 1.165922144224633,
+     "model": 1.0913652104564262
+    },
+    {
+     "set": "Chen & Payne Fig. 16, 1/I vs F2 at 600 Torr Ar",
+     "x": 3.733,
+     "measured": 1.425654116145501,
+     "model": 1.2275059791674583
+    },
+    {
+     "set": "Chen & Payne Fig. 16, 1/I vs F2 at 600 Torr Ar",
+     "x": 4.876,
+     "measured": 1.5067007019783025,
+     "model": 1.3276494723384102
+    },
+    {
+     "set": "Chen & Payne Fig. 16, 1/I vs F2 at 600 Torr Ar",
+     "x": 5.848,
+     "measured": 1.6541161455009574,
+     "model": 1.4125154094278858
+    },
+    {
+     "set": "Chen & Payne Fig. 17, 1/I vs Ar^2 at 0.84 Torr F2",
+     "x": 0.397,
+     "measured": 1.0,
+     "model": 1.0
+    },
+    {
+     "set": "Chen & Payne Fig. 17, 1/I vs Ar^2 at 0.84 Torr F2",
+     "x": 1.114,
+     "measured": 0.9852497485752598,
+     "model": 1.0333088619932114
+    },
+    {
+     "set": "Chen & Payne Fig. 17, 1/I vs Ar^2 at 0.84 Torr F2",
+     "x": 1.592,
+     "measured": 1.0878310425745894,
+     "model": 1.0864951628267177
+    },
+    {
+     "set": "Chen & Payne Fig. 17, 1/I vs Ar^2 at 0.84 Torr F2",
+     "x": 2.572,
+     "measured": 1.2879651357693598,
+     "model": 1.20804885386705
+    },
+    {
+     "set": "Chen & Payne Fig. 17, 1/I vs Ar^2 at 0.84 Torr F2",
+     "x": 3.724,
+     "measured": 1.4522292993630572,
+     "model": 1.3549859030114337
+    },
+    {
+     "set": "Rokni Fig. 3, 1/I vs F2 at 150 Torr Ar",
+     "x": 2.01,
+     "measured": 1.0,
+     "model": 1.0
+    },
+    {
+     "set": "Rokni Fig. 3, 1/I vs F2 at 150 Torr Ar",
+     "x": 4.02,
+     "measured": 1.236985236985237,
+     "model": 1.3666673065989257
+    },
+    {
+     "set": "Rokni Fig. 3, 1/I vs F2 at 150 Torr Ar",
+     "x": 6.03,
+     "measured": 1.543123543123543,
+     "model": 1.7651115652929392
+    },
+    {
+     "set": "Rokni Fig. 3, 1/I vs F2 at 150 Torr Ar",
+     "x": 8.0,
+     "measured": 1.865967365967366,
+     "model": 2.184904128657771
+    },
+    {
+     "set": "Rokni Fig. 3, 1/I vs F2 at 150 Torr Ar",
+     "x": 10.01,
+     "measured": 2.052059052059052,
+     "model": 2.629449771738292
+    },
+    {
+     "set": "Rokni Fig. 3, 1/I vs F2 at 150 Torr Ar",
+     "x": 12.02,
+     "measured": 2.4265734265734267,
+     "model": 3.069846854562127
+    },
+    {
+     "set": "Rokni Fig. 3, 1/I vs F2 at 150 Torr Ar",
+     "x": 14.01,
+     "measured": 2.674436674436674,
+     "model": 3.519900045960652
+    },
+    {
+     "set": "Rokni Fig. 3, 1/I vs F2 at 150 Torr Ar",
+     "x": 16.0,
+     "measured": 2.9786324786324783,
+     "model": 3.9829079400633
+    }
+   ]
+  },
+  "electra_formation_maxwellian": {
+   "kind": "sensitivity",
+   "doc": "Sensitivity, not a score of the defaults: the test below on the Maxwellian EEDF in place of the two-temperature tail, LIGHT's own input only. Electra (Wolford 2020 p.2, Obenschain 2020 p.7): 0.82 atm, 0.3 % F2, 1.09 MW/cc: g0 3.21 %/cm, Isat 10 MW/cm2, so g0 Isat / P = 0.29, the ArF(B) formation efficiency (hv times the B loss rate, which is its formation rate at the quasi-steady peak). Petrova's Fig. 7 plots the same point at 0.90 MW/cc: 0.36.",
+   "own": [
+    {
+     "x": 1.09,
+     "measured": 0.29449541284403663,
+     "model": 0.20960577348810547,
+     "state": {
+      "eff": 0.20960577348810547,
+      "nB": 273246527246971.94,
+      "te": 1.8417279813503715,
+      "ne": 848134123795799.2,
+      "f2_left": 0.5105284535457275
+     }
+    },
+    {
+     "x": 0.9,
+     "measured": 0.35666666666666663,
+     "model": 0.21922007450107658,
+     "state": {
+      "eff": 0.21922007450107658,
+      "nB": 240630774177083.9,
+      "te": 1.8466055596714985,
+      "ne": 685292057975846.4,
+      "f2_left": 0.5808649466286868
+     }
+    }
+   ]
+  },
+  "keio_formation_maxwellian": {
+   "kind": "sensitivity",
+   "doc": "Sensitivity, not a score of the defaults: the test below on the Maxwellian EEDF in place of the two-temperature tail, LIGHT's own input only. Keio (Lee et al. 1989 text p.2053 and Fig. 5(a)): 1 atm, 0.4 % F2, 65-ns pulse; g0 4.18 %/cm, Is 3.2 MW/cm2 (figure reading) at the printed 0.51 MW/cm3: g0 Is / P = 0.26 (NRL replots the point at 1.21 MW/cm3, which would make it 0.11).",
+   "own": [
+    {
+     "x": 0.51,
+     "measured": 0.2622745098039216,
+     "model": 0.25761932975418017,
+     "state": {
+      "eff": 0.25761932975418017,
+      "nB": 132612444795940.12,
+      "te": 1.9156268515528203,
+      "ne": 239854064674754.5,
+      "f2_left": 0.8670803937454413
+     }
+    },
+    {
+     "x": 1.21,
+     "measured": 0.11054545454545454,
+     "model": 0.24314398045440233,
+     "state": {
+      "eff": 0.24314398045440233,
+      "nB": 288650095985185.1,
+      "te": 1.9027129158634135,
+      "ne": 599982808582963.9,
+      "f2_left": 0.7028815932670351
+     }
+    }
+   ]
+  },
+  "sandia_formation_maxwellian": {
+   "kind": "sensitivity",
+   "doc": "Sensitivity, not a score of the defaults: the test below on the Maxwellian EEDF in place of the two-temperature tail, LIGHT's own input only. Sandia (Adams & Dillon 1991, abstract): about 5 MW/cm3, 963 Torr (953 Ar + 8 F2, second-hand), g0 12.1 %/cm, Is 6.7 MW/cm2: 0.16. The pulse length is not in the abstract: 30 ns, window 10-25 ns.",
+   "own": [
+    {
+     "x": 5.0,
+     "measured": 0.16214,
+     "model": 0.2514700281217378,
+     "state": {
+      "eff": 0.2514700281217378,
+      "nB": 777987306760994.9,
+      "te": 2.0556568432229088,
+      "ne": 1110030339955997.6,
+      "f2_left": 0.781838535461047
+     }
+    }
+   ]
+  },
+  "rokni_vs_ar_maxwellian": {
+   "kind": "sensitivity",
+   "doc": "Sensitivity, not a score of the defaults: the test below on the Maxwellian EEDF in place of the two-temperature tail, LIGHT's own input only. Rokni, Jacob & Mangano 1977 Fig. 4: 193-nm fluorescence at 2 Torr F2 and 5 A/cm2 against Ar, 300-ns pulse (steady state). The beam's deposition scales with the Ar density, 20 kW/cm3 per atm (an estimate, 18.8 by the drive's stopping power on a straight ray). Both curves are normalised at 1 atm. The Te column is the model's mean Te over 250-300 ns.",
+   "own": [
+    {
+     "x": 0.24,
+     "measured": 0.4080846968238691,
+     "model": 0.48914802821725856,
+     "te": 2.129621947234957
+    },
+    {
+     "x": 0.49,
+     "measured": 0.7564966313763234,
+     "model": 0.7952532871954331,
+     "te": 1.9766365717423724
+    },
+    {
+     "x": 0.75,
+     "measured": 0.9074109720885466,
+     "model": 0.9473440458835656,
+     "te": 1.8938434589404214
+    },
+    {
+     "x": 1.0,
+     "measured": 1.0,
+     "model": 1.0,
+     "te": 1.8409427546641488
+    },
+    {
+     "x": 1.26,
+     "measured": 0.9998075072184792,
+     "model": 1.0047764287481726,
+     "te": 1.8000492906646197
+    },
+    {
+     "x": 1.5,
+     "measured": 0.9607314725697786,
+     "model": 0.9873402905375223,
+     "te": 1.7700275629987228
+    },
+    {
+     "x": 2.0,
+     "measured": 0.8870067372473531,
+     "model": 0.9272896256168066,
+     "te": 1.7219169463443944
+    },
+    {
+     "x": 2.5,
+     "measured": 0.8273339749759384,
+     "model": 0.8621241520039105,
+     "te": 1.6856747959375549
+    },
+    {
+     "x": 3.01,
+     "measured": 0.788065447545717,
+     "model": 0.7999231270558108,
+     "te": 1.6561054268719093
+    },
+    {
+     "x": 3.5,
+     "measured": 0.7079884504331088,
+     "model": 0.7455064138542233,
+     "te": 1.6324164230897775
+    },
+    {
+     "x": 4.0,
+     "measured": 0.6875842155919153,
+     "model": 0.6950678257073571,
+     "te": 1.6116551744064869
+    }
+   ]
+  },
+  "rokni_current_ratio_maxwellian": {
+   "kind": "sensitivity",
+   "doc": "Sensitivity, not a score of the defaults: the test below on the Maxwellian EEDF in place of the two-temperature tail, LIGHT's own input only. Rokni 1977 Fig. 5: the 193-nm fluorescence ratio for a x25 beam current change, about 25 at every pressure (the ion channel forms ArF* with branching near one). The Te columns are the model's mean Te over 250-300 ns at the full current and at 1/25 of it.",
+   "own": [
+    {
+     "x": 0.258,
+     "measured": 25.59,
+     "model": 21.875100531603312,
+     "te": 2.11324201392741,
+     "te_low": 2.1153605537208224
+    },
+    {
+     "x": 1.01,
+     "measured": 26.61,
+     "model": 24.966686585832836,
+     "te": 1.8391470700746861,
+     "te_low": 1.844803441910391
+    },
+    {
+     "x": 2.025,
+     "measured": 24.47,
+     "model": 24.99283628588224,
+     "te": 1.719868118074604,
+     "te_low": 1.7296993278923964
+    },
+    {
+     "x": 3.53,
+     "measured": 24.31,
+     "model": 24.931233498388305,
+     "te": 1.6310790788759206,
+     "te_low": 1.6466330788962593
+    }
+   ]
+  },
+  "jancaitis_scan_maxwellian": {
+   "kind": "sensitivity",
+   "doc": "Sensitivity, not a score of the defaults: the test below on the Maxwellian EEDF in place of the two-temperature tail, LIGHT's own input only. Jancaitis & Powell 1983 Fig. 3: peak ArF* and Ar2F* fluorescence against current density, 5 Torr F2 + 1500 Torr Ar, 50-ns pulse; the deposition is 25 mJ/cm3 per atm at 100 A/cm2 (0.5 MW/cm3 per atm). Each curve normalised at its point nearest 74 A/cm2. The Te column is the model's mean Te over 20-50 ns, the pulse after its start-up.",
+   "own": [
+    {
+     "x": 4.31,
+     "species": "ArF",
+     "measured": 0.03704545454545454,
+     "model": 0.059155943669620244,
+     "te": 1.8893807661163275
+    },
+    {
+     "x": 10.18,
+     "species": "ArF",
+     "measured": 0.09840909090909089,
+     "model": 0.1394881388084861,
+     "te": 1.8891562027926014
+    },
+    {
+     "x": 13.96,
+     "species": "ArF",
+     "measured": 0.1356060606060606,
+     "model": 0.19109959407803312,
+     "te": 1.888935975906641
+    },
+    {
+     "x": 31.2,
+     "species": "ArF",
+     "measured": 0.27954545454545454,
+     "model": 0.4252093903787716,
+     "te": 1.8876767252613713
+    },
+    {
+     "x": 74.3,
+     "species": "ArF",
+     "measured": 1.0,
+     "model": 1.0,
+     "te": 1.8840197169108925
+    },
+    {
+     "x": 185.8,
+     "species": "ArF",
+     "measured": 2.8863636363636362,
+     "model": 2.390583640411118,
+     "te": 1.8740965588984178
+    },
+    {
+     "x": 448.6,
+     "species": "ArF",
+     "measured": 6.833333333333333,
+     "model": 5.001812043745027,
+     "te": 1.8528262172271739
+    },
+    {
+     "x": 562.0,
+     "species": "ArF",
+     "measured": 9.09090909090909,
+     "model": 5.924770079354357,
+     "te": 1.8451484787527872
+    },
+    {
+     "x": 4.31,
+     "species": "Ar2F",
+     "measured": 0.049201277955271565,
+     "model": 0.06423949831513799,
+     "te": 1.8893807661163275
+    },
+    {
+     "x": 10.18,
+     "species": "Ar2F",
+     "measured": 0.12651757188498403,
+     "model": 0.14654756629726645,
+     "te": 1.8891562027926014
+    },
+    {
+     "x": 13.96,
+     "species": "Ar2F",
+     "measured": 0.16751863684771034,
+     "model": 0.19950134873293235,
+     "te": 1.888935975906641
+    },
+    {
+     "x": 31.2,
+     "species": "Ar2F",
+     "measured": 0.3634717784877529,
+     "model": 0.4392216709750149,
+     "te": 1.8876767252613713
+    },
+    {
+     "x": 72.6,
+     "species": "Ar2F",
+     "measured": 1.0,
+     "model": 1.0,
+     "te": 1.8841690420348833
+    },
+    {
+     "x": 185.8,
+     "species": "Ar2F",
+     "measured": 2.0394036208732698,
+     "model": 2.4108491632914117,
+     "te": 1.8740965588984178
+    },
+    {
+     "x": 430.0,
+     "species": "Ar2F",
+     "measured": 3.3333333333333335,
+     "model": 4.725284519642599,
+     "te": 1.854179873198928
+    },
+    {
+     "x": 540.0,
+     "species": "Ar2F",
+     "measured": 3.578274760383387,
+     "model": 5.401837530815462,
+     "te": 1.846558458854526
+    }
+   ]
+  }
+ }
+}

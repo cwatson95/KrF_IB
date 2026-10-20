@@ -1,0 +1,63 @@
+# Cross-Section Browser export — 2026-07-30T15:18:05Z
+# source: LXCat, www.lxcat.net (SIGLO database). SIGLO database is the electron-impact cross-section source of Chen et al., Phys. Plasmas 32, 113502 (2025), ref 22. Re-sourced from the project crossbrowser export lxcat_siglo.json, SIGLO process id SIGLO__Ne__Elastic__24.
+# database: SIGLO database (LXCat)
+# process_id: e_Ne_elastic
+# reaction: E + Ne -> E + Ne
+# type: Elastic   |   category: Elastic   |   family: Electron
+# data_kind: total
+# species: e / Ne
+# mass_ratio_m_over_M: 0.00002715
+# param: m/M = 0.00002715, complete set
+# comment: elastic momentum transfer. SIGLO dataset (Chen 2025, ref 22); re-sourced from crossbrowser lxcat_siglo.json, source id SIGLO__Ne__Elastic__24. Electron momentum-transfer (elastic) channel for ground-state Ne. SIGLO export used for electron transport (the two-term Boltzmann solve that supplies mu_e/D_e and the electron-impact rate coefficients), Chen et al. Phys. Plasmas 32, 113502 (2025), ref 22. Cross section stored in m^2 by SIGLO (converted to cm^2 for the CSV column).
+# updated: 2012-04-13 18:40:03
+# n_points: 48
+# columns: energy [eV], cross_section [cm^2]
+energy_eV,cross_section_cm2
+0.000000e+00,1.610000e-17
+3.000000e-2,4.690000e-17
+5.000000e-2,5.360000e-17
+7.000000e-2,6.010000e-17
+9.000000e-2,6.690000e-17
+1.200000e-1,7.540000e-17
+1.500000e-1,8.280000e-17
+1.800000e-1,8.930000e-17
+2.000000e-1,9.300000e-17
+2.500000e-1,1.018000e-16
+3.000000e-1,1.091000e-16
+4.000000e-1,1.225000e-16
+5.000000e-1,1.321000e-16
+6.000000e-1,1.402000e-16
+7.000000e-1,1.472000e-16
+8.000000e-1,1.528000e-16
+9.000000e-1,1.580000e-16
+1.000000e+0,1.619000e-16
+1.200000e+0,1.685000e-16
+1.500000e+0,1.753000e-16
+1.800000e+0,1.793000e-16
+2.000000e+0,1.815000e-16
+2.500000e+0,1.860000e-16
+3.000000e+0,1.906000e-16
+4.000000e+0,1.984000e-16
+5.000000e+0,2.070000e-16
+6.000000e+0,2.144000e-16
+8.000000e+0,2.270000e-16
+1.000000e+1,2.420000e-16
+1.200000e+1,2.540000e-16
+1.500000e+1,2.730000e-16
+2.000000e+1,2.930000e-16
+2.500000e+1,2.950000e-16
+3.000000e+1,2.910000e-16
+4.000000e+1,2.740000e-16
+5.000000e+1,2.490000e-16
+6.000000e+1,2.230000e-16
+8.000000e+1,1.800000e-16
+1.000000e+2,1.440000e-16
+1.200000e+2,1.190000e-16
+1.500000e+2,8.780000e-17
+2.000000e+2,6.160000e-17
+3.000000e+2,3.720000e-17
+4.000000e+2,2.590000e-17
+5.000000e+2,1.930000e-17
+6.000000e+2,1.500000e-17
+8.000000e+2,1.010000e-17
+1.000000e+3,7.210000e-18

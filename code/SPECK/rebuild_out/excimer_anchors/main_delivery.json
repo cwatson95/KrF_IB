@@ -1,0 +1,126 @@
+{
+ "summary": {
+  "electra_gain_peak": 0.7994741201376518,
+  "electra_gain_flat": 0.7977995441701323,
+  "electra_trend_model": 1.1276523918046524,
+  "electra_trend_measured": 0.7010869565217391,
+  "klimek_gain": 0.577838291234063,
+  "klimek_abs": 0.8087657219709573,
+  "klimek_p_exponent": {
+   "110": {
+    "model": 0.5669141584429181,
+    "measured": 0.45491552637309685
+   },
+   "20": {
+    "model": 0.013869392067884232,
+    "measured": 0.1334442329692202
+   }
+  },
+  "klimek_g0_over_alpha": {
+   "1amg": 0.7212408165387169,
+   "3amg": 0.7077613886059564
+  }
+ },
+ "electra": [
+  {
+   "anchor": "electra_arf_gain",
+   "p_atm": 0.82,
+   "mw_cm3": 0.395,
+   "label": "single pass, 30-cm cathode",
+   "measured": 1.84,
+   "model_peak": 1.1599000139828786,
+   "model_flat": 1.1591117380014835,
+   "ratio_peak": 0.6303804423819992,
+   "ratio_flat": 0.6299520315225453,
+   "alpha_at_peak": 0.07607297964096574,
+   "t_peak_ns": 120.00000000000001,
+   "Tg_max_K": 378.8584889347211,
+   "j_A_cm2": 200.47141581894775,
+   "deposited_J": 4265.999951218805,
+   "wall_s": 1.5587608814239502
+  },
+  {
+   "anchor": "electra_arf_gain",
+   "p_atm": 1.36,
+   "mw_cm3": 0.583,
+   "label": "single pass, 30-cm cathode",
+   "measured": 1.29,
+   "model_peak": 1.3079640250220428,
+   "model_flat": 1.3033762322668636,
+   "ratio_peak": 1.0139256007922812,
+   "ratio_flat": 1.0103691722998942,
+   "alpha_at_peak": 0.13548101474070934,
+   "t_peak_ns": 120.00000000000001,
+   "Tg_max_K": 374.92289685920326,
+   "j_A_cm2": 178.4016475175096,
+   "deposited_J": 6296.399977017437,
+   "wall_s": 1.6229169368743896
+  }
+ ],
+ "klimek": [
+  {
+   "anchor": "klimek_krf",
+   "J_A_cm2": 110.0,
+   "amagat": 1.0,
+   "f2": 0.002,
+   "measured_gain": 9.1,
+   "model_gain": 4.335495354724807,
+   "ratio_gain": 0.47642806095877,
+   "measured_abs": 0.86,
+   "model_abs": 0.6777742349152861,
+   "ratio_abs": 0.7881095754828908,
+   "Tg_max_K": 387.31873466994745,
+   "j_engine_A_cm2": 181.24330570504054,
+   "wall_s": 2.80515193939209
+  },
+  {
+   "anchor": "klimek_krf",
+   "J_A_cm2": 110.0,
+   "amagat": 3.0,
+   "f2": 0.002,
+   "measured_gain": 15.0,
+   "model_gain": 8.082124195534437,
+   "ratio_gain": 0.5388082797022958,
+   "measured_abs": 2.2,
+   "model_abs": 1.3678531389044561,
+   "ratio_abs": 0.6217514267747527,
+   "Tg_max_K": 404.1043492762788,
+   "j_engine_A_cm2": 181.2433057050405,
+   "wall_s": 2.607851028442383
+  },
+  {
+   "anchor": "klimek_krf",
+   "J_A_cm2": 20.0,
+   "amagat": 1.0,
+   "f2": 0.002,
+   "measured_gain": 1.9,
+   "model_gain": 1.3371381759868712,
+   "ratio_gain": 0.7037569347299323,
+   "measured_abs": 0.21,
+   "model_abs": 0.17174816990407515,
+   "ratio_abs": 0.8178484281146436,
+   "Tg_max_K": 315.9361815721137,
+   "j_engine_A_cm2": 32.95332831000737,
+   "wall_s": 2.0261852741241455
+  },
+  {
+   "anchor": "klimek_krf",
+   "J_A_cm2": 20.0,
+   "amagat": 3.0,
+   "f2": 0.002,
+   "measured_gain": 2.2,
+   "model_gain": 1.3576682756757332,
+   "ratio_gain": 0.6171219434889696,
+   "measured_abs": 0.53,
+   "model_abs": 0.5658360279005765,
+   "ratio_abs": 1.0676151469822197,
+   "Tg_max_K": 318.98765262768137,
+   "j_engine_A_cm2": 32.95332831000736,
+   "wall_s": 2.6063921451568604
+  }
+ ],
+ "overrides": {},
+ "quick": true,
+ "wall_s": 13.2273530960083,
+ "generated": "2026-09-24 09:29"
+}

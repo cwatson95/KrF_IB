@@ -1,0 +1,9 @@
+# latexmk build files (the PDFs are the deliverables and stay)
+*.aux
+*.log
+*.fls
+*.fdb_latexmk
+*.out
+*.synctex.gz
+# the run cache: kr_docs.run_many rebuilds it, keyed by the md5 of v0_1's code
+cache/

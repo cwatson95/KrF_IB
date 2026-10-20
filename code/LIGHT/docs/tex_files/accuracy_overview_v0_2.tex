@@ -1,0 +1,699 @@
+% How accurate LIGHT v0_2 is: its accuracy, its system map and its reaction
+% rates (Appendix A). The v0 and v0_1 overviews describe those versions. No
+% number here is typed by hand. They come from five generated files:
+%   system_map_v0_2_numbers.tex    make_system_map_v0_2.py
+%   overview_v0_2_rates.tex, overview_v0_2_fast.tex, overview_v0_2_slow.tex
+%                                  make_overview_v0_2.py
+%   energy_ladder_v0_2.tex         make_energy_ladder.py
+% Build from LIGHT/docs:
+%   python3 make_system_map_v0_2.py && python3 make_overview_v0_2.py
+%   python3 make_energy_ladder.py
+%   latexmk -pdf system_map_v0_2.tex && latexmk -pdf accuracy_overview_v0_2.tex
+\documentclass[11pt]{article}
+\usepackage[a4paper,margin=2.2cm]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[scaled=0.95]{helvet}
+\renewcommand{\familydefault}{\sfdefault}
+\usepackage{amsmath}
+\usepackage{sansmath}
+\usepackage{booktabs,tabularx,array,longtable}
+\usepackage{xcolor}
+\usepackage{pdfpages}
+\usepackage{float}
+\usepackage{enumitem}
+\usepackage{needspace}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,decorations.pathmorphing}
+\setlist{nosep, leftmargin=1.2em}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{5pt}
+\definecolor{ink2}{HTML}{52514E}
+
+\input{system_map_v0_2_numbers}
+\input{overview_v0_2_rates}
+\input{overview_v0_2_fast}
+\input{overview_v0_2_slow}
+\input{energy_ladder_v0_2}
+\makeatletter
+\newcommand\wm[1]{\ifcsname wm@#1\endcsname\csname wm@#1\endcsname
+  \else\errmessage{no map number '#1'. Rerun make_system_map_v0_2.py}\fi}
+\newcommand\wi[1]{\ifcsname wi@#1\endcsname\csname wi@#1\endcsname
+  \else\errmessage{no overview number '#1'. Rerun make_overview_v0_2.py}\fi}
+\newcommand\lad[1]{\ifcsname lad@#1\endcsname\csname lad@#1\endcsname
+  \else\errmessage{no ladder number '#1'. Rerun make_energy_ladder.py}\fi}
+\makeatother
+
+% chemistry and units
+\newcommand{\unit}[1]{\ensuremath{\,\mathrm{#1}}}
+\newcommand{\el}{\ensuremath{\mathrm{e}^-}}
+\newcommand{\Krs}{Kr\ensuremath{^*}}
+\newcommand{\Krp}{Kr\ensuremath{^+}}
+\newcommand{\Krtp}{Kr\ensuremath{_2^+}}
+\newcommand{\Krts}{Kr\ensuremath{_2^*}}
+\newcommand{\KtF}{Kr\ensuremath{_2}F\ensuremath{^*}}
+\newcommand{\Ft}{F\ensuremath{_2}}
+\newcommand{\Fm}{F\ensuremath{^-}}
+\newcommand{\ra}{\ensuremath{\to}\ }
+\newcommand{\hnu}{\ensuremath{h\nu}}
+\newcommand{\Edep}{\ensuremath{E_\mathrm{dep}}}
+\newcommand{\gIP}{\ensuremath{g_0I_\mathrm{sat}/P_\mathrm{in}}}
+\newcommand{\x}[1]{\ensuremath{\times}#1}
+% a factor of the measurement as a percentage of it (0.89 -> 89), to the
+% factor's own precision: \pctof{x} for two decimals, \pctof[1]{x} for three
+\newcommand{\pctof}[2][0]{\pgfmathparse{100*#2}%
+  \pgfmathprintnumber[fixed,precision=#1]{\pgfmathresult}}
+
+\begin{document}
+\sansmath
+
+{\LARGE\bfseries How accurate LIGHT v0\_2 is}\par
+\vspace{4pt}
+{\large The basic network of LIGHT v0\_2, version \wm{version}, on 30
+September 2026, with its energy ladder, its system map and its reaction
+rates}\par
+\vspace{10pt}
+
+\noindent\fbox{\parbox{\dimexpr\linewidth-2\fboxsep-2\fboxrule\relax}{%
+\setlength{\parskip}{5pt}%
+\textbf{Bottom line.} LIGHT v0\_2 reproduces the fitted KrF decays [1, 2] within \wi{sc.train.lo}
+to \wi{sc.train.hi}\,\% rms and predicts decays that no fit used [4] within \wi{sc.xu_figs5_7}\,\% rms,
+and at the Tahoma laser [5] its default network gives
+\pctof{\wi{tah.g0.x}}\,\% of the measured small-signal gain of
+\wi{tah.g0.meas}\unit{\%/cm}.
+
+It also gives \pctof{\wi{tah.isat.x}}\,\% of Tahoma's saturation intensity
+and \pctof{\wi{tah.eta.x}}\,\% of its formation efficiency. The C/B emission ratio of Yu and Setser [3] is matched to \wi{sc.ys_ir300}\,\%. No fit used Tahoma's numbers and no rate was set by a laser
+measurement, so the Tahoma scores are predictions. Most of the gain it misses lies inside the band of
+\Krts{} + F \ra KrF(B) + Kr, a rate no one has measured, whose top gives
+\pctof{\wi{tah.hiF.x}}\,\%.
+
+Its largest misses are on data that conflict with the fitted sets,
+\wi{sc.hakuta_fig2} and \wi{sc.hakuta_fig3}\,\% rms on the C-A decays of
+Hakuta et al.\ [6] and \wi{sc.bs_tau_b}\,\% on the KrF(B) lifetime of
+Burnham and Searles [7], and the VUV yield of pure krypton at low pump,
+\pctof{\wi{pure.vuv.x}}\,\% of Morozov's measurement [8].
+
+{\footnotesize [1] Eden, Waynant, Searles and Burnham, Appl.\ Phys.\
+Lett.\ 32, 733 (1978). [2] Gadomski, Xu, Setser and Nelson, Chem.\ Phys.\
+Lett.\ 189, 153 (1992). [3] Yu and Setser, J.\ Phys.\ Chem.\ 94, 2934
+(1990). [4] Xu, Gadomski and Setser, J.\ Chem.\ Phys.\ 99, 2591 (1993).
+[5] Spectra Technology, \emph{Experimental Support for KrF Laser
+Modeling}, final report to Los Alamos, 19 July 1989, OSTI 10136715.
+[6] Hakuta et al., Jpn.\ J.\ Appl.\ Phys.\ 29, 1194 (1990). [7] Burnham and Searles, J.\ Chem.\ Phys.\ 67, 5967 (1977).
+[8] Morozov, Heindl, Kr\"ucken, Ulrich and Wieser, J.\ Appl.\ Phys.\ 103,
+103301 (2008).\par}}}
+\medskip
+
+LIGHT v0\_2 is v0\_1's working copy. Its input is v0\_1's, a power
+deposited uniformly in the electrons, and its basic network adds the
+\Krts{} route to v0\_1's, \wi{rates.nBasic} reaction rows in all. Every
+rate known only as a published spread, or not at all, is carried as a
+band. A band's default is a measurement, or 0 where no measurement exists,
+so the default network rests on measurements and theory alone. The
+KrF(B,C) block and every formation link are v0\_1's. Every KrF rate in the
+block but one is a measurement of that process or a joint fit to kinetic
+measurements of it, and the exception is the KrF(B) radiative lifetime,
+Kannari's \wm{tauB}\unit{ns} where Eden measured 6.8 $\pm$ 0.2\unit{ns}. No
+rate was set by a laser measurement. Scored against Tahoma, the one
+independent Kr/F$_2$ laser, under the same beam drive as v0 and v0\_1,
+v0\_2's default network gives the small-signal gain at \x{\wi{tah.g0.x}}
+the measured value, the saturation intensity at \x{\wi{tah.isat.x}} and
+the formation efficiency \gIP{} at \x{\wi{tah.eta.x}}. Kannari's estimates
+for the two unmeasured \Krts{} rows give the gain at \x{\wi{tah.kannari.x}},
+and \Krts{} + F at the top of its band gives \x{\wi{tah.hiF.x}}. The
+largest open questions are the rate of \Krts{} + F \ra KrF(B) + Kr, which
+has no measurement, and the trimer rate above \wi{tri.klimek.hi}\unit{K}.
+Table~\ref{tab:score} lists every test. The comparison with v0 and v0\_1
+is in \texttt{docs/REVIEW/}.
+
+\begin{table}[h]
+\centering\footnotesize
+\renewcommand{\arraystretch}{1.12}
+\begin{tabularx}{\linewidth}{@{}>{\raggedright\arraybackslash}X
+  >{\raggedright\arraybackslash}p{2.6cm}>{\raggedright\arraybackslash}p{2.5cm}
+  >{\raggedright\arraybackslash}p{2.5cm}@{}}
+\toprule
+test & measured & v0\_2 & role of the data\\
+\midrule
+energy ledger closure, \wi{closure.runs} runs across the modes and bands &
+  & below \wi{closure.max} of \Edep & bookkeeping\\
+KrF(B) decay against Kr and F$_2$, Eden 1978 & & rms \wi{sc.eden_kr} and
+  \wi{sc.eden_f2}\,\% & train\\
+KrF(B,C) slow decay, Gadomski 1992 Figs. 1 and 2 & & rms \wi{sc.ksu_fig1}
+  and \wi{sc.ksu_fig2}\,\% & train\\
+C/B emission ratio at 300\unit{K}, Yu and Setser 1990 & \wi{ys.meas}
+  $\pm$ \wi{ys.err} & \wi{sc.ys_ir300}\,\% & train\\
+KrF(B,C) decays, Xu 1993 Figs. 5 to 7 & & rms \wi{sc.xu_figs5_7}\,\% &
+  held out\\
+decay constants Xu 1993 printed, 50 and 100 Torr Kr & \wi{xu.50.meas}
+  and \wi{xu.100.meas}\unit{s^{-1}} & \x{\wi{xu.50}} and \x{\wi{xu.100}} &
+  structure check\\
+C-A decays, Hakuta 1990 & & rms \wi{sc.hakuta_fig2} and
+  \wi{sc.hakuta_fig3}\,\% & held out, in conflict\\
+$\tau_B$, Burnham and Searles 1977 & \wi{sc.bs.meas} $\pm$
+  \wi{sc.bs.err}\unit{ns} & \wi{sc.bs_tau_b}\,\% & held out, in conflict\\
+C/B ratio 230\unit{K} over 300\unit{K}, Yu and Setser & \wi{ysr.meas}
+  $\pm$ \wi{ysr.err} & \wi{sc.ys_ratio_230_300}\,\% & held out, partly
+  behind the gap v0\_2 books\\
+\midrule
+\Krs{} + \Krp{} made per eV, pure Kr and Ar, Saito 2003 & & \x{\wi{pure.Kr.x}}
+  and \x{\wi{pure.Ar.x}} & check\\
+\Krtp{} + \el{} recombination, Shiu and Biondi 1977 & & \x{\wi{pure.dr.lo}}
+  & v0\_2's input\\
+\Krp{} + 2Kr \ra \Krtp{} + Kr, Smith et al. 1972 & \wi{pure.conv.lo} to
+  \wi{pure.conv.hi} & \wi{pure.k15} & in v0\_2's input\\
+VUV yield of pure Kr at low pump, Morozov 2008 & \wi{pure.vuv.meas}
+  $\pm$ \wi{pure.vuv.err} & \wi{pure.vuv}, \x{\wi{pure.vuv.x}} & check\\
+\quad the same, each band at either end & & moves by \wi{pure.band.move}
+  or less & check\\
+electron closure at Tahoma, kinetic EEDF loop & $T_e$ \wi{el.loop.te}\unit{eV}
+  & \wi{el.light.te}\unit{eV} & reference\\
+\midrule
+Tahoma small-signal gain $g_0$, v0\_2's default network &
+  \wi{tah.g0.meas}\unit{\%/cm} & \wi{tah.g0}, \x{\wi{tah.g0.x}} & device,
+  score only\\
+\quad the same, Kannari's two \Krts{} estimates & & \wi{tah.kannari.g0},
+  \x{\wi{tah.kannari.x}} & device, score only\\
+\quad the same, \Krts{} + F at the top of its band & & \wi{tah.hiF.g0},
+  \x{\wi{tah.hiF.x}} & device, score only\\
+\quad the same, trimer on $T_g^{-1/2}$ & & \wi{tah.tri.g0},
+  \x{\wi{tah.tri.x}} & device, score only\\
+Tahoma saturation intensity $I_\mathrm{sat}$ & \wi{tah.isat.meas} $\pm$
+  \wi{tah.isat.err}\unit{MW/cm^2} & \wi{tah.isat}, \x{\wi{tah.isat.x}} &
+  device, score only\\
+Tahoma formation efficiency \gIP & \wi{tah.eta.meas} & \wi{tah.eta},
+  \x{\wi{tah.eta.x}} & device, score only\\
+\bottomrule
+\end{tabularx}
+\caption{LIGHT v0\_2 against the data, every band at its default unless a
+row says otherwise. Rates are in cm$^3$s$^{-1}$ or cm$^6$s$^{-1}$. A
+percentage is v0\_2's deviation from the data, signed for a single value
+and rms for a set. A \x{} factor is v0\_2 over the measurement.}
+\label{tab:score}
+\end{table}
+
+\section{How the numbers were made}
+
+Each dataset has one role. Kinetic measurements of the channels being
+fitted train them. Other kinetic measurements are held out and test the
+fit. Laser performance only scores, and the fitting code refuses a dataset
+of that kind. This is the repository's predictive-only policy. Measurements
+score the model after the fact and never steer a number, and a band is
+never narrowed or moved by a score. Every number in this note is written
+by \texttt{docs/make\_overview\_v0\_2.py} and
+\texttt{docs/make\_system\_map\_v0\_2.py} from v0\_2 and from \texttt{ML/},
+and a test fails when those files no longer match the model.
+
+ML runs v0\_2 when the environment variable \texttt{LIGHT\_VERSION} names
+it. v0\_2 takes only a power input. Tahoma was pumped by an electron beam,
+so v0\_2 is scored there under the same prototype beam drive as v0 and
+v0\_1, a test fixture in \texttt{docs/} and not part of the model. Since
+v0\_2's default network carries the \Krts{} route, ML's Tahoma
+configuration is that default network, with every band at its default
+and $n_e$ free from a seed of \wi{tah.seed}\unit{cm^{-3}}.
+Section~\ref{sec:input} runs v0\_2's own input at Tahoma's conditions.
+Section~\ref{sec:bands} moves one band at a time to each end of its range,
+the others at their defaults.
+
+\section{The KrF(B,C) block}
+
+v0\_2 keeps v0's KrF(B,C) block, as v0\_1 does. KrF has two emitting
+states. B lases at 248\unit{nm}, and C radiates slowly in a band at
+275\unit{nm}. LIGHT treats them as the two coupled levels of eq. 5 of
+Gadomski et al. (1992) and reproduces that model's analytic decay rate to
+within \wi{eq5.dev} at every pressure tested. The block has \wi{fit.n}
+constants. Nine come from one joint fit to three measurement sets that
+agree with one another, the KrF(B) decays of Eden et al. (1978), the Kansas
+State B/C decays (Gadomski et al. 1992) and Yu and Setser's equilibrium
+C/B ratio (1990). The tenth, $\tau_B$, stays at Kannari's
+\wm{tauB}\unit{ns}, inside the fit's interval of \wi{fit.tau_B.lo} to
+\wi{fit.tau_B.hi}\unit{ns}. v0\_2 shares it between the 248-nm B-X band and
+B-A emission at 272\unit{nm}, which by Dunning and Hay's calculation
+carries \wm{pc.BA}\,\% of the B-X rate, so the total radiative rate of B
+is unchanged. The fit's median and 68\,\% interval for B-C mixing by Kr is
+$k_{BC}=$ \wi{fit.k_BC.mid} [\wi{fit.k_BC.lo}, \wi{fit.k_BC.hi}]
+cm$^3$s$^{-1}$. The equilibrium ratio is $K_\mathrm{eq}=$ \wi{fit.K_eq.mid}
+[\wi{fit.K_eq.lo}, \wi{fit.K_eq.hi}], and the C lifetime is $\tau_C=$
+\wi{fit.tau_C.mid} [\wi{fit.tau_C.lo}, \wi{fit.tau_C.hi}]\unit{ns}. LIGHT
+carries the best fit, $k_{BC}=\wm{k.BC}$\unit{cm^3s^{-1}}, $K_\mathrm{eq}=$
+\wm{Keq} and $\tau_C=$ \wm{tauC}\unit{ns}. At 1\unit{atm} and 300\unit{K}
+the lasing B state holds \wi{fit.bshare.mid} [\wi{fit.bshare.lo},
+\wi{fit.bshare.hi}] of the manifold, and LIGHT's rounded constants give
+\wi{fit.bshare.light}.
+
+The fitted decay sets are matched to between \wi{sc.train.lo} and
+\wi{sc.train.hi}\,\% rms. The held-out decays of Xu et al. (1993) are
+matched to \wi{sc.xu_figs5_7}\,\%, and the two decay constants they print
+come out at \x{\wi{xu.50}} and \x{\wi{xu.100}}. Hakuta et al. (1990)
+measured faster C-A decays, missed by \wi{sc.hakuta_fig2} and
+\wi{sc.hakuta_fig3}\,\% rms, and their data conflict with the three fitted
+sets. Burnham and Searles (1977) measured $\tau_B=$
+\wi{sc.bs.meas}\unit{ns}. Those two conflicts are v0's and remain.
+
+The energy ledger books Yu and Setser's measured B-C gap,
+\wm{gapBC}\unit{cm^{-1}}, as v0\_1 does. It sets how $K_\mathrm{eq}$
+changes with temperature, and their C/B ratio between 230 and 300\unit{K}
+comes out \wi{sc.ys_ratio_230_300}\,\%. That is not an independent test.
+Their 120 $\pm$ 50\unit{cm^{-1}} is a consensus of two routes, 110 $\pm$
+20 from the absolute ratio and 180 $\pm$ 30 from this very pair of
+temperatures.
+
+Tahoma's gain is the sharpest test of the block, since $g_0$ is the
+KrF(B) density times the stimulated cross section. Over \wi{post.n} draws
+from the fit's posterior the gain is \wi{post.g0.mid}\unit{\%/cm}
+[\wi{post.g0.lo}, \wi{post.g0.hi}] against the measured
+\wi{tah.g0.meas}.
+
+\section{Charge, recombination and fluorine}
+
+The charge chemistry is v0\_1's, and no electrons are injected. $n_e$
+starts from a seed of $\wm{ne}$\unit{cm^{-3}} and follows ionization,
+attachment and recombination. At the reference point it runs at
+$\wm{neF2}$\unit{cm^{-3}} while F$_2$ lasts and peaks at
+$\wm{nePeak}$\unit{cm^{-3}} after F$_2$ burns out at \wm{F2burn}\unit{ns}.
+In three-body collisions with Kr, \Krp{} turns into \Krtp{} at
+$\wm{k.K15}$\unit{cm^6s^{-1}}, the mean of three measurements. \Krtp{}
+recombines with electrons at the rate Shiu and
+Biondi measured, $\wm{k.R11p}\,(300\,\mathrm{K}/T_e)^{\wm{pow.R11p}}$
+cm$^3$s$^{-1}$. Each recombination returns a \Krs{} and heats the gas. Of
+the ions that recombine, \wm{ion.R11p}\,\% meet an electron and
+\wm{ion.ii}\,\% meet F$^-$ and form KrF(B), which makes \wm{frm.ii}\,\% of
+the KrF formed. Once the F$_2$ is gone, Penning ionization of \Krs{} and
+recombination hand the same energy back and forth, so the flow through
+\Krs{} passes 100\,\% of \Edep, \wm{krs.in}\,\% here. In v0\_2 part of that
+\Krs{} forms \Krts{} and radiates at 147\unit{nm} instead
+(Section~\ref{sec:kr2}), and the gas ends at \wm{TgEnd}\unit{K}.
+
+F + F + Kr gives F atoms back to F$_2$ at $\wm{k.FF}$\unit{cm^6s^{-1}},
+Cohen and Bott's evaluated Ar value, since no Kr measurement exists. At
+the reference point it returns \wm{FF.in}\,\% of \Edep{} from the F atoms
+to heat, far too slowly to refill the F$_2$.
+
+\section{The \Krts{} route}
+\label{sec:kr2}
+
+v0\_2's basic network carries the \Krts{} excimer, which v0\_1 had as an
+optional group. \Krs{} + 2Kr \ra \Krts{} + Kr runs at Ueda's
+$\wm{k.AK8}$\unit{cm^6s^{-1}}, measured at 0.5 to 1\unit{atm}, on Wieme and
+Lenaerts' $(T_g/300)^{\wm{tpow.AK8}}$, measured over 300 to 451\unit{K}.
+\Krts{} radiates at 147\unit{nm} with the measured \wm{tauRAD}-ns
+lifetime. \Krts{} + \Ft{} runs at Quigley and Hughes'
+$\wm{k.kr2F2}$\unit{cm^3s^{-1}}, split evenly between KrF(B) and \KtF{} by
+Kannari's assignment, since the products were not measured. \Krts{} + F
+\ra KrF(B) + Kr and \Krts{} + \Krts{} \ra \Krtp{} + 2Kr + \el{} have no
+measurement and run at 0. At the reference point \wm{brs.AK8}\,\% of the
+\Krs{} forms \Krts, \wm{brs.AK8.F2}\,\% of the \Krs{} used while the F$_2$
+lasts. \wm{brk2.RAD}\,\% of that \Krts{} radiates, so \wm{out.147}\,\% of
+\Edep{} leaves at 147\unit{nm}, and \Krts{} + \Ft{} forms \wm{frm.kr2}\,\%
+of the KrF.
+
+\Krts{} + F decides how much of the route reaches the laser line. With no
+measurement its band runs from 0 to \wi{kr2.hi.k}\unit{cm^3s^{-1}}, the
+top of a conditional range that SRI gave for the argon analog. At the
+reference point the 248-nm share rises from \wi{kr2.def}\,\% at 0 to
+\wi{kr2.lo}\,\% at \wi{kr2.lo.k}, \wi{kr2.kann}\,\% at Kannari's
+\wi{kr2.kann.k} and \wi{kr2.hi}\,\% at the top, where the 147-nm share
+falls from \wi{kr2.vuv} to \wi{kr2.hi.vuv}\,\%. The share saturates
+because the F$_2$ burns out at \wi{kr2.burn}\unit{ns} and leaves
+\wi{kr2.F}\unit{cm^{-3}} F atoms, which turn \Krts{} into KrF
+\wi{kr2.kann.ratio} times faster than \Krts{} radiates at Kannari's rate
+and \wi{kr2.hi.ratio} times faster at the top, and each KrF photon gives
+its F atom back. At the top \wi{kr2.hi.afterpc}\,\% of the gain comes
+after the burnout. With Kannari's estimates for both unmeasured rows,
+\wi{kr2.kann.k} and \wi{kr2.pen.k}\unit{cm^3s^{-1}}, v0\_2 gives v0\_1's
+optional \Krts{} group, \wi{kr2.both}\,\%.
+
+Pure krypton tests the route without F$_2$. At Morozov's low pump v0\_2
+gives a VUV yield of \wi{pure.vuv}, where Morozov et al. (2008) measured
+\wi{pure.vuv.meas} $\pm$ \wi{pure.vuv.err}, and no band at either end
+moves it by more than \wi{pure.band.move}. So the miss does not come from
+the route, and that point cannot score the bands. At
+\wi{pure.hi.P}\unit{kW\,cm^{-3}} for \wi{pure.hi.pulse}\unit{\mu s} in
+\wi{pure.hi.torr}\unit{Torr} of Kr the bands move the yield from
+\wi{pure.hi.lo}, with \wi{pure.hi.lo.what}, through \wi{pure.hi.def} at
+the defaults to \wi{pure.hi.hi}, with \wi{pure.hi.hi.what}. A pure-Kr VUV
+yield measured against pump rate would score them, and none is among the
+sources held.
+
+\section{The bands}
+\label{sec:bands}
+
+v0\_2 carries \wm{bd.n} rates as bands. A measured rate keeps its
+measurement as the default and spans the other published values. A rate
+with no measurement is 0 by default and runs to the largest published
+value, which is no bound, and \wm{bd.nzero} bands are of that kind.
+Analogs and device data never set a default or narrow a band.
+Appendix~A.4 gives each band's sources. Table~\ref{tab:bands} moves one
+band at a time to each end at the reference point. Two bands move the
+248-nm share far, \Krts{} + F from \wm{bd.kr2_f.lo248} to
+\wm{bd.kr2_f.hi248}\,\% and the trimer's temperature law from
+\wm{bd.trimer_tg_pow.lo248} to \wm{bd.trimer_tg_pow.hi248}\,\%. Each of
+the other six moves it by \wm{bd.minor} points or less.
+
+\begin{table}[H]
+\centering\footnotesize
+\renewcommand{\arraystretch}{1.12}
+\setlength{\tabcolsep}{4pt}
+\begin{tabularx}{\linewidth}{@{}>{\raggedright\arraybackslash}X
+  >{\raggedright\arraybackslash}p{1.45cm}>{\raggedright\arraybackslash}p{3.6cm}
+  >{\raggedright\arraybackslash}p{1.65cm}>{\raggedright\arraybackslash}p{1.7cm}
+  >{\raggedright\arraybackslash}p{1.55cm}@{}}
+\toprule
+band & default & low to high end & 248\unit{nm} & 147\unit{nm} &
+  $T_g$ at the end (K)\\
+\midrule
+\wmBands
+\bottomrule
+\end{tabularx}
+\caption{Each band alone at its two ends at the reference point, the
+others at their defaults. The shares are percent of \Edep. With every band
+at its default v0\_2 sends \wm{out.248}\,\% out at 248\unit{nm} and
+\wm{out.147}\,\% at 147\unit{nm}, and the gas ends at \wm{TgEnd}\unit{K}.}
+\label{tab:bands}
+\end{table}
+
+Tahoma scores the bands and sets none (Table~\ref{tab:tahbands}). Its gain
+moves most with the trimer's weak law, to \x{\wi{tah.tri.x}}, so Tahoma
+counts against that law. \Krts{} + F at the top of its band brings the
+gain to \x{\wi{tah.hiF.x}}. Each of the other six moves it by
+\wi{tah.bd.minor}\unit{\%/cm} or less. Tahoma's window, \wi{tah.win.lo}
+to \wi{tah.win.hi}\unit{ns}, closes with \wi{tah.f2left}\,\% of the F$_2$
+fill left, while at the reference point \wi{kr2.hi.afterpc}\,\% of the
+band's gain comes after the F$_2$ has burnt out. So \Krts{} + F moves
+Tahoma's gain far less than the reference point's 248-nm share.
+
+\begin{table}[H]
+\centering\footnotesize
+\renewcommand{\arraystretch}{1.12}
+\begin{tabularx}{0.82\linewidth}{@{}>{\raggedright\arraybackslash}X
+  >{\raggedright\arraybackslash}p{2.6cm}>{\raggedright\arraybackslash}p{2.9cm}@{}}
+\toprule
+band & $g_0$ (\%/cm), low to high end & over the measured
+  \wi{tah.g0.meas}\\
+\midrule
+\wiTahBands
+\bottomrule
+\end{tabularx}
+\caption{Each band alone at its two ends at Tahoma, under the beam drive
+with ML's constants, the others at their defaults. With every band at its
+default the gain is \wi{tah.def.g0}\unit{\%/cm}.}
+\label{tab:tahbands}
+\end{table}
+
+\section{KrF formation}
+
+The chain from \Krp{} and \Krs{} to KrF is v0\_1's. \Krs{} + \Ft{} reacts
+at $\wm{k.harp}$\unit{cm^3s^{-1}}, the mean of three first-hand
+measurements. Velazco, Kolts and Setser (1976) measured the KrF$^*$ yield
+of that reaction as \wm{pc.harpY}\,\%, and Yu and Setser (1990) put
+\wm{pc.fC}\,\% of that KrF$^*$ in C. Tahoma measured \gIP{} $=$
+\wi{tah.eta.meas}. ML puts a 248-nm probe flux on v0\_2 and fits its
+$I_\mathrm{sat}$ at fixed $g_0$, as Tahoma did. That gives \wi{tah.eta}.
+Its KrF formation rate in 5-eV quanta is \wi{tah.form} of the pump. The
+difference is KrF that forms in C, or mixes into it, and decays there
+without meeting the laser field.
+
+Table~\ref{tab:links} moves one link at a time to another value it could
+take. The measured range of the harpoon yield, 0.70 to 1.0, moves \gIP{}
+from \wi{link.yield.lo} to \wi{link.yield.hi} and brackets Tahoma's
+\wi{tah.eta.meas}. Three links have no measurement at all. They are the
+KrF$^*$ yield of ion-ion recombination with F$^-$, the share of that KrF
+formed in C, and \Krts{} + F \ra KrF. Only analogs exist for the first
+two, and both analogs lower \gIP{} toward the measurement. v0\_2 runs the
+third at 0, and Kannari's estimate or the top of its band raise \gIP{}.
+The predictive-only policy lets no analog set a link and no link be chosen
+by its fit to Tahoma. The rest of the \Krts{} route moves \gIP{} by
+\wi{link.minor} at most.
+
+\begin{table}[H]
+\centering\footnotesize
+\renewcommand{\arraystretch}{1.12}
+\begin{tabularx}{\linewidth}{@{}>{\raggedright\arraybackslash}X
+  >{\raggedright\arraybackslash}p{1.8cm}>{\raggedright\arraybackslash}p{1.9cm}
+  >{\raggedright\arraybackslash}p{3.3cm}r r@{}}
+\toprule
+link & v0\_2 & tried & what the value is & \gIP & change\\
+\midrule
+\wiLinks
+\bottomrule
+\end{tabularx}
+\caption{Each formation link moved alone from v0\_2's chain at Tahoma,
+\wi{tah.f2torr}\unit{Torr} of F$_2$ in Kr at \wi{tah.torr}\unit{Torr} in
+all, pumped at \wi{tah.pin}\unit{kW\,cm^{-3}}. v0\_2's chain gives
+\wi{link.base}, and Tahoma measured \wi{tah.eta.meas}.}
+\label{tab:links}
+\end{table}
+
+\section{The electron side}
+
+v0\_2 integrates each krypton electron-impact rate over v0's EEDF with
+two temperatures, a Maxwellian bulk at $T_e$ and a tail above
+9.915\unit{eV} read from kinetic EEDFs. Each captured electron takes the
+energy it really carries. For \Ft{} attachment at Tahoma that is
+\wi{el.eatt}\unit{eV}, where $\tfrac32 T_e$ would book
+\wi{el.eatt.32}\unit{eV}. \Krtp{} recombination goes as
+$T_e^{-\wi{el.rpow}}$, so a recombining electron takes
+\wi{el.rcap}\,$T_e$. A kinetic loop that iterates v0\_2 with a Boltzmann
+solution, with the same recombination law as its sink, is the reference.
+At Tahoma v0\_2's own closure lands within \wi{el.dev.te}\,\% of the
+loop's $T_e$ and \wi{el.dev.ne}\,\% of its $n_e$, and within
+\wi{el.dev.g0} and \wi{el.dev.formation}\,\% of its gain and formation.
+
+The cross sections are v0's. With Biagi's krypton set the computed $W$ is
+\wi{sw.krw.lo} to \wi{sw.krw.hi} times Nakamura's measured values. For
+\Ft{} attachment the groups that measured the rate constant disagree
+beyond their errors, and SIGLO gives between \wi{sw.f2.lo} and
+\wi{sw.f2.hi} times their values.
+
+On pure gases the beam drive's Spencer-Fano yields make \wi{pure.Kr.x}
+times the \Krs{} and \Krp{} per eV that the measured $W$ and
+$N_\mathrm{ex}/N_i$ give in Kr, and \wi{pure.Ar.x} times in Ar. v0\_2
+takes its \Krtp{} recombination from Shiu and Biondi and its \Krp{}
+conversion from a mean that includes Smith et al., so two of v0's
+pure-gas checks are v0\_2's inputs. The VUV yield of pure Kr at low pump
+is still the one miss. Without the thermal electrons' excitation v0\_2
+gives \wi{pure.vuv.nothermal}, close to the one photon per excitation and
+per ion that the measured $W$ and $N_\mathrm{ex}/N_i$ allow,
+\wi{pure.vuv.ideal}, so the shortfall is either physics LIGHT lacks or a
+systematic error of the measurement.
+
+\section{The power input}
+\label{sec:input}
+
+v0\_2 feeds its power to the electron gas. Run that way at Tahoma's
+conditions, with no beam, it gives $g_0=$ \wi{tah.own.g0}\unit{\%/cm},
+\x{\wi{tah.own.x}} the measured value. Its electrons then carry the power
+at $T_e=$ \wi{tah.own.te}\unit{eV} and $n_e=$ \wi{tah.own.ne}\unit{cm^{-3}},
+where the beam-sustained plasma sits at \wi{tah.beam.te}\unit{eV} and
+\wi{tah.beam.ne}\unit{cm^{-3}}. The gain comes near, but the electron gas
+does not resemble the beam's, so the agreement does not test the power
+input. No discharge-pumped Kr/F$_2$ measurement has been scored.
+
+\section{The energy ladder}
+
+Figure~\ref{fig:ladder} places every species of v0\_2 at its formation
+energy, the energy above ground-state Kr and \Ft{} at rest that
+Appendix~A lists, and draws the rows that move energy between them. It
+follows the ladder view of the website's excimer simulation, with
+v0\_2's own numbers. KrF(B) lies \lad{DeB}\unit{eV} below the ion pair \Krp{} + \Fm{}, the
+measured $D_e(B)$, and \lad{BoverKrF}\unit{eV} above Kr + F. The
+\lad{wl.G4}-nm photon carries \lad{hv.G4}\unit{eV} of that and leaves
+KrF(X) only \lad{heat.G4}\unit{eV} above Kr + F. The harpoon G3 heats the
+gas by \lad{heat.G3}\unit{eV} for each KrF(B) it makes, the ion-ion
+recombination K26 by \lad{heat.K26}\unit{eV} and the trimer's formation by
+\lad{heat.G5}\unit{eV}. \KtF{} emits \lad{hv.C3}\unit{eV} at
+\lad{wl.C3}\unit{nm} and leaves \lad{heat.C3}\unit{eV} of lower-state
+repulsion. On the \Krts{} route, which is basic in v0\_2, \Krts{} emits
+\lad{hv.V}\unit{eV} at \lad{wl.V}\unit{nm} and leaves
+\lad{heat.V}\unit{eV}, or meets F$_2$ and makes KrF(B) through NK7 or
+\KtF{} through K2F\_BR.
+
+\begin{figure}[p]
+\centering
+\ladpicture
+\caption{The energy ladder of LIGHT v0\_2, version \lad{version}, in eV
+above ground-state Kr and \Ft{} at rest. A bar is a species at its
+formation energy and a dashed bar a pair, the sum of two. An arrow is a
+row, labelled with its id. It is solid in the default network and dotted
+for a band whose default is 0, \lad{zero}. The rows of the optional group
+\lad{groups} are dashed. A photon's arrow drops by its quantum, and the red
+squiggle below it is the heat its lower state gives the gas as it falls
+apart. A red stub is a quench. The energy a row releases heats the gas,
+except a photon's, which leaves, and that of \lad{toe}, which goes to the
+electrons. KrF(B) and KrF(C) lie \lad{gapBC}\unit{cm^{-1}} apart and are
+drawn as a pair of bars that every B and C row meets. The rows
+\lad{notdrawn} move nothing between levels and are not drawn.}
+\label{fig:ladder}
+\end{figure}
+
+\section{The system map}
+
+The map on the next page draws v0\_2's basic network at the notes'
+reference point, \wm{p}\unit{atm} of Kr with \wm{xF2}\,\% F$_2$,
+\wm{P}\unit{kW\,cm^{-3}} for \wm{pulse}\unit{\mu s}, with $n_e$ seeded at
+$\wm{ne}$\unit{cm^{-3}} and then free and every band at its default. Band
+widths are proportional to the energy they carry, and every box conserves
+it (\wm{nodes} balances, each to $10^{-8}$ of \Edep). Of the deposited
+energy, \wm{krf.eff}\,\% passes through KrF in 5-eV quanta. Of that KrF,
+\wm{brf.G4}\,\% radiates at 248\unit{nm}, \wm{brf.tri}\,\% forms the
+trimer and \wm{brf.e}\,\% is quenched by electrons, so \wm{out.248}\,\% of
+the deposited energy leaves at 248\unit{nm}, and \wm{out.147}\,\% leaves
+at 147\unit{nm} from \Krts.
+
+% the ladder is a float, which pdfpages would leave pending past the map
+\clearpage
+\includepdf[pages=1,fitpaper=true]{system_map_v0_2.pdf}
+
+\section{Where v0\_2 is not yet reliable}
+
+\begin{itemize}
+\item \Krts{} + F \ra KrF(B) + Kr. No measurement exists, so v0\_2 runs it
+at 0 and carries it as a band up to \wi{kr2.hi.k}\unit{cm^3s^{-1}}.
+Kannari's \wi{kr2.kann.k} traces to an SRI report whose model leaves the
+reaction out and whose one number is a conditional range for Ar$_2^*$ + F.
+At the reference point the band spans \wm{bd.kr2_f.lo248} to
+\wm{bd.kr2_f.hi248}\,\% at 248\unit{nm}, and at Tahoma \wi{tah.bd.kr2_f.lo}
+to \wi{tah.bd.kr2_f.hi}\unit{\%/cm}. A measurement or a bound between
+$10^{-12}$ and $10^{-10}$\unit{cm^3s^{-1}} would matter most.
+\item The trimer above \wi{tri.klimek.hi}\unit{K}. KrF + 2Kr \ra \KtF{}
+takes \wm{brf.tri}\,\% of the KrF at the reference point, where the gas
+ends at \wm{TgEnd}\unit{K}. The $(T_g/300)^{\wm{tpow.G5}}$ law is Shui's
+calculation, measured only up to \wi{tri.klimek.hi}\unit{K}. With the
+pure-Kr $T_g^{-\wi{tri.lo.pow}}$ law, the weakest the data allow, the
+reference point sends \wm{bd.trimer_tg_pow.hi248}\,\% out at 248\unit{nm}
+instead of \wm{out.248}\,\%. Tahoma's window sits at \wi{tah.tg}\unit{K},
+and there that law gives the gain at \x{\wi{tah.tri.x}} the measured
+value. Tahoma's gain counts against the weak law as a score and sets
+nothing.
+\item \Krs{} + 2Kr above 451\unit{K}. Its temperature law is measured over
+300 to 451\unit{K}, and the reference point ends at \wm{TgEnd}\unit{K}.
+The report warns when the gas passes it.
+\item Hot gas. Recombination returns the ionization energy as heat. At
+\wi{hot.p}\unit{atm} and \wi{hot.P}\unit{kW\,cm^{-3}} the gas reaches
+\wi{hot.tg}\unit{K}, beyond every rate law's data, and \KtF{} and \Krtp{}
+redissociation are not in the model. The report warns above 1000\unit{K}.
+\item Ion-ion recombination with F$^-$. Its rate was measured only below
+300\unit{Torr}, where Jacob et al. (1978) fitted KrF$^*$ pulse shapes.
+Rokni et al. (1977) found that \Krtp{} + F$^-$ forms KrF$^*$ as
+efficiently as \Krp{} + F$^-$, but from relative intensities. The absolute
+KrF$^*$ yield, its B/C split and the rate near 1\unit{atm} have no
+measurement. Table~\ref{tab:links} shows what the analogs would do.
+\item \Krts{} + \Krts{} and \Krs{} + \Krs{}. Neither Penning rate has a
+measurement among the sources held, and at high pump they set the pure-Kr
+VUV yield (Section~\ref{sec:kr2}).
+\item \Krts's well. REBUILD's estimate puts \Krts{}
+\wm{E.kr2s.bind}\unit{eV} below \Krs{} + Kr, since no measured or
+calculated binding energy is among the sources held. It only moves energy
+between heat and storage.
+\item F + F + Kr is held at its 300\unit{K} value, which overstates it in
+hot gas.
+\item Hakuta's C-A decays and Burnham and Searles' $\tau_B$ remain
+unexplained conflicts.
+\end{itemize}
+
+\appendix
+\section{Reaction rates}
+
+Rates are the values at 300\unit{K}. The column $T$ gives the law v0\_2
+applies to them. Electron-impact rows use $\langle\sigma v\rangle$ over the
+EEDF, and Section A.3 lists their Maxwellian values. A row that reads a
+band prints the value v0\_2 runs by default and the band's name, and
+Section A.4 lists the bands. Each row's full citation is in
+\texttt{v0\_2/network.py}. The row ids are the ones the code and the
+system map use.
+
+\footnotesize
+\setlength{\tabcolsep}{3.5pt}
+\renewcommand{\arraystretch}{1.12}
+
+\subsection{The basic network, \wi{rates.nBasic} rows}
+\wi{rates.nBandRows} of them read a band.
+\begin{longtable}{@{}l>{\raggedright}p{4.1cm}>{\raggedright}p{3.1cm}
+  >{\raggedright}p{1.9cm}>{\raggedright\arraybackslash}p{4.75cm}@{}}
+\toprule
+row & reaction & rate & $T$ & source\\
+\midrule
+\endhead
+\bottomrule
+\endfoot
+\wirBasic
+\end{longtable}
+
+\subsection{Optional group on the basic network, \wi{rates.nGroups} rows}
+The group \wi{rates.groups} is off at the reference point and switches on
+with \texttt{-{}-add}.
+\begin{longtable}{@{}l>{\raggedright}p{4.1cm}>{\raggedright}p{3.1cm}
+  >{\raggedright}p{1.9cm}>{\raggedright\arraybackslash}p{4.75cm}@{}}
+\toprule
+row & reaction & rate & $T$ & source\\
+\midrule
+\endhead
+\bottomrule
+\endfoot
+\wirGroups
+\end{longtable}
+
+\subsection{Electron-impact rate coefficients}
+Maxwellian $\langle\sigma v\rangle$ in cm$^3$s$^{-1}$ at the $T_e$ of each
+column. The last column is the factor the two-temperature tail applies at
+the reference point's mid-pulse state, $T_e=$ \wi{rates.teMid}\unit{eV}
+with the tail at \wi{rates.rMid}\,$T_e$. The rows below the rule give the
+energy an attached electron takes from the electron gas.
+\begin{center}\scriptsize
+\begin{tabular}{@{}llrrrrrr@{}}
+\toprule
+row & process & \multicolumn{5}{c}{$T_e$ (eV)} & tail\\
+\cmidrule(lr){3-7}
+ & & \wirTe & factor\\
+\midrule
+\wirXsec
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsection{The bands}
+\texttt{network.BANDS}. \texttt{Params.rates} sets a band, and
+\texttt{Params.trimer\_tg\_pow} the trimer law.
+\begin{longtable}{@{}l>{\raggedright}p{3.2cm}>{\raggedright}p{1.6cm}
+  >{\raggedright}p{2.6cm}>{\raggedright\arraybackslash}p{5.2cm}@{}}
+\toprule
+band & process & default & range & source\\
+\midrule
+\endhead
+\bottomrule
+\endfoot
+\wirBands
+\end{longtable}
+
+\subsection{Where v0\_2's v0 network differs}
+The v0 network keeps the notes' six reactions with REBUILD's values, and
+its optional groups, \wi{rates.v0groups}, are REBUILD's. These rows differ
+from v0\_2's basic network or exist only in the v0 network. The rows
+ending in \_C are the bc group's copies for KrF(C).
+\begin{longtable}{@{}l>{\raggedright}p{4.1cm}>{\raggedright}p{3.1cm}
+  >{\raggedright}p{1.9cm}>{\raggedright\arraybackslash}p{4.75cm}@{}}
+\toprule
+row & reaction & rate & $T$ & source\\
+\midrule
+\endhead
+\bottomrule
+\endfoot
+\wirVzero
+\end{longtable}
+
+\needspace{20\baselineskip}
+\subsection{Formation energies}
+Energies above ground-state Kr and F$_2$ at rest. Every reaction's energy
+release is the difference of these numbers, so no row can make or lose
+energy. $c_v$ is the heat capacity per particle in units of $k_B$.
+\begin{center}
+\begin{tabular}{@{}lrrl@{}}
+\toprule
+species & $E_\mathrm{form}$ (eV) & $c_v$ & what sets it\\
+\midrule
+\wirSpecies
+\bottomrule
+\end{tabular}
+\end{center}
+
+\end{document}

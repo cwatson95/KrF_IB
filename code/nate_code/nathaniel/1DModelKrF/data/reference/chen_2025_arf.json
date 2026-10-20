@@ -1,0 +1,38 @@
+{
+  "schema": "chen-arf-reference/1",
+  "source": {
+    "citation": "J. Chen et al., Physics of Plasmas 32, 113502 (2025)",
+    "doi": "10.1063/5.0287524",
+    "url": "https://doi.org/10.1063/5.0287524",
+    "license": "CC BY 4.0",
+    "extraction_note": "Only values stated in article text are numeric here. No 0.15% time-resolved curves are published to digitize."
+  },
+  "case": {
+    "f2_mole_fraction": 0.0015,
+    "bank_energy_j": 1.62,
+    "bank_efficiency": {
+      "value": 0.058,
+      "uncertainty_abs": null,
+      "provenance": "Article text says approximately 5.8%; no numeric uncertainty is published."
+    },
+    "laser_output_energy_j": {
+      "value": 0.09396,
+      "uncertainty_abs": null,
+      "provenance": "Derived exactly from the two text values 1.62 J and 5.8%; it is not an independently digitized datum."
+    }
+  },
+  "time_resolved_observables": {
+    "breakdown_time_s": null,
+    "current_a": null,
+    "electron_density_m3": null,
+    "electron_temperature_ev": null,
+    "arf_star_density_m3": null,
+    "arf_formation_mol_m3_s": null,
+    "arf_quenching_mol_m3_s": null,
+    "peak_laser_power_w": null,
+    "pulse_fwhm_s": null,
+    "plot_reading_uncertainty": null,
+    "availability": "Figures 10 and 15-17 plot 0.05%, 0.1%, 0.2%, 0.3%, 0.4%, and 0.5% F2, not 0.15%. Figure 18 includes the 0.15% sweep point but the article text states only its approximate CE."
+  },
+  "validation_policy": "Do not interpolate the unpublished 0.15% waveform vector or assign invented plot-reading uncertainties. Compare 0.10% and 0.20% published curves separately once their figure pixels are reproducibly digitized."
+}

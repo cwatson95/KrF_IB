@@ -1,0 +1,44 @@
+{
+  "schema": "cross-section-metadata/1.1",
+  "generated_utc": "2026-07-04T03:06:38Z",
+  "source": "LXCat, www.lxcat.net; NIST Electron-Impact Cross Section Database (SRD 107), https://dx.doi.org/10.18434/T4KK5C; LXCat, www.lxcat.net (SIGLO & Morgan databases); GitHub mirror lindsayad/pythonForBolos/LXCat-June2013.txt; IAEA AMDIS CollisionDB, https://db-amdis.org/collisiondb/; MPI-Mainz UV/VIS Spectral Atlas, https://uvvis.mpch-mainz.gwdg.de/; K.S. Jancaitis, LLNL UCRL-53465 (1983), Table II",
+  "data_file": "example_e_F2_attachment.csv",
+  "data_kind": "total",
+  "process_id": "example_e_F2_attachment",
+  "database": "Morgan database (LXCat 2013)",
+  "reaction": "E + F2 -> F^-+F",
+  "type": "Attachment",
+  "category": "Attachment",
+  "family": "Electron",
+  "projectile": "e",
+  "target": "F2",
+  "mass_ratio_m_over_M": null,
+  "ion_mass_amu": null,
+  "ion_mass_ratio": null,
+  "stat_weight_ratio": null,
+  "complete_set": false,
+  "param_raw": "",
+  "comment": "F^-+F,(diss. att.) Fluorine-molecule (F2) set from the Morgan database on LXCat; W.L. Morgan, Plasma Chem. Plasma Process. 12, 449 (1992). Cross section already in m^2. Retrieved from the GREPHE/LAPLACE LXCat export 'LXCat-June2013.txt' (4 Jun 2013), GitHub mirror lindsayad/pythonForBolos. CAVEAT: the zero-energy dissociative-attachment value (8e-19 m^2) is very large; verify the low-energy magnitude against a primary source (Chantry; Christophorou) before quantitative use.",
+  "updated": "2010-06-24 12:26:48",
+  "n_points": 61,
+  "threshold": null,
+  "axes": {
+    "x_quantity": "Energy",
+    "y_quantity": "Cross section"
+  },
+  "units": {
+    "x": "eV",
+    "y": "cm^2"
+  },
+  "source_units": {
+    "x": "eV",
+    "y": "m^2"
+  },
+  "conversion_from_source": {
+    "x": 1,
+    "y": 10000
+  },
+  "x_min": 0,
+  "x_max": 20,
+  "y_max": 7.999999999999999e-15
+}

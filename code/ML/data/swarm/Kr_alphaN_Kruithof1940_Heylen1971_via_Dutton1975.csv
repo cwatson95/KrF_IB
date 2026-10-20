@@ -1,0 +1,94 @@
+# Pure krypton: first Townsend ionization coefficient alpha/N versus E/N (MEASURED, printed values)
+# Original measurements:
+#   (a) A. A. Kruithof, Physica 7, 519 (1940)  [steady-state Townsend current growth]
+#   (b) A. E. D. Heylen, Int. J. Electron. 31, 19 (1971)  ["Ionization coefficients and sparking voltages in krypton
+#       and in krypton-olefin gas mixtures", doi:10.1080/00207217108938196]
+# Transcribed from: J. Dutton, J. Phys. Chem. Ref. Data 4, 577 (1975), Table 7.4(a) "Values of alpha/N for krypton",
+#   journal page 724 (PDF page 148 of srd.nist.gov/JPCRD/jpcrd69.pdf); discussion in sec. 3.7.a(iv), figure 7.4.
+# Gas / conditions: pure Kr. Dutton converts E/p0 to E/N with p0 = pressure reduced to 0 C (so N = 3.54e16 cm^-3 per Torr).
+#   Gas temperature and pressures of the original experiments are not given in the table.
+# Units: E/N in Td (1e-17 V cm^2); alpha/N in cm^2 (table unit 1e-17 cm^2, multiplied out here).
+# Uncertainty: not stated in the table. Dutton: the two sets agree well for E/N > 100 Td, but Heylen's values fall
+#   increasingly below Kruithof's as E/N decreases, about a factor of two lower near 30 Td.
+# Values: PRINTED in the source (not digitized); transcribed from the page image and checked visually.
+# Where two values are given at the same E/N (bracketed in the source) both are listed.
+E_N_Td,alpha_over_N_cm2,source
+14.12,4.4e-21,Kruithof1940
+15.54,6.8e-21,Kruithof1940
+16.95,1.03e-20,Kruithof1940
+19.77,2.18e-20,Kruithof1940
+22.60,4.1e-20,Kruithof1940
+25.42,7.1e-20,Kruithof1940
+27.51,4.6e-20,Heylen1971
+28.25,1.17e-19,Kruithof1940
+30.5,1.18e-19,Heylen1971
+30.8,1.14e-19,Heylen1971
+31.1,1.82e-19,Kruithof1940
+33.7,1.73e-19,Heylen1971
+33.9,2.68e-19,Kruithof1940
+33.9,1.97e-19,Heylen1971
+36.4,2.61e-19,Heylen1971
+36.9,3.0e-19,Heylen1971
+39.6,5.2e-19,Kruithof1940
+42.3,4.6e-19,Heylen1971
+43.1,6.4e-19,Heylen1971
+45.2,8.9e-19,Kruithof1940
+49.4,8.7e-19,Heylen1971
+50.9,1.37e-18,Kruithof1940
+54.9,1.35e-18,Heylen1971
+56.5,1.95e-18,Kruithof1940
+61.5,1.98e-18,Heylen1971
+62.2,2.62e-18,Kruithof1940
+62.4,2.33e-18,Heylen1971
+68.4,2.82e-18,Heylen1971
+68.4,3.16e-18,Heylen1971
+70.6,3.8e-18,Kruithof1940
+77.2,3.8e-18,Heylen1971
+78.3,4.5e-18,Heylen1971
+79.1,5.1e-18,Kruithof1940
+87.1,5.6e-18,Heylen1971
+87.1,5.9e-18,Heylen1971
+90.4,7.1e-18,Kruithof1940
+99.0,7.9e-18,Heylen1971
+101.7,9.3e-18,Kruithof1940
+110.9,1.08e-17,Heylen1971
+113.0,1.18e-17,Kruithof1940
+124.2,1.42e-17,Heylen1971
+127.1,1.51e-17,Kruithof1940
+130.6,1.48e-17,Heylen1971
+139.2,1.78e-17,Heylen1971
+140.2,1.71e-17,Heylen1971
+141.2,1.87e-17,Kruithof1940
+157.1,2.22e-17,Heylen1971
+166.4,2.39e-17,Heylen1971
+169.5,2.62e-17,Kruithof1940
+193.2,3.2e-17,Heylen1971
+197.7,3.4e-17,Kruithof1940
+203.1,3.4e-17,Heylen1971
+226.0,4.2e-17,Kruithof1940
+246.1,4.8e-17,Heylen1971
+249.7,4.7e-17,Heylen1971
+254.2,4.9e-17,Kruithof1940
+282.5,5.7e-17,Kruithof1940
+339,7.4e-17,Kruithof1940
+396,9.0e-17,Kruithof1940
+452,1.06e-16,Kruithof1940
+509,1.22e-16,Kruithof1940
+565,1.37e-16,Kruithof1940
+678,1.64e-16,Kruithof1940
+791,1.89e-16,Kruithof1940
+904,2.12e-16,Kruithof1940
+1017,2.33e-16,Kruithof1940
+1130,2.53e-16,Kruithof1940
+1271,2.74e-16,Kruithof1940
+1412,2.95e-16,Kruithof1940
+1695,3.3e-16,Kruithof1940
+1977,3.6e-16,Kruithof1940
+2260,3.8e-16,Kruithof1940
+2542,4.0e-16,Kruithof1940
+2825,4.1e-16,Kruithof1940
+3390,4.4e-16,Kruithof1940
+4000,4.5e-16,Kruithof1940
+4520,4.6e-16,Kruithof1940
+5090,4.7e-16,Kruithof1940
+5650,4.7e-16,Kruithof1940

@@ -1,0 +1,28 @@
+# READING of Gadomski et al. CPL 189, 153 (1992), Fig. 1 (p.155): KrF(B,C) decay constant vs F2 pressure at 100 Torr Kr (filled circles) and 50 Torr Kr (open squares);
+# and vs Xe (triangles; 1.5 Torr F2 + 100 Torr Kr; caption: "pressure scale should be multiplied by 2 when reading the Xe data").
+# Y calibrated on the 5/10/15 ticks; the drawn frame sits ~0.2e7 s^-1 above the extrapolated zero, so +-0.2e7 s^-1 systematic, +-0.1 random; x +-0.05 Torr.
+# Fits of readings: 100 Torr Kr: 5.75e7 + 0.857e7/Torr; 50 Torr Kr: 4.52e7 + 0.863e7/Torr (k(F2)=2.7e-10 at 3.22e16/Torr; printed average (2.8+-0.2)e-10).
+# Xe as plotted: 3.15e7 + 0.344e7/Torr -> 1.07e-10 only if the x scale is NOT doubled; with x doubled the intercept only matches Fig. 2a if y is doubled too.
+series,P_plotted_Torr,decay_1e7_per_s
+Kr100_F2,1.01,6.45
+Kr100_F2,2.14,7.59
+Kr100_F2,2.97,8.39
+Kr100_F2,3.79,9.09
+Kr100_F2,5.03,10.13
+Kr100_F2,6.92,11.79
+Kr100_F2,8.85,13.10
+Kr100_F2,10.88,15.14
+Kr50_F2,1.17,5.48
+Kr50_F2,2.20,6.47
+Kr50_F2,3.40,7.28
+Kr50_F2,4.95,8.96
+Kr50_F2,6.91,10.67
+Kr50_F2,8.30,11.45
+Kr50_F2,10.11,13.26
+Xe,1.45,3.69
+Xe,2.43,4.01
+Xe,3.87,4.55
+Xe,5.45,4.78
+Xe,7.45,5.78
+Xe,10.08,6.63
+Xe,11.97,7.29

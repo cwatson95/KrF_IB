@@ -1,0 +1,44 @@
+{
+  "schema": "cross-section-metadata/1.1",
+  "generated_utc": "2026-07-30T05:04:50Z",
+  "source": "LXCat, www.lxcat.net (SIGLO database). SIGLO database is the electron-impact cross-section source of Chen et al., Phys. Plasmas 32, 113502 (2025), ref 22. Re-sourced from the project crossbrowser export lxcat_siglo.json, SIGLO process id SIGLO__F2__Ionization__13.",
+  "data_file": "e_F2_ionization.csv",
+  "data_kind": "total",
+  "process_id": "e_F2_ionization",
+  "database": "SIGLO database (LXCat)",
+  "reaction": "E + F2 -> E + E + F2+",
+  "type": "Ionization",
+  "category": "Ionization",
+  "family": "Electron",
+  "projectile": "e",
+  "target": "F2",
+  "mass_ratio_m_over_M": null,
+  "ion_mass_amu": null,
+  "ion_mass_ratio": null,
+  "stat_weight_ratio": null,
+  "complete_set": true,
+  "param_raw": "E = 15.69 eV, complete set",
+  "comment": "SIGLO dataset (Chen 2025, ref 22); re-sourced from crossbrowser lxcat_siglo.json, source id SIGLO__F2__Ionization__13. Ground-state F2 ionization (arf.toml R15). Cross section stored in m^2 by SIGLO (converted to cm^2 for the CSV column).",
+  "updated": "2010-03-13 08:16:40",
+  "n_points": 22,
+  "threshold": 15.69,
+  "axes": {
+    "x_quantity": "Energy",
+    "y_quantity": "Cross section"
+  },
+  "units": {
+    "x": "eV",
+    "y": "cm^2"
+  },
+  "source_units": {
+    "x": "eV",
+    "y": "m^2"
+  },
+  "conversion_from_source": {
+    "x": 1,
+    "y": 10000
+  },
+  "x_min": 15.69,
+  "x_max": 937.3,
+  "y_max": 1.224e-16
+}

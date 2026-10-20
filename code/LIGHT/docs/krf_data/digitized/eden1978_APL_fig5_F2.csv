@@ -1,0 +1,11 @@
+# READING of Eden et al. APL 32, 733 (1978) Fig. 5: decay constant vs F2 pressure (0.5 Torr KrF2). +-0.03 Torr, +-0.1e7 s^-1.
+# My linear fit: 14.56e7 s^-1 + 1.511e7 s^-1/Torr -> k(F2)=4.7e-10 at 3.22e16/Torr (printed (4.8+-0.3)e-10).
+P_F2_Torr,Sigma_1e7_per_s
+0.90,15.48
+1.30,17.41
+2.84,18.22
+3.83,21.17
+4.02,19.80
+4.69,21.54
+5.04,22.31
+6.31,24.26

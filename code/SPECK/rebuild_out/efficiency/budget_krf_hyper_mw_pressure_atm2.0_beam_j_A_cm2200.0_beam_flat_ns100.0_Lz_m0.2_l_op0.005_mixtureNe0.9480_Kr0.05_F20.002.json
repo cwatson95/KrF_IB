@@ -1,0 +1,92 @@
+{
+  "preset": "krf_hyper_mw",
+  "overrides": {
+    "mw_power_W": 0.0,
+    "pressure_atm": 2.0,
+    "beam_j_A_cm2": 200.0,
+    "beam_flat_ns": 100.0,
+    "Lz_m": 0.2,
+    "l_op": 0.005,
+    "mixture": "Ne0.9480_Kr0.05_F20.002"
+  },
+  "regime": "mode=krf drive=beam grid=1x1x1 (1 cells, 169 reactions) 2 atm | beam yields via spencer_fano, sub-table rates = MEASURED relax curves (F-,F2(a3),el:F2,el:Kr,vib; <eps> in-coverage 100%, below it the taper extrapolates from the measured floor) | drive 1.255e+02 J, laser 7.229e+00 J (eta 5.76%) | ledger residual max 2.63e-12 | validity: ionization 5.1e-05 of N, F2 burn 26.1%, <eps> in-table 1% | wall 6.1 s | cells are independent reactors (no inter-cell transport; coarse device grid, not a PIC grid)",
+  "E_dep_J": 125.49025258469524,
+  "E_laser_J": 7.228833196024881,
+  "eta_intrinsic": 0.057604738592314436,
+  "beam_partition": {
+    "W_eV": 36.61476630919186,
+    "ion_pairs": 2.139160314856687e+19,
+    "ionization_eV_per_pair": 18.63132350895115,
+    "excitation_eV_per_pair": 13.723131374772619,
+    "eps_sec_eV_per_pair": 4.260311425468082,
+    "subfloor_eV_per_pair": 0.0
+  },
+  "KrF_B_formed": 3.040276943972312e+19,
+  "KrF_B_lost_accounted": 3.0402558894486778e+19,
+  "formation_by_class": {
+    "neutral harpoon (Kr*/Kr**/Kr2* + F2)": 1.5492916095178164e+19,
+    "ion-ion recombination": 1.4596807613581271e+19,
+    "transfer from ArF*/Ar2F*/Kr2F*/ArKrF*": 7260352468.722065,
+    "other formation": 3.130457237033346e+17
+  },
+  "loss_by_class": {
+    "quench by electrons": 2.041688583118851e+18,
+    "quench by F2": 6.649657024798715e+17,
+    "quench by Kr": 2.4246346441698752e+17,
+    "three-body (Ar/Kr 2-body partners)": 1.4664681397539464e+18,
+    "quench by Ne": 2.4159833344062935e+18,
+    "quench by Ar": 617381.5758559303,
+    "spontaneous B->X (+ other rad)": 2.1090610721489027e+18,
+    "stimulated emission (cavity)": 2.1354423688159207e+19,
+    "ASE": 1.075049100020976e+17
+  },
+  "top_formation_rows": {
+    "K25_fBv": 7.186122612868875e+18,
+    "K25_fC": 7.186122612868875e+18,
+    "K26_fBv": 6.901369507228719e+18,
+    "K26_fC": 6.901369507228719e+18,
+    "NK7_fBv": 5.080356529793073e+17,
+    "NK7_fC": 5.080356529793073e+17,
+    "K108_fBv": 3.920329446602726e+17,
+    "K108_fC": 3.920329446602726e+17
+  },
+  "top_loss_rows": {
+    "NK5_C": 1.0799058063880567e+18,
+    "URAD_B": 1.0072223097154884e+18,
+    "URAD_Bv": 9.543767156789701e+17,
+    "K67_C": 8.939327751661821e+17,
+    "NK5_B": 6.860354007897018e+17,
+    "NK5_Bv": 6.500421272285352e+17,
+    "K68Ne_C": 6.157760603981007e+17,
+    "K67_Bv": 5.84959330811183e+17
+  },
+  "eV_deposited_per_KrF_formed": 25.762407987753424,
+  "formation_efficiency": 0.19405650443952777,
+  "extraction_efficiency": 0.2968451831011175,
+  "ion_pair_recovery_as_KrF": 0.6823615561772043,
+  "ledger_sinks_J": {
+    "laser_out": 7.228833196024881,
+    "cavity_loss": 0.7064242833912133,
+    "radiated_escape": 15.85600617445848
+  },
+  "ledger_stores_J": {
+    "chem_potential": 13.219608529776917,
+    "electron_thermal": -1.1130257854870497e-09,
+    "gas_thermal": 88.47938039541786,
+    "photon_field": 6.739844328151623e-09
+  },
+  "stimulated_photons": 2.1354423688159207e+19,
+  "photoabsorbed_by_species": {
+    "F-": 1.9613168710801116e+18,
+    "Kr2+": 1.0937523264376346e+18,
+    "Ar2+": 0.0014583878210291529,
+    "Kr2F*": 8.414196340989105e+17,
+    "Ar2F*": 1.9842132488003186,
+    "Ar*": 13663301.302588647,
+    "Kr*": 5.411425987720473e+17,
+    "Ar**": 1.998367884880004e-05,
+    "Kr**": 1.8149608728024525e+17,
+    "ArKr*": 29.84430323054935,
+    "F2": 6.828394872059275e+18
+  }
+}

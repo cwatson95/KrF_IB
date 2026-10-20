@@ -1,0 +1,14 @@
+# READING of Burnham & Searles preprint (NRL MR 3753, DTIC ADA055912, PDF p.63 = report p.58), Fig. 1: decay rate of 250-nm KrF* fluorescence vs cell (KrF2) pressure.
+# Scan is rotated ~1.1 deg; corrected before reading. +-0.005 Torr, +-0.01e8 s^-1. One printed error bar (0.25 Torr point) spans ~1.07-1.27e8 s^-1.
+# My fit of the 10 readings: 1/tau = 1.111e8 + 0.120e8*P -> 9.00 ns, 3.7e-10 cm3/s (printed line 1/tau = 1.1e8 + 1.2e7 P; 9.0+-0.6 ns; (3.7+-1)e-10).
+P_Torr,rate_1e8_per_s
+0.083,1.130
+0.095,1.151
+0.129,1.030
+0.203,1.089
+0.250,1.170
+0.376,1.188
+0.504,1.229
+0.567,1.213
+1.001,1.172
+1.102,1.250

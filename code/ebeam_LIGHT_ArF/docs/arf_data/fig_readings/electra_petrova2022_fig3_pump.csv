@@ -1,0 +1,37 @@
+# Petrova et al., NRL/6720/MR--2022/1, Fig. 3 printed p.9 (PDF 16): measured single-shot Electra e-beam power density vs time
+# survey trace of the PDF at 300 dpi; +-5 kW/cm3; integral 67.9 mJ/cm3 (trapezoid, survey arithmetic)
+t_ns,P_kW_cm3
+0,0
+5,0
+10,45
+15,119
+20,147
+25,199
+30,268
+35,299
+40,333
+45,368
+50,390
+55,405
+60,427
+70,439
+80,453
+90,467
+100,479
+110,489
+120,498
+130,503
+135,504
+140,487
+145,456
+150,419
+160,322
+170,229
+180,143
+190,96
+200,55
+210,37
+220,25
+230,18
+240,15
+250,12

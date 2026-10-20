@@ -1,0 +1,31 @@
+# F2 electron attachment rate constants: single PRINTED values (measured) gathered from free sources.
+# Each row says where the number was read. "Secondary" = quoted by another document (original paper paywalled).
+# Units: k in cm^3/s; mean_energy in eV (thermal rows give a temperature instead).
+# Row notes:
+#  1-2  G. D. Sides, T. O. Tiernan and R. J. Hanrahan, "Measurement of thermal electron dissociative attachment rate
+#       constants for halogen gases using a flowing afterglow technique", J. Chem. Phys. 65, 1966 (1976),
+#       doi:10.1063/1.433294 (paywalled). Values as quoted by Nygaard et al. (DTIC AD-A048764, report p. 5 and ref. 14):
+#       (4.6 +- 1.2)e-9 "at an electron temperature of about 600 K"; (3.1 +- 1.2)e-9 "at a temperature of approximately 350 K".
+#       (Note: this JCP 65, 1966 (1976) paper is distinct from McCorkle et al., JCP 85, 1966 (1986).)
+#  3    H.-L. Chen et al., Appl. Phys. Lett. 30, 99 (1977), doi:10.1063/1.89303: (2.3 +- 0.3)e-9 at a mean energy of 1 eV,
+#       results over 0.3-1.0 eV, normalized to the e-ion recombination rate in an N2 plasma. Quoted by Nygaard (report p. 5).
+#  4    K. J. Nygaard et al., Appl. Phys. Lett. 32, 351 (1978), doi:10.1063/1.90055: (7.5 +- 1.5)e-10 at an ESTIMATED mean
+#       energy of 5 eV (upper-bound energy), 0.1-1 % F2 in He, E/N 3-17 Td. Printed in DTIC AD-A048764 abstract and OSTI 5066243.
+#  5    B. I. Schneider and C. A. Brau, Appl. Phys. Lett. 33, 569 (1978), doi:10.1063/1.90490, abstract (OSTI 6673017):
+#       about 7e-9 at 1 eV in F2/N2 and F2/Ar mixtures, mean energy 0.9-4 eV, k proportional to (mean energy)^-1.5.
+#  6    D. L. McCorkle, L. G. Christophorou, A. A. Christodoulides and L. Pichiarella, J. Chem. Phys. 85, 1966 (1986),
+#       doi:10.1063/1.451139 (paywalled). Abstract (OSTI 5584469): maximum k = 1.7e-8 at about 0.04 eV (T = 298 K);
+#       measured in Ar buffer at 298 K for mean energy 0.40-2.95 eV and in N2 buffer at 233, 298 and 373 K for 0.04-0.75 eV;
+#       k decreases monotonically with mean energy above thermal and increases only slightly with T. Their final report
+#       (OSTI 140939, DOE/ER/60356-4) adds that the uncertainty is large because the F2 concentration was hard to measure.
+#       The tabulated k(mean energy) curves themselves were not accessible.
+#  7-8  D. W. Trainor and J. H. Jacob, Appl. Phys. Lett. 35, 920 (1979), doi:10.1063/1.91005: see the digitized file
+#       F2_katt_vs_mean_energy_Avco1980_digitized.csv (no single printed value in the free report besides "nearly 25 %"
+#       increase from 300 K to 500 K).
+row,source,method,buffer,T_gas_K,mean_energy_eV,k_cm3_per_s,k_uncertainty_cm3_per_s,where_read,primary_or_secondary
+1,Sides_Tiernan_Hanrahan_1976,flowing afterglow,(not stated in quote),600 (electron temperature),,4.6e-9,1.2e-9,DTIC AD-A048764 p.5,secondary
+2,Sides_Tiernan_Hanrahan_1976,flowing afterglow,(not stated in quote),350,,3.1e-9,1.2e-9,DTIC AD-A048764 ref.14,secondary
+3,Chen_Center_Trainor_Fyfe_1977,e-beam ionized N2 plasma,N2,300,1.0,2.3e-9,0.3e-9,DTIC AD-A048764 p.5,secondary
+4,Nygaard_Hunter_Fletcher_Foltyn_1978,pulsed photoelectron drift gap,He (0.1-1 % F2),room,5 (estimated upper bound),7.5e-10,1.5e-10,DTIC AD-A048764 abstract; OSTI 5066243,primary (report by the same authors)
+5,Schneider_Brau_1978,(not stated in abstract),N2 and Ar,(not stated),1.0,7e-9,(not stated),OSTI 6673017 abstract,secondary (abstract)
+6,McCorkle_Christophorou_Christodoulides_Pichiarella_1986,electron swarm (ORNL),N2,298,0.04,1.7e-8,(large; F2 density uncertain),OSTI 5584469 abstract; OSTI 140939 report,secondary (abstract)

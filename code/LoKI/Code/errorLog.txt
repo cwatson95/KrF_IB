@@ -1,0 +1,24 @@
+Pay attention to the following warning:
+Negative values obtained when evaluating an Elastic cross section from an Effective one (F2).
+Negative values have been clipped to 0 and unreliable results may be obtained.
+Please, carefully check inputs and outputs of your simulation
+Pay attention to the following warning:
+Negative values obtained when evaluating an Elastic cross section from an Effective one (F2).
+Negative values have been clipped to 0 and unreliable results may be obtained.
+Please, carefully check inputs and outputs of your simulation
+Pay attention to the following warning:
+Negative values obtained when evaluating an Elastic cross section from an Effective one (F2).
+Negative values have been clipped to 0 and unreliable results may be obtained.
+Please, carefully check inputs and outputs of your simulation
+Pay attention to the following warning:
+Negative values obtained when evaluating an Elastic cross section from an Effective one (F2).
+Negative values have been clipped to 0 and unreliable results may be obtained.
+Please, carefully check inputs and outputs of your simulation
+Pay attention to the following warning:
+Negative values obtained when evaluating an Elastic cross section from an Effective one (F2).
+Negative values have been clipped to 0 and unreliable results may be obtained.
+Please, carefully check inputs and outputs of your simulation
+Pay attention to the following warning:
+Negative values obtained when evaluating an Elastic cross section from an Effective one (F2).
+Negative values have been clipped to 0 and unreliable results may be obtained.
+Please, carefully check inputs and outputs of your simulation

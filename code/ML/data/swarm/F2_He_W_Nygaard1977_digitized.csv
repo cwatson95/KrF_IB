@@ -1,0 +1,25 @@
+# Helium with 0.2 % and 1 % F2: electron drift velocity W versus E/N (MEASURED; values READ FROM A FIGURE)
+# Source: K. J. Nygaard, J. Fletcher, S. R. Hunter and S. R. Foltyn, "Electron drift velocities in helium-fluorine gas
+#   mixtures", Part B of DTIC AD-A048764 (University of Missouri-Rolla annual report, 31 Dec 1977), Fig. 2 (report page 18).
+#   Report fetched from https://archive.org/download/DTIC_ADA048764/DTIC_ADA048764.pdf
+# Gas / conditions: He + 1 % F2 (open squares, with error bars) and He + 0.2 % F2 (open circles, no error bars drawn);
+#   the photoelectron source worked at about 5-20 Torr (Part C); room temperature (not stated).
+#   The report's own pure-He points (filled circles, a check against Milloy & Crompton) are NOT included here.
+# Method: time of flight of a photoelectron pulse (Xe-ion laser, 231.5 nm), W = d / T_e, gap 0.3-3 cm.
+# Units: E/N in Td; W in cm/s. W_low/W_high = ends of the plotted error bar (1 % F2 only).
+# Uncertainty (stated): about +-10 % in pure He; 12-15 % once F2 is admitted. At 0.1 % F2 W was within 10 % of pure He.
+#   Digitization: affine calibration on 19 x-ticks and 34 y-ticks (residuals <= 0.03 Td, <= 0.005e6 cm/s); marker centres
+#   from the enclosed hole of each open symbol; estimated reading error +-0.03 Td, +-0.01e6 cm/s.
+F2_percent,E_N_Td,W_cm_per_s,W_low_cm_per_s,W_high_cm_per_s
+1.0,6.00,2.00e6,1.74e6,2.25e6
+1.0,7.57,2.35e6,2.09e6,2.63e6
+1.0,7.97,2.00e6,1.80e6,2.26e6
+1.0,9.04,2.35e6,2.10e6,2.63e6
+1.0,12.11,2.84e6,2.55e6,3.17e6
+1.0,15.08,3.42e6,3.02e6,3.85e6
+0.2,2.49,8.04e5,,
+0.2,4.62,1.15e6,,
+0.2,6.18,1.45e6,,
+0.2,7.57,1.78e6,,
+0.2,9.00,1.93e6,,
+0.2,10.29,2.12e6,,

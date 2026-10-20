@@ -1,0 +1,65 @@
+================================================================================
+HYPER-LASER (HYbrid Pumped ExcimeR Laser) -- TARGET PARAMETERS & OUTPUTS
+Source: DE-AR.pdf  (ARPA-E Award DE-AR0002030, Q1 report; UIUC/TAMU/NRL)
+NOTE: source is EXPORT-CONTROLLED / data-rights. Keep this file LOCAL.
+Extracted 2026-06-28 for modeling reference.
+================================================================================
+
+GOAL
+  Hybrid pumping (electron-beam + microwave) to push KrF laser intrinsic
+  efficiency beyond conventional e-beam-only methods.
+    KrF wall-plug efficiency:   ~7% (current)  ->  >14% (goal)
+    Required IFE target gain:   75-100  (vs 150-200 conventional)
+
+PUMPING
+  Electron beam (primary):
+    Output voltage (matched load):  600 kV
+    Pulse width:                    ~50-75 ns FWHM (tested)
+    Bias supply needed:             +/- 35 kV
+  Microwave (booster):
+    Frequency:                      95-100 GHz (2 MW gyrotron @ 95 GHz)
+    Power:                          ~10 mW (diagnostic) up to ~250 kW
+    Mode / coupling:                TE(12,2), waveguide-coupled, GHz pulsed, >100 kW
+    Variable pulse widths and relative timing delay between the two exciters.
+
+GAS / CELL
+  Gas mixture (Ar-DOMINANT):
+    Kr (or Ne):   0 - 40 %
+    Ar (or He):   60 - 100 %
+    F2 (or NF3):  0 - 2 %
+  Pressure:                  ~0.5 - 3 atm  (380 - 2280 Torr)
+  Plasma pumped volume:      ~50x50x50 mm  to  ~100x100x100 mm
+  Base vacuum:               down to 1e-6 Torr (turbo)
+
+LASER / OUTPUT
+  KrF* wavelength:           248.5 nm  (fluorescence)
+  Fluorescence relation:     248.5 nm intensity  IS PROPORTIONAL TO  small-signal gain
+  Spectral range studied:    ~215 - 500 nm
+
+MICROWAVE DIAGNOSTIC / ABSORPTION
+  S11/S21 microwave transmission in e-beam-pumped KrF plasmas (low-power, ~mW).
+  Expected absorption coefficient:
+        ne = 1e13 cm^-3, 100 GHz   ->   alpha ~ 0.2 cm^-1
+  (Reproduced by light_unified/microwave.py at ~0.5 atm, Te~0.5 eV.)
+
+MODELING / VALIDATION REQUIREMENTS (milestones)
+  * Spatiotemporal energy-deposition profiles, <10 ns resolution.
+  * Electromagnetic power deposition into the gas cell.
+  * Target agreement simulation <-> experiment: within 10% (deposition),
+    within 15% (spectra, efficiency).
+  * Operate / model across pressures ~0.5 - 3 atm.
+  * Find local optimizations that raise intrinsic efficiency above the ~7%
+    currently achieved.
+  * Quantify the fluorescence-efficiency and wall-plug-efficiency INCREASE from
+    adding microwave (M2.6 hybrid-pumping measurements).
+
+KEY MODELING IMPLICATIONS (how these map to the codebase)
+  * Ar-dominant kinetics  -> use phantom Ar-LOKI / e-beam modes (chow_ebeam=True,
+    Ar_init>0); the reduced light model is He/Kr/F2 only.
+  * Microwave coupling    -> light_unified/microwave.py (absorption + effective
+    field) and boltzmann.py (EEDF). nu_m/(nu_m^2+omega^2) factor.
+  * Hybrid timing result  -> microwave as AFTERGLOW reheat helps efficiency;
+    during the discharge it hurts (over-ionizes / quenches).
+  * Efficiency metric     -> must eventually subtract microwave input power for a
+    true wall-plug number (current eta is vs discharge/e-beam input only).
+================================================================================

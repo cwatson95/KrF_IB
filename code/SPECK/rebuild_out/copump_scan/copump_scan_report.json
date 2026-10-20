@@ -1,0 +1,682 @@
+{
+  "preset": "krf_hyper_mw",
+  "points": [
+    {
+      "axis": "power_pressure",
+      "point": "p0.5atm_P50000W",
+      "P_mw_W": 50000.0,
+      "window": {
+        "mw_t0_ns": 0.0,
+        "mw_flat_ns": 70.0,
+        "mw_rise_ns": 2.0
+      },
+      "beam_overrides": {
+        "pressure_atm": 0.5,
+        "beam_j_A_cm2": 100.0,
+        "t_end_ns": 250.0
+      },
+      "E_MW_J": 0.003599342156332952,
+      "E_laser_baseline_J": 0.03998580063420431,
+      "dE_laser_J": 1.2440477425455787e-05,
+      "marginal_laser": 0.003456319762089603,
+      "marginal_fluor": -0.013344383080540706,
+      "g0_peak_baseline_m1": 0.8414318236759856,
+      "en_window_max_td": 1.3521979432073918,
+      "en_window_mean_td": 0.24321363035712393,
+      "Te_peak_window_eV": 2.421706616935354,
+      "baseline_lases": true,
+      "E_beam_dep_J": 7.889491261267341
+    },
+    {
+      "axis": "power_pressure",
+      "point": "p0.5atm_P250000W",
+      "P_mw_W": 250000.0,
+      "window": {
+        "mw_t0_ns": 0.0,
+        "mw_flat_ns": 70.0,
+        "mw_rise_ns": 2.0
+      },
+      "beam_overrides": {
+        "pressure_atm": 0.5,
+        "beam_j_A_cm2": 100.0,
+        "t_end_ns": 250.0
+      },
+      "E_MW_J": 0.017996749815342383,
+      "E_laser_baseline_J": 0.03998580063420431,
+      "dE_laser_J": 7.340480410601702e-05,
+      "marginal_laser": 0.004078781160998237,
+      "marginal_fluor": -0.013749511674479244,
+      "g0_peak_baseline_m1": 0.8414318236759856,
+      "en_window_max_td": 3.5468394548419515,
+      "en_window_mean_td": 0.5362877510721271,
+      "Te_peak_window_eV": 2.500812122055024,
+      "baseline_lases": true,
+      "E_beam_dep_J": 7.889491261267341
+    },
+    {
+      "axis": "power_pressure",
+      "point": "p0.5atm_P1e+06W",
+      "P_mw_W": 1000000.0,
+      "window": {
+        "mw_t0_ns": 0.0,
+        "mw_flat_ns": 70.0,
+        "mw_rise_ns": 2.0
+      },
+      "beam_overrides": {
+        "pressure_atm": 0.5,
+        "beam_j_A_cm2": 100.0,
+        "t_end_ns": 250.0
+      },
+      "E_MW_J": 0.07199209860711431,
+      "E_laser_baseline_J": 0.03998580063420431,
+      "dE_laser_J": 0.000407121345641491,
+      "marginal_laser": 0.0056550837316646715,
+      "marginal_fluor": -0.014518558695487207,
+      "g0_peak_baseline_m1": 0.8414318236759856,
+      "en_window_max_td": 7.810771841050428,
+      "en_window_mean_td": 1.0231796836216445,
+      "Te_peak_window_eV": 2.7930275297400398,
+      "baseline_lases": true,
+      "E_beam_dep_J": 7.889491261267341
+    },
+    {
+      "axis": "power_pressure",
+      "point": "p0.5atm_P3e+06W",
+      "P_mw_W": 3000000.0,
+      "window": {
+        "mw_t0_ns": 0.0,
+        "mw_flat_ns": 70.0,
+        "mw_rise_ns": 2.0
+      },
+      "beam_overrides": {
+        "pressure_atm": 0.5,
+        "beam_j_A_cm2": 100.0,
+        "t_end_ns": 250.0
+      },
+      "E_MW_J": 0.2159542931534526,
+      "E_laser_baseline_J": 0.03998580063420431,
+      "dE_laser_J": 0.001635654275279487,
+      "marginal_laser": 0.007574076214901759,
+      "marginal_fluor": -0.013625725316842516,
+      "g0_peak_baseline_m1": 0.8414318236759856,
+      "en_window_max_td": 14.115005024801814,
+      "en_window_mean_td": 1.7444336925485713,
+      "Te_peak_window_eV": 3.336725346552578,
+      "baseline_lases": true,
+      "E_beam_dep_J": 7.889491261267341
+    },
+    {
+      "axis": "power_pressure",
+      "point": "p1atm_P50000W",
+      "P_mw_W": 50000.0,
+      "window": {
+        "mw_t0_ns": 0.0,
+        "mw_flat_ns": 70.0,
+        "mw_rise_ns": 2.0
+      },
+      "beam_overrides": {
+        "pressure_atm": 1.0,
+        "beam_j_A_cm2": 100.0,
+        "t_end_ns": 250.0
+      },
+      "E_MW_J": 0.0035993265547560327,
+      "E_laser_baseline_J": 0.40843569725637324,
+      "dE_laser_J": 0.0002285908134986303,
+      "marginal_laser": 0.06350932876500963,
+      "marginal_fluor": -0.023517913403885902,
+      "g0_peak_baseline_m1": 1.2531443004550482,
+      "en_window_max_td": 0.48904342018744007,
+      "en_window_mean_td": 0.08438003448904048,
+      "Te_peak_window_eV": 2.3694158895588284,
+      "baseline_lases": true,
+      "E_beam_dep_J": 15.778983216291794
+    },
+    {
+      "axis": "power_pressure",
+      "point": "p1atm_P250000W",
+      "P_mw_W": 250000.0,
+      "window": {
+        "mw_t0_ns": 0.0,
+        "mw_flat_ns": 70.0,
+        "mw_rise_ns": 2.0
+      },
+      "beam_overrides": {
+        "pressure_atm": 1.0,
+        "beam_j_A_cm2": 100.0,
+        "t_end_ns": 250.0
+      },
+      "E_MW_J": 0.017998533841707243,
+      "E_laser_baseline_J": 0.40843569725637324,
+      "dE_laser_J": 0.0011399051272521499,
+      "marginal_laser": 0.06333322132109982,
+      "marginal_fluor": -0.02365211172601243,
+      "g0_peak_baseline_m1": 1.2531443004550482,
+      "en_window_max_td": 1.1751992320621385,
+      "en_window_mean_td": 0.19015383401804048,
+      "Te_peak_window_eV": 2.4072776281263017,
+      "baseline_lases": true,
+      "E_beam_dep_J": 15.778983216291794
+    },
+    {
+      "axis": "power_pressure",
+      "point": "p1atm_P1e+06W",
+      "P_mw_W": 1000000.0,
+      "window": {
+        "mw_t0_ns": 0.0,
+        "mw_flat_ns": 70.0,
+        "mw_rise_ns": 2.0
+      },
+      "beam_overrides": {
+        "pressure_atm": 1.0,
+        "beam_j_A_cm2": 100.0,
+        "t_end_ns": 250.0
+      },
+      "E_MW_J": 0.07199492771809624,
+      "E_laser_baseline_J": 0.40843569725637324,
+      "dE_laser_J": 0.0044858765134426215,
+      "marginal_laser": 0.06230822997708319,
+      "marginal_fluor": -0.023926982404001963,
+      "g0_peak_baseline_m1": 1.2531443004550482,
+      "en_window_max_td": 3.263813874862849,
+      "en_window_mean_td": 0.4030896594727137,
+      "Te_peak_window_eV": 2.54755339232215,
+      "baseline_lases": true,
+      "E_beam_dep_J": 15.778983216291794
+    },
+    {
+      "axis": "power_pressure",
+      "point": "p1atm_P3e+06W",
+      "P_mw_W": 3000000.0,
+      "window": {
+        "mw_t0_ns": 0.0,
+        "mw_flat_ns": 70.0,
+        "mw_rise_ns": 2.0
+      },
+      "beam_overrides": {
+        "pressure_atm": 1.0,
+        "beam_j_A_cm2": 100.0,
+        "t_end_ns": 250.0
+      },
+      "E_MW_J": 0.21598374205912663,
+      "E_laser_baseline_J": 0.40843569725637324,
+      "dE_laser_J": 0.012447515227454853,
+      "marginal_laser": 0.05763172315093644,
+      "marginal_fluor": -0.023503857273166333,
+      "g0_peak_baseline_m1": 1.2531443004550482,
+      "en_window_max_td": 6.4026318180774755,
+      "en_window_mean_td": 0.7368973858342548,
+      "Te_peak_window_eV": 2.899902903904135,
+      "baseline_lases": true,
+      "E_beam_dep_J": 15.778983216291794
+    },
+    {
+      "axis": "power_pressure",
+      "point": "p2atm_P50000W",
+      "P_mw_W": 50000.0,
+      "window": {
+        "mw_t0_ns": 0.0,
+        "mw_flat_ns": 70.0,
+        "mw_rise_ns": 2.0
+      },
+      "beam_overrides": {
+        "pressure_atm": 2.0,
+        "beam_j_A_cm2": 100.0,
+        "t_end_ns": 250.0
+      },
+      "E_MW_J": 0.0035989104700284713,
+      "E_laser_baseline_J": 0.484717169070405,
+      "dE_laser_J": 0.00015008375280650688,
+      "marginal_laser": 0.04170255249648362,
+      "marginal_fluor": -0.009195113083366438,
+      "g0_peak_baseline_m1": 1.5745802152478172,
+      "en_window_max_td": 0.17668296226555769,
+      "en_window_mean_td": 0.03851622659706145,
+      "Te_peak_window_eV": 2.2888486799798238,
+      "baseline_lases": true,
+      "E_beam_dep_J": 31.557966173495995
+    },
+    {
+      "axis": "power_pressure",
+      "point": "p2atm_P250000W",
+      "P_mw_W": 250000.0,
+      "window": {
+        "mw_t0_ns": 0.0,
+        "mw_flat_ns": 70.0,
+        "mw_rise_ns": 2.0
+      },
+      "beam_overrides": {
+        "pressure_atm": 2.0,
+        "beam_j_A_cm2": 100.0,
+        "t_end_ns": 250.0
+      },
+      "E_MW_J": 0.017998031638995826,
+      "E_laser_baseline_J": 0.484717169070405,
+      "dE_laser_J": 0.0007315908261655846,
+      "marginal_laser": 0.040648379825073064,
+      "marginal_fluor": -0.00896638806913706,
+      "g0_peak_baseline_m1": 1.5745802152478172,
+      "en_window_max_td": 0.3950430142706157,
+      "en_window_mean_td": 0.08611300099070453,
+      "Te_peak_window_eV": 2.3063343341052014,
+      "baseline_lases": true,
+      "E_beam_dep_J": 31.557966173495995
+    },
+    {
+      "axis": "power_pressure",
+      "point": "p2atm_P1e+06W",
+      "P_mw_W": 1000000.0,
+      "window": {
+        "mw_t0_ns": 0.0,
+        "mw_flat_ns": 70.0,
+        "mw_rise_ns": 2.0
+      },
+      "beam_overrides": {
+        "pressure_atm": 2.0,
+        "beam_j_A_cm2": 100.0,
+        "t_end_ns": 250.0
+      },
+      "E_MW_J": 0.07199557566410064,
+      "E_laser_baseline_J": 0.484717169070405,
+      "dE_laser_J": 0.0027202679356096993,
+      "marginal_laser": 0.03778382088784539,
+      "marginal_fluor": -0.008509221436264966,
+      "g0_peak_baseline_m1": 1.5745802152478172,
+      "en_window_max_td": 1.025397795485891,
+      "en_window_mean_td": 0.17713565710534587,
+      "Te_peak_window_eV": 2.3714361988601973,
+      "baseline_lases": true,
+      "E_beam_dep_J": 31.557966173495995
+    },
+    {
+      "axis": "power_pressure",
+      "point": "p2atm_P3e+06W",
+      "P_mw_W": 3000000.0,
+      "window": {
+        "mw_t0_ns": 0.0,
+        "mw_flat_ns": 70.0,
+        "mw_rise_ns": 2.0
+      },
+      "beam_overrides": {
+        "pressure_atm": 2.0,
+        "beam_j_A_cm2": 100.0,
+        "t_end_ns": 250.0
+      },
+      "E_MW_J": 0.21598592384495774,
+      "E_laser_baseline_J": 0.484717169070405,
+      "dE_laser_J": 0.007201686064402579,
+      "marginal_laser": 0.03334331208348652,
+      "marginal_fluor": -0.0077355089186733695,
+      "g0_peak_baseline_m1": 1.5745802152478172,
+      "en_window_max_td": 2.535094505258296,
+      "en_window_mean_td": 0.3273509160821458,
+      "Te_peak_window_eV": 2.5405848724398647,
+      "baseline_lases": true,
+      "E_beam_dep_J": 31.557966173495995
+    },
+    {
+      "axis": "power_pressure",
+      "point": "p3atm_P50000W",
+      "P_mw_W": 50000.0,
+      "window": {
+        "mw_t0_ns": 0.0,
+        "mw_flat_ns": 70.0,
+        "mw_rise_ns": 2.0
+      },
+      "beam_overrides": {
+        "pressure_atm": 3.0,
+        "beam_j_A_cm2": 100.0,
+        "t_end_ns": 250.0
+      },
+      "E_MW_J": 0.0035992188438953576,
+      "E_laser_baseline_J": 0.058730509256905705,
+      "dE_laser_J": 2.702770199383697e-07,
+      "marginal_laser": 7.509324430127029e-05,
+      "marginal_fluor": -0.0017703053843059005,
+      "g0_peak_baseline_m1": 1.059338980940975,
+      "en_window_max_td": 0.10764914727627754,
+      "en_window_mean_td": 0.027645126518980677,
+      "Te_peak_window_eV": 2.221031099100381,
+      "baseline_lases": true,
+      "E_beam_dep_J": 47.33694992342196
+    },
+    {
+      "axis": "power_pressure",
+      "point": "p3atm_P250000W",
+      "P_mw_W": 250000.0,
+      "window": {
+        "mw_t0_ns": 0.0,
+        "mw_flat_ns": 70.0,
+        "mw_rise_ns": 2.0
+      },
+      "beam_overrides": {
+        "pressure_atm": 3.0,
+        "beam_j_A_cm2": 100.0,
+        "t_end_ns": 250.0
+      },
+      "E_MW_J": 0.017998027117130277,
+      "E_laser_baseline_J": 0.058730509256905705,
+      "dE_laser_J": 2.1549484644917127e-06,
+      "marginal_laser": 0.0001197324823697294,
+      "marginal_fluor": -0.0017701010603868594,
+      "g0_peak_baseline_m1": 1.059338980940975,
+      "en_window_max_td": 0.24068643748603857,
+      "en_window_mean_td": 0.061799356891531126,
+      "Te_peak_window_eV": 2.23190471376947,
+      "baseline_lases": true,
+      "E_beam_dep_J": 47.33694992342196
+    },
+    {
+      "axis": "power_pressure",
+      "point": "p3atm_P1e+06W",
+      "P_mw_W": 1000000.0,
+      "window": {
+        "mw_t0_ns": 0.0,
+        "mw_flat_ns": 70.0,
+        "mw_rise_ns": 2.0
+      },
+      "beam_overrides": {
+        "pressure_atm": 3.0,
+        "beam_j_A_cm2": 100.0,
+        "t_end_ns": 250.0
+      },
+      "E_MW_J": 0.07199255782865777,
+      "E_laser_baseline_J": 0.058730509256905705,
+      "dE_laser_J": 1.7281557996545738e-05,
+      "marginal_laser": 0.0002400464508800456,
+      "marginal_fluor": -0.001748247832286085,
+      "g0_peak_baseline_m1": 1.059338980940975,
+      "en_window_max_td": 0.4812280087424112,
+      "en_window_mean_td": 0.12347166332325243,
+      "Te_peak_window_eV": 2.27246009486725,
+      "baseline_lases": true,
+      "E_beam_dep_J": 47.33694992342196
+    },
+    {
+      "axis": "power_pressure",
+      "point": "p3atm_P3e+06W",
+      "P_mw_W": 3000000.0,
+      "window": {
+        "mw_t0_ns": 0.0,
+        "mw_flat_ns": 70.0,
+        "mw_rise_ns": 2.0
+      },
+      "beam_overrides": {
+        "pressure_atm": 3.0,
+        "beam_j_A_cm2": 100.0,
+        "t_end_ns": 250.0
+      },
+      "E_MW_J": 0.21598520622974604,
+      "E_laser_baseline_J": 0.058730509256905705,
+      "dE_laser_J": 0.0001245693037286999,
+      "marginal_laser": 0.0005767492408539965,
+      "marginal_fluor": -0.0016740828266447012,
+      "g0_peak_baseline_m1": 1.059338980940975,
+      "en_window_max_td": 1.2630308759245137,
+      "en_window_mean_td": 0.22244406565593614,
+      "Te_peak_window_eV": 2.378651672086424,
+      "baseline_lases": true,
+      "E_beam_dep_J": 47.33694992342196
+    },
+    {
+      "axis": "pressure_constdep",
+      "point": "p0.5atm_j400",
+      "P_mw_W": 250000.0,
+      "window": {
+        "mw_t0_ns": 0.0,
+        "mw_flat_ns": 70.0,
+        "mw_rise_ns": 2.0
+      },
+      "beam_overrides": {
+        "pressure_atm": 0.5,
+        "beam_j_A_cm2": 400.0,
+        "t_end_ns": 250.0
+      },
+      "E_MW_J": 0.01799987443698825,
+      "E_laser_baseline_J": 0.20611475395974718,
+      "dE_laser_J": 0.00025527720577936397,
+      "marginal_laser": 0.014182165918601658,
+      "marginal_fluor": -0.027416689379872863,
+      "g0_peak_baseline_m1": 1.3540272489863077,
+      "en_window_max_td": 1.5199723670551573,
+      "en_window_mean_td": 0.26454110235770434,
+      "Te_peak_window_eV": 2.4256724884193392,
+      "baseline_lases": true,
+      "E_beam_dep_J": 31.55796734012287
+    },
+    {
+      "axis": "pressure_constdep",
+      "point": "p1atm_j200",
+      "P_mw_W": 250000.0,
+      "window": {
+        "mw_t0_ns": 0.0,
+        "mw_flat_ns": 70.0,
+        "mw_rise_ns": 2.0
+      },
+      "beam_overrides": {
+        "pressure_atm": 1.0,
+        "beam_j_A_cm2": 200.0,
+        "t_end_ns": 250.0
+      },
+      "E_MW_J": 0.017998300378607723,
+      "E_laser_baseline_J": 0.9778080388446994,
+      "dE_laser_J": 0.0004468915380433369,
+      "marginal_laser": 0.024829652169518168,
+      "marginal_fluor": -0.007102619301375521,
+      "g0_peak_baseline_m1": 1.527346789842796,
+      "en_window_max_td": 0.7631789466986035,
+      "en_window_mean_td": 0.13211703435001879,
+      "Te_peak_window_eV": 2.3829667820832325,
+      "baseline_lases": true,
+      "E_beam_dep_J": 31.557966084533636
+    },
+    {
+      "axis": "pressure_constdep",
+      "point": "p3atm_j66.6667",
+      "P_mw_W": 250000.0,
+      "window": {
+        "mw_t0_ns": 0.0,
+        "mw_flat_ns": 70.0,
+        "mw_rise_ns": 2.0
+      },
+      "beam_overrides": {
+        "pressure_atm": 3.0,
+        "beam_j_A_cm2": 66.66666666666667,
+        "t_end_ns": 250.0
+      },
+      "E_MW_J": 0.017999000646231167,
+      "E_laser_baseline_J": 0.00021962038443288878,
+      "dE_laser_J": 5.3401468959389346e-08,
+      "marginal_laser": 2.9669129975041777e-06,
+      "marginal_fluor": -0.0015631887195059625,
+      "g0_peak_baseline_m1": 0.6770840530453139,
+      "en_window_max_td": 0.29477713054223065,
+      "en_window_mean_td": 0.0731638766467919,
+      "Te_peak_window_eV": 2.2392548175501163,
+      "baseline_lases": false,
+      "E_beam_dep_J": 31.557966722355488
+    },
+    {
+      "axis": "pump_rate",
+      "point": "j50",
+      "P_mw_W": 250000.0,
+      "window": {
+        "mw_t0_ns": 0.0,
+        "mw_flat_ns": 70.0,
+        "mw_rise_ns": 2.0
+      },
+      "beam_overrides": {
+        "pressure_atm": 2.0,
+        "beam_j_A_cm2": 50.0,
+        "t_end_ns": 250.0
+      },
+      "E_MW_J": 0.01799893456493251,
+      "E_laser_baseline_J": 0.002640609178256211,
+      "dE_laser_J": -8.939726188114325e-06,
+      "marginal_laser": -0.0004966808538507426,
+      "marginal_fluor": -0.0021896780368036743,
+      "g0_peak_baseline_m1": 0.8715190564874654,
+      "en_window_max_td": 0.5800482019868636,
+      "en_window_mean_td": 0.11883781642244999,
+      "Te_peak_window_eV": 2.328765991023196,
+      "baseline_lases": true,
+      "E_beam_dep_J": 15.778982969170176
+    },
+    {
+      "axis": "pump_rate",
+      "point": "j200",
+      "P_mw_W": 250000.0,
+      "window": {
+        "mw_t0_ns": 0.0,
+        "mw_flat_ns": 70.0,
+        "mw_rise_ns": 2.0
+      },
+      "beam_overrides": {
+        "pressure_atm": 2.0,
+        "beam_j_A_cm2": 200.0,
+        "t_end_ns": 250.0
+      },
+      "E_MW_J": 0.01799856531533095,
+      "E_laser_baseline_J": 1.2141937474940079,
+      "dE_laser_J": 0.0002459060592547857,
+      "marginal_laser": 0.01366253670481869,
+      "marginal_fluor": -0.002297920476753013,
+      "g0_peak_baseline_m1": 2.329499385011369,
+      "en_window_max_td": 0.2793230483207934,
+      "en_window_mean_td": 0.06112558231379545,
+      "Te_peak_window_eV": 2.294182157470729,
+      "baseline_lases": true,
+      "E_beam_dep_J": 63.11593356522997
+    },
+    {
+      "axis": "timing",
+      "point": "first_half",
+      "P_mw_W": 250000.0,
+      "window": {
+        "mw_t0_ns": 0.0,
+        "mw_flat_ns": 33.0,
+        "mw_rise_ns": 2.0
+      },
+      "beam_overrides": {
+        "pressure_atm": 2.0,
+        "beam_j_A_cm2": 100.0,
+        "t_end_ns": 250.0
+      },
+      "E_MW_J": 0.00874760227840099,
+      "E_laser_baseline_J": 0.484717169070405,
+      "dE_laser_J": -9.213854836875868e-07,
+      "marginal_laser": -0.0001053300612400511,
+      "marginal_fluor": -0.003098821889387784,
+      "g0_peak_baseline_m1": 1.5745802152478172,
+      "en_window_max_td": 0.3950430142706157,
+      "en_window_mean_td": 0.1020787622165342,
+      "Te_peak_window_eV": 2.3063343341052014,
+      "baseline_lases": true,
+      "E_beam_dep_J": 31.557966173495995
+    },
+    {
+      "axis": "timing",
+      "point": "second_half",
+      "P_mw_W": 250000.0,
+      "window": {
+        "mw_t0_ns": 35.0,
+        "mw_flat_ns": 35.0,
+        "mw_rise_ns": 2.0
+      },
+      "beam_overrides": {
+        "pressure_atm": 2.0,
+        "beam_j_A_cm2": 100.0,
+        "t_end_ns": 250.0
+      },
+      "E_MW_J": 0.009251566758702978,
+      "E_laser_baseline_J": 0.484717169070405,
+      "dE_laser_J": 0.0007305571302828051,
+      "marginal_laser": 0.07896577405071067,
+      "marginal_fluor": -0.014457111994451908,
+      "g0_peak_baseline_m1": 1.5745802152478172,
+      "en_window_max_td": 0.0788307818666063,
+      "en_window_mean_td": 0.06920298520127158,
+      "Te_peak_window_eV": 1.3515895104508537,
+      "baseline_lases": true,
+      "E_beam_dep_J": 31.557966173495995
+    },
+    {
+      "axis": "timing",
+      "point": "beam_plus_early_afterglow",
+      "P_mw_W": 250000.0,
+      "window": {
+        "mw_t0_ns": 0.0,
+        "mw_flat_ns": 110.0,
+        "mw_rise_ns": 2.0
+      },
+      "beam_overrides": {
+        "pressure_atm": 2.0,
+        "beam_j_A_cm2": 100.0,
+        "t_end_ns": 250.0
+      },
+      "E_MW_J": 0.02799733267666582,
+      "E_laser_baseline_J": 0.484717169070405,
+      "dE_laser_J": -0.0015440950404898568,
+      "marginal_laser": -0.05515150526381293,
+      "marginal_fluor": 0.014284465537088644,
+      "g0_peak_baseline_m1": 1.5745802152478172,
+      "en_window_max_td": 0.44488534159571275,
+      "en_window_mean_td": 0.14581419296971207,
+      "Te_peak_window_eV": 2.3063343341052014,
+      "baseline_lases": true,
+      "E_beam_dep_J": 31.557966173495995
+    },
+    {
+      "axis": "timing",
+      "point": "late_beam_plus_afterglow",
+      "P_mw_W": 250000.0,
+      "window": {
+        "mw_t0_ns": 40.0,
+        "mw_flat_ns": 70.0,
+        "mw_rise_ns": 2.0
+      },
+      "beam_overrides": {
+        "pressure_atm": 2.0,
+        "beam_j_A_cm2": 100.0,
+        "t_end_ns": 250.0
+      },
+      "E_MW_J": 0.017997872434442286,
+      "E_laser_baseline_J": 0.484717169070405,
+      "dE_laser_J": -0.0015417063846610568,
+      "marginal_laser": -0.0856604796081738,
+      "marginal_fluor": 0.023840044163083662,
+      "g0_peak_baseline_m1": 1.5745802152478172,
+      "en_window_max_td": 0.4449421850220827,
+      "en_window_mean_td": 0.16921511532374384,
+      "Te_peak_window_eV": 1.3396909253814089,
+      "baseline_lases": true,
+      "E_beam_dep_J": 31.557966173495995
+    },
+    {
+      "axis": "optics",
+      "point": "r_oc0.90",
+      "P_mw_W": 250000.0,
+      "window": {
+        "mw_t0_ns": 0.0,
+        "mw_flat_ns": 70.0,
+        "mw_rise_ns": 2.0
+      },
+      "beam_overrides": {
+        "pressure_atm": 2.0,
+        "beam_j_A_cm2": 100.0,
+        "r_oc": 0.9,
+        "t_end_ns": 250.0
+      },
+      "E_MW_J": 0.017998819290042434,
+      "E_laser_baseline_J": 0.3452491094553095,
+      "dE_laser_J": 0.001556818255918857,
+      "marginal_laser": 0.0864955767837584,
+      "marginal_fluor": -0.013902015534644775,
+      "g0_peak_baseline_m1": 1.6145087582201758,
+      "en_window_max_td": 0.3950430143678786,
+      "en_window_mean_td": 0.08699132876064476,
+      "Te_peak_window_eV": 2.306334285748263,
+      "baseline_lases": true,
+      "E_beam_dep_J": 31.55796638715023
+    }
+  ]
+}

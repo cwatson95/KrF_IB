@@ -1,0 +1,13 @@
+# READING of Eden et al. APL 32, 733 (1978) Fig. 2: decay constant vs KrF2 flow pressure, no diluent.
+# Reading uncertainty +-0.01 Torr, +-0.03e7 s^-1. My linear fit of these points: 14.674e7 s^-1 + 0.469e7 s^-1/Torr -> tau0 6.81 ns, k(KrF2) 1.46e-10 (printed: 6.8+-0.2 ns, (1.4+-0.4)e-10).
+P_KrF2_Torr,Sigma_1e7_per_s
+0.212,14.88
+0.297,14.75
+0.392,14.81
+0.512,14.78
+0.631,15.04
+0.693,14.99
+0.721,15.07
+0.852,15.11
+0.981,15.15
+1.289,15.25

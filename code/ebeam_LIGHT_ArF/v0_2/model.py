@@ -1,0 +1,480 @@
+"""The 0-D model: rate equations, electron energy, gas temperature, ledger.
+
+LIGHT_ArF (2026-09-30): the Ar/F2 version. The code is KrF's v0_2 with the
+rare gas taken from species.RG (Ar), so the same equations run the ArF
+network. The KrF original is LIGHT/v0_2/model.py.
+
+State (densities scaled by the initial gas density N0 so the solver sees
+O(1) numbers):
+
+    n_s / N0          every species the active rows touch
+    U_e / N0          electron energy [eV per gas particle]; Te = U_e/(1.5 n_e)
+    Tg                gas temperature [K] (constant volume: a microsecond
+                      pulse is ~45x shorter than the acoustic time of a 1-cm
+                      cell, so N stays fixed and the pressure rises)
+    ledger / N0       E_dep, elastic heat, captured-electron heat [eV]
+    events / N0       time-integrated events of every row
+
+Every energy channel of the report is rebuilt from the event counts times
+the per-event energies of network.energy_routing, while the densities come
+out of the ODE itself. The closure in report.accounting() therefore tests
+the bookkeeping instead of restating it.
+
+Energy input (the notes' 'Input' block): power_W_cm3 for pulse_s,
+deposited uniformly. LIGHT_ArF_ebeam (2026-09-30) adds a second way to
+deposit it, Params.drive:
+
+    'power'  LIGHT's own input, into the electron gas directly ("do not care
+             how the power is deposited"); the default
+    'beam'   an electron beam (beam.py, REBUILD's beam physics on these
+             cross sections): the power makes ion pairs at W eV each, with
+             their excited atoms and prompt F2 dissociations, puts the
+             secondaries' share into the electron gas and the cascade's
+             excess into the gas (ledger 'heat_beam')
+
+No other drive is modeled (v0's EM-wave option is not carried over).
+Electrons. No electrons are injected. ne_mode='free', the basic
+network's default, starts from ne_cm3 (a seed, the plasma starting
+quasineutral with Ar+ = ne_cm3) and lets ionization, attachment and
+recombination set n_e, quasineutral: n_e = cations - anions. The seed only
+sets the first nanoseconds. ne_mode='clamped' holds n_e = ne_cm3 for the
+whole run; it must never run with attachment or recombination (charge
+would not be conserved), and the ArF network has both, so it is refused.
+"""
+
+from __future__ import annotations
+
+import math
+from dataclasses import dataclass, replace
+
+import numpy as np
+from scipy.integrate import solve_ivp
+
+from . import beam, xsec
+from .network import (ARF_TAU_B, BANDS, TRIMER_RIDS, bands_of, build,
+                      energy_routing, param_rate)
+from .species import (ELECTRON, EXCIMER, RG, RG_ION, RG_STAR, SPECIES,
+                      TRIMER, e_form)
+
+KB = 1.380649e-23             # J/K
+QE = 1.602176634e-19          # J/eV
+KB_EV = KB / QE               # eV/K
+ATM_PA = 101325.0
+AMAGAT_CM3 = 2.6867811e19     # Loschmidt, 273.15 K and 1 atm
+EPS0 = 8.8541878128e-12
+
+BASE_SPECIES = (RG, "F2", "F", RG_STAR, RG_ION, EXCIMER, TRIMER)
+LEDGER = ("E_dep", "heat_elastic", "heat_capture", "heat_beam")
+DRIVES = ("power", "beam")
+TE_FLOOR_STEPWISE = 0.026     # REBUILD chemistry._TE_MIN_EV
+TE_FLOOR_POW = 0.02           # te_pow rows are held below this Te [eV]
+NE_FLOOR = 1.0                # cm^-3
+
+
+@dataclass(frozen=True)
+class Params:
+    pressure_atm: float = 1.0          # initial fill pressure (0.1 - 2 atm)
+    x_f2: float = 0.005                # F2 mole fraction, rest Ar
+    tg0_K: float = 300.0
+    power_W_cm3: float = 3.0e5         # 100 - 500 kW/cm^3 in the notes
+    # how the power is deposited: 'power' (LIGHT's own input, into the
+    # electron gas) or 'beam' (an electron beam, beam.py)
+    drive: str = "power"
+    # the beam's yields per ion pair (beam.py): the asymptotic slopes with
+    # the Opal-Peterson-Beaty secondary spectrum; ('integral', 'equal') is
+    # REBUILD's own, a sensitivity
+    beam_route: str = "asymptotic"
+    beam_sharing: str = "opb"
+    pulse_s: float = 1.0e-6            # 'a microsecond pulse'
+    t_end_s: float = 2.0e-6            # pulse + afterglow (Ar2F* ~0.2 us)
+    ne_cm3: float = 1.0e15             # the seed (>= 1e13 at 1e5 W/cm3)
+    ne_mode: str = "auto"              # 'free' ('clamped' is refused: the
+                                       # network attaches and recombines)
+    tau_sp_s: float = ARF_TAU_B        # ArF(B) radiative lifetime (network)
+    # the trimer's gas-temperature exponent (G5, G5C). None keeps the
+    # network's (network.TRIMER_TG_POW); a number here spans the band for a
+    # sensitivity run. It never sets the model's own value.
+    trimer_tg_pow: float = None
+    # the rates the basic network carries as a band (network.BANDS), as
+    # ((name, value), ...). A band left out keeps its default, and the
+    # unmeasured ones default to 0. For sensitivity runs (run_v0_2.py
+    # --bands), never to match a device.
+    rates: tuple = ()
+    network: str = "basic"             # the ArF basic network (the only one)
+    groups: tuple = ()                 # optional groups ('all' = every one)
+    # the electron closure. 'auto' gives the basic network the
+    # two-temperature tail and the exact captured energy
+    eedf: str = "auto"                 # 'two_t' | 'maxwellian'
+    capture: str = "auto"              # 'exact' | 'three_halves'
+    init_extra_cm3: tuple = ()         # ((species, density), ...) added at t=0
+    rtol: float = 1e-8
+    n_save: int = 801
+    method: str = "BDF"
+
+    def replace(self, **kw) -> "Params":
+        return replace(self, **kw)
+
+
+@dataclass
+class Compiled:
+    row: object
+    j: int                 # row index (event-counter slot)
+    heavy: tuple           # species indices, with multiplicity
+    ne_pow: int
+    stoich: tuple          # ((species index, coefficient), ...)
+    route: dict
+    kind: str
+    rate: object           # constant, RateTable, or tuple of parameters
+    cap: object = None     # captured energy E(Te) [eV]; None = (3/2)Te
+
+
+class Model:
+    def __init__(self, p: Params):
+        basic = p.network == "basic"
+        self.ne_mode = (("free" if basic else "clamped")
+                        if p.ne_mode == "auto" else p.ne_mode)
+        if self.ne_mode not in ("clamped", "free"):
+            raise ValueError(f"ne_mode {p.ne_mode!r}")
+        if self.ne_mode == "clamped":
+            raise ValueError("ne_mode 'clamped' holds n_e while the ArF "
+                             "network attaches and recombines, so charge "
+                             "would not be conserved; use 'free'")
+        self.eedf = (("two_t" if basic else "maxwellian") if p.eedf == "auto"
+                     else p.eedf)
+        self.capture = (("exact" if basic else "three_halves")
+                        if p.capture == "auto" else p.capture)
+        if self.eedf not in ("two_t", "maxwellian"):
+            raise ValueError(f"eedf {p.eedf!r}")
+        if self.capture not in ("exact", "three_halves"):
+            raise ValueError(f"capture {p.capture!r}")
+        self.tail = (xsec.tail_ratio_table() if self.eedf == "two_t"
+                     else None)
+        self.p = p
+        self.rows = build(p.groups, p.network)
+        self.rates = dict(p.rates)
+        read = {b for r in self.rows for b in bands_of(r)}
+        if set(self.rates) - read:
+            raise ValueError(f"rates {sorted(set(self.rates) - read)}: no "
+                             f"row of this network reads them (bands here: "
+                             f"{sorted(read)}; the trimer law is "
+                             f"Params.trimer_tg_pow)")
+        if any(not v >= 0.0 for v in self.rates.values()):
+            raise ValueError(f"rates must be >= 0: {p.rates}")
+        if any(BANDS[b].unit == "fraction" and v > 1.0
+               for b, v in self.rates.items()):
+            raise ValueError(f"a fraction band must lie in [0, 1]: {p.rates}")
+        species = list(BASE_SPECIES)
+        for r in self.rows:
+            for s in r.reactants + r.products:
+                if s != ELECTRON and s not in species:
+                    species.append(s)
+        for s, _ in p.init_extra_cm3:
+            if s not in species:
+                species.append(s)
+        self.species = species
+        self.idx = {s: i for i, s in enumerate(species)}
+        self.ns = len(species)
+        self.i_ue = self.ns
+        self.i_tg = self.ns + 1
+        self.i_led = self.ns + 2
+        self.i_ev = self.i_led + len(LEDGER)
+        self.size = self.i_ev + len(self.rows)
+        self.cations = [self.idx[s] for s in species if SPECIES[s].charge > 0]
+        self.anions = [self.idx[s] for s in species if SPECIES[s].charge < 0]
+        self.cv = np.array([SPECIES[s].cv for s in species])
+        self.eform = np.array([e_form(s) for s in species])
+        self.N0 = p.pressure_atm * ATM_PA / (KB * p.tg0_K) * 1e-6    # cm^-3
+        self.kel = xsec.elastic_loss_table(RG)
+        self.compiled = [self._compile(j, r) for j, r in enumerate(self.rows)]
+        if p.drive not in DRIVES:
+            raise ValueError(f"drive {p.drive!r}; one of {DRIVES}")
+        # the beam's per-pair sources at the fill's composition (F2 makes
+        # under 1 % of the cascade, so its burn-up does not move them)
+        self.beam = None
+        if p.drive == "beam":
+            self.beam = beam.yields(p.x_f2, p.beam_route, p.beam_sharing)
+            self.beam_src = np.zeros(self.ns)
+            for s, n in self.beam.per_pair().items():
+                self.beam_src[self.idx[s]] += n
+
+    def band_value(self, name) -> float:
+        """A band's value in this run: Params.rates if set there, else the
+        band's default (network.BANDS)."""
+        return float(self.rates.get(name, BANDS[name].default))
+
+    # ------------------------------------------------------------ compile
+    def _compile(self, j, r):
+        kind = r.rate[0]
+        if kind == "const":
+            rate = float(r.rate[1])
+        elif kind == "inv_tau":
+            frac = float(r.rate[2]) if len(r.rate) > 2 else 1.0
+            rate = frac / float(getattr(self.p, r.rate[1]))
+        elif kind == "param":
+            rate = param_rate(r.rate, self.band_value, self.p.tau_sp_s)
+        elif kind == "xsec" and self.eedf == "two_t" and xsec.in_tail(
+                *r.rate[1:4]):
+            kind = "xsec_tail"
+            rate = xsec.two_t_table(r.rate[1], r.rate[2], r.rate[3])
+        elif kind == "xsec":
+            rate = xsec.rate_table(r.rate[1], r.rate[2], r.rate[3])
+        elif kind == "superelastic":
+            rate = xsec.superelastic_table(r.rate[1], r.rate[2], r.rate[3])
+        elif kind in ("stepwise", "dr_sqrt", "flannery", "elastic",
+                      "te_pow", "hm"):
+            rate = r.rate[1:]
+        elif kind == "balance":
+            k_fwd, k_ref, upper, lower = r.rate[1:]
+            rate = (float(k_fwd) / float(k_ref),
+                    (e_form(upper) - e_form(lower)) / KB_EV)
+        else:
+            raise ValueError(f"{r.rid}: rate kind {kind!r}")
+        delta = {}
+        for s in r.reactants:
+            if s != ELECTRON:
+                delta[s] = delta.get(s, 0) - 1
+        for s in r.products:
+            if s != ELECTRON:
+                delta[s] = delta.get(s, 0) + 1
+        stoich = tuple((self.idx[s], c) for s, c in delta.items() if c != 0)
+        route = energy_routing(r)
+        return Compiled(r, j, tuple(self.idx[s] for s in r.heavy),
+                        r.n_electrons_in, stoich, route, kind, rate,
+                        self._capture_energy(r, kind) if route["capture"]
+                        else None)
+
+    def _capture_energy(self, r, kind):
+        """The energy one captured electron takes from the electron gas.
+        For a Maxwellian it is <eps sigma v>/<sigma v> = (3/2 + d ln k /
+        d ln Te) Te, so a Te-independent rate books (3/2)Te, R11p's
+        Te^-1/2 template books Te, and an LXCat process reads its own
+        table. None keeps (3/2)Te (capture='three_halves', v0's)."""
+        if self.capture == "three_halves":
+            return None
+        if kind == "xsec":
+            return xsec.capture_energy_table(r.rate[1], r.rate[2], r.rate[3])
+        if kind == "dr_sqrt":
+            return lambda te: te if te > 0.02 else 1.5 * te
+        if kind == "te_pow":
+            k0, te0, n_pow = r.rate[1:]
+            return lambda te: ((1.5 + n_pow) * te if te > TE_FLOOR_POW
+                               else 1.5 * te)
+        if kind in ("const", "inv_tau", "param", "balance"):
+            return None
+        raise ValueError(f"{r.rid}: no captured-energy rule for rate kind "
+                         f"{kind!r}")
+
+    # ------------------------------------------------------------ helpers
+    def electron_density(self, n):
+        if self.ne_mode == "clamped":
+            return self.p.ne_cm3
+        ne = n[self.cations].sum()
+        if self.anions:
+            ne -= n[self.anions].sum()
+        return max(ne, NE_FLOOR)
+
+    def _k(self, c, te, tg, n, ne):
+        kind = c.kind
+        if kind in ("const", "inv_tau", "param"):
+            k = c.rate
+        elif kind in ("xsec", "superelastic"):
+            k = float(c.rate(te))
+        elif kind == "xsec_tail":
+            n_gas = max(float(n.sum()), 1.0)
+            r = self.tail(ne / n_gas, n[self.idx["F2"]] / n_gas)
+            k = c.rate(te, r * te)
+        elif kind == "stepwise":
+            t = max(te, TE_FLOOR_STEPWISE)
+            k = 1.56e-7 * t ** 0.71 * math.exp(-c.rate[0] / t)
+        elif kind == "dr_sqrt":
+            k = c.rate[0] / math.sqrt(max(te, 0.02))
+        elif kind == "te_pow":
+            k = c.rate[0] * (max(te, TE_FLOOR_POW) / c.rate[1]) ** c.rate[2]
+        elif kind == "flannery":
+            # harmonic mean of a three-body part a N/1.7 and a mobility part
+            # a/N; an optional (Tg/300)^n3 acts on the three-body part
+            n_am = n.sum() / AMAGAT_CM3
+            f3 = ((max(tg, 1.0) / 300.0) ** c.rate[2] if len(c.rate) > 2
+                  else 1.0)
+            k = c.rate[0] * n_am * f3 / (n_am * n_am * f3 + 1.7) * c.rate[1]
+            k *= self._screening(ne, n, tg)
+        elif kind == "hm":
+            # Hoffman & Moreno: A N / (N^2 + B N + C / f3), f3 on the
+            # three-body limit A N f3 / C; times the Debye screening
+            n_am = n.sum() / AMAGAT_CM3
+            f3 = ((max(tg, 1.0) / 300.0) ** c.rate[3] if len(c.rate) > 3
+                  else 1.0)
+            k = c.rate[0] * n_am / (n_am * n_am + c.rate[1] * n_am
+                                    + c.rate[2] / f3)
+            k *= self._screening(ne, n, tg)
+        elif kind == "balance":
+            # k_fwd / K(Tg), K(Tg) = K_ref exp(theta (1/Tg - 1/300))
+            k = c.rate[0] * math.exp(-c.rate[1] * (1.0 / max(tg, 1.0)
+                                                   - 1.0 / 300.0))
+        else:
+            raise ValueError(kind)
+        tg_pow = c.row.tg_pow
+        if self.p.trimer_tg_pow is not None and c.row.rid in TRIMER_RIDS:
+            tg_pow = self.p.trimer_tg_pow
+        if tg_pow:
+            k *= (max(tg, 1.0) / 300.0) ** tg_pow
+        return k
+
+    def _screening(self, ne, n, tg):
+        """Debye screened-capture factor for ion-ion recombination (REBUILD
+        chemistry.ion_ion_screening, cgs in / SI inside)."""
+        n_an = n[self.anions].sum() if self.anions else 0.0
+        n_scr = max(2.0 * (ne + n_an), 1.0) * 1e6
+        tk = max(tg, 1.0)
+        lam_d = math.sqrt(EPS0 * KB * tk / (n_scr * QE ** 2))
+        r_cap = 2.0 * QE ** 2 / (3.0 * 4.0 * math.pi * EPS0 * KB * tk)
+        return 1.0 / (1.0 + r_cap / lam_d)
+
+    def heating_power(self, te, n, ne):
+        """Power into the electron gas [eV cm^-3 s^-1] during the pulse:
+        the given input power, uniform and direct (drive 'power')."""
+        return self.p.power_W_cm3 / QE
+
+    # ------------------------------------------------------------ RHS
+    def rhs(self, t, y, on):
+        N0 = self.N0
+        n = np.maximum(y[:self.ns], 0.0) * N0
+        ue = y[self.i_ue] * N0
+        tg = y[self.i_tg]
+        tg_ev = tg * KB_EV
+        ne = self.electron_density(n)
+        te = max(ue / (1.5 * ne), 1e-3)
+
+        dy = np.zeros(self.size)
+        dn = dy[:self.ns]
+        heat = 0.0
+        p_dep = self.p.power_W_cm3 / QE if on else 0.0    # eV cm^-3 s^-1
+        p_in = (self.heating_power(te, n, ne)
+                if on and self.beam is None else 0.0)
+        p_el = (ne * n[self.idx[RG]] * float(self.kel(te))
+                * (1.0 - tg_ev / te))
+        due = p_in - p_el
+        heat += p_el
+        heat_beam = 0.0
+        if on and self.beam is not None:
+            pairs = p_dep / self.beam.W
+            dn += pairs * self.beam_src
+            due += pairs * self.beam.eps_sec
+            heat_beam = pairs * self.beam.heat
+            heat += heat_beam
+        cap_heat = 0.0
+        for c in self.compiled:
+            if c.kind == "elastic":
+                continue
+            flux = self._k(c, te, tg, n, ne)
+            for i in c.heavy:
+                flux *= n[i]
+            if c.ne_pow:
+                flux *= ne ** c.ne_pow
+            for i, coeff in c.stoich:
+                dn[i] += coeff * flux
+            rt = c.route
+            due += (rt["to_e"] - rt["from_e"]) * flux
+            heat += rt["heat"] * flux
+            if rt["capture"]:
+                e_cap = 1.5 * te if c.cap is None else c.cap(te)
+                cap = e_cap * rt["capture"] * flux
+                due -= cap
+                cap_heat += cap
+            dy[self.i_ev + c.j] = flux
+        heat += cap_heat
+        # constant-volume gas energy U_th = sum n_s cv_s k Tg, dU_th/dt = heat:
+        # particles a reaction creates (F2 -> 2F) take their cv k Tg from it
+        c_v = float((n * self.cv).sum()) * KB_EV
+        dy[self.i_tg] = (heat - tg_ev * float((dn * self.cv).sum())) / c_v
+        dn /= N0
+        dy[self.i_ue] = due / N0
+        dy[self.i_led + 0] = p_dep / N0
+        dy[self.i_led + 1] = p_el / N0
+        dy[self.i_led + 2] = cap_heat / N0
+        dy[self.i_led + 3] = heat_beam / N0
+        dy[self.i_ev:] /= N0
+        return dy
+
+    # ------------------------------------------------------------ run
+    def initial_state(self):
+        p = self.p
+        y = np.zeros(self.size)
+        N0 = self.N0
+        y[self.idx[RG]] = (1.0 - p.x_f2) - p.ne_cm3 / N0
+        y[self.idx["F2"]] = p.x_f2
+        y[self.idx[RG_ION]] = p.ne_cm3 / N0
+        for s, val in p.init_extra_cm3:
+            y[self.idx[s]] += val / N0
+        y[self.i_ue] = 1.5 * p.ne_cm3 * p.tg0_K * KB_EV / N0
+        y[self.i_tg] = p.tg0_K
+        return y
+
+    def run(self) -> "Result":
+        p = self.p
+        y0 = self.initial_state()
+        t_grid = np.linspace(0.0, p.t_end_s, p.n_save)
+        # integrate on-pulse and afterglow separately: the drive switches
+        # off discontinuously and a stiff solver must not step across it
+        segs = [(0.0, min(p.pulse_s, p.t_end_s), True),
+                (p.pulse_s, p.t_end_s, False)]
+        segs = [s for s in segs if s[1] > s[0]]
+        atol = np.full(self.size, 1e-18)
+        atol[self.i_tg] = 1e-8
+        ts, ys, nfev = [], [], 0
+        for a, b, on in segs:
+            te_ = t_grid[(t_grid > a) & (t_grid < b)]
+            t_eval = np.concatenate([[a], te_, [b]])
+            sol = solve_ivp(lambda t, y: self.rhs(t, y, on), (a, b), y0,
+                            method=p.method, t_eval=t_eval, rtol=p.rtol,
+                            atol=atol, first_step=1e-15)
+            if not sol.success:
+                raise RuntimeError(f"solver failed on [{a:.3e}, {b:.3e}] s: "
+                                   f"{sol.message}")
+            nfev += sol.nfev
+            keep = slice(None) if not ts else slice(1, None)   # no duplicate
+            ts.append(sol.t[keep])
+            ys.append(sol.y[:, keep])
+            y0 = sol.y[:, -1]
+        return Result(self, np.concatenate(ts), np.concatenate(ys, axis=1),
+                      nfev)
+
+
+class Result:
+    """Trajectory + ledger in physical units (cm^-3, eV cm^-3, K, eV)."""
+
+    def __init__(self, model: Model, t, y, nfev):
+        self.model = model
+        self.p = model.p
+        self.t = t
+        N0 = model.N0
+        self.n = {s: y[i] * N0 for s, i in model.idx.items()}
+        dens = y[:model.ns] * N0
+        self.ne = np.array([model.electron_density(np.maximum(dens[:, k], 0))
+                            for k in range(len(t))])
+        self.ue = y[model.i_ue] * N0
+        self.te = self.ue / (1.5 * self.ne)
+        self.tg = y[model.i_tg]
+        self.ledger = {name: y[model.i_led + i] * N0
+                       for i, name in enumerate(LEDGER)}
+        self.events = {r.rid: y[model.i_ev + j] * N0
+                       for j, r in enumerate(model.rows)}
+        # chemical + electron energy [eV/cm^3]
+        self.stored = (model.eform[:, None] * dens).sum(axis=0) + self.ue
+        # gas thermal energy [eV/cm^3]; its growth must equal the booked heat
+        self.u_thermal = (model.cv[:, None] * dens).sum(axis=0) * KB_EV \
+            * self.tg
+        n_heavy = dens.sum(axis=0)
+        self.pressure_atm = (n_heavy + self.ne) * 1e6 * KB * self.tg / ATM_PA
+        self.nfev = nfev
+
+    def at_end(self, key):
+        return self.n[key][-1]
+
+
+def run(params: Params = None, **kw) -> Result:
+    """Convenience: run(pressure_atm=2, ne_cm3=1e16) or run(Params(...))."""
+    p = params if params is not None else Params()
+    if kw:
+        p = p.replace(**kw)
+    return Model(p).run()

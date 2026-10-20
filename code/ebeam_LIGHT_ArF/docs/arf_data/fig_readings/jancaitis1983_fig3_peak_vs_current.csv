@@ -1,0 +1,19 @@
+# Jancaitis and Powell, UCRL-53465 (1983) App. Ch. V, Fig. 3 printed p.165 (PDF 173): peak ArF and Ar2F fluorescence (arb., log) vs average current density, 5 Torr F2 - 1500 Torr Ar, 600 keV, 50 ns
+# survey reading of the PDF at 200 dpi; +-8 percent on both axes
+species,J_A_cm2,peak_arb
+ArF,4.31,0.0489
+ArF,10.18,0.1299
+ArF,13.96,0.179
+ArF,31.2,0.369
+ArF,74.3,1.32
+ArF,185.8,3.81
+ArF,448.6,9.02
+ArF,562,12.0
+Ar2F,4.31,0.0462
+Ar2F,10.18,0.1188
+Ar2F,13.96,0.1573
+Ar2F,31.2,0.3413
+Ar2F,72.6,0.939
+Ar2F,185.8,1.915
+Ar2F,430,3.13
+Ar2F,540,3.36

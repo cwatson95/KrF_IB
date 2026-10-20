@@ -1,0 +1,44 @@
+{
+  "schema": "cross-section-metadata/1.1",
+  "generated_utc": "2026-07-04T22:21:15Z",
+  "source": "LXCat, www.lxcat.net; NIST Electron-Impact Cross Section Database (SRD 107), https://dx.doi.org/10.18434/T4KK5C; LXCat, www.lxcat.net (SIGLO & Morgan databases); GitHub mirror lindsayad/pythonForBolos/LXCat-June2013.txt; IAEA AMDIS CollisionDB, https://db-amdis.org/collisiondb/; MPI-Mainz UV/VIS Spectral Atlas, https://uvvis.mpch-mainz.gwdg.de/; K.S. Jancaitis, LLNL UCRL-53465 (1983), Table II",
+  "data_file": "e_Kr_elastic.csv",
+  "data_kind": "total",
+  "process_id": "e_Kr_elastic",
+  "database": "SIGLO database (LXCat)",
+  "reaction": "E + Kr -> E + Kr (elastic momentum transfer)",
+  "type": "Elastic",
+  "category": "Elastic",
+  "family": "Electron",
+  "projectile": "e",
+  "target": "Kr",
+  "mass_ratio_m_over_M": 0.0000065,
+  "ion_mass_amu": null,
+  "ion_mass_ratio": null,
+  "stat_weight_ratio": null,
+  "complete_set": false,
+  "param_raw": "mass ratio = 6.5e-06",
+  "comment": "elastic MOMENTUM-TRANSFER CROSS SECTION Krypton set distributed via the SIGLO database on LXCat, digitized from H. Date, Y. Sakai & H. Tagashira, J. Phys. D 22, 1478 (1989) (Nov 2012). Cross section already in m^2. Retrieved from the GREPHE/LAPLACE LXCat export 'LXCat-June2013.txt' (downloaded 4 Jun 2013), public GitHub mirror lindsayad/pythonForBolos. Re-pull from lxcat.net for canonical provenance. Digitized curve; (E,sigma) pairs sorted by energy.",
+  "updated": "2012-11-27 09:34:55",
+  "n_points": 44,
+  "threshold": null,
+  "axes": {
+    "x_quantity": "Energy",
+    "y_quantity": "Cross section"
+  },
+  "units": {
+    "x": "eV",
+    "y": "cm^2"
+  },
+  "source_units": {
+    "x": "eV",
+    "y": "m^2"
+  },
+  "conversion_from_source": {
+    "x": 1,
+    "y": 10000
+  },
+  "x_min": 0,
+  "x_max": 99.184,
+  "y_max": 1.6707e-15
+}

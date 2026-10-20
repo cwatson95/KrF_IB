@@ -1,0 +1,67 @@
+{
+  "preset": "krf_hyper_mw",
+  "te_cold_eV": 0.5,
+  "te_hot_eV": 3.0,
+  "rows": [
+    {
+      "rid": "AK6",
+      "reaction": "Ar2* + F2 -> ArF* + Ar + F",
+      "kind": "k",
+      "electron_row": false,
+      "k_ratio_hot_cold": 1.0,
+      "sign": "0 (heavy-particle)"
+    },
+    {
+      "rid": "A2_F",
+      "reaction": "Ar2* + F -> ArF* + Ar",
+      "kind": "k",
+      "electron_row": false,
+      "k_ratio_hot_cold": 1.0,
+      "sign": "0 (heavy-particle)"
+    },
+    {
+      "rid": "AF1",
+      "reaction": "Ar* + F2 -> ArF* + F",
+      "kind": "k",
+      "electron_row": false,
+      "k_ratio_hot_cold": 1.0,
+      "sign": "0 (heavy-particle)"
+    },
+    {
+      "rid": "AF3",
+      "reaction": "Ar** + F2 -> ArF* + F",
+      "kind": "k",
+      "electron_row": false,
+      "k_ratio_hot_cold": 1.0,
+      "sign": "0 (heavy-particle)"
+    },
+    {
+      "rid": "AIIR1",
+      "reaction": "Ar+ + F- -> ArF*",
+      "kind": "k",
+      "electron_row": false,
+      "k_ratio_hot_cold": 1.0,
+      "sign": "0 (heavy-particle)"
+    },
+    {
+      "rid": "AIIR2",
+      "reaction": "Ar2+ + F- -> ArF* + Ar",
+      "kind": "k",
+      "electron_row": false,
+      "k_ratio_hot_cold": 1.0,
+      "sign": "0 (heavy-particle)"
+    }
+  ],
+  "attachment_ratio_hot_cold": 0.13419462582624037,
+  "dr_ratio_hot_cold": 0.37326460723324606,
+  "k_Kr_exc": {
+    "0.5": 9.814466091882542e-24,
+    "3.0": 6.39995480107771e-20,
+    "5.75": 8.1833727953933205e-16
+  },
+  "tally": {
+    "negative": 0,
+    "heavy": 6,
+    "positive": 0
+  }
+}

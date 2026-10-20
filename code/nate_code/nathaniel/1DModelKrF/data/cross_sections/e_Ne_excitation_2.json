@@ -1,0 +1,44 @@
+{
+ "schema": "cross-section-metadata/1.1",
+ "generated_utc": "2026-07-30T05:04:50Z",
+ "source": "SIGLO database (LXCat, Chen ref 22): sum of the 2P+2S+3D+3P levels \u2014 the higher 2p/2s-3d/3p manifolds (Ne**). Previously only the first level of each manifold was used, discarding ~half the 96%-bath excitation sink (EEDF inelastic wall + Ne* stepwise pool).",
+ "data_file": "e_Ne_excitation_2.csv",
+ "data_kind": "total",
+ "process_id": "e_Ne_excitation_2",
+ "database": "SIGLO database (LXCat), manifold sum",
+ "reaction": "E + Ne -> E + Ne**(2p+2s/3d+3p)",
+ "type": "Excitation",
+ "category": "Excitation (electronic)",
+ "family": "Electron",
+ "projectile": "e",
+ "target": "Ne",
+ "mass_ratio_m_over_M": null,
+ "ion_mass_amu": null,
+ "ion_mass_ratio": null,
+ "stat_weight_ratio": null,
+ "complete_set": true,
+ "param_raw": "E = 18.72 eV, complete set",
+ "comment": "(2p) extrapolated after 88 eV using ln(energy)energy**2. SIGLO dataset (Chen 2025, ref 22); re-sourced from crossbrowser lxcat_siglo.json, source id SIGLO__Ne__Excitation__28. Representative level: Ne 2P (higher excited) taken as the lumped Ne** (arf.toml R2). Cross section stored in m^2 by SIGLO (converted to cm^2 for the CSV column).",
+ "updated": "2026-07-31",
+ "n_points": 41,
+ "threshold": 18.72,
+ "axes": {
+  "x_quantity": "Energy",
+  "y_quantity": "Cross section"
+ },
+ "units": {
+  "x": "eV",
+  "y": "cm^2"
+ },
+ "source_units": {
+  "x": "eV",
+  "y": "m^2"
+ },
+ "conversion_from_source": {
+  "x": 1,
+  "y": 10000
+ },
+ "x_min": 18.72,
+ "x_max": 200.0,
+ "y_max": 6.515741892519368e-18
+}

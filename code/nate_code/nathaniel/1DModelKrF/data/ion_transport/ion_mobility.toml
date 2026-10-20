@@ -1,0 +1,81 @@
+# Low-field standard reduced ion mobilities K0 (cm^2/V/s), referenced to the Loschmidt
+# density N0 below. Consumed by src/reactions/ion_transport.py: mu_i = K0*(N0/N),
+# D_i = mu_i*k_B*T_gas/e (Einstein). Every value carries a published-source key and a note
+# describing its measurement or estimate basis.
+#
+# NEITHER LoKI-B NOR BOLSIG+ produces ion transport (both are electron Boltzmann solvers);
+# these come from ion-swarm drift-tube literature (Ellis/Viehland compilations).
+
+loschmidt_m3 = 2.6867805e25   # N0: 273.15 K, 101325 Pa
+
+# --- measured / compiled (Ellis et al. compilations) --------------------------------------
+[[ion]]
+ion = "Kr+"
+gas = "Kr"
+K0_cm2_Vs = 0.84
+source = "ellis1976_partI"
+note = "resonant charge transfer; state-resolved 0.807/0.861 (Helm 1976); +/-5%"
+
+[[ion]]
+ion = "Kr2+"
+gas = "Kr"
+K0_cm2_Vs = 1.22
+source = "ellis1976_partI"
+note = "dimer ion; +/-5%"
+
+[[ion]]
+ion = "F-"
+gas = "Kr"
+K0_cm2_Vs = 2.29
+source = "ellis1978_partII"
+note = "primary: Eisele et al.; +/-3% for E/N<=100 Td"
+
+[[ion]]
+ion = "F-"
+gas = "Ar"
+K0_cm2_Vs = 3.33
+source = "ellis1978_partII"
+note = "primary: Dotan & Albritton 1977; +/-5% for E/N<=75 Td"
+
+[[ion]]
+ion = "Ne+"
+gas = "Ne"
+K0_cm2_Vs = 4.08
+source = "ellis1976_partI"
+note = "+/-1% (E/N<=60 Td); mass-identified confirmation O. J. Orient, Chem. Phys. Lett. 23, 576 (1973): 4.13+/-0.04"
+
+[[ion]]
+ion = "Ne2+"
+gas = "Ne"
+K0_cm2_Vs = 6.13
+source = "ellis1976_partI"
+note = "dimer; +/-1%; mass-identified confirmation Orient 1973: 6.20+/-0.07"
+
+[[ion]]
+ion = "Ar+"
+gas = "Ar"
+K0_cm2_Vs = 1.52
+source = "ellis1976_partI"
+note = "resonant charge transfer; +/-1% (E/N<=250 Td)"
+
+[[ion]]
+ion = "Ar2+"
+gas = "Ar"
+K0_cm2_Vs = 1.83
+source = "ellis1976_partI"
+note = "dimer; +/-1%"
+
+[[ion]]
+ion = "Xe+"
+gas = "Xe"
+K0_cm2_Vs = 0.519
+source = "ellis1978_partII"
+note = "ground 2P3/2 (Helm 1976); excited 2P1/2 0.551; +/-1%"
+
+# --- Langevin polarization-limit estimates (no drift-tube data) ---------------------------
+[[ion]]
+ion = "F-"
+gas = "Ne"
+K0_cm2_Vs = 7.1
+source = "langevin"
+note = "ESTIMATE: K0~13.876/sqrt(alpha*mu_r), alpha(Ne)=0.395 A^3, mu_r=9.74 amu; upper limit"

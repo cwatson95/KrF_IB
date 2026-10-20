@@ -1,0 +1,81 @@
+# Cross-Section Browser export — 2026-07-30T15:18:05Z
+# source: LXCat, www.lxcat.net (SIGLO database). SIGLO database is the electron-impact cross-section source of Chen et al., Phys. Plasmas 32, 113502 (2025), ref 22. Re-sourced from the project crossbrowser export lxcat_siglo.json, SIGLO process id SIGLO__Ar__Effective__00.
+# database: SIGLO database (LXCat)
+# process_id: e_Ar_elastic
+# reaction: E + Ar -> E + Ar
+# type: Elastic   |   category: Elastic   |   family: Electron
+# data_kind: total
+# species: e / Ar
+# mass_ratio_m_over_M: 0.0000136
+# param: m/M = 0.0000136, complete set
+# comment: EFFECTIVE MOMENTUM-TRANSFER CROSS SECTION. SIGLO dataset (Chen 2025, ref 22); re-sourced from crossbrowser lxcat_siglo.json, source id SIGLO__Ar__Effective__00. PROVENANCE: the SIGLO source type/category for SIGLO__Ar__Effective__00 is "Effective" (total momentum transfer, i.e. the elastic momentum-transfer cross section with the inelastic channels folded in). It is recorded here as type/category "Elastic" because reaction_kind_from_metadata (src/reactions/types.py) has no "effective" branch and would map it to ReactionKind.OTHER, which every downstream filter drops. The tabulated numbers, threshold, mass ratio and updated stamp are unchanged from the source. Electron momentum-transfer channel for ground-state Ar. SIGLO export used for electron transport (the two-term Boltzmann solve that supplies mu_e/D_e and the electron-impact rate coefficients), Chen et al. Phys. Plasmas 32, 113502 (2025), ref 22. Cross section stored in m^2 by SIGLO (converted to cm^2 for the CSV column).
+# updated: 2011-06-06 18:21:14
+# n_points: 66
+# columns: energy [eV], cross_section [cm^2]
+energy_eV,cross_section_cm2
+0.000000e+00,7.500000e-16
+1.000000e-3,7.500000e-16
+2.000000e-3,7.100000e-16
+3.000000e-3,6.700000e-16
+5.000000e-3,6.100000e-16
+7.000000e-3,5.400000e-16
+8.500000e-3,5.050000e-16
+1.000000e-2,4.600000e-16
+1.500000e-2,3.750000e-16
+2.000000e-2,3.250000e-16
+3.000000e-2,2.500000e-16
+4.000000e-2,2.050000e-16
+5.000000e-2,1.730000e-16
+7.000000e-2,1.130000e-16
+1.000000e-1,5.900000e-17
+1.200000e-1,4.000000e-17
+1.500000e-1,2.300000e-17
+1.700000e-1,1.600000e-17
+2.000000e-1,1.030000e-17
+2.500000e-1,9.100000e-18
+3.000000e-1,1.530000e-17
+3.500000e-1,2.350000e-17
+4.000000e-1,3.300000e-17
+5.000000e-1,5.100000e-17
+7.000000e-1,8.600000e-17
+1.000000e+0,1.380000e-16
+1.200000e+0,1.660000e-16
+1.300000e+0,1.820000e-16
+1.500000e+0,2.100000e-16
+1.700000e+0,2.300000e-16
+1.900000e+0,2.500000e-16
+2.100000e+0,2.800000e-16
+2.200000e+0,2.900000e-16
+2.500000e+0,3.300000e-16
+2.800000e+0,3.800000e-16
+3.000000e+0,4.100000e-16
+3.300000e+0,4.500000e-16
+3.600000e+0,4.900000e-16
+4.000000e+0,5.400000e-16
+4.500000e+0,6.100000e-16
+5.000000e+0,6.700000e-16
+6.000000e+0,8.100000e-16
+7.000000e+0,9.600000e-16
+8.000000e+0,1.170000e-15
+1.000000e+1,1.500000e-15
+1.200000e+1,1.520000e-15
+1.500000e+1,1.410000e-15
+1.700000e+1,1.310000e-15
+2.000000e+1,1.100000e-15
+2.500000e+1,9.450000e-16
+3.000000e+1,8.740000e-16
+5.000000e+1,6.900000e-16
+7.500000e+1,5.850000e-16
+1.000000e+2,5.250000e-16
+1.500000e+2,4.240000e-16
+2.000000e+2,3.760000e-16
+3.000000e+2,3.020000e-16
+5.000000e+2,2.100000e-16
+7.000000e+2,1.640000e-16
+1.000000e+3,1.210000e-16
+1.500000e+3,8.800000e-17
+2.000000e+3,6.600000e-17
+3.000000e+3,4.500000e-17
+5.000000e+3,3.100000e-17
+7.000000e+3,2.300000e-17
+1.000000e+4,1.750000e-17

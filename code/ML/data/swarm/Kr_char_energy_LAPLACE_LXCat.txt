@@ -1,0 +1,177 @@
+LXCat, www.lxcat.net
+Generated on 15 Oct 2026. All rights reserved.
+
+RECOMMENDED REFERENCE FORMAT
+- LAPLACE database, www.lxcat.net, retrieved on October 15, 2026.
+
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+DATABASE:         LAPLACE (measurements after 1975)
+PERMLINK:         www.lxcat.net/LAPLACE
+DESCRIPTION:      These data were extracted from articles published after the 1975 or not appearing in the review
+                  article by Dutton (and the associated “Dutton” database). The data in this database were digitized
+                  by S Chowdhury (LAPLACE, Toulouse) from figures in the publications or from data tables if tables were
+                  provided in the publications.
+CONTACT:          leanne.pitchford@@laplace.univ-tlse.fr
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+************************************************************************************************************************
+
+COMMENT: Al-Amin, S. A., Lucas, J., J. Phys. D, 20, 1590, (1987);
+         Bhattacharya, A. K., J. Appl. Phys, 50, 6207, 1979;
+         Bowe, J. C., Physical Review, 117, 1411 (1960);
+         DallArmi, G., Brown, K. L., Purdie, P. H. and Fletcher, J., Aust. J. Phys., 45, 185 (1992);
+         English, W. N. and Hanna, G. C., Can. J. Phys., 31, 768, 1953; 
+         Hunter, S. R., Carter, J. G., Christophorou, L. G., Physical Review A, 38, 11 (1988)(from Table);
+         Jacques, L., Bruynooghe, W., Boucique, R., Wieme, W., J. Phys. D., 19, 1731, (1986)(From Table) ;
+         Koizumi, T., Shirakawa, E., Ogawa, I., J. Phys. B: At. Mol. Phys. 19, 2331 (1986);
+         Kucukarpaci, H. N., Lucas, J., J. Phy. D., 14, 2001(1981);
+         Pack, J. L., Voshall, R. E., Phelps, A. V., Kline, L. E., J. App. Phys., 71, 5363, (1992) ( from table) ;
+         Specht, L. T., Lawton, S. A., DeTemple, T. A., J. Appl. Phys., 51, 1,1980;
+         Y. Nakamura, “Electron Swarm Parameters in Krypton and its Momentum Transfer Cross Sections, in Nonequilibrium effects
+         in ion and electron transport”, ed. J.W. Gallagher, D.F. Hudson, E.E. Kunhardt and RJ Van Brunt, Plenum Press, NY,
+         1990;.
+
+********************************************************** Kr **********************************************************
+
+SPECIES: e / Kr
+PROCESS: Characteristic energy (D/&mu;)
+COMMENT: Al-Amin et al 1987 (DT/mu).
+UPDATED: 2012-08-06 16:29:13
+COLUMNS: Reduced electric field (Td) | Energy (eV)
+-----------------------------
+ 1.410000e+0	5.240000e+0
+ 1.980000e+0	5.960000e+0
+ 2.820000e+0	6.670000e+0
+ 4.240000e+0	7.450000e+0
+ 5.650000e+0	6.920000e+0
+ 1.410000e+1	6.470000e+0
+ 2.820000e+1	6.400000e+0
+ 5.650000e+1	4.750000e+0
+ 1.130000e+2	5.570000e+0
+ 1.410000e+2	5.690000e+0
+ 1.980000e+2	5.510000e+0
+ 2.820000e+2	4.460000e+0
+ 5.650000e+2	5.790000e+0
+ 8.480000e+2	7.000000e+0
+ 1.130000e+3	8.860000e+0
+ 1.413000e+3	1.040000e+1
+ 1.695000e+3	1.200000e+1
+ 1.978000e+3	1.140000e+1
+ 2.260000e+3	1.180000e+1
+ 2.825000e+3	1.330000e+1
+ 4.238000e+3	1.190000e+1
+ 5.650000e+3	8.920000e+0
+-----------------------------
+
+SPECIES: e / Kr
+PROCESS: Characteristic energy (D/&mu;)
+COMMENT: Koizumi et al 1986 (DT/mu).
+UPDATED: 2012-08-06 16:24:55
+COLUMNS: Reduced electric field (Td) | Energy (eV)
+-----------------------------
+ 5.000000e-3	3.370000e-2
+ 6.000000e-3	3.960000e-2
+ 7.000000e-3	4.940000e-2
+ 8.000000e-3	7.150000e-2
+ 9.000000e-3	9.890000e-2
+ 1.000000e-2	1.440000e-1
+ 1.200000e-2	2.690000e-1
+ 1.400000e-2	4.180000e-1
+ 1.800000e-2	6.700000e-1
+ 8.000000e-2	2.670000e+0
+ 9.000000e-2	2.890000e+0
+ 1.000000e-1	2.940000e+0
+ 1.200000e-1	3.250000e+0
+ 1.400000e-1	3.500000e+0
+ 1.600000e-1	3.610000e+0
+ 1.800000e-1	3.850000e+0
+ 2.000000e-1	3.990000e+0
+ 2.200000e-1	4.180000e+0
+ 2.500000e-1	4.470000e+0
+ 2.800000e-1	4.710000e+0
+ 3.000000e-1	4.760000e+0
+ 3.500000e-1	5.120000e+0
+ 4.000000e-1	5.310000e+0
+ 5.000000e-1	5.660000e+0
+ 7.000000e-1	6.560000e+0
+ 9.000000e-1	6.920000e+0
+-----------------------------
+
+SPECIES: e / Kr
+PROCESS: Characteristic energy (D/&mu;)
+COMMENT: Kucukarpaci et al 1981 (DL/mu).
+UPDATED: 2012-08-06 16:28:40
+COLUMNS: Reduced electric field (Td) | Energy (eV)
+-----------------------------
+ 1.386700e+1	1.046300e+0
+ 2.767200e+1	2.459900e+0
+ 5.571600e+1	3.467200e+0
+ 1.376100e+2	4.627100e+0
+ 1.980300e+2	5.416800e+0
+ 2.809900e+2	5.073200e+0
+ 4.142900e+2	6.051200e+0
+ 5.486900e+2	8.690100e+0
+ 6.834700e+2	1.018900e+1
+-----------------------------
+
+SPECIES: e / Kr
+PROCESS: Characteristic energy (D/&mu;)
+PARAM.:  Tgas = 195 K
+COMMENT: Pack et al 1992 (DL/mu).
+UPDATED: 2013-09-26 15:08:43
+COLUMNS: Reduced electric field (Td) | Energy (eV)
+-----------------------------
+ 1.500000e-3	1.900000e-2
+ 3.100000e-3	2.700000e-2
+ 4.600000e-3	1.600000e-2
+ 9.300000e-3	3.300000e-2
+ 1.240000e-2	8.300000e-2
+ 1.860000e-2	4.690000e-1
+ 2.480000e-2	4.470000e-1
+ 3.080000e-2	2.910000e-1
+ 4.660000e-2	1.470000e-1
+ 8.940000e-2	1.940000e-1
+-----------------------------
+
+SPECIES: e / Kr
+PROCESS: Characteristic energy (D/&mu;)
+PARAM.:  Tgas = 300 K
+COMMENT: Pack et al 1992 (DL/mu).
+UPDATED: 2013-09-26 15:08:59
+COLUMNS: Reduced electric field (Td) | Energy (eV)
+-----------------------------
+ 8.000000e-4	2.600000e-2
+ 1.200000e-3	2.900000e-2
+ 1.600000e-3	3.000000e-2
+ 1.900000e-3	2.800000e-2
+ 3.100000e-3	2.700000e-2
+ 4.700000e-3	4.200000e-2
+ 6.200000e-3	6.000000e-2
+ 7.700000e-3	6.400000e-2
+ 9.300000e-3	7.800000e-2
+ 1.260000e-2	2.180000e-1
+ 1.240000e-2	2.290000e-1
+ 1.660000e-2	3.040000e-1
+ 1.730000e-2	4.190000e-1
+ 1.830000e-2	3.810000e-1
+ 1.860000e-2	5.730000e-1
+ 2.190000e-2	3.510000e-1
+ 2.500000e-2	4.380000e-1
+ 2.820000e-2	3.190000e-1
+ 3.110000e-2	2.030000e-1
+ 1.563000e-1	2.400000e-1
+ 2.833000e-1	3.720000e-1
+ 6.224000e-1	4.770000e-1
+ 9.089000e-1	5.740000e-1
+ 9.390000e-1	5.510000e-1
+ 1.851400e+0	5.830000e-1
+ 2.487800e+0	8.570000e-1
+ 3.751400e+0	2.493000e+0
+ 9.316800e+0	3.125000e+0
+ 9.362300e+0	3.006000e+0
+ 1.190300e+1	3.230000e+0
+ 1.270600e+1	3.133000e+0
+ 1.671600e+1	3.507000e+0
+ 1.874400e+1	4.138000e+0
+-----------------------------
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx

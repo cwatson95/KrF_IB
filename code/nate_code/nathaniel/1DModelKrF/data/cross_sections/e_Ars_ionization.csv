@@ -1,0 +1,24 @@
+# Cross-Section Browser export — 2026-07-30T17:11:11Z
+# source: LXCat, www.lxcat.net (TRINITI database). Re-sourced from the project crossbrowser export lxcat_excited_ar_ne.json, TRINITI process id TRINITI__Ar__Ionization__584. NOT SIGLO: the SIGLO database (the electron-impact cross-section source of Chen et al., Phys. Plasmas 32, 113502 (2025), ref 22) contains no e + Ar* ionization set, so the TRINITI set is used for this channel.
+# database: TRINITI database (LXCat)
+# process_id: e_Ars_ionization
+# reaction: E + Ar* -> E + E + Ar(+)
+# type: Ionization   |   category: Ionization   |   family: Electron
+# data_kind: total
+# species: e / Ar*
+# threshold: 4.2 eV
+# param: E = 4.2 eV
+# comment: 4.2 EV |KCp. A.J.DIXON..J.PHYS.B9,2617,1976. TRINITI dataset (underlying measurement A. J. Dixon, M. F. A. Harrison and A. C. H. Smith, J. Phys. B 9, 2617 (1976), per the source comment "KCp. A.J.DIXON..J.PHYS.B9,2617,1976."); re-sourced from crossbrowser lxcat_excited_ar_ne.json, source id TRINITI__Ar__Ionization__584. Metastable-target (stepwise) ionization used for arf.toml R8, e + Ar* -> Ar+ + 2 e. SOURCE TARGET STRING: "Ar*" (TRINITI already lumps the Ar 3p^5 4s manifold into one Ar* target), kept verbatim - it matches the project species registry and the arf.toml R8 reactant, so no target rename was needed. DATABASE PROVENANCE: not SIGLO - SIGLO (Chen 2025, ref 22) has no excited-Ar ionization channel, and this TRINITI set is the only measured e + Ar* ionization in the project crossbrowser mirror. The tabulated numbers, threshold, param and updated stamp are unchanged from the source. Cross section stored in m^2 by TRINITI (converted to cm^2 for the CSV column).
+# updated: 2017-01-18 17:50:58
+# n_points: 9
+# columns: energy [eV], cross_section [cm^2]
+energy_eV,cross_section_cm2
+4.200000e+0,0.000000e+00
+6.000000e+0,5.000000e-16
+8.000000e+0,8.000000e-16
+1.000000e+1,8.500000e-16
+1.500000e+1,8.200000e-16
+2.000000e+1,8.000000e-16
+4.000000e+1,6.700000e-16
+1.000000e+2,4.000000e-16
+3.000000e+2,2.000000e-16

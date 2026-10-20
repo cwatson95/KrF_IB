@@ -1,0 +1,10 @@
+I'd make the transport use each cell's own gas temperature instead of the single starting value, tg0 = 300 K.
+
+Why this one
+- It's the biggest inconsistency left in the 1-D layer. Since the gas started moving, it runs from about 300 K at the electrodes to about 1200 K in the bands (1900 K with the gas still) and about 650 K in the centre. The transport still treats it as 300 K everywhere, and the README lists this as a limit. From what I saw of the kernel, that covers the ions' diffusion (a scalar kT in the face diffusion) and their thermal flux to the walls.
+- It acts where the model is still unconverged. That's the band edges within about 300 µm of the walls. There the electrons' energy given to the ions fell from 0.49 % to 0.29 % between 128 and 256 cells. In the afterglow the electron temperature drops to 0.5–1 eV, so the ion temperature is no longer negligible in how the plasma diffuses to the walls.
+- It's well scoped. It's the same kind of change as the mesh work: per-cell arrays where Fluid1D uses one number. It can sit behind a switch so parity with 1Dv0_2 survives, and it can be tested against the Boltzmann equilibrium at a non-uniform temperature. Confirm exactly which terms read tg0 before starting.
+
+The catch on payoff. The interior is v0_2's 0-D run, so wall physics moves the gap's 248-nm result by tenths of a percent. If what you want is better predictions against devices like Tahoma, the bigger lever is the chemistry and the electron energy distribution. That could mean bringing v0_3's kinetic distribution, or at least non-Maxwellian transport coefficients, into the 1-D cells. It's a much larger project.
+
+Not worth your time: the slow stage on uniform meshes with the new field-work default. Run uniform meshes with --field-work fluid1d, which 1Dv0_2 parity needs anyway.

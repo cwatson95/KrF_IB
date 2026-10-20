@@ -1,0 +1,72 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%    SWARM ANALYSIS NEON   %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% --- configuration of the working conditions ---
+workingConditions:
+  gasPressure: 133.32                         % in Pa
+  gasTemperature: 300                         % in K
+  reducedElecField: [10,15,20,25,30,35,40,45,50,55,60,65,70,75,80,100,150,200,250,300]       % in Td
+  reducedMagField: 0                          % in Hx
+  elecFieldAngle: 180                         % in degrees
+  excitationFrequency: 0                      % in Hz
+
+% --- configuration of the electron kinetics ---
+electronKinetics:
+  isOn: true             % true or false (to activate or deactivate the electron kinetics)
+  eedfType: boltzmannMC    % boltzmann or prescribedEedf
+  ionizationOperatorType: equalSharing % oneTakesAll, equalSharing, usingSDCS, randomUniform
+  LXCatFiles:            % cross section files
+    - Neon/Ne_LXCat.txt
+  gasProperties:        % properties of the gases (S.I. Units)
+    mass: Databases/masses.txt
+    fraction:
+      - Ne = 1
+    harmonicFrequency: Databases/harmonicFrequencies.txt
+    anharmonicFrequency: Databases/anharmonicFrequencies.txt
+    rotationalConstant: Databases/rotationalConstants.txt
+    electricQuadrupoleMoment: Databases/quadrupoleMoment.txt
+    OPBParameter: Databases/OPBParameter.txt
+  stateProperties:      % properties of the states (S.I. Units except for the energy [eV])
+    % Biagi (Magboltz v8.9) set: collisions are one-way (->), so no superelastics and
+    % no statisticalWeight entries are needed; ground-state population is enough.
+    population:
+      - Ne(1S0) = 1
+    statisticalWeight:
+      - Ne(1S0) = 1
+  numericsMC:
+    nElectrons: 2E4
+    gasTemperatureEffect: smartActivation
+    nIntegrationPoints: 1E4
+    nIntegratedSSTimes: 3
+
+% --- configuration for the heavy species kinetics ---
+chemistry:
+  isOn: false
+
+% --- configuration of the graphical user interface ---
+gui: 
+  isOn: true
+  plotOptions:
+    - MCTemporalInfo
+    - MCTemporalInfo_periodic
+    - distributionFunctions
+    - swarmParameters
+  terminalDisp:
+    - setup
+    - MCStatus
+
+% ---  configuration of the output files ---
+output: 
+  isOn: true
+  folder: swarm_Ne_Biagi
+  dataFiles:
+    - eedf
+%    - evdf
+    - swarmParameters
+    - rateCoefficients
+    - powerBalance
+%    - MCTemporalInfo
+    - MCTemporalInfo_periodic
+    - MCSimDetails
+    - lookUpTable

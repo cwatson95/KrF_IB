@@ -1,0 +1,68 @@
+LXCat, www.lxcat.net
+Generated on 15 Oct 2026. All rights reserved.
+
+RECOMMENDED REFERENCE FORMAT
+- LAPLACE database, www.lxcat.net, retrieved on October 15, 2026.
+
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+DATABASE:         LAPLACE (measurements after 1975)
+PERMLINK:         www.lxcat.net/LAPLACE
+DESCRIPTION:      These data were extracted from articles published after the 1975 or not appearing in the review
+                  article by Dutton (and the associated “Dutton” database). The data in this database were digitized
+                  by S Chowdhury (LAPLACE, Toulouse) from figures in the publications or from data tables if tables were
+                  provided in the publications.
+CONTACT:          leanne.pitchford@@laplace.univ-tlse.fr
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+************************************************************************************************************************
+
+COMMENT: Al-Amin, S. A., Lucas, J., J. Phys. D, 20, 1590, (1987);
+         Bhattacharya, A. K., J. Appl. Phys, 50, 6207, 1979;
+         Bowe, J. C., Physical Review, 117, 1411 (1960);
+         DallArmi, G., Brown, K. L., Purdie, P. H. and Fletcher, J., Aust. J. Phys., 45, 185 (1992);
+         English, W. N. and Hanna, G. C., Can. J. Phys., 31, 768, 1953; 
+         Hunter, S. R., Carter, J. G., Christophorou, L. G., Physical Review A, 38, 11 (1988)(from Table);
+         Jacques, L., Bruynooghe, W., Boucique, R., Wieme, W., J. Phys. D., 19, 1731, (1986)(From Table) ;
+         Koizumi, T., Shirakawa, E., Ogawa, I., J. Phys. B: At. Mol. Phys. 19, 2331 (1986);
+         Kucukarpaci, H. N., Lucas, J., J. Phy. D., 14, 2001(1981);
+         Pack, J. L., Voshall, R. E., Phelps, A. V., Kline, L. E., J. App. Phys., 71, 5363, (1992) ( from table) ;
+         Specht, L. T., Lawton, S. A., DeTemple, T. A., J. Appl. Phys., 51, 1,1980;
+         Y. Nakamura, “Electron Swarm Parameters in Krypton and its Momentum Transfer Cross Sections, in Nonequilibrium effects
+         in ion and electron transport”, ed. J.W. Gallagher, D.F. Hudson, E.E. Kunhardt and RJ Van Brunt, Plenum Press, NY,
+         1990;.
+
+********************************************************** Kr **********************************************************
+
+SPECIES: e / Kr
+PROCESS: Diffusion x gas density (DN)
+COMMENT: Nakamura 1990 (NDL).
+UPDATED: 2012-08-06 16:27:21
+COLUMNS: Reduced electric field (Td) | Diffusion x gas density ((m.s)-1)
+-----------------------------
+ 3.501300e-1	1.460000e+24
+ 3.961500e-1	1.520000e+24
+ 4.999300e-1	1.360000e+24
+ 5.966100e-1	1.230000e+24
+ 6.910100e-1	1.150000e+24
+ 7.828600e-1	1.080000e+24
+ 9.866700e-1	9.860000e+23
+ 1.188200e+0	9.600000e+23
+ 1.376200e+0	9.080000e+23
+ 1.657400e+0	8.970000e+23
+ 1.949800e+0	8.200000e+23
+ 2.457500e+0	8.090000e+23
+ 2.936500e+0	1.020000e+24
+ 3.454600e+0	1.350000e+24
+ 3.908700e+0	1.570000e+24
+ 4.932700e+0	2.160000e+24
+ 5.986900e+0	2.450000e+24
+ 6.988500e+0	2.600000e+24
+ 7.969000e+0	2.670000e+24
+ 1.700300e+1	2.660000e+24
+ 1.969400e+1	2.730000e+24
+ 2.504800e+1	2.710000e+24
+ 3.036200e+1	2.710000e+24
+ 3.544100e+1	2.710000e+24
+ 4.046600e+1	2.730000e+24
+-----------------------------
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx

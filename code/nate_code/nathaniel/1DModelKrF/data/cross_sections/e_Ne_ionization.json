@@ -1,0 +1,44 @@
+{
+  "schema": "cross-section-metadata/1.1",
+  "generated_utc": "2026-07-30T05:04:50Z",
+  "source": "LXCat, www.lxcat.net (SIGLO database). SIGLO database is the electron-impact cross-section source of Chen et al., Phys. Plasmas 32, 113502 (2025), ref 22. Re-sourced from the project crossbrowser export lxcat_siglo.json, SIGLO process id SIGLO__Ne__Ionization__31.",
+  "data_file": "e_Ne_ionization.csv",
+  "data_kind": "total",
+  "process_id": "e_Ne_ionization",
+  "database": "SIGLO database (LXCat)",
+  "reaction": "E + Ne -> E + E + Ne+",
+  "type": "Ionization",
+  "category": "Ionization",
+  "family": "Electron",
+  "projectile": "e",
+  "target": "Ne",
+  "mass_ratio_m_over_M": null,
+  "ion_mass_amu": null,
+  "ion_mass_ratio": null,
+  "stat_weight_ratio": null,
+  "complete_set": true,
+  "param_raw": "E = 21.56 eV, complete set",
+  "comment": "Total ionization, WETZEL (low energy) & HEER (higher energy). SIGLO dataset (Chen 2025, ref 22); re-sourced from crossbrowser lxcat_siglo.json, source id SIGLO__Ne__Ionization__31. Ground-state Ne ionization (arf.toml R3). Cross section stored in m^2 by SIGLO (converted to cm^2 for the CSV column).",
+  "updated": "2011-07-26 13:45:11",
+  "n_points": 36,
+  "threshold": 21.56,
+  "axes": {
+    "x_quantity": "Energy",
+    "y_quantity": "Cross section"
+  },
+  "units": {
+    "x": "eV",
+    "y": "cm^2"
+  },
+  "source_units": {
+    "x": "eV",
+    "y": "m^2"
+  },
+  "conversion_from_source": {
+    "x": 1,
+    "y": 10000
+  },
+  "x_min": 21.56,
+  "x_max": 1000.0,
+  "y_max": 7.14e-17
+}

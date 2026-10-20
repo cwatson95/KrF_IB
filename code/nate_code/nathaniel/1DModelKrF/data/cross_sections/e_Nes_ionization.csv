@@ -1,0 +1,33 @@
+# Cross-Section Browser export — 2026-07-30T17:11:11Z
+# source: LXCat, www.lxcat.net (SIGLO database). SIGLO database is the electron-impact cross-section source of Chen et al., Phys. Plasmas 32, 113502 (2025), ref 22. Re-sourced from the project crossbrowser export lxcat_excited_ar_ne.json, SIGLO process id SIGLO__Ne_3P2__Ionization__583.
+# database: SIGLO database (LXCat)
+# process_id: e_Nes_ionization
+# reaction: E + Ne(3P2) -> E + E + Ne+
+# type: Ionization   |   category: Ionization   |   family: Electron
+# data_kind: total
+# species: e / Ne*
+# threshold: 4.9 eV
+# param: E = 4.9 eV
+# comment: Ionization from metastable level, J. Meunier, Ph. Belenguer and J.P. Boeuf, J. Appl. Phys. 78, 731 (1995)extrapolation after 220 eV using ln(energy)/energy. SIGLO dataset (Chen 2025, ref 22); re-sourced from crossbrowser lxcat_excited_ar_ne.json, source id SIGLO__Ne_3P2__Ionization__583. Metastable-target (stepwise) ionization used for arf.toml R4, e + Ne* -> Ne+ + 2 e. SOURCE TARGET STRING: "Ne(3P2)"; recorded here as target "Ne*" because that is how the project species registry and arf.toml spell the lumped Ne metastable, and match_record_to_reaction (src/reactions/cross_sections.py) requires the dataset target to be one of the TOML reactants. This is consistent with arf.toml R1, which already represents the same lumped Ne* by the SIGLO Ne 3P2 excitation set (e_Ne_excitation_1, source id SIGLO__Ne__Excitation__25). The tabulated numbers, threshold, param and updated stamp are unchanged from the source. Cross section stored in m^2 by SIGLO (converted to cm^2 for the CSV column).
+# updated: 2016-11-10 13:30:37
+# n_points: 18
+# columns: energy [eV], cross_section [cm^2]
+energy_eV,cross_section_cm2
+4.900000e+0,0.000000e+00
+6.760000e+0,3.200000e-16
+7.946000e+0,4.400000e-16
+9.134000e+0,5.200000e-16
+1.058000e+1,5.740000e-16
+1.162000e+1,5.920000e-16
+1.280000e+1,5.960000e-16
+1.421000e+1,5.910000e-16
+1.541000e+1,5.800000e-16
+1.918000e+1,5.310000e-16
+2.833000e+1,4.280000e-16
+4.260000e+1,3.100000e-16
+5.433000e+1,2.500000e-16
+7.603000e+1,1.870000e-16
+1.209000e+2,1.210000e-16
+2.121000e+2,6.500000e-17
+5.000000e+2,3.300000e-17
+1.000000e+3,1.840000e-17

@@ -1,0 +1,12 @@
+# READING of Eden et al. APL 32, 733 (1978) Fig. 4: decay constant vs Ar pressure (0.5 Torr KrF2). +-1.5 Torr, +-0.03e7 s^-1.
+# Last point merges with the right frame (read 17.0+-0.05). JAP 49, 5368 Fig. 5 replots these Ar data; its ~200 Torr point reads 16.25, not 16.47.
+P_Ar_Torr,Sigma_1e7_per_s
+10.1,14.91
+22.1,14.86
+41.0,15.01
+61.8,15.31
+101.5,15.71
+147.8,15.88
+205.4,16.47
+249,17.0
+# Printed: k1(Ar)=(1.8+-0.6)e-12 cm3/s, k2(2Ar)=(1.1+-0.4)e-31 cm6/s.

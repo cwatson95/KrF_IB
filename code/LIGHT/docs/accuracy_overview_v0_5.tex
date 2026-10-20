@@ -1,0 +1,797 @@
+% How accurate LIGHT v0_5 is: v0_4 with the 5s -> 5p electron excitation
+% on Jung et al.'s measured cross sections, and a Kr-buffered e-beam
+% laser held out. No number here is typed by hand. They come from
+%   overview_v0_5_fast.tex, _slow.tex, _unc.tex   make_overview_v0_5.py  (\wg)
+%   system_map_v0_5_numbers.tex                   make_system_map_v0_5.py (\wm)
+%   overview_v0_4_fast.tex, _slow.tex, _unc.tex   make_overview_v0_4.py  (\wf)
+%   overview_v0_3_fast.tex, _slow.tex             make_overview_v0_3.py  (\wk)
+%   overview_v0_2_fast.tex, _slow.tex             make_overview_v0_2.py  (\wi)
+%   energy_ladder_v0_5.tex                        make_energy_ladder.py  (\lad)
+% Build from LIGHT/docs:
+%   python3 make_system_map_v0_5.py && python3 make_overview_v0_5.py
+%   python3 make_energy_ladder.py v0_5
+%   latexmk -pdf accuracy_overview_v0_5.tex
+\documentclass[11pt]{article}
+\usepackage[a4paper,margin=2.2cm]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[scaled=0.95]{helvet}
+\renewcommand{\familydefault}{\sfdefault}
+\usepackage{amsmath}
+\usepackage{sansmath}
+\usepackage{booktabs,tabularx,array}
+\usepackage{xcolor}
+\usepackage{float}
+\usepackage{enumitem}
+\usepackage{needspace}
+\usepackage{tikz}
+\usepackage{graphicx}
+\usetikzlibrary{arrows.meta,decorations.pathmorphing}
+\setlist{nosep, leftmargin=1.2em}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{5pt}
+\definecolor{ink2}{HTML}{52514E}
+\renewcommand{\topfraction}{0.95}
+\renewcommand{\textfraction}{0.03}
+
+\input{overview_v0_2_fast}
+\input{overview_v0_2_slow}
+\input{overview_v0_3_fast}
+\input{overview_v0_3_slow}
+\input{overview_v0_4_fast}
+\input{overview_v0_4_slow}
+\input{overview_v0_4_unc}
+\input{system_map_v0_5_numbers}
+\input{overview_v0_5_fast}
+\input{overview_v0_5_slow}
+\input{overview_v0_5_unc}
+\input{energy_ladder_v0_5}
+\makeatletter
+\newcommand\wi[1]{\ifcsname wi@#1\endcsname\csname wi@#1\endcsname
+  \else\errmessage{no v0_2 number '#1'. Rerun make_overview_v0_2.py}\fi}
+\newcommand\wk[1]{\ifcsname wk@#1\endcsname\csname wk@#1\endcsname
+  \else\errmessage{no v0_3 number '#1'. Rerun make_overview_v0_3.py}\fi}
+\newcommand\wf[1]{\ifcsname wf@#1\endcsname\csname wf@#1\endcsname
+  \else\errmessage{no v0_4 number '#1'. Rerun make_overview_v0_4.py}\fi}
+\newcommand\wm[1]{\ifcsname wm@#1\endcsname\csname wm@#1\endcsname
+  \else\errmessage{no map number '#1'. Rerun make_system_map_v0_5.py}\fi}
+\newcommand\wg[1]{\ifcsname wg@#1\endcsname\csname wg@#1\endcsname
+  \else\errmessage{no v0_5 number '#1'. Rerun make_overview_v0_5.py}\fi}
+\newcommand\lad[1]{\ifcsname lad@#1\endcsname\csname lad@#1\endcsname
+  \else\errmessage{no ladder number '#1'. Rerun make_energy_ladder.py}\fi}
+\makeatother
+
+% chemistry and units
+\newcommand{\unit}[1]{\ensuremath{\,\mathrm{#1}}}
+\newcommand{\el}{\ensuremath{\mathrm{e}^-}}
+\newcommand{\Krs}{Kr\ensuremath{^*}}
+\newcommand{\Krpp}{Kr\ensuremath{^{**}}}
+\newcommand{\Krp}{Kr\ensuremath{^+}}
+\newcommand{\Krtp}{Kr\ensuremath{_2^+}}
+\newcommand{\Krts}{Kr\ensuremath{_2^*}}
+\newcommand{\KtF}{Kr\ensuremath{_2}F\ensuremath{^*}}
+\newcommand{\Ft}{F\ensuremath{_2}}
+\newcommand{\Fm}{F\ensuremath{^-}}
+\newcommand{\ra}{\ensuremath{\to}\ }
+\newcommand{\Edep}{\ensuremath{E_\mathrm{dep}}}
+\newcommand{\gIP}{\ensuremath{g_0I_\mathrm{sat}/P_\mathrm{in}}}
+\newcommand{\x}[1]{\ensuremath{\times}#1}
+\newcommand{\cm}[1]{\ensuremath{\,\mathrm{cm^{#1}s^{-1}}}}
+\newcommand{\pc}[1]{\wm{#1}\,\%}
+\newcommand{\Lam}{\ensuremath{\text{{\unsansmath$\Lambda$}}}}
+\newcommand{\pctof}[2][0]{\pgfmathparse{100*#2}%
+  \pgfmathprintnumber[fixed,precision=#1]{\pgfmathresult}}
+% a model-over-measurement factor as a signed percent error
+\newcommand{\errof}[1]{\pgfmathparse{100*(#1-1)}%
+  \pgfmathprintnumber[fixed,precision=0,showpos]{\pgfmathresult}}
+% model value over measured value as a signed percent error
+\newcommand{\errratio}[2]{\pgfmathparse{100*(#1/#2-1)}%
+  \pgfmathprintnumber[fixed,precision=0,showpos]{\pgfmathresult}}
+
+\begin{document}
+\sansmath
+
+{\LARGE\bfseries How accurate LIGHT v0\_5 is}\par
+\vspace{4pt}
+{\large The basic network of LIGHT v0\_5, version \lad{version}, on 11
+October 2026: v0\_4 with the 5s $\to$ 5p electron excitation on the
+cross sections Jung et al.\ measured, and a krypton-buffered e-beam laser
+held out, with its energy ladder and its checks}\par
+\vspace{10pt}
+
+\noindent\fbox{\parbox{\dimexpr\linewidth-2\fboxsep-2\fboxrule\relax}{%
+\setlength{\parskip}{5pt}%
+\textbf{Bottom line.} LIGHT v0\_5 reproduces the fitted KrF
+decays~\cite{eden78,gadomski92} within \wg{sc.train.hi}\,\% rms
+(\wg{sc.train.lo} to \wg{sc.train.hi}\,\%) and the decays no fit
+used~\cite{xu93} within \wg{sc.xu_figs5_7}\,\% rms, as v0\_2 to v0\_4 do.
+At the Tahoma laser~\cite{tahoma89} it gives the small-signal gain to
+\errof{\wg{tah.kin.g0.x}}\,\% (\wg{tah.kin.g0} against the measured
+\wg{tah.g0.meas}\unit{\%/cm}; v0\_4 \errof{\wf{tah.kin.g0.x}}\,\%), the
+absorption to \errof{\wg{tah.kin.alpha.x}}\,\%, the net gain to
+\errof{\wg{tah.kin.net.x}}\,\%, the saturation intensity to
+\errof{\wg{tah.isat.x}}\,\% and the formation efficiency to
+\errof{\wg{tah.eta.x}}\,\%. No fit used a laser's numbers and no rate was
+set by one.
+
+What v0\_5 changes is one rate: the electron pumping of the 5p rung,
+which v0\_4's overview named as deciding the partition, runs on the cross
+sections Jung et al.\ measured out of the metastable levels of
+Kr~\cite{jung05,jung06} in place of a 1976 fit~\cite{kannari85,jacob76}.
+The measurement confirms the fit: its Maxwellian rate is
+\x{\wg{jung.ratio.116}} the fit's at 1.16\unit{eV} (Tahoma's electrons),
+\x{\wg{jung.ratio.3}} at 3\unit{eV} and \x{\wg{jung.ratio.58}} at
+5.8\unit{eV}, and the 248-nm share at the reference point moves from
+\wm{om.v04} to \wm{out.248}\,\% of \Edep{} (\wf{ref.248} to
+\wg{ref.248}\,\% under the kinetic EEDF).
+
+Its own uncertainty, propagated from its sources (Section~\ref{sec:accuracy}:
+\wg{unc.n} inputs at the two ends their sources allow, in quadrature), is
+$\pm$\wg{unc.ref.quad.pct}\,\% on the 248-nm share and
+$\pm$\wg{unc.g0.quad.pct}, $\pm$\wg{unc.alpha.quad.pct} and
+$\pm$\wg{unc.net.quad.pct}\,\% on Tahoma's gain, absorption and net gain,
+the largest term everywhere but the absorption \wg{unc.ref.top1}, a band
+with no measurement behind it. A second laser now bears on that term:
+Kleikamp et al.'s krypton-buffered KrF laser~\cite{kleikamp86} peaks at
+\wg{kl.meas.kr}\unit{atm} of Kr, and LIGHT, scored with the paper's own
+saturated balance, puts the optimum at \wg{kl.kr.sat.mid}\unit{atm}
+(\errratio{\wg{kl.kr.sat.mid}}{\wg{kl.meas.kr}}\,\%; \wg{kl.kr.sat.lo} to
+\wg{kl.kr.sat.hi} over the pump's uncertainty), because at 2\unit{atm} it
+quenches the threshold inversion \x{\wg{kl.k.ratio}} as fast as the
+laser's balance allows. Nothing is retuned.
+
+The largest errors: Hakuta et al.'s C-A decays~\cite{hakuta90},
+\wg{sc.hakuta_fig2} and \wg{sc.hakuta_fig3}\,\% rms; Burnham and Searles'
+KrF(B) lifetime~\cite{burnham77}, \wg{sc.bs_tau_b}\,\%; the VUV yield of
+pure krypton at low pump~\cite{morozov08}, \errof{\wk{pure.vuv.x}}\,\%
+(v0\_3's run); Tahoma's absorption, \errof{\wg{tah.kin.alpha.x}}\,\%,
+\wg{tah.k2f.share}\,\% of it \KtF{} at the cross section Hakuta et al.\
+measured~\cite{hakuta87}; and the Kr pressure optimum of Kleikamp et
+al.'s laser, \errratio{\wg{kl.kr.sat.mid}}{\wg{kl.meas.kr}}\,\%, with its
+F$_2$ optimum (\wg{kl.meas.f2}\unit{mbar}) not reproduced at all.}}
+\medskip
+
+LIGHT v0\_5 is v0\_4~\cite{lightv04} with one row changed and two data
+sets added. K76, \el{} + Kr(5s) \ra \el{} + Kr(5p), was Kannari's Table I
+fit $A\,T_e^{1/2}\exp(-C/T_e)$ to e-beam laser data; it is now the lumped
+cross section built from the ten measured excitations out of each
+metastable level (Section~\ref{sec:changes}), under both closures, with
+the fit kept as a switch. The TALIF review of Gazeli et al.~\cite{gazeli21rev}
+supplies a measured 5p$'$ lifetime that cross-checks the rung's
+radiative rate. Kleikamp et al.'s laser~\cite{kleikamp86} is a second
+device, held out. Everything else, the 5p rung, the optics, KrF(B,C) + F,
+the ion-ion limbs, the walls, the wave and the kinetic EEDF, is v0\_4's,
+and v0\_4's overview describes it. The \wg{sc.same} kinetic datasets have
+no electrons, so v0\_5 scores them exactly as v0\_2, and
+\texttt{make\_overview\_v0\_5.py} refuses to write a number that differs.
+Table~\ref{tab:score} lists every test.
+
+\begin{table}[!tbp]
+\centering\footnotesize
+\renewcommand{\arraystretch}{1.12}
+\begin{tabularx}{\linewidth}{@{}>{\raggedright\arraybackslash}X
+  >{\raggedright\arraybackslash}p{2.3cm}>{\raggedright\arraybackslash}p{2.4cm}
+  >{\raggedright\arraybackslash}p{2.3cm}>{\raggedright\arraybackslash}p{1.9cm}@{}}
+\toprule
+test & measured & v0\_5 & v0\_4 & role of the data\\
+\midrule
+energy ledger closure & & below \wg{wl.closure} with walls,
+  \wg{wv.closure} with the wave & the same & bookkeeping\\
+KrF(B) decay against Kr and F$_2$, Eden 1978 & & rms \wg{sc.eden_kr} and
+  \wg{sc.eden_f2}\,\% & the same & train\\
+KrF(B,C) slow decay, Gadomski 1992 Figs.\ 1 and 2 & & rms
+  \wg{sc.ksu_fig1} and \wg{sc.ksu_fig2}\,\% & the same & train\\
+C/B emission ratio at 300\unit{K}, Yu and Setser 1990 & \wi{ys.meas}
+  $\pm$ \wi{ys.err} & \wg{sc.ys_ir300}\,\% & the same & train\\
+KrF(B,C) decays, Xu 1993 Figs.\ 5 to 7 & & rms \wg{sc.xu_figs5_7}\,\% &
+  the same & held out\\
+decay constants Xu 1993 printed, 50 and 100 Torr Kr & \wi{xu.50.meas}
+  and \wi{xu.100.meas}\unit{s^{-1}} & \x{\wg{xu.50}} and \x{\wg{xu.100}} &
+  the same & structure check\\
+C-A decays, Hakuta 1990 & & rms \wg{sc.hakuta_fig2} and
+  \wg{sc.hakuta_fig3}\,\% & the same & held out, in conflict\\
+$\tau_B$, Burnham and Searles 1977 & \wi{sc.bs.meas} $\pm$
+  \wi{sc.bs.err}\unit{ns} & \wg{sc.bs_tau_b}\,\% & the same & held out, in
+  conflict\\
+C/B ratio 230\unit{K} over 300\unit{K}, Yu and Setser & \wi{ysr.meas}
+  $\pm$ \wi{ysr.err} & \wg{sc.ys_ratio_230_300}\,\% & the same & held out\\
+\midrule
+Tahoma small-signal gain $g_0$, kinetic EEDF & \wg{tah.g0.meas}\unit{\%/cm} &
+  \wg{tah.kin.g0}, \x{\wg{tah.kin.g0.x}} & \wf{tah.kin.g0}, \x{\wf{tah.kin.g0.x}} &
+  device, score only\\
+\quad the same, v0\_2's closure & & \wg{tah.default.g0},
+  \x{\wg{tah.default.g0.x}} & \wg{tah.v04.g0}, \x{\wg{tah.v04.g0.x}} &
+  device, score only\\
+Tahoma absorption $\alpha_0$, kinetic EEDF & \wg{tah.alpha.meas}\unit{\%/cm}
+  & \wg{tah.kin.alpha}, \x{\wg{tah.kin.alpha.x}} & \wf{tah.kin.alpha},
+  \x{\wf{tah.kin.alpha.x}} & device, score only\\
+Tahoma net gain $g_0-\alpha_0$, kinetic EEDF & \wg{tah.net.meas}\unit{\%/cm}
+  & \wg{tah.kin.net}, \x{\wg{tah.kin.net.x}} & \wf{tah.kin.net},
+  \x{\wf{tah.kin.net.x}} & device, score only\\
+Tahoma loss in pure Kr, 257.3\unit{nm} & \wg{tah.pure.meas}\unit{\%/cm} &
+  \wg{tah.pure.alpha}, \x{\wg{tah.pure.x}} (248-nm cross sections) & the
+  same & rough check\\
+Tahoma saturation intensity $I_\mathrm{sat}$, v0\_2's closure &
+  \wg{tah.isat.meas} $\pm$ \wi{tah.isat.err}\unit{MW/cm^2} & \wg{tah.isat},
+  \x{\wg{tah.isat.x}} & \wf{tah.isat}, \x{\wf{tah.isat.x}} & device, score
+  only\\
+Tahoma formation efficiency \gIP, v0\_2's closure & \wg{tah.eta.meas} &
+  \wg{tah.eta}, \x{\wg{tah.eta.x}} & \wf{tah.eta}, \x{\wf{tah.eta.x}} &
+  device, score only\\
+\midrule
+Kr pressure optimum of Kleikamp 1986's Kr/F$_2$ laser, F$_2$
+  \wg{kl.meas.f2}\unit{mbar} & \wg{kl.meas.kr}\unit{atm} &
+  \wg{kl.kr.sat.mid}\unit{atm} (\wg{kl.kr.sat.lo} to \wg{kl.kr.sat.hi} over
+  the pump's spread), the paper's saturated balance & not scored &
+  device, held out\\
+F$_2$ pressure optimum, Kr 2\unit{atm} & \wg{kl.meas.f2}\unit{mbar} &
+  above \wg{kl.f2.top}\unit{mbar} (still rising) & & device, held out\\
+three-body KrF$^*$ + Kr quenching their balance deduces, cm$^6$/s &
+  $\wg{kl.meas.kR}$ (model-dependent) & $\wg{kl.k.trimer}$ at the
+  window's \wg{kl.tg}\unit{K} & & device, score only\\
+\bottomrule
+\end{tabularx}
+\caption{LIGHT v0\_5 against the data, beside v0\_4, every band at its
+default unless a row says otherwise. A percentage is the deviation from
+the data, signed for a single value and rms for a set. A \x{} factor is
+the model over the measurement. ``The same'' is checked: the generator
+stops if v0\_5's number differs from v0\_2's. The Kleikamp rows are new
+(Section~\ref{sec:kleikamp}).}
+\label{tab:score}
+\end{table}
+
+\section{Overall accuracy and its uncertainty}
+\label{sec:accuracy}
+
+\textbf{Against the data.} Table~\ref{tab:score} scores every test;
+Table~\ref{tab:errors} reads the same numbers as errors, the model's
+deviation from the measurement in percent of the measurement (rms over a
+set of points), and names the largest.
+
+\begin{table}[H]
+\centering\footnotesize
+\renewcommand{\arraystretch}{1.1}
+\begin{tabularx}{\linewidth}{@{}>{\raggedright\arraybackslash}X
+  >{\raggedright\arraybackslash}p{3.0cm}>{\raggedright\arraybackslash}p{3.0cm}
+  >{\raggedright\arraybackslash}p{3.4cm}@{}}
+\toprule
+quantity & measured & v0\_5 & error\\
+\midrule
+KrF(B,C) decays the fit used, Eden 1978 and Gadomski 1992~\cite{eden78,gadomski92}
+  & four sets & & within \wg{sc.train.hi}\,\% rms (\wg{sc.train.lo} to
+  \wg{sc.train.hi})\\
+KrF(B,C) decays no fit used, Xu 1993~\cite{xu93} & three figures & & within
+  \wg{sc.xu_figs5_7}\,\% rms\\
+C/B emission ratio at 300\unit{K}~\cite{yu90} & \wi{ys.meas} $\pm$ \wi{ys.err} & &
+  \wg{sc.ys_ir300}\,\%\\
+its 230\unit{K}/300\unit{K} ratio~\cite{yu90} & \wi{ysr.meas} $\pm$ \wi{ysr.err} & &
+  \wg{sc.ys_ratio_230_300}\,\%\\
+decay constants, 50 and 100\unit{Torr} Kr~\cite{xu93} & \wi{xu.50.meas},
+  \wi{xu.100.meas}\unit{s^{-1}} & \x{\wg{xu.50}}, \x{\wg{xu.100}} &
+  \errof{\wg{xu.50}}, \errof{\wg{xu.100}}\,\%\\
+Tahoma small-signal gain $g_0$~\cite{tahoma89} & \wg{tah.g0.meas}\unit{\%/cm} &
+  \wg{tah.kin.g0} & \errof{\wg{tah.kin.g0.x}}\,\%\\
+Tahoma absorption $\alpha_0$ & \wg{tah.alpha.meas}\unit{\%/cm} & \wg{tah.kin.alpha} &
+  \errof{\wg{tah.kin.alpha.x}}\,\%\\
+Tahoma net gain $g_0-\alpha_0$ & \wg{tah.net.meas}\unit{\%/cm} & \wg{tah.kin.net} &
+  \errof{\wg{tah.kin.net.x}}\,\%\\
+Tahoma saturation intensity & \wg{tah.isat.meas} $\pm$ \wi{tah.isat.err}\unit{MW/cm^2}
+  & \wg{tah.isat} & \errof{\wg{tah.isat.x}}\,\%\\
+Tahoma formation efficiency \gIP{} & \wg{tah.eta.meas} & \wg{tah.eta} &
+  \errof{\wg{tah.eta.x}}\,\%\\
+Kleikamp 1986's Kr pressure optimum~\cite{kleikamp86} & \wg{kl.meas.kr}\unit{atm}
+  & \wg{kl.kr.sat.mid}\unit{atm} & \errratio{\wg{kl.kr.sat.mid}}{\wg{kl.meas.kr}}\,\%\\
+\midrule
+\multicolumn{4}{@{}l}{\emph{the largest errors}}\\
+C-A decays, Hakuta 1990~\cite{hakuta90} (in conflict with the fitted sets) & two
+  figures & & \wg{sc.hakuta_fig2} and \wg{sc.hakuta_fig3}\,\% rms\\
+KrF(B) lifetime, Burnham and Searles 1977~\cite{burnham77} (in conflict) &
+  \wi{sc.bs.meas} $\pm$ \wi{sc.bs.err}\unit{ns} & & \wg{sc.bs_tau_b}\,\%\\
+VUV yield of pure Kr at low pump, Morozov 2008~\cite{morozov08}, v0\_3's run &
+  \wk{pure.vuv.meas} $\pm$ \wk{pure.vuv.err} & \wk{pure.vuv} &
+  \errof{\wk{pure.vuv.x}}\,\%\\
+Kleikamp 1986's Kr pressure optimum & \wg{kl.meas.kr}\unit{atm} &
+  \wg{kl.kr.sat.mid}\unit{atm} & \errratio{\wg{kl.kr.sat.mid}}{\wg{kl.meas.kr}}\,\%\\
+Kleikamp 1986's F$_2$ pressure optimum & \wg{kl.meas.f2}\unit{mbar} & above
+  \wg{kl.f2.top} & not reproduced\\
+Tahoma absorption $\alpha_0$ & \wg{tah.alpha.meas}\unit{\%/cm} & \wg{tah.kin.alpha}
+  & \errof{\wg{tah.kin.alpha.x}}\,\%\\
+\bottomrule
+\end{tabularx}
+\caption{The scores of Table~\ref{tab:score} as errors. A single value's
+error is signed, model less measurement over the measurement; a set's is
+the rms over its points. Tahoma's are under the kinetic EEDF, the
+Kleikamp optimum under v0\_2's closure; the rest have no electrons.}
+\label{tab:errors}
+\end{table}
+
+\textbf{Propagated from the sources.} As in v0\_4's overview, each input
+is set to the two ends its source allows and the outputs recomputed
+(Table~\ref{tab:unc}, under v0\_2's closure): the \wg{unc.nband} bands to
+their ranges (Table~\ref{tab:bands}; k\_5s5p is now a scale on the
+measured cross section, \wg{k.5s5p.lo} to \wg{k.5s5p.hi}, where in v0\_4
+it ran from the fit to 0); the \wg{unc.nrow} constants the model uses at a
+measured value whose source quotes an error and that no band covers,
+\Krtp{} + \el{} ($\pm$10\,\%~\cite{shiu77}), \Krp{} + 2Kr
+($\pm$9\,\%~\cite{grossl81}) and the \KtF{} lifetime ($\pm$9\,\%~\cite{xu93});
+and the \wg{unc.nsig} cross sections with a quoted error analytically,
+$\sigma_\mathrm{se}$ $\pm$\wg{unc.sig.se}\,\%~\cite{tellinghuisen76,kannari85}
+and $\sigma$(\KtF) $\pm$\wg{unc.sig.k2f}\,\%~\cite{hakuta87}. Half the
+difference between an input's two ends is its term; the quadrature sum
+treats the terms as independent and each as one standard deviation, which
+a band's range is not, so it is indicative; the linear sums of the
+excursions are the ceiling on the spread, not a bound. Not propagated: the
+electron-impact cross sections, now including Jung et al.'s, whose
+$\pm$\wg{jung.unc.1s5} to \wg{jung.unc.1s3}\,\% the band k\_5s5p carries
+instead, and the fitted KrF(B,C) set, which the training decays pin at
+\wg{sc.train.hi}\,\% rms.
+
+On the 248-nm share at the reference point (\wg{unc.ref.y0}\,\% of \Edep)
+the quadrature sum is $\pm$\wg{unc.ref.quad} points
+($\pm$\wg{unc.ref.quad.pct}\,\%; v0\_4 $\pm$\wf{unc.ref.quad.pct}\,\%), the
+excursions sum to \wg{unc.ref.down} and \wg{unc.ref.up} points, and the
+largest terms are \wg{unc.ref.top}. On Tahoma's gain
+(\wg{unc.g0.y0}\unit{\%/cm}) it is $\pm$\wg{unc.g0.quad.pct}\,\%, the
+largest terms \wg{unc.g0.top}; the measurement is \wg{unc.g0.dev.pct}\,\%
+away, \wg{unc.g0.dev.quad} quadrature units. On the absorption
+(\wg{unc.alpha.y0}\unit{\%/cm}) it is $\pm$\wg{unc.alpha.quad.pct}\,\%, the
+largest terms \wg{unc.alpha.top}; the measurement is
+\wg{unc.alpha.dev.pct}\,\% away, \wg{unc.alpha.dev.quad} units. On the net
+gain (\wg{unc.net.y0}\unit{\%/cm}) it is $\pm$\wg{unc.net.quad.pct}\,\%, the
+measurement \wg{unc.net.dev.pct}\,\% away, \wg{unc.net.dev.quad} units.
+Every Tahoma measurement lies within one quadrature unit, and the
+measured cross section has taken the 5s $\leftrightarrow$ 5p term from
+v0\_4's $\pm$\wf{unc.ref.quad}-point sum down to its share here; what
+remains is the trimer's temperature law, on which Section~\ref{sec:kleikamp}
+now has a laser to say something.
+
+\begin{table}[H]
+\centering\scriptsize
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{@{}llllll@{}}
+\toprule
+input & its two ends & 248\unit{nm} (\% of \Edep) & $g_0$ (\%/cm) & $\alpha_0$ (\%/cm) & $g_0-\alpha_0$\\
+\midrule
+\wgUncTable
+\bottomrule
+\end{tabular}}
+\caption{The propagated uncertainty's inputs, each alone at its two ends,
+the others at their defaults, and the four outputs at those ends (low end
+to high end), under v0\_2's closure. \wg{unc.min} minutes of runs.}
+\label{tab:unc}
+\end{table}
+
+\section{What v0\_5 changes}
+\label{sec:changes}
+
+\textbf{The measured cross section.} Jung, Stone, Boffard, Anderson and
+Lin~\cite{jung06} measured the electron-impact excitation cross sections
+out of the two metastable levels of Kr, 1s$_5$ ($J=2$) and 1s$_3$ ($J=0$),
+into the \wg{jung.n.levels} levels of the 4p$^5$5p configuration, at 2 to
+10\unit{eV} for every level and to 300\unit{eV} for the two largest
+(their Tables II to IV; the Letter~\cite{jung05} prints the 3.5-eV
+column). The totals at 6\unit{eV} are $\wg{jung.sum.1s5}\unit{cm^2}$ out
+of 1s$_5$ and $\wg{jung.sum.1s3}$ out of 1s$_3$, with stated
+uncertainties of $\pm$\wg{jung.unc.1s5} and $\pm$\wg{jung.unc.1s3}\,\%.
+LIGHT's \Krs{} is the whole 4p$^5$5s manifold (the Biagi group at
+9.915\unit{eV}) and its \Krpp{} the whole 5p manifold, so one lumped
+cross section is needed: the statistical-weight mean over the four 5s
+levels of each level's sum over the ten 5p levels. Nothing is measured
+out of the two $J=1$ resonance levels, which at 1\unit{atm} are
+radiation-trapped and populated with the metastables; they are given the
+set of the metastable with the same ion core, their thresholds shifted to
+their own energies. That is the one assumption, and the band k\_5s5p
+brackets it: \wg{k.5s5p.lo} is the metastables alone (the $J=1$ levels
+contributing nothing, half the manifold's weight) and \wg{k.5s5p.hi} the
+measurement's upper error. The lumped cross section is
+$\wg{jung.sig6}\unit{cm^2}$ at 6\unit{eV} (the metastables alone
+$\wg{jung.sig6.meta}$, \wg{jung.meta.share} of it), linear between the
+tabulated energies, from 0 at each pair's own threshold, and above the
+tables on the shape of the largest column, 1s$_5\to$ 2p$_9$. The electron
+loses the ledger's gap, \wm{gap5p}\unit{eV}, as in v0\_4, so the ledger
+closes. Under v0\_2's closure the row is the Maxwellian table of that
+cross section and its reverse the Klein-Rosseland table; under the
+kinetic EEDF the population process carries the cross section itself.
+Checks: the solver's forward rate for a Maxwellian matches the table to
+\wg{pop.k} and the reverse to \wg{pop.sup}, and detailed balance over the
+gap holds to \wg{pop.db} (Section~\ref{sec:checks}).
+
+\textbf{The finding.} The measured set confirms the fit it replaces,
+Kannari's Table I [76], Jacob and Mangano's $A\,T_e^{1/2}\exp(-C/T_e)$
+with $A=\wg{k.76.A}$, $C=\wg{k.76.C}\unit{eV}$: the lumped rate is
+\x{\wg{jung.ratio.1}} the fit's at 1\unit{eV}, \x{\wg{jung.ratio.116}} at
+1.16, \x{\wg{jung.ratio.2}} at 2, \x{\wg{jung.ratio.3}} at 3 and
+\x{\wg{jung.ratio.58}} at 5.8\unit{eV}, above it where the laser's
+electrons sit and below it at the reference point's. So the partition
+v0\_4 found rests on a measurement now and moves little:
+Table~\ref{tab:ref} and Table~\ref{tab:tahoma}. \texttt{Params.k76 =
+"kannari"} keeps the fit as a switch and reproduces v0\_4 to four digits.
+
+\textbf{A TALIF lifetime.} The TALIF review of Gazeli et
+al.~\cite{gazeli21rev} gives the natural lifetime of the Kr 5p$'$[3/2]$_2$
+calibration level as \wg{tau.talif}\unit{ns}; PRAD's statistical mean of
+the ten measured level lifetimes is \wg{tau5p}\unit{ns}, and Dzier\.z\k{e}ga
+et al.~\cite{dzierzega00} give that level \wg{tau.2p2}\unit{ns}. No
+change; the review tabulates no Kr self-quenching, so KPS stays on Gazeli
+et al.'s Physics of Plasmas measurement~\cite{gazeli21}.
+
+\textbf{A second laser.} Section~\ref{sec:kleikamp}.
+
+\textbf{What v0\_4 added}, and this version keeps unchanged: the 5p rung
+(KPS at $\wg{k.KPS}\cm{3}$, PRAD at \wg{tau5p}\unit{ns}, K27 at
+$\wg{k.K27}\cm{3}$, the stepwise ionizations as bands at 0), KrF(B,C) + F
+as a band, the 248-nm optics on Kannari's absorbers with Hakuta et al.'s
+measured \KtF{} cross section, ion-ion recombination on Flannery's
+turnover with the Langevin limb of the measured mobilities, the walls of
+a gap and the EM wave with Turnbull et al.'s inverse bremsstrahlung, the
+5s $\leftrightarrow$ 5p collisions, the ions' Coulomb collisions and the
+wave's field term in the Boltzmann equation. v0\_4's overview~\cite{lightv04}
+describes and checks them; their numbers here are unchanged from it
+(the wave's \wg{wv.em}\unit{J\,cm^{-3}} beside the \wg{wv.given} given, the
+walls' \wg{wl.share}\,\%, the field term's atom part to \wg{hf.atoms} and
+ion part to \wg{hf.ions}, \texttt{ib.py} held by \wg{ib.checks} checks).
+
+\section{How the numbers were made}
+
+Every number in this note is written by \texttt{docs/make\_overview\_v0\_5.py}
+from v0\_5 and from \texttt{ML/}, or by \texttt{docs/make\_system\_map\_v0\_5.py}
+(the reference point under v0\_2's closure, its bands and its optics,
+which the system map draws), and a test fails when those files no longer
+match the model. v0\_4's numbers come from its own generated files,
+unchanged. ML runs v0\_5 when \texttt{LIGHT\_VERSION} names it. Tahoma
+runs under the prototype beam drive, a test fixture in \texttt{docs/} and
+not part of the model, in ML's configuration (v0\_2's: the default network
+with every band at its default and $n_e$ free from a seed of
+\wi{tah.seed}\unit{cm^{-3}}). Kleikamp et al.'s laser runs under the same
+drive at their pump through \texttt{docs/krf\_data/kleikamp\_v0\_5.py}. The
+kinetic EEDF takes minutes a run, so Tahoma's variants, its saturation
+intensity, its formation efficiency and the Kleikamp scans run on v0\_2's
+closure (the kinetic closure moves v0\_5's Tahoma numbers by about 1\,\%,
+Table~\ref{tab:score}); the kinetic numbers are the reference point and
+Tahoma's default, \wg{ref.min} and \wg{tah.kin.min} minutes each.
+
+\section{Tahoma and the optics}
+
+\begin{table}[H]
+\centering\footnotesize
+\setlength{\tabcolsep}{3.5pt}
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{@{}llllll@{}}
+\toprule
+v0\_2's closure & $g_0$ (\%/cm) & $\alpha_0$ (\%/cm) & $g_0-\alpha_0$ & $T_e$ (eV) & $n_e$ (cm$^{-3}$)\\
+\midrule
+measured~\cite{tahoma89} & \wg{tah.g0.meas} & \wg{tah.alpha.meas} & \wg{tah.net.meas} & & \\
+\wgTahVariants
+v0\_4 & \wg{tah.v04.g0} (\x{\wg{tah.v04.g0.x}}) & \wg{tah.v04.alpha}
+  (\x{\wg{tah.v04.alpha.x}}) & \wg{tah.v04.net} (\x{\wg{tah.v04.net.x}}) &
+  \wg{tah.v04.te} & \wg{tah.v04.ne}\\
+v0\_3 & \wg{tah.v03.g0} (\x{\wg{tah.v03.g0.x}}) & \wg{tah.v03.alpha}
+  (\x{\wg{tah.v03.alpha.x}}) & \wg{tah.v03.net} (\x{\wg{tah.v03.net.x}}) &
+  \wg{tah.v03.te} & \wg{tah.v03.ne}\\
+\midrule
+v0\_5, kinetic EEDF & \wg{tah.kin.g0} (\x{\wg{tah.kin.g0.x}}) &
+  \wg{tah.kin.alpha} (\x{\wg{tah.kin.alpha.x}}) & \wg{tah.kin.net}
+  (\x{\wg{tah.kin.net.x}}) & \wg{tah.kin.te} & \wg{tah.kin.ne}\\
+v0\_4, kinetic EEDF & \wf{tah.kin.g0} (\x{\wf{tah.kin.g0.x}}) &
+  \wf{tah.kin.alpha} (\x{\wf{tah.kin.alpha.x}}) & \wf{tah.kin.net}
+  (\x{\wf{tah.kin.net.x}}) & \wf{tah.kin.te} & \wf{tah.kin.ne}\\
+\bottomrule
+\end{tabular}}
+\caption{Tahoma over the \wi{tah.win.lo} to \wi{tah.win.hi}\unit{ns}
+window: v0\_5 with every band at its default and each variant alone, v0\_4
+and v0\_3 (v0\_4's cross sections on their densities), and the kinetic
+EEDF. The absorption by species with the defaults: \wg{tah.by}\unit{\%/cm}
+(v0\_2's closure), \wg{tah.kin.by} (kinetic); pure Kr, no \Ft:
+\wg{tah.pure.by}.}
+\label{tab:tahoma}
+\end{table}
+
+At Tahoma's \wg{tah.default.te}-eV electrons the measured cycle is
+\x{\wg{jung.ratio.116}} the fit's, cools the electrons a little further
+(v0\_4's \wg{tah.v04.te}\unit{eV}) and lifts the gain by
+\errratio{\wg{tah.default.g0}}{\wg{tah.v04.g0}}\,\%; the absorption does
+not move, \wg{tah.k2f.share}\,\% of it being \KtF{}. The band's two ends,
+the metastables alone and the measurement's upper error, move the gain
+between \x{\wg{tah.k5s5plo.g0.x}} and \x{\wg{tah.k5s5phi.g0.x}}; the cycle
+off gives \x{\wg{tah.nocycle.g0.x}}. The bands that move the gain most are
+v0\_4's: the trimer's temperature law (\x{\wg{tah.tri.g0.x}}), the ion-ion
+yield (\x{\wg{tah.iiyield.g0.x}}), KrF(B,C) + F at Kannari's analogue
+(\x{\wg{tah.krff.g0.x}}), the ion-ion C share (\x{\wg{tah.iifc.g0.x}}) and
+\Krts{} + F (\x{\wg{tah.kr2f.g0.x}}), none with a measurement behind the
+band. In the window under the kinetic EEDF LIGHT's mean energy is the
+kinetic one at \wg{tah.kin.reached} update, held by a field of at most
+\wg{tah.kin.en}\unit{Td}, and the two energy balances agree to
+\wg{tah.kin.gap} of the beam's electron power. ML's formation run gives
+$g_0$ \wg{tah.ml.g0}\unit{\%/cm} with its own channels, $I_\mathrm{sat}$
+\wg{tah.isat}\unit{MW/cm^2} and \gIP{} $=$ \wg{tah.eta}.
+
+\section{The reference point}
+
+At the notes' reference point, \wm{p}\unit{atm}, \pc{xF2} \Ft{},
+\wm{P}\unit{kW\,cm^{-3}} for \wm{pulse}\unit{\mu s} and run to
+\wm{tend}\unit{\mu s}, v0\_5 gives these shares of the deposited energy:
+
+\begin{table}[H]
+\centering\footnotesize
+\begin{tabular}{@{}lrrrr@{}}
+\toprule
+ & v0\_5, kinetic & v0\_5, v0\_2's closure & v0\_4, kinetic & v0\_4, v0\_2's closure\\
+\midrule
+248\unit{nm}, KrF B-X & \wg{ref.248} & \wm{out.248} & \wf{ref.248} & \wg{v04.248}\\
+272\unit{nm}, KrF B-A & \wg{ref.272} & \wm{out.272} & \wf{ref.272} & \wg{v04.272}\\
+275\unit{nm}, KrF C-A & \wg{ref.275} & \wm{out.275} & \wf{ref.275} & \wg{v04.275}\\
+420\unit{nm}, \KtF{} & \wg{ref.420} & \wm{out.420} & \wf{ref.420} & \wg{v04.420}\\
+147\unit{nm}, \Krts{} & \wg{ref.147} & \wm{out.147} & \wf{ref.147} & \wg{v04.147}\\
+near IR, 5p \ra 5s & \wg{ref.IR} & \wm{out.IR} & \wf{ref.IR} & \wg{v04.IR}\\
+all bands & \wg{ref.all} & \wm{notes.emit} & \wf{ref.all} & \wg{v04.all}\\
+heat, reactions & \wg{ref.heat} & \wm{out.heat} & \wf{ref.heat} & \wg{v04.heat}\\
+to \Krs{}, gross & \wg{ref.krstar} & \wm{notes.krs} & \wf{ref.krstar} & \wg{v04.krstar}\\
+to \Krp{} & \wg{ref.krplus} & \wm{notes.krp} & \wf{ref.krplus} & \wg{v04.krplus}\\
+KrF(B) formed & \wg{ref.krfb} & \wm{krf.eff} & \wf{ref.krfb} & \wg{v04.krfb}\\
+elastic heating & \wg{ref.elastic} & \wm{out.elastic} & \wf{ref.elastic} & \wg{v04.elastic}\\
+$g_0$, 500 to 1000\unit{ns} (\%/cm) & \wg{ref.g0} & \wm{op.g0} & \wf{ref.g0} & \wg{v04.g0}\\
+$\alpha$ (\%/cm) & \wg{ref.alpha} & \wm{op.alpha} & \wf{ref.alpha} & \wg{v04.alpha}\\
+$T_g$ at the end (K) & \wg{ref.tg} & \wm{TgEnd} & \wf{ref.tg} & \wg{v04.tg}\\
+$T_e$, pulse mean (eV) & \wg{ref.te} & \wm{Te} & \wf{ref.te} & \wg{v04.te}\\
+\bottomrule
+\end{tabular}
+\caption{The reference point, percent of \Edep{} unless a row says
+otherwise. v0\_5's v0\_2-closure column is the system map's run; v0\_4's
+is the same run with Kannari's fit in K76's place.}
+\label{tab:ref}
+\end{table}
+
+What moves the result is still the 5s $\leftrightarrow$ 5p cycle, on the
+measurement now: the electrons pump \pc{brs.76} of the \Krs{} formed up to
+the rung (\wg{ref.brs76}\,\% under the kinetic EEDF; v0\_4
+\wf{ref.brs76}\,\%), the rung relaxes \pc{brp.KPS} of it on Kr and the
+\wm{gap5p}\unit{eV} of every cycle heats the gas, \pc{cyc.e} of the input.
+Under v0\_2's closure the electrons sit at \wm{Te}\unit{eV}, where the
+measured rate is \x{\wm{k.76.ratio}} the fit's, so the share falls from
+v0\_4's \wm{om.v04} to \wm{out.248}\,\% and the \Krts{} route gains it;
+under the kinetic EEDF they sit at \wg{ref.te}\unit{eV}, where it is
+\x{\wg{jung.ratio.3}}, and the share rises from \wf{ref.248} to
+\wg{ref.248}\,\%. With the rung neutralised the share is \wm{om.v03}\,\%,
+v0\_3's. Under the kinetic EEDF the field carries \wg{ref.ratio.lo} to
+\wg{ref.ratio.hi} of the input through the pulse's second half and the two
+energy balances agree to \wg{ref.gap}; the run takes \wg{ref.solutions}
+kinetic solutions, \wg{ref.on} in the pulse, with $E/N$ between
+\wg{ref.en.lo} and \wg{ref.en.hi}\unit{Td}, and closes its ledger below
+\wg{ref.closure}.
+
+Every band's two ends under v0\_2's closure, one band at a time
+(\texttt{run\_v0\_5.py --bands}):
+
+\begin{table}[H]
+\centering\scriptsize
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{@{}lllllllr@{}}
+\toprule
+band & default & range & 248\unit{nm} & 147\unit{nm} & $g_0$ & $\alpha$ & $T_g$ (K)\\
+\midrule
+\wmBands
+\bottomrule
+\end{tabular}}
+\caption{Each band alone at its two ends, the others at their defaults
+(\wm{bd.n} bands, \wm{bd.nzero} with no measurement and a default of 0).
+The columns are the 248-nm and 147-nm shares of \Edep{} (\%), the
+500-to-1000-ns gain and absorption (\%/cm) and the final gas
+temperature, low end to high end. With every band at its default the
+248-nm share is \wm{out.248}\,\%.}
+\label{tab:bands}
+\end{table}
+
+\section{A second laser, held out: Kleikamp et al.'s Kr/F$_2$ laser}
+\label{sec:kleikamp}
+
+Kleikamp, Peters and Witteman~\cite{kleikamp86} pumped a KrF laser with
+krypton as the only buffer in a coaxial e-beam diode (280\unit{kV},
+\wg{kl.i}\unit{A/cm^2} on average, \wg{kl.pulse}-ns pulses, electrons of
+at most \wg{kl.emax}\unit{keV} in the gas, a 1-cm tube 20\unit{cm} long,
+an outcoupling of $\wg{kl.gamma}\unit{cm^{-1}}$). With F$_2$ at
+\wg{kl.meas.f2}\unit{mbar} the output peaks at about \wg{kl.meas.kr}\unit{atm}
+of Kr (their Fig.\ 3); with Kr at 2\unit{atm} at about
+\wg{kl.meas.f2}\unit{mbar} of F$_2$ (Fig.\ 4); and their steady-state
+cavity balance deduces a three-body KrF$^*$ + Kr quenching constant of
+$\wg{kl.meas.kR}\cm{6}$ (their Table I: ``the quenching constants of Kr
+and Ne are not known in the literature''). It is a held-out device, a
+score and never a target.
+
+LIGHT runs under the beam drive at their conditions. The deposited power
+is not printed in the paper: from the collision stopping power of Kr at
+170\unit{keV} in Berger and Seltzer's tables~\cite{berger64}, the source
+the paper names, read to $\pm$15\,\%, it is 3.8\unit{MW\,cm^{-3}} at
+2\unit{atm}; from their own pumping rate $B_\mathrm{Kr}$ with the W-value
+of Kr, 5.6. The scans run at the mean, \wg{kl.P}\unit{MW\,cm^{-3}} at
+2\unit{atm} proportional to the density, and again at \wg{kl.P.lo} and
+\wg{kl.P.hi} times it. LIGHT has no cavity, so two proxies for the output
+are compared with the measured optimum's location over the pulse's second
+half (\wg{kl.win.lo} to \wg{kl.win.hi}\unit{ns}): the net small-signal gain
+$g_0-\alpha_0$, and the paper's own balance of a saturated laser (its
+Eqs.\ (1) to (3)): with the inversion clamped at threshold,
+$[\mathrm{KrF}]_\mathrm{thr}=(\gamma+\alpha)/\sigma_\mathrm{s}$, the output
+per length is $\gamma/(\gamma+\alpha)\,(P-Q\,[\mathrm{KrF}]_\mathrm{thr})$
+with $P$ LIGHT's KrF(B) formation rate, $Q$ its loss rate per molecule
+(quenching and radiation) and $\alpha$ its absorption. The optimum of the
+second balances the pumping, which rises with the density, against the
+quenching of the threshold inversion, which rises faster (the trimer goes
+as the density squared), so it tests the trimer's rate at the laser's gas
+temperature, the largest term of the propagated uncertainty.
+
+\begin{table}[H]
+\centering\footnotesize
+\begin{tabular}{@{}lllllll@{}}
+\toprule
+Kr (atm) & $g_0$ (\%/cm) & $\alpha_0$ & $g_0-\alpha_0$ & $Q$ (s$^{-1}$) & output, saturated balance & $T_g$ (K)\\
+\midrule
+\wgKleikamp
+\bottomrule
+\end{tabular}
+\caption{LIGHT v0\_5 at Kleikamp et al.'s conditions, F$_2$ at
+\wg{kl.meas.f2}\unit{mbar}, the nominal pump, v0\_2's closure, the
+\wg{kl.win.lo} to \wg{kl.win.hi}-ns window. The saturated-balance output
+is relative to its maximum. The measured output peaks at about
+\wg{kl.meas.kr}\unit{atm}.}
+\label{tab:kleikamp}
+\end{table}
+
+The saturated balance peaks at \wg{kl.kr.sat.mid}\unit{atm}
+(\wg{kl.kr.sat.lo} at \wg{kl.P.lo} times the pump, \wg{kl.kr.sat.hi} at
+\wg{kl.P.hi}), the small-signal net gain at \wg{kl.kr.ss.mid}; the laser
+peaked at \wg{kl.meas.kr}. At 2\unit{atm} LIGHT's KrF(B) loss rate is
+$\wg{kl.Q}\unit{s^{-1}}$ at the window's $T_g$ of \wg{kl.tg}\unit{K} ($T_e$
+\wg{kl.te}\unit{eV}, $n_e$ \wg{kl.ne}\unit{cm^{-3}}), the trimer most of it
+at $\wg{kl.k.trimer}\cm{6}$ (G5's 300-K rate on the $(T_g/300)^{-3.32}$
+law), \x{\wg{kl.k.ratio}} the constant the paper's balance deduces. With
+G5 and G5C scaled by \wg{kl.trimer.scale}, which brings the effective
+quenching to $\wg{kl.scaled.k}$, the saturated optimum moves to
+\wg{kl.scaled.sat}\unit{atm} (the small-signal one to \wg{kl.scaled.ss});
+that is a sensitivity run and not adopted, the laser's constant being a
+model-dependent number (their $Q$ is three-body only, their output
+insensitive to the outcoupling) that bounds the term rather than fixes
+it. The F$_2$ optimum is not reproduced: both proxies still rise at
+\wg{kl.f2.top}\unit{mbar} where the laser peaked at \wg{kl.meas.f2},
+because LIGHT's absorption falls with F$_2$ (\KtF{} is quenched away
+faster than F$_2$ and \Fm{} absorb). That points at the F$_2$-side
+absorbers, F$_2$'s compilation value and \Fm's 1971 measurement, and at
+KrF$^*$ + F$_2$ quenching, none of them moved here. A proxy for laser
+output must saturate: the small-signal net gain quenches the whole
+inversion and peaks a factor two low in pressure; the paper's balance is
+the honest proxy, and even it falls short of the measurement.
+
+\section{The energy ladder}
+
+v0\_5's ladder (Figure~\ref{fig:ladder}) is v0\_4's with K76 and K76r on
+the measurement: the 5p rung \lad{E.PP}\unit{eV} above Kr and
+\lad{gap5p}\unit{eV} above \Krs{}, KPS and K27X as quenches, PRAD's
+\lad{hv.PRAD}-eV photon, the two stepwise ionizations and the harpoon from
+5p; \Krtp{} + \el{} lands on it, leaving \lad{heat.R11p}\unit{eV} to the
+gas. KrF(B) lies \lad{DeB}\unit{eV} below the ion pair \Krp{} + \Fm{} and
+\lad{BoverKrF}\unit{eV} above Kr + F, and the \lad{wl.G4}-nm photon
+carries \lad{hv.G4}\unit{eV} of that.
+
+\begin{figure}[p]
+\centering
+\ladpicture
+\caption{The energy ladder of LIGHT v0\_5, version \lad{version}, in eV
+above ground-state Kr and \Ft{} at rest. A bar is a species at its
+formation energy and a dashed bar a pair, the sum of two. An arrow is a
+row, labelled with its id. It is solid in the default network and dotted
+for a band whose default is 0, \lad{zero}. The rows of the optional group
+\lad{groups} are dashed. A photon's arrow drops by its quantum, and the red
+squiggle below it is the heat its lower state gives the gas as it falls
+apart. A red stub is a quench. The energy a row releases heats the gas,
+except a photon's, which leaves, and that of \lad{toe}, which goes to the
+electrons. KrF(B) and KrF(C) lie \lad{gapBC}\unit{cm^{-1}} apart and are
+drawn as a pair of bars that every B and C row meets. The rows
+\lad{notdrawn} move nothing between levels and are not drawn.}
+\label{fig:ladder}
+\end{figure}
+
+\section{The new terms' checks}
+\label{sec:checks}
+
+\begin{itemize}
+\item The tables as printed: spot values of Jung et al.'s Tables II to IV
+are pinned (\texttt{test\_v0\_5.py}), and the sums at 6\unit{eV} are
+$\wg{jung.sum.1s5}$ and $\wg{jung.sum.1s3}\unit{cm^2}$.
+\item The Maxwellian table of the lumped cross section against a direct
+120\,001-point trapezoid at 1, 2 and 5.8\unit{eV}: $2\times10^{-3}$.
+\item The solver's population process on \wg{pop.cells} cells to
+\wg{pop.emax}\unit{eV}: the forward rate for a Maxwellian against the
+table to \wg{pop.k}, the reverse against the Klein-Rosseland table to
+\wg{pop.sup}, detailed balance over the gap to \wg{pop.db}.
+\item The switch: \texttt{k76 = "kannari"} reproduces v0\_4's reference
+point (Table~\ref{tab:ref}'s last column against v0\_4's overview) to four
+digits.
+\item A \wg{pop.short.t}-ns kinetic pulse with the measured pair inside
+the equation: the field carries \wg{pop.short.ratio.lo} to
+\wg{pop.short.ratio.hi} of the input and the balances agree to
+\wg{pop.short.gap}.
+\item v0\_4's checks, unchanged: the wave's field term (atoms to
+\wg{hf.atoms}, the marginal ion part to \wg{hf.ions}), the ion-ion limbs
+($\wg{ii.k1}$ and $\wg{ii.k1b}\cm{3}$ at 1 amagat), the walls'
+\wg{wl.nu}\unit{s^{-1}} at mid-pulse, \texttt{ib.py} by \wg{ib.checks}
+checks.
+\end{itemize}
+
+\section{Where v0\_5 is not yet reliable}
+
+\begin{itemize}
+\item The 5s $\to$ 5p excitation is measured; the two $J=1$ levels are
+not, and their proxies are the band's low end. Jung et al.'s absolute
+scale is $\pm$\wg{jung.unc.1s5} to \wg{jung.unc.1s3}\,\%, the band's high
+end.
+\item The trimer's rate at the laser's gas temperature: the one laser
+that bears on it finds LIGHT's quenching \x{\wg{kl.k.ratio}} too strong
+at \wg{kl.tg}\unit{K}, through a model-dependent constant. The
+temperature law is still the largest term of the propagated uncertainty.
+\item The F$_2$-side absorbers and KrF$^*$ + F$_2$: the laser's F$_2$
+optimum is not reproduced.
+\item KPS one level's total loss, K27 a search snippet, the stepwise
+ionizations and the 5p harpoon as LIGHT-side rates, the absorbers as a
+diagnostic, the wall closure, no propagation: as in v0\_4.
+\item Everything in v0\_3's list: the steady EEDF after the pulse, the
+first cell, the thermal electrons' grid bias, \Krts{} + F, the trimer above
+its measured range, Hakuta's and Burnham and Searles' conflicts, and the
+pure-krypton VUV yield at low pump.
+\end{itemize}
+
+\appendix
+\section{Reaction rates}
+
+v0\_5's rows are v0\_4's (its overview's Appendix A, and v0\_2's) with
+these two changed. Section 8 of \texttt{v0\_5/SOURCES.md} says how each
+source was read.
+
+\begin{table}[H]
+\centering\scriptsize
+\renewcommand{\arraystretch}{1.1}
+\begin{tabularx}{\linewidth}{@{}>{\raggedright\arraybackslash}p{1.7cm}>{\raggedright\arraybackslash}p{3.9cm}>{\raggedright\arraybackslash}p{3.5cm}>{\raggedright\arraybackslash}X@{}}
+\toprule
+row & reaction & value & source\\
+\midrule
+K76 & \el{} + \Krs{} \ra \el{} + \Krpp{} & the lumped measured cross section,
+  $\wg{jung.sig6}\unit{cm^2}$ at 6\unit{eV}; $k=\wg{jung.k.116}$ at 1.16 and
+  $\wg{jung.k.58}\cm{3}$ at 5.8\unit{eV} (Maxwellian); band k\_5s5p a scale
+  \wg{k.5s5p.lo} to \wg{k.5s5p.hi} & Jung et al.~\cite{jung06} Tables I to IV,
+  \cite{jung05} Table I; the $J=1$ levels on their same-core metastable's
+  set; Kannari's fit~\cite{kannari85,jacob76} as \texttt{k76 = "kannari"}\\
+K76r & \el{} + \Krpp{} \ra \el{} + \Krs{} & the Klein-Rosseland reverse, $g$
+  12/36 over the gap & detailed balance\\
+PRAD (unchanged) & \Krpp{} \ra \Krs{} + $h\nu$ & $\tau=\wg{tau5p}\unit{ns}$ &
+  Dzier\.z\k{e}ga et al.~\cite{dzierzega00}; the TALIF review's
+  \wg{tau.talif}\unit{ns} for 5p$'$[3/2]$_2$~\cite{gazeli21rev} as a
+  cross-check\\
+\bottomrule
+\end{tabularx}
+\caption{The rows v0\_5 changes. Rates in cm$^3$/s.}
+\end{table}
+
+\begin{thebibliography}{99}
+\footnotesize
+\setlength{\itemsep}{1pt}
+\bibitem{eden78} Eden, Waynant, Searles and Burnham, Appl.\ Phys.\ Lett.\ 32, 733 (1978).
+\bibitem{gadomski92} Gadomski, Xu, Setser and Nelson, Chem.\ Phys.\ Lett.\ 189, 153 (1992).
+\bibitem{yu90} Yu and Setser, J.\ Phys.\ Chem.\ 94, 2934 (1990).
+\bibitem{xu93} Xu, Gadomski and Setser, J.\ Chem.\ Phys.\ 99, 2591 (1993).
+\bibitem{tahoma89} Spectra Technology, Inc., \emph{Experimental Support for KrF Laser Modeling}, final report to Los Alamos National Laboratory, 19 July 1989, OSTI 10136715 (Tables 3-2 and 3-3).
+\bibitem{hakuta90} Hakuta, Fujino, Nakayama and Takuma, Jpn.\ J.\ Appl.\ Phys.\ 29, 1194 (1990).
+\bibitem{burnham77} Burnham and Searles, J.\ Chem.\ Phys.\ 67, 5967 (1977).
+\bibitem{morozov08} Morozov, Heindl, Kr\"ucken, Ulrich and Wieser, J.\ Appl.\ Phys.\ 103, 103301 (2008).
+\bibitem{hakuta87} Hakuta, Komori, Mukai and Takuma, J.\ Appl.\ Phys.\ 61, 2113 (1987).
+\bibitem{kannari85} Kannari, Obara and Fujioka, J.\ Appl.\ Phys.\ 57, 4309 (1985), Table I and Sec.\ II.B.
+\bibitem{jacob76} Jacob and Mangano, Appl.\ Phys.\ Lett.\ 28, 724 (1976).
+\bibitem{jung05} Jung, Stone, Boffard, Anderson and Lin, Phys.\ Rev.\ Lett.\ 94, 163202 (2005).
+\bibitem{jung06} Jung, Stone, Boffard, Anderson and Lin, Phys.\ Rev.\ A 73, 022722 (2006), Tables I to IV.
+\bibitem{gazeli21rev} Gazeli, Lombardi, Aubert, Duluard, Prasanna and Hassouni, Plasma 4, 145 (2021), Table 3.
+\bibitem{gazeli21} Gazeli et al., Phys.\ Plasmas 28, 043301 (2021).
+\bibitem{dzierzega00} Dzier\.z\k{e}ga, Volz, Nave and Griesmann, Phys.\ Rev.\ A 62, 022505 (2000), Table 1.
+\bibitem{kleikamp86} Kleikamp, Peters and Witteman, IEEE J.\ Quantum Electron.\ 22, 219 (1986), Figs.\ 3 and 4, Table I.
+\bibitem{berger64} Berger and Seltzer, \emph{Tables of Energy Losses and Ranges of Electrons and Positrons}, NASA SP-3012 (1964), as Kleikamp et al.\ cite it.
+\bibitem{shiu77} Shiu and Biondi, Phys.\ Rev.\ A 16, 1817 (1977).
+\bibitem{grossl81} Gr\"ossl et al., J.\ Chem.\ Phys.\ 74, 1728 (1981).
+\bibitem{tellinghuisen76} Tellinghuisen, Hays, Hoffman and Tisone, J.\ Chem.\ Phys.\ 65, 4473 (1976).
+\bibitem{lightv04} \emph{How accurate LIGHT v0\_4 is}, \texttt{LIGHT/docs/accuracy\_overview\_v0\_4.pdf} (2026-10-09), this repository.
+\end{thebibliography}
+
+\end{document}

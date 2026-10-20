@@ -1,0 +1,20 @@
+# READING (not printed values) of Eden, Waynant, Searles & Burnham, APL 32, 733 (1978), Fig. 3 (NRL ADA072359 extract PDF p.14 = APL p.734)
+# Sigma = single-exponential decay constant of KrF(B-X) 249-nm emission after 193-nm photolysis of ~0.5 Torr KrF2 flowing with Kr.
+# Digitized from a 400-dpi render; axis calibrated on tick marks (residuals <=0.15 Torr, <=0.04e7/s).
+# Estimated reading uncertainty: +-1.5 Torr, +-0.1e7 s^-1 (dot centroid + scan distortion). Density axis on the figure implies 3.22e16 cm^-3/Torr (~300 K).
+# The two lowest-pressure dots overlap near the frame (1-3 Torr); read as two points.
+P_Kr_Torr,Sigma_1e7_per_s
+1.9,14.02
+1.9,14.34
+9.3,14.31
+20.3,15.07
+26.3,15.01
+40.0,15.52
+60.3,16.91
+74.3,16.48
+104.2,18.32
+131.3,19.77
+158.9,21.31
+198.5,23.90
+# Printed fit (APL p.734): Sigma = 1/tau + k1[Kr] + k2[Kr]^2 with k1=(8.6+-0.7)e-12 cm3/s, k2=(9.7+-0.8)e-31 cm6/s.
+# Traced drawn curve: Sigma = 14.158 + 3.0138e-2*P + 9.3663e-5*P^2 (1e7/s, P in Torr) -> intercept 7.06 ns, k1 9.4e-12, k2 9.0e-31 (reading).

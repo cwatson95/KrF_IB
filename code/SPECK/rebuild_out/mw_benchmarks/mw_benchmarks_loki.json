@@ -1,0 +1,350 @@
+{
+  "tier": "loki",
+  "rule_W_m3": 250000000.0,
+  "cases": [
+    {
+      "case": "krf_beam_0d",
+      "tier": "loki",
+      "P_mw_W": 37276.875,
+      "cell_m3": 0.0001491075,
+      "beam_end_ns": 70.0,
+      "E_dep_J": 3.740895931154482,
+      "E_laser0_J": 6.780029018333964e-07,
+      "eta0": 1.8124078143605487e-07,
+      "j_A_cm2": 53.0,
+      "schemes": {
+        "afterglow": {
+          "E_MW_J": 0.005963990374496575,
+          "dE_laser_J": 6.354646097560903e-10,
+          "marginal": 1.0655024066998606e-07,
+          "eta0": 1.8124078143605487e-07,
+          "eta_mw": 1.8112189424103716e-07,
+          "d_eta_pp": -1.188871950177056e-08,
+          "dFluor_postbeam_J": 7.343918462443012e-05,
+          "window": {
+            "mw_t0_ns": 80.0,
+            "mw_flat_ns": 150.0,
+            "mw_rise_ns": 10.0
+          }
+        },
+        "copump": {
+          "E_MW_J": 0.0012301354376398344,
+          "dE_laser_J": 3.491833395696066e-11,
+          "marginal": 2.8385763785454195e-08,
+          "eta0": 1.8124078143605487e-07,
+          "eta_mw": 1.8119053396424685e-07,
+          "d_eta_pp": -5.024747180801872e-09,
+          "dFluor_postbeam_J": 1.07421562752473e-06,
+          "window": {
+            "mw_t0_ns": 35.0,
+            "mw_flat_ns": 31.0,
+            "mw_rise_ns": 2.0
+          }
+        }
+      },
+      "regime": "mode=krf drive=beam grid=1x1x1 (1 cells, 169 reactions) 3 atm | beam yields via spencer_fano, sub-table rates = MEASURED relax curves (F-,el:Ar,el:F2,el:Kr,vib; <eps> in-coverage 71%, below it the taper extrapolates from the measured floor) | drive 3.741e+00 J, laser 6.765e-07 J (eta 0.00%) | ledger residual max 5.05e-13 | validity: ionization 7.7e-06 of N, F2 burn 11.1%, <eps> in-table 55% | wall 4.4 s | cells are independent reactors (no inter-cell transport; coarse device grid, not a PIC grid)",
+      "note": "DE-AR class, 3 atm, 0.75 m, R_OC 0.1/L_op 0.088"
+    },
+    {
+      "case": "krf_ne_0d",
+      "tier": "loki",
+      "P_mw_W": 37276.875,
+      "cell_m3": 0.0001491075,
+      "beam_end_ns": 70.0,
+      "E_dep_J": 2.300453831030155,
+      "E_laser0_J": 7.977546061098345e-07,
+      "eta0": 3.46781402586374e-07,
+      "j_A_cm2": 53.0,
+      "schemes": {
+        "afterglow": {
+          "E_MW_J": 0.0059640145946904255,
+          "dE_laser_J": 1.595881940881023e-09,
+          "marginal": 2.6758518369518855e-07,
+          "eta0": 3.46781402586374e-07,
+          "eta_mw": 3.4657661427960327e-07,
+          "d_eta_pp": -2.047883067707359e-08,
+          "dFluor_postbeam_J": 0.00017544218988126484,
+          "window": {
+            "mw_t0_ns": 80.0,
+            "mw_flat_ns": 150.0,
+            "mw_rise_ns": 10.0
+          }
+        },
+        "copump": {
+          "E_MW_J": 0.0012298484279265054,
+          "dE_laser_J": -7.924750702827447e-10,
+          "marginal": -6.443680800721423e-07,
+          "eta0": 3.46781402586374e-07,
+          "eta_mw": 3.4625180608101283e-07,
+          "d_eta_pp": -5.295965053611735e-08,
+          "dFluor_postbeam_J": 4.472200908378632e-05,
+          "window": {
+            "mw_t0_ns": 35.0,
+            "mw_flat_ns": 31.0,
+            "mw_rise_ns": 2.0
+          }
+        }
+      },
+      "regime": "mode=krf drive=beam grid=1x1x1 (1 cells, 169 reactions) 3 atm | beam yields via spencer_fano, sub-table rates = MEASURED relax curves (F-,F2(a3),el:F2,el:Kr,vib; <eps> in-coverage 67%, below it the taper extrapolates from the measured floor) | drive 2.300e+00 J, laser 7.954e-07 J (eta 0.00%) | ledger residual max 7.84e-12 | validity: ionization 1.3e-05 of N, F2 burn 6.8%, <eps> in-table 3% | wall 4.1 s | cells are independent reactors (no inter-cell transport; coarse device grid, not a PIC grid)",
+      "note": "Ne-buffered fill, same cell"
+    },
+    {
+      "case": "krf_hyper_mw",
+      "tier": "loki",
+      "P_mw_W": 250000.00000000006,
+      "cell_m3": 0.0010000000000000002,
+      "beam_end_ns": 70.0,
+      "E_dep_J": 31.55796658350892,
+      "E_laser0_J": 0.4845233313076827,
+      "eta0": 0.015353439519797119,
+      "j_A_cm2": 100.0,
+      "schemes": {
+        "afterglow": {
+          "E_MW_J": 0.039998543585479496,
+          "dE_laser_J": -0.0011117815585220958,
+          "marginal": -0.027795551009154776,
+          "eta0": 0.015353439519797119,
+          "eta_mw": 0.015298819015869103,
+          "d_eta_pp": -0.005462050392801565,
+          "dFluor_postbeam_J": 0.00047549276206312885,
+          "window": {
+            "mw_t0_ns": 80.0,
+            "mw_flat_ns": 150.0,
+            "mw_rise_ns": 10.0
+          }
+        },
+        "copump": {
+          "E_MW_J": 0.008251679912142151,
+          "dE_laser_J": 0.0010340122545326458,
+          "marginal": 0.1253093025350052,
+          "eta0": 0.015353439519797119,
+          "eta_mw": 0.01538218292448669,
+          "d_eta_pp": 0.002874340468957126,
+          "dFluor_postbeam_J": -0.00021347377227241837,
+          "window": {
+            "mw_t0_ns": 35.0,
+            "mw_flat_ns": 31.0,
+            "mw_rise_ns": 2.0
+          }
+        }
+      },
+      "regime": "mode=krf drive=beam grid=1x1x1 (1 cells, 169 reactions) 2 atm | beam yields via spencer_fano, sub-table rates = MEASURED relax curves (F-,el:Ar,el:F2,el:Kr,vib; <eps> in-coverage 98%, below it the taper extrapolates from the measured floor) | drive 3.156e+01 J, laser 4.756e-01 J (eta 1.51%) | ledger residual max 5.39e-13 | validity: ionization 2.2e-05 of N, F2 burn 20.5%, <eps> in-table 40% | wall 3.9 s | cells are independent reactors (no inter-cell transport; coarse device grid, not a PIC grid)",
+      "note": "DE-AR HYPER cell, 2 atm"
+    },
+    {
+      "case": "krf_arpa_mw",
+      "tier": "loki",
+      "P_mw_W": 1000000.0,
+      "cell_m3": 0.0075268271104,
+      "beam_end_ns": 110.0,
+      "E_dep_J": 554.0589908752764,
+      "E_laser0_J": 11.952498775816242,
+      "eta0": 0.021572610448815647,
+      "j_A_cm2": 140.0,
+      "schemes": {
+        "afterglow": {
+          "E_MW_J": 0.15999287263230144,
+          "dE_laser_J": -0.016660513755050843,
+          "marginal": -0.1041328496759999,
+          "eta0": 0.021572610448815647,
+          "eta_mw": 0.021536321584195876,
+          "d_eta_pp": -0.0036288864619770517,
+          "dFluor_postbeam_J": 0.0021492032264645022,
+          "window": {
+            "mw_t0_ns": 120.0,
+            "mw_flat_ns": 150.0,
+            "mw_rise_ns": 10.0
+          }
+        },
+        "copump": {
+          "E_MW_J": 0.05299788849777087,
+          "dE_laser_J": -0.000991390706111872,
+          "marginal": -0.018706230270920523,
+          "eta0": 0.021572610448815647,
+          "eta_mw": 0.021568757990192533,
+          "d_eta_pp": -0.00038524586231138136,
+          "dFluor_postbeam_J": 0.0001917419948360699,
+          "window": {
+            "mw_t0_ns": 55.0,
+            "mw_flat_ns": 51.0,
+            "mw_rise_ns": 2.0
+          }
+        }
+      },
+      "regime": "mode=krf drive=beam grid=1x1x1 (1 cells, 169 reactions) 2 atm | beam yields via spencer_fano, sub-table rates = MEASURED relax curves (F-,el:Ar,el:F2,el:Kr,vib; <eps> in-coverage 98%, below it the taper extrapolates from the measured floor) | drive 5.541e+02 J, laser 1.164e+01 J (eta 2.10%) | ledger residual max 2.03e-13 | validity: ionization 3.6e-05 of N, F2 burn 42.9%, <eps> in-table 19% | wall 4.0 s | cells are independent reactors (no inter-cell transport; coarse device grid, not a PIC grid)",
+      "note": "ARPA chamber column (X-band 9.5 GHz kept)"
+    },
+    {
+      "case": "ar_optimized",
+      "tier": "loki",
+      "P_mw_W": 500000.0000000001,
+      "cell_m3": 0.0020000000000000005,
+      "beam_end_ns": 110.0,
+      "E_dep_J": 101.9623865135895,
+      "E_laser0_J": 5.045633582427399,
+      "eta0": 0.04948524406845773,
+      "j_A_cm2": 200.0,
+      "schemes": {
+        "afterglow": {
+          "E_MW_J": 0.07999771738468553,
+          "dE_laser_J": -0.0017050130578040168,
+          "marginal": -0.021313271347544953,
+          "eta0": 0.04948524406845773,
+          "eta_mw": 0.04942974046894672,
+          "d_eta_pp": -0.0055503599511008694,
+          "dFluor_postbeam_J": 0.00511736928888798,
+          "window": {
+            "mw_t0_ns": 120.0,
+            "mw_flat_ns": 150.0,
+            "mw_rise_ns": 10.0
+          }
+        },
+        "copump": {
+          "E_MW_J": 0.026499763113420727,
+          "dE_laser_J": 0.00033402991316222597,
+          "marginal": 0.012605015061174547,
+          "eta0": 0.04948524406845773,
+          "eta_mw": 0.049475661481884425,
+          "d_eta_pp": -0.0009582586573304852,
+          "dFluor_postbeam_J": 0.00021010419968794936,
+          "window": {
+            "mw_t0_ns": 55.0,
+            "mw_flat_ns": 51.0,
+            "mw_rise_ns": 2.0
+          }
+        }
+      },
+      "regime": "mode=krf drive=beam grid=1x1x1 (1 cells, 169 reactions) 1 atm | beam yields via spencer_fano, sub-table rates = MEASURED relax curves (F-,el:Ar,el:F2,el:Kr,vib; <eps> in-coverage 98%, below it the taper extrapolates from the measured floor) | drive 1.020e+02 J, laser 4.146e+00 J (eta 4.07%) | ledger residual max 4.84e-13 | validity: ionization 1.1e-04 of N, F2 burn 38.4%, <eps> in-table 22% | wall 4.0 s | cells are independent reactors (no inter-cell transport; coarse device grid, not a PIC grid)",
+      "note": "0.1.24 Ar-optimized (1 atm, F2 0.2%, L_op 0.005)"
+    },
+    {
+      "case": "ne_optimized",
+      "tier": "loki",
+      "P_mw_W": 500000.0000000001,
+      "cell_m3": 0.0020000000000000005,
+      "beam_end_ns": 110.0,
+      "E_dep_J": 125.4902534600699,
+      "E_laser0_J": 7.773223030569413,
+      "eta0": 0.06194284270086997,
+      "j_A_cm2": 200.0,
+      "schemes": {
+        "afterglow": {
+          "E_MW_J": 0.07999557407241298,
+          "dE_laser_J": 0.008016905311673206,
+          "marginal": 0.10021686080302648,
+          "eta0": 0.06194284270086997,
+          "eta_mw": 0.061967225483206476,
+          "d_eta_pp": 0.0024382782336504483,
+          "dFluor_postbeam_J": 0.0013005748512418536,
+          "window": {
+            "mw_t0_ns": 120.0,
+            "mw_flat_ns": 150.0,
+            "mw_rise_ns": 10.0
+          }
+        },
+        "copump": {
+          "E_MW_J": 0.02649248551789185,
+          "dE_laser_J": 0.001357185187569776,
+          "marginal": 0.0512290621675793,
+          "eta0": 0.06194284270086997,
+          "eta_mw": 0.061940581371726346,
+          "d_eta_pp": -0.0002261329143625479,
+          "dFluor_postbeam_J": 8.283984191805038e-05,
+          "window": {
+            "mw_t0_ns": 55.0,
+            "mw_flat_ns": 51.0,
+            "mw_rise_ns": 2.0
+          }
+        }
+      },
+      "regime": "mode=krf drive=beam grid=1x1x1 (1 cells, 169 reactions) 2 atm | beam yields via spencer_fano, sub-table rates = MEASURED relax curves (F-,F2(a3),el:F2,el:Kr,vib; <eps> in-coverage 98%, below it the taper extrapolates from the measured floor) | drive 1.255e+02 J, laser 7.620e+00 J (eta 6.07%) | ledger residual max 3.08e-13 | validity: ionization 5.5e-05 of N, F2 burn 28.3%, <eps> in-table 3% | wall 4.4 s | cells are independent reactors (no inter-cell transport; coarse device grid, not a PIC grid)",
+      "note": "0.1.24 Ne-optimized (2 atm Ne, F2 0.2%)"
+    },
+    {
+      "case": "kannari_R20",
+      "tier": "loki",
+      "P_mw_W": 176000.00000000003,
+      "cell_m3": 0.0007040000000000001,
+      "beam_end_ns": 60.0,
+      "E_dep_J": 65.99999832188209,
+      "E_laser0_J": 0.46472608432547907,
+      "eta0": 0.007041304486994216,
+      "j_A_cm2": 273.2757499474299,
+      "schemes": {
+        "afterglow": {
+          "E_MW_J": 0.028158760136051342,
+          "dE_laser_J": -2.4733312176117295e-08,
+          "marginal": -8.783523158198828e-07,
+          "eta0": 0.007041304486994216,
+          "eta_mw": 0.007038301235863641,
+          "d_eta_pp": -0.00030032511305743553,
+          "dFluor_postbeam_J": 0.0004658156857063056,
+          "window": {
+            "mw_t0_ns": 70.0,
+            "mw_flat_ns": 150.0,
+            "mw_rise_ns": 10.0
+          }
+        },
+        "copump": {
+          "E_MW_J": 0.004927923903551346,
+          "dE_laser_J": 0.00014927890782978626,
+          "marginal": 0.030292453932214188,
+          "eta0": 0.007041304486994216,
+          "eta_mw": 0.007043040416441504,
+          "d_eta_pp": 0.00017359294472883355,
+          "dFluor_postbeam_J": -4.485109038096513e-05,
+          "window": {
+            "mw_t0_ns": 30.0,
+            "mw_flat_ns": 26.0,
+            "mw_rise_ns": 2.0
+          }
+        }
+      },
+      "regime": "mode=krf drive=beam grid=1x1x1 (1 cells, 169 reactions) 2.5 atm | beam yields via spencer_fano, sub-table rates = MEASURED relax curves (F-,el:Ar,el:F2,el:Kr,vib; <eps> in-coverage 95%, below it the taper extrapolates from the measured floor) | drive 6.600e+01 J, laser 4.647e-01 J (eta 0.70%) | ledger residual max 2.34e-13 | validity: ionization 2.9e-05 of N, F2 burn 27.5%, <eps> in-table 49% | wall 5.5 s | cells are independent reactors (no inter-cell transport; coarse device grid, not a PIC grid)",
+      "note": "Kannari 1985 anchor cell, R_OC 0.2 (66 J matched)"
+    },
+    {
+      "case": "electra_arf_1p09",
+      "tier": "loki",
+      "P_mw_W": 5775000.0,
+      "cell_m3": 0.0231,
+      "beam_end_ns": 140.0,
+      "E_dep_J": 2217.5999976955145,
+      "E_laser0_J": 135.93602393044654,
+      "eta0": 0.06129871215354822,
+      "j_A_cm2": 305.44477414666534,
+      "schemes": {
+        "afterglow": {
+          "E_MW_J": 0.9239500378380399,
+          "dE_laser_J": -0.012324451465872244,
+          "marginal": -0.013338872191304146,
+          "eta0": 0.06129871215354822,
+          "eta_mw": 0.061267627792728034,
+          "d_eta_pp": -0.0031084360820186896,
+          "dFluor_postbeam_J": 0.014766942722548748,
+          "window": {
+            "mw_t0_ns": 150.0,
+            "mw_flat_ns": 150.0,
+            "mw_rise_ns": 10.0
+          }
+        },
+        "copump": {
+          "E_MW_J": 0.3926604686475912,
+          "dE_laser_J": 0.02241552065507335,
+          "marginal": 0.05708626776786908,
+          "eta0": 0.06129871215354822,
+          "eta_mw": 0.06129796640699196,
+          "d_eta_pp": -7.457465562576981e-05,
+          "dFluor_postbeam_J": -0.009225129675696664,
+          "window": {
+            "mw_t0_ns": 70.0,
+            "mw_flat_ns": 66.0,
+            "mw_rise_ns": 2.0
+          }
+        }
+      },
+      "regime": "mode=arf_beam drive=beam grid=1x1x1 (1 cells, 55 reactions) 1.09 atm | beam yields via spencer_fano, sub-table rates = MEASURED relax curves (F-,el:Ar,el:F2,el:Kr,vib; <eps> in-coverage 99%, below it the taper extrapolates from the measured floor) | drive 2.218e+03 J, laser 1.359e+02 J (eta 6.13%) | ledger residual max 1.92e-13 | validity: ionization 6.4e-05 of N, F2 burn 41.4%, <eps> in-table 67% | wall 1.8 s | cells are independent reactors (no inter-cell transport; coarse device grid, not a PIC grid)",
+      "note": "NRL Electra ArF anchor, 1.09 atm peak point (0.8 MW/cc matched)"
+    }
+  ]
+}

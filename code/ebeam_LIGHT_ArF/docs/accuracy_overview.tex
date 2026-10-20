@@ -1,0 +1,833 @@
+% How accurate LIGHT_ArF is: v0_2 (0-D) and 1Dv0_2 (1-D) against the ArF
+% measurements, with their reaction rates (Appendix A) and the data scored
+% (Appendix B). No model number here is typed by hand. They come from three
+% generated files and the figures, all written by make_overview.py:
+%   overview_rates.tex    the network (v0_2/network.py, species.py)
+%   overview_scores.tex   arf_data/score_0d.json and score_1d.json
+%   overview_runs.tex     fresh runs of v0_2 and 1Dv0_2
+%   energy_ladder.tex     make_energy_ladder.py
+%   system_map_numbers.tex, system_map.pdf   make_system_map.py, then
+%                         latexmk -pdf system_map.tex
+%   figures/*.pdf
+% Build from Kinetic_Modeling/:
+%   python3 LIGHT_ArF_ebeam/docs/make_overview.py
+%   ~/.venvs/f2sweep/bin/python LIGHT_ArF_ebeam/docs/make_overview.py --runs
+%   cd LIGHT_ArF_ebeam/docs && /opt/homebrew/bin/latexmk -pdf accuracy_overview.tex
+\documentclass[11pt]{article}
+\usepackage[a4paper,margin=2.2cm]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[scaled=0.95]{helvet}
+\renewcommand{\familydefault}{\sfdefault}
+\usepackage{amsmath}
+\usepackage{sansmath}
+\usepackage{booktabs,tabularx,array,longtable}
+\usepackage{xcolor}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{enumitem}
+\usepackage{needspace}
+\usepackage[hyphens]{url}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,decorations.pathmorphing}
+\usepackage{pdfpages}
+\setlist{nosep, leftmargin=1.2em}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{5pt}
+
+% chemistry and units (the generated tables use these)
+\newcommand{\unit}[1]{\ensuremath{\,\mathrm{#1}}}
+\newcommand{\el}{\ensuremath{\mathrm{e}^-}}
+\newcommand{\Ars}{Ar\ensuremath{^*}}
+\newcommand{\Arp}{Ar\ensuremath{^+}}
+\newcommand{\Artp}{Ar\ensuremath{_2^+}}
+\newcommand{\Arts}{Ar\ensuremath{_2^*}}
+\newcommand{\AtF}{Ar\ensuremath{_2}F\ensuremath{^*}}
+\newcommand{\ArFs}{ArF\ensuremath{^*}}
+\newcommand{\Ft}{F\ensuremath{_2}}
+\newcommand{\Fm}{F\ensuremath{^-}}
+\newcommand{\ra}{\ensuremath{\to}}
+\newcommand{\hnu}{\ensuremath{h\nu}}
+\newcommand{\gIP}{\ensuremath{g_0I_\mathrm{sat}/P}}
+\newcommand{\Edep}{\ensuremath{E_\mathrm{dep}}}
+\newcommand{\x}[1]{\ensuremath{\times}#1}
+% a factor of the measurement as a percentage of it (0.64 -> 64), as LIGHT's
+% overview prints it: \pctof{x} to the unit, \pctof[1]{x} to a tenth
+\newcommand{\pctof}[2][0]{\pgfmathparse{100*#2}%
+  \pgfmathprintnumber[fixed,precision=#1]{\pgfmathresult}}
+
+\input{overview_rates}
+\input{overview_scores}
+\input{overview_runs}
+\input{system_map_numbers}
+\input{energy_ladder}
+\makeatletter
+\newcommand\wi[1]{\ifcsname wi@#1\endcsname\csname wi@#1\endcsname
+  \else\errmessage{no overview number '#1'. Rerun make_overview.py}\fi}
+\newcommand\wm[1]{\ifcsname wm@#1\endcsname\csname wm@#1\endcsname
+  \else\errmessage{no map number '#1'. Rerun make_system_map.py}\fi}
+\newcommand\lad[1]{\ifcsname lad@#1\endcsname\csname lad@#1\endcsname
+  \else\errmessage{no ladder number '#1'. Rerun make_energy_ladder.py}\fi}
+\makeatother
+
+\begin{document}
+\sansmath
+
+{\LARGE\bfseries How accurate LIGHT\_ArF\_ebeam is}\par
+\vspace{4pt}
+{\large The Ar/F$_2$ models v0\_2 (0-D) and 1Dv0\_2 (1-D), version
+\wi{version}, on 30 September 2026, on LIGHT's own input and under an
+electron beam, with their reaction rates}\par
+\vspace{10pt}
+
+\noindent\fbox{\parbox{\dimexpr\linewidth-2\fboxsep-2\fboxrule\relax}{%
+\setlength{\parskip}{5pt}%
+\textbf{Bottom line.} LIGHT\_ArF\_ebeam v0\_2 reproduces the decays its rate
+constants came from [1, 2, 3] with an rms of \wi{dec.ownrms} in the
+logarithm, and at the Electra laser [4] its own input gives
+\pctof{\wi{elf.r1}}\,\% of the measured formation efficiency \gIP{} of
+\wi{elf.meas1}.
+
+It also gives \pctof{\wi{keio.r1}}\,\% of Keio's [5] at its printed pump and
+\pctof{\wi{san.r1}}\,\% of Sandia's [6]. No rate was set by a laser,
+fluorescence or yield measurement, so these scores are predictions. The
+lever is the yield of \ArFs{} from \Ars{} + \Ft{}, measured at 0.5 [7] and
+the default. At the 1.0 that every published ArF model books, Electra's
+efficiency is \pctof{\wi{ely.r}}\,\%. Rokni's pressure curve [8] is followed
+with an rms of \wi{rkp.ownrms} in the logarithm, and 1Dv0\_2's centre cell
+gives v0\_2's numbers to \wi{od.dev} on the own input and \wi{od.bdev}
+under the beam.
+
+Its largest misses are the VUV yield of pure argon, \pctof{\wi{moz.own}}\,\%
+of Morozov's measurement [9], the \AtF{} fluorescence at high current,
+\pctof{\wi{jan.aone}} to \pctof{\wi{jan.atwo}}\,\% of Jancaitis's [2], and
+Rokni's fluorescence ratio for a \x{25} change in current [8],
+\pctof{\wi{rkc.own}}\,\%. That last is the two-temperature tail table's,
+read below the ionization fractions it was checked at. On a Maxwellian EEDF
+the ratio is \pctof{\wi{rkcM.own}}\,\%.
+
+Under the electron-beam drive this copy adds, built from REBUILD's beam
+physics with the measured secondary spectrum [10], the same network gives
+\pctof{\wi{elf.br1}}\,\% of Electra's formation efficiency,
+\pctof{\wi{keio.br1}}\,\% of Keio's and \pctof{\wi{san.br1}}\,\% of
+Sandia's, and Rokni's current ratio at \pctof{\wi{rkc.beam}}\,\%, the own
+input's failure at low pumps gone. Pure argon improves to
+\pctof{\wi{moz.beam}}\,\% of Morozov's measurement and no further. That is
+the network's one-photon ceiling, \wi{beam.ceil} of the input, near the
+0.53 Morozov quotes as the theoretical maximum [9, 11]. His argon lies at
+62\,\% of that maximum, where he finds his krypton and xenon close to
+theirs.
+
+{\footnotesize [1] Chen and Payne, IEEE J.\ Quantum Electron.\ 15, 149
+(1979). [2] Jancaitis, Lawrence Livermore report UCRL-53465 (1983).
+[3] Ueda, Kanada, Kitagawa and Takuma, Rev.\ Laser Eng.\ 11, 576 (1983),
+and Ueda et al., Rev.\ Laser Eng.\ 12, 357 (1984). [4] Wolford et al., High
+Energy Density Phys.\ 36, 100801 (2020). [5] Lee, Matsui, Kannari and
+Obara, IEEE Trans.\ Electron Devices 36, 2053 (1989). [6] Adams and Dillon,
+J.\ Appl.\ Phys.\ 70, 4073 (1991), abstract. [7] Setser, ERDA report
+COO-2807-11 (1977), OSTI 6681231. [8] Rokni, Jacob and Mangano, Phys.\
+Rev.\ A 16, 2216 (1977). [9] Morozov, Heindl, Kr\"ucken, Ulrich and
+Wieser, J.\ Appl.\ Phys.\ 103, 103301 (2008). [10] Opal, Peterson and
+Beaty, J.\ Chem.\ Phys.\ 55, 4100 (1971). [11] Lorents, Physica 82C, 19
+(1976), the maximum as quoted in [9].\par}}}
+\medskip
+
+LIGHT\_ArF\_ebeam is LIGHT\_ArF, LIGHT converted to argon fluoride, with an
+electron-beam drive added to both its models. v0\_2 is one well-mixed box of
+argon and fluorine, and 1Dv0\_2 runs the same chemistry in every cell of a
+1\unit{cm} gap on Nathaniel's Fluid1D. A given power is deposited
+uniformly, straight into the electrons as LIGHT's own input puts it, or by
+an electron beam, and neither model has a cavity. The basic network has \wi{rates.nBasic} rows. Every rate cites a
+measurement whose page was read first-hand, many of them in review tables
+that quote the measurement, or is a band. A measured rate
+known only as a published spread keeps its measurement as the band's default,
+and a rate with no measurement is 0 by default. No rate was set from a laser,
+fluorescence or yield measurement.
+
+Scored against every ArF measurement found, v0\_2 on its own input gives
+Electra's formation efficiency at \x{\wi{elf.r1}} the measured value, Keio's
+at \x{\wi{keio.r1}} and Sandia's at \x{\wi{san.r1}}. The largest lever is the
+yield of \ArFs{} from \Ars{} + \Ft{}. At Setser's measured 0.5 Electra is
+under-predicted, and at the 1.0 every published ArF model books it is
+\x{\wi{ely.r}}. Rokni's pressure curve is followed with an rms of
+\wi{rkp.ownrms} in the logarithm and Jancaitis's current scan with
+\wi{jan.ownrms}. Two misses stand out. The network has no loss of \AtF{} that
+grows with the excitation, and pure argon gives \x{\wi{moz.own}} Morozov's VUV
+efficiency. At low pumps LIGHT's own input runs hot, because the
+two-temperature tail it reads there is cold. On a Maxwellian EEDF the same
+input gives Rokni's current ratio at \x{\wi{rkcM.own}}, where the tail gives
+\x{\wi{rkc.own}}. The 1-D model's centre cell gives
+the 0-D numbers to \wi{od.dev} at every device point on the own input and
+to \wi{od.bdev} under the beam. Table~\ref{tab:score}
+lists every test and Figure~\ref{fig:score} shows them together.
+
+\begin{table}[p]
+\centering\footnotesize
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.12}
+\begin{tabularx}{\linewidth}{@{}>{\raggedright\arraybackslash}X
+  >{\raggedright\arraybackslash}p{1.65cm}>{\raggedright\arraybackslash}p{1.4cm}
+  >{\raggedright\arraybackslash}p{1.7cm}>{\raggedright\arraybackslash}p{1.4cm}
+  >{\raggedright\arraybackslash}p{1.4cm}>{\raggedright\arraybackslash}p{1.65cm}@{}}
+\toprule
+test & measured & own input & own input, Maxwellian & beam drive & 1Dv0\_2
+  centre & role\\
+\midrule
+\multicolumn{7}{@{}l}{\itshape Formation efficiency \gIP{} and gain at the
+  lasers, model over measured}\\
+Electra at \wi{elf.x1p}\unit{MW/cm^3}, Wolford 2020 & \wi{elf.meas1} &
+  \x{\wi{elf.r1}} & \x{\wi{elfM.r1}} & \x{\wi{elf.br1}} & \x{\wi{elf.c1}} &
+  held out\\
+\quad the same at \wi{elf.x2p}\unit{MW/cm^3}, Petrova 2022 & \wi{elf.meas2} &
+  \x{\wi{elf.r2}} & \x{\wi{elfM.r2}} & \x{\wi{elf.br2}} & \x{\wi{elf.c2}} &
+  held out\\
+\quad \ArFs{} yield of \Ars{} + \Ft{} at 1.0 & & \x{\wi{ely.r}} & &
+  \x{\wi{ely.br}} & & sensitivity\\
+Keio at its printed \wi{keio.x1p}\unit{MW/cm^3}, Lee 1989 & \wi{keio.meas1}
+  & \x{\wi{keio.r1}} & \x{\wi{keioM.r1}} & \x{\wi{keio.br1}} &
+  \x{\wi{keio.c1}} & held out\\
+\quad NRL's replot at \wi{keio.x2p}\unit{MW/cm^3} & \wi{keio.meas2} &
+  \x{\wi{keio.r2}} & \x{\wi{keioM.r2}} & \x{\wi{keio.br2}} & \x{\wi{keio.c2}}
+  & held out\\
+Sandia at \wi{san.x1p}\unit{MW/cm^3}, abstract only & \wi{san.meas1} &
+  \x{\wi{san.r1}} & \x{\wi{sanM.r1}} & \x{\wi{san.br1}} & \x{\wi{san.c1}} &
+  held out\\
+Electra gain at \wi{elt.hiatm} over \wi{elt.loatm}\unit{atm} &
+  \wi{elt.meas} & \x{\wi{elt.x}} & & \x{\wi{elt.bx}} & \x{\wi{elt.cx}} &
+  held out\\
+Electra gain for a pump ratio of \wi{elp.x} & \wi{elp.meas} &
+  \x{\wi{elp.r}} & & \x{\wi{elp.br}} & & held out\\
+\midrule
+\multicolumn{7}{@{}l}{\itshape Relative fluorescence, geometric mean of model
+  over measured and the rms of its logarithm}\\
+Rokni 1977 Fig.~4, 193\unit{nm} against Ar & & \wi{rkp.own}
+  (\wi{rkp.ownrms}) & \wi{rkpM.own} (\wi{rkpM.ownrms}) & \wi{rkp.beam}
+  (\wi{rkp.beamrms}) & \wi{rkp.cone} (\wi{rkp.conerms}) & held out\\
+Rokni 1977 Fig.~5, ratio for \x{25} in current & \wi{rkc.meas} &
+  \wi{rkc.own} (\wi{rkc.ownrms}) & \wi{rkcM.own} (\wi{rkcM.ownrms}) &
+  \wi{rkc.beam} (\wi{rkc.beamrms}) & & held out\\
+Jancaitis 1983 Fig.~3, peaks against current & & \wi{jan.own}
+  (\wi{jan.ownrms}) & \wi{janM.own} (\wi{janM.ownrms}) & \wi{jan.beam}
+  (\wi{jan.beamrms}) & & held out\\
+\midrule
+\multicolumn{7}{@{}l}{\itshape Photons per initial excitation, and pure
+  argon}\\
+SRI 1976 Fig.~4, 193\unit{nm} against Ar & & \wi{sria.agm} (\wi{sria.arms})
+  & & & & held out\\
+SRI 1976 Fig.~4, 290\unit{nm} against Ar & & \wi{sria.bgm} (\wi{sria.brms})
+  & & & & held out\\
+SRI 1976 Fig.~11, 193\unit{nm} against \Ft{} & & \wi{srif.own}
+  (\wi{srif.ownrms}) & & & & held out\\
+Morozov 2008, pure-Ar VUV efficiency & \wi{moz.meas} $\pm$ \wi{moz.err} &
+  \wi{moz.own} (\wi{moz.ownrms}) & & \wi{moz.beam} (\wi{moz.beamrms}) & &
+  held out\\
+\midrule
+\multicolumn{7}{@{}l}{\itshape The sources of the network's constants}\\
+decays of \Ars{}, \ArFs{} and \AtF{}, \wi{dec.n} points & & \wi{dec.own}
+  (\wi{dec.ownrms}) & & & & consistency\\
+Stern-Volmer plots, \wi{sv.n} points & & \wi{sv.own} (\wi{sv.ownrms}) & & &
+  & consistency\\
+\bottomrule
+\end{tabularx}
+\caption{LIGHT\_ArF\_ebeam against the ArF data, every band at its default
+unless a row says otherwise. The own input is LIGHT's, the Maxwellian column
+is the same input without the two-temperature tail, and the beam column is
+the model's electron-beam drive. The 1Dv0\_2 column is the 1-D centre cell
+on the own input. A \x{} factor is model over measured.}
+\label{tab:score}
+\end{table}
+
+\begin{figure}[p]
+\centering
+\includegraphics[width=\linewidth]{figures/fig_scorecard}
+\caption{Every test at a glance, model over measured on a logarithmic axis.
+A bar spans the geometric mean times $e^{\pm\mathrm{rms}}$ where a test has
+three points or more. The grey band is 0.8 to 1.25.}
+\label{fig:score}
+\end{figure}
+
+\section{How the numbers were made}
+
+Each dataset has one role. The decays and Stern-Volmer plots that the
+network's constants were read from check that the network reproduces them.
+Every other measurement is held out and scores the model. No dataset sets a
+rate, and no band is narrowed or moved by a score. This is the repository's
+predictive-only policy. A score is the ratio of model to measurement. For a
+set it is the geometric mean with the rms of the natural logarithms, and a
+relative curve leaves out its normalisation point.
+
+Each test runs v0\_2 three ways. LIGHT's own input puts the pump into the
+electron gas, and the two-temperature closure reads a tail table made from
+beam-sustained kinetic solutions. This is the model, and every score is its
+score unless a column says otherwise. The same input on a Maxwellian EEDF
+shows how much of a result the tail table makes. The electron-beam drive in
+\path{v0_2/beam.py} deposits the same power as ion pairs, excited atoms and
+secondary electrons. It runs REBUILD's Spencer-Fano cascade on the model's
+own cross sections with the measured secondary spectrum of Opal, Peterson and
+Beaty, $\bar E$ = \wi{beam.ebar}\unit{eV} for argon, and gives
+\wi{beam.W}\unit{eV} per ion pair and \wi{beam.exc} excited atoms per pair
+at the reference fill, with \wi{beam.eps}\unit{eV} per pair to the
+electrons. W is an output, scored against the measured
+\wi{beam.Wlit}\unit{eV} and \wi{beam.Wmiss}\,\% under it in pure argon.
+REBUILD's own rule, equal sharing read at one source energy, gives
+\wi{beam.rebW}\unit{eV} and \wi{beam.rebexc}, a point on an oscillation
+that the measured spectrum removes. The seeded starts of SRI and Chen and
+Payne take the drive's excited atoms per ion. 1Dv0\_2 runs both inputs on
+\wi{od.cells} cells, the beam's products added in every cell of its stage.
+
+Every number in this note is written by \path{make_overview.py} from the
+records of \path{arf_data/score_arf.py}, made with the chemistry this
+note describes, and from fresh runs. \path{v0_2/tests/test_docs.py}
+fails when the generated files no longer match the network or the scores.
+
+\section{The ArF network}
+
+v0\_2 keeps KrF v0\_2's equations, energy ledger, two-temperature closure and
+bands. Its species, cross sections, tail table and rates are ArF's. Five
+things differ from KrF.
+\begin{itemize}
+\item One excimer state. No ArF C position, B--C mixing rate or equilibrium
+  is measured, and the calculated B--C splitting is about 0.25\unit{eV}.
+  \ArFs{} is ArF(B) alone.
+\item Stern-Volmer products. The ArF(B) radiative lifetime has never been
+  measured, and its \wi{rates.tauB}\unit{ns} is Dunning and Hay's
+  calculation. The quenching of ArF(B) by \Ft{}, Ar, 2Ar and electrons is
+  measured as products $k\tau_B$, and the rows divide them by $\tau_B$. A
+  change of the calculated lifetime keeps every measured product.
+\item The harpoon yield. \Ars{} + \Ft{} makes \ArFs{} with yield 0.5,
+  Setser's flowing-afterglow measurement, where every published ArF model
+  books 1.0.
+\item The argon levels. Each of the \wi{rates.nAr} excitation blocks of the
+  IST-Lisbon set is its own row. The \wi{rates.nAr4s} 4s blocks make \Ars{},
+  and the \wi{rates.nArHi} higher ones cascade to it at once.
+\item Ion-ion recombination. No absolute measurement exists. The rows use
+  Hoffman and Moreno's calculation as Lee 1989 prints it, with the Debye
+  screening and the Thomson $(T_g/300)^{-3}$ that KrF's rows carry.
+\end{itemize}
+The network carries \wi{rates.nBands} bands, \wi{rates.nZero} of them for
+rates with no measurement. Appendix~A lists every row, band and species
+energy.
+
+\section{The reference point}
+
+At the reference point, \wi{ref.p}\unit{atm} with \wi{ref.f2}\,\% \Ft{} and
+\wi{ref.kw}\unit{kW/cm^3} for \wi{ref.pulse}\unit{\mu s} followed to
+\wi{ref.tend}\unit{\mu s}, v0\_2 radiates \wi{ref.e193}\,\% of the deposited
+energy at 193\unit{nm} (Table~\ref{tab:budget}). The ArF(B) formed carries
+\wi{ref.formed}\,\% of the input as 193-nm quanta. It comes \wi{ref.chharp}\,\%
+from \Ars{} + \Ft{}, \wi{ref.chdimer}\,\% from \Arts{} + \Ft{} and
+\wi{ref.chion}\,\% from ion-ion recombination. Of the ArF(B) formed,
+\wi{ref.arf.rad}\,\% radiates, \wi{ref.arf.tri}\,\% forms \AtF{},
+\wi{ref.arf.qar}\,\% is quenched by Ar and \wi{ref.arf.qf}\,\% by \Ft{}. Of
+the \Ars{} formed, \wi{ref.ars.harp}\,\% makes ArF(B), \wi{ref.ars.rest}\,\%
+reacts with \Ft{} without making it and \wi{ref.ars.dimer}\,\% forms \Arts{}.
+The \Ft{} falls below a tenth of its fill at \wi{ref.burn}\unit{ns}. $T_e$
+averages \wi{ref.te}\unit{eV} over the pulse and $T_g$ ends at
+\wi{ref.tg}\unit{K}. The ledger closes to \wi{ref.closure} of the input.
+
+On a Maxwellian EEDF the same point gives \wi{ref.m193}\,\% at 193\unit{nm}
+at a mean $T_e$ of \wi{ref.mte}\unit{eV}. The seed density sets only the
+first nanoseconds, and seeds of \wi{ref.seedlo} to
+\wi{ref.seedhi}\unit{cm^{-3}} give \wi{ref.seeds}\,\%.
+
+\begin{table}[h]
+\centering\footnotesize
+\begin{tabular}{@{}lr@{}}
+\toprule
+where the deposited energy is at the end & \% of the input\\
+\midrule
+\wiTBudget
+\bottomrule
+\end{tabular}
+\caption{The reference point's energy at \wi{ref.tend}\unit{\mu s}. The
+stored entries are formation energy still held. The ledger closes to
+\wi{ref.closure}.}
+\label{tab:budget}
+\end{table}
+
+\section{The bands}
+
+Each band at either end, the others at their defaults, gives
+Table~\ref{tab:bands}. Three rates are the levers at the reference point.
+\Arts{} + F, which has no measurement, takes the 193-nm share from
+\wi{ref.e193} to \wi{band.ar2f.hi}\,\% at the top of its band. The \ArFs{}
+yield of \Ars{} + \Ft{} spans \wi{band.arfyield.lo} to
+\wi{band.arfyield.hi}\,\%. The trimer's $k\tau_B$ spans
+\wi{band.arftrimer.hi} to \wi{band.arftrimer.lo}\,\%, and the trimer's gas
+temperature law at the bottom of its band gives \wi{band.trimertgpow.lo}\,\%.
+\Ars{} + 2Ar spans \wi{band.ar2form.lo} to \wi{band.ar2form.hi}\,\%, and every
+other band moves the 193-nm share by \wi{band.othermax} percentage points or
+less.
+
+\begin{table}[h]
+\centering\footnotesize
+\begin{tabular}{@{}lrrrrrr@{}}
+\toprule
+band & low end & 193\unit{nm}, \% & 127\unit{nm}, \% & high end &
+  193\unit{nm}, \% & 127\unit{nm}, \%\\
+\midrule
+\wiTBandEnds
+\bottomrule
+\end{tabular}
+\caption{The reference point with one band at a time at either end of its
+range. At the defaults 193\unit{nm} takes \wi{ref.e193}\,\% and 127\unit{nm}
+\wi{ref.e127}\,\%. Appendix~A.3 gives each band's source and units.}
+\label{tab:bands}
+\end{table}
+
+\section{Formation efficiency and gain at the lasers}
+
+A published small-signal gain $g_0$ and saturation intensity
+$I_\mathrm{sat}$ give a formation efficiency that needs no cross section,
+\gIP{}. It is the ArF(B) formation rate times the 193-nm quantum over the
+deposited power at the quasi-steady peak, and v0\_2 makes the same quantity
+from its formation rate in the pulse's window (Figure~\ref{fig:form}).
+
+At Electra's \wi{elf.x1p}\unit{MW/cm^3}, the measured \wi{elf.meas1} is met at
+\x{\wi{elf.r1}} on the own input and \x{\wi{elf.br1}} under the beam drive.
+With the \ArFs{} yield at 1.0 the own input gives \x{\wi{ely.r}} and the beam
+drive \x{\wi{ely.br}}, so the measured yield of 0.5 and the published
+models' 1.0 bracket Electra. Keio's printed pump gives \x{\wi{keio.r1}} and
+Sandia's abstract \x{\wi{san.r1}}. NRL replots Keio's point at
+\wi{keio.x2p}\unit{MW/cm^3}, which would make it \x{\wi{keio.r2}}, so Keio's
+pump reading decides whether v0\_2 is low or high there.
+
+Electra's single-pass gain falls to \wi{elt.meas} of its
+\wi{elt.loatm}-atm value at \wi{elt.hiatm}\unit{atm}, and v0\_2's falls to
+\wi{elt.mod} (Table~\ref{tab:electra}). Wolford notes that Electra's beam is
+not uniform at low pressure. The gain itself needs the ArF(B) stimulated
+emission cross section, which is only calculated. With Lee's value v0\_2's
+$g_0$ is in the last column.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.94\linewidth]{figures/fig_formation}
+\caption{Formation efficiency \gIP{} at the three lasers. Open symbols are
+the own input on a Maxwellian EEDF and, at Electra's
+\wi{elf.x1p}\unit{MW/cm^3}, the \ArFs{} yield at 1.0.}
+\label{fig:form}
+\end{figure}
+
+\begin{table}[h]
+\centering\footnotesize
+\begin{tabular}{@{}rrrrrrr@{}}
+\toprule
+atm & $g_0$ measured, \%/cm & measured & own input & beam drive & 1Dv0\_2
+  centre & $g_0$ with Lee's $\sigma$, \%/cm\\
+\midrule
+\wiTElectraTrend
+\bottomrule
+\end{tabular}
+\caption{Electra's single-pass gain against pressure, each column relative
+to its value at \wi{elt.loatm}\unit{atm}. The model's ratios are its ArF(B)
+density ratios and need no cross section.}
+\label{tab:electra}
+\end{table}
+
+\section{Fluorescence against pressure and current}
+
+Rokni, Jacob and Mangano measured the steady 193-nm fluorescence under a
+5-A/cm$^2$ beam with 2\unit{Torr} of \Ft{} from \wi{rkp.xmin} to
+\wi{rkp.xmax}\unit{atm} of argon (Figure~\ref{fig:rokni}). Normalised at
+1\unit{atm}, v0\_2 follows it with an rms of \wi{rkp.ownrms} in the logarithm
+on its own input and \wi{rkp.beamrms} under the beam drive. The deposition
+is taken as \wi{rkp.pw}\unit{kW/cm^3} per atm, an estimate, which sets the
+regime of the own input and not the normalised curve. In the same paper a
+current changed \x{25} changes the fluorescence by \wi{rkc.meas}, the ion
+channel forming \ArFs{} with branching near one. The beam drive gives
+\wi{rkc.beam} of that, and the own input \wi{rkc.own}
+(Table~\ref{tab:rkc}). Section~\ref{sec:closure} gives the reason.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=\linewidth]{figures/fig_rokni}
+\caption{Rokni 1977 Fig.~4. Left, the 193-nm fluorescence against argon
+pressure, relative to 1\unit{atm}. Right, the model's $T_e$ over the last
+50\unit{ns} of the 300-ns pulse.}
+\label{fig:rokni}
+\end{figure}
+
+\begin{table}[h]
+\centering\footnotesize
+\begin{tabular}{@{}rrrrrrrrr@{}}
+\toprule
+& & \multicolumn{3}{c}{own input} & \multicolumn{2}{c}{own, Maxwellian} &
+  \multicolumn{2}{c}{beam drive}\\
+\cmidrule(lr){3-5}\cmidrule(lr){6-7}\cmidrule(l){8-9}
+Ar, atm & measured & ratio & $T_e$, eV & $T_e$ at 1/25 & ratio & $T_e$, eV &
+  ratio & $T_e$, eV\\
+\midrule
+\wiTRokniRatio
+\bottomrule
+\end{tabular}
+\caption{Rokni 1977 Fig.~5, the 193-nm fluorescence ratio for a \x{25}
+change of the beam current, with the model's mean $T_e$ over 250 to
+300\unit{ns} at the full current, and at 1/25 of it for the own input.}
+\label{tab:rkc}
+\end{table}
+
+Jancaitis and Powell measured the peak \ArFs{} and \AtF{} fluorescence
+against the beam's current density from \wi{jan.jmin} to
+\wi{jan.jmax}\unit{A/cm^2} (Figure~\ref{fig:jan}). v0\_2's \ArFs{} peak
+follows the measured one with an rms of \wi{jan.frms} in the logarithm, and
+at
+\wi{jan.fxtop}\unit{A/cm^2} it is \x{\wi{jan.ftop}}. Its \AtF{} keeps rising
+where the measured one saturates, \x{\wi{jan.aone}} and \x{\wi{jan.atwo}} at
+\wi{jan.axone} and \wi{jan.axtwo}\unit{A/cm^2}. Jancaitis attributes the
+saturation to a loss of \AtF{} that grows with the excitation. He estimates
+it as \AtF{} + \el{}, which is not measured, and the network does not carry
+it.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=\linewidth]{figures/fig_jancaitis}
+\caption{Jancaitis 1983 Fig.~3, peak fluorescence against current density,
+each curve relative to its point nearest 74\unit{A/cm^2}.}
+\label{fig:jan}
+\end{figure}
+
+\section{Photons per initial excitation}
+
+SRI measured the photons at 193 and 290\unit{nm} per ion and excited atom
+made by a 3-ns Febetron pulse, against argon and against \Ft{}
+(Figure~\ref{fig:sri}). v0\_2 starts from SRI's excitation and follows the
+afterglow. Its 193-nm yield is \wi{sria.agm} of the measured against argon,
+\wi{sria.arng} over the \wi{sria.an} points, and \wi{srif.own} against \Ft{},
+\wi{srif.rng}. The model makes too little \ArFs{} per excitation, the same
+question as at Electra. Its 290-nm \AtF{} yield runs from \x{\wi{sria.blo}} at
+\wi{sria.bloatm}\unit{atm} to \x{\wi{sria.bhi}} at \wi{sria.bhiatm}\unit{atm},
+too little \AtF{} at low pressure and too much at high pressure. At high
+pressure, as at Jancaitis's high currents, the network lacks a loss of
+\AtF{}.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=\linewidth]{figures/fig_sri}
+\caption{SRI MP-76-99. Left, Fig.~4, the yields against argon at
+1\unit{Torr} of \Ft{}. Right, Fig.~11, the 193-nm yield against \Ft{} at 1,
+2 and 5\unit{atm}. Lines are v0\_2.}
+\label{fig:sri}
+\end{figure}
+
+\section{Pure argon}
+
+Morozov and coworkers measured the VUV power of pure argon under a
+low-energy beam at \wi{moz.meas} $\pm$ \wi{moz.err} of the deposited power,
+independent of pressure from 500 to 1400\unit{hPa} (Figure~\ref{fig:moz}).
+Under the beam drive v0\_2 turns each ion and excitation into one \Arts{}
+photon, \wi{moz.bplat} of the input, and its own input gives \wi{moz.oplat}.
+The measurement is \wi{moz.frac} of the beam drive's value, and no band
+closes the gap. At 1000\unit{hPa} the ends of the \Ars{} and \Arts{} bands
+give \wi{mozb.min} to \wi{mozb.max} under the beam drive, the lowest with
+\wi{mozb.minband} at its top. KrF's pure-krypton check misses the same way.
+The missing loss is not in the network. The drive's \wi{beam.W0}\unit{eV}
+per pair in pure argon puts the ceiling at \wi{beam.ceil}, near the 0.53
+Morozov quotes as the theoretical maximum. He finds his krypton and xenon
+close to their maxima and his argon at 62\,\% of it, so no input closes the
+gap. Either the network lacks an argon VUV loss that has been measured, or
+his argon value is low.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.56\linewidth]{figures/fig_morozov}
+\caption{Morozov 2008 Fig.~10, pure-argon VUV power over deposited power.
+The grey band is the printed \wi{moz.meas} $\pm$ \wi{moz.err}.}
+\label{fig:moz}
+\end{figure}
+
+\section{The sources of the constants}
+
+The network's constants are means of the groups that measured them. Run
+back against those measurements, v0\_2 reproduces the decays with a
+geometric mean of \wi{dec.own} and an rms of \wi{dec.ownrms} over
+\wi{dec.n} points, and the Stern-Volmer plots with \wi{sv.own} and
+\wi{sv.ownrms} (Table~\ref{tab:cons}). Rokni's \Ft{} plot, \x{\wi{sv.rokni}},
+is a steady e-beam run on the own input at a low pump, where
+Section~\ref{sec:closure} applies. These are checks of the bookkeeping, not
+of accuracy.
+
+\begin{table}[h]
+\centering\footnotesize
+\begin{tabular}{@{}lrrr@{}}
+\toprule
+set & points & model over measured & rms of the logarithm\\
+\midrule
+\wiTDecays
+\midrule
+\wiTSV
+\bottomrule
+\end{tabular}
+\caption{The decays and Stern-Volmer plots the constants came from.}
+\label{tab:cons}
+\end{table}
+
+\section{The electron closure and the input}
+\label{sec:closure}
+
+LIGHT's own input puts the pump into the electrons' bulk. The
+two-temperature closure gives the argon rows a tail above
+\wi{rates.ebreak}\unit{eV} at $T_\mathrm{tail} = r\,T_e$, with $r$ read from
+a table made from beam-sustained kinetic solutions. The table was checked
+against those solutions where $n_e/N$ is at least $10^{-6}$. Rokni's runs sit
+near $n_e/N$ = \wi{tr.nen}, where the table gives $r$ = \wi{tr.tail}. With so
+cold a tail the bulk has to reach \wi{rkp.te}\unit{eV} before the tail
+excites enough to take the pump. On a Maxwellian EEDF the same runs sit at
+\wi{rkpM.te}\unit{eV}, where the beam drive sits at \wi{rkp.bte}\unit{eV}
+(Table~\ref{tab:te}). The Maxwellian own input also follows Rokni's pressure
+curve more closely, \x{\wi{rkpM.rlo}}, \x{\wi{rkpM.rtwo}} and
+\x{\wi{rkpM.rfour}} at \wi{rkp.plo}, \wi{rkp.ptwo} and
+\wi{rkp.pfour}\unit{atm} against \x{\wi{rkp.rlo}}, \x{\wi{rkp.rtwo}} and
+\x{\wi{rkp.rfour}} with the tail, and it gives the ratio for \x{25} in
+current at \x{\wi{rkcM.own}} against \x{\wi{rkc.own}}, as the beam drive's
+\x{\wi{rkc.beam}} does. At the gain points the pump is higher, the
+tail warmer and the difference smaller. Electra goes from \x{\wi{elf.r1}} to
+\x{\wi{elfM.r1}}.
+
+The own input's scores at low pumps are therefore the tail table's as much
+as the network's. The beam drive, whose secondaries carry the excitation,
+does not depend on it.
+
+\begin{table}[h]
+\centering\footnotesize
+\begin{tabular}{@{}lrrr@{}}
+\toprule
+runs & own input & own input, Maxwellian & beam drive\\
+\midrule
+\wiTTeRegimes
+\bottomrule
+\end{tabular}
+\caption{The model's $T_e$ in eV, over 250 to 300\unit{ns} at Rokni's
+conditions, 20 to 50\unit{ns} at Jancaitis's and in the formation window at
+the gain points.}
+\label{tab:te}
+\end{table}
+
+\section{The 1-D model}
+
+1Dv0\_2 runs v0\_2's chemistry, byte for byte, in each cell of Fluid1D's gap.
+At the device points its centre cell gives v0\_2's numbers to \wi{od.dev},
+the largest at \wi{od.devtest}, and its gap average lies \wi{od.gap}\,\%
+lower on \wi{od.cells} cells. The difference is the wall cells, whose sheaths
+the mesh does not resolve. Table~\ref{tab:mesh} gives the reference point on
+\wi{ma.cells} and \wi{mb.cells} cells. The centre cell agrees with v0\_2 to
+\wi{ma.centredev} and \wi{mb.centredev}. In the wall cells the mean-energy
+bounds cut \wi{ma.cut} and \wi{mb.cut}\,\% of the input, Fluid1D's split keeps
+out phantom negative field work of \wi{ma.phantom} and \wi{mb.phantom}\,\%,
+and \wi{ma.walls} and \wi{mb.walls}\,\% is lost to the walls. Under the
+beam the 1-D stage adds the beam's ion pairs, with their electrons, excited
+atoms and prompt \Ft{} dissociations, in every cell and substep, and its
+centre cell gives v0\_2's beam numbers to \wi{od.bdev}, the largest at
+\wi{od.bdevtest}, with the gap average \wi{od.bgap}\,\% lower. The own
+input's 1-D runs are unchanged by it, bit for bit.
+
+\begin{table}[h]
+\centering\footnotesize
+\begin{tabular}{@{}lrrrrr@{}}
+\toprule
+& v0\_2 & \multicolumn{2}{c}{\wi{ma.cells} cells} &
+  \multicolumn{2}{c}{\wi{mb.cells} cells}\\
+\cmidrule(lr){3-4}\cmidrule(l){5-6}
+& & centre & gap & centre & gap\\
+\midrule
+\wiTMesh
+\bottomrule
+\end{tabular}
+\caption{The reference point in v0\_2 and in 1Dv0\_2 on two meshes.}
+\label{tab:mesh}
+\end{table}
+
+Fluid1D holds the mean electron energy at or below \wi{tr.eps}\unit{eV}, a
+$T_e$ of \wi{tr.ceil}\unit{eV}. Where v0\_2's $T_e$ passes it, at Rokni's
+\wi{rkp.ptwo} and \wi{rkp.pfour}\unit{atm} with \wi{rkp.te2} and
+\wi{rkp.te4}\unit{eV}, 1Dv0\_2's centre gives \x{\wi{rkp.dep2}} and
+\x{\wi{rkp.dep4}} of v0\_2. Under the beam v0\_2's $T_e$ stays at
+\wi{rkp.bte}\unit{eV} over all of Rokni's pressures, and at these two the
+centre gives \x{\wi{rkp.bdep2}} and \x{\wi{rkp.bdep4}} of v0\_2's beam run.
+Figure~\ref{fig:trace} follows the
+own input's \wi{rkp.ptwo}-atm run. From \wi{tr.from}\unit{ns} the centre cell and
+v0\_2 agree to \wi{tr.agree}\,\% in every species but \Arp{} until their
+electron temperatures part by \wi{tr.partpct}\,\% at \wi{tr.tpart}\unit{ns},
+as the 1-D $T_e$ reaches the ceiling. \Arp{}, whose production is steep in
+$T_e$, already differs by \wi{tr.arpagree}\,\% at that moment. After it
+v0\_2's $T_e$ climbs to \wi{tr.te0}\unit{eV}. Above the \wi{rates.temax}-eV edge of the rate
+tables the rows on Maxwellian tables are held, but the tail rows follow
+$T_\mathrm{tail} = r\,T_e$, which stays far below the edge. At this state
+$r$ = \wi{tr.tail}, and the ionization rate C2 is \wi{tr.ctwo.thirty} at
+\wi{rates.temax}\unit{eV}, \wi{tr.ctwo.forty} at \wi{tr.ceil}\unit{eV} and
+\wi{tr.ctwo.end}\unit{cm^3s^{-1}} at v0\_2's \wi{tr.te0}\unit{eV}. v0\_2's
+ionization keeps rising while the 1-D's is held, and by 300\unit{ns} v0\_2
+holds \wi{tr.arp} times the 1-D's \Arp{}. Holding the \Artp{} + \el{} power
+law at its \wi{rates.temax}-eV value in v0\_2, as the 1-D stage does, moves
+the emission by \wi{rclip.dev}\,\% or less.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=\linewidth]{figures/fig_trace}
+\caption{Rokni's \wi{rkp.ptwo}-atm run in v0\_2 and in 1Dv0\_2's centre cell.
+Left, $T_e$ and Fluid1D's ceiling. Right, ArF(B) and \Arp{}.}
+\label{fig:trace}
+\end{figure}
+
+\section{The energy ladder}
+
+Figure~\ref{fig:ladder} places every species of v0\_2 at its formation
+energy, the energy above ground-state Ar and \Ft{} at rest that
+Appendix~A lists, and draws the rows that move energy between them. It is
+LIGHT's ladder with v0\_2's own numbers. ArF(B) lies \lad{DeB}\unit{eV}
+below the ion pair \Arp{} + \Fm{} and \lad{BoverArF}\unit{eV} above Ar + F,
+exactly the \lad{wl.G4}-nm quantum of \lad{hv.G4}\unit{eV}, so the photon
+leaves ArF(X) with \lad{heat.G4}\unit{eV} to heat. The harpoon G3 heats the
+gas by \lad{heat.G3}\unit{eV} for each ArF(B) it makes, \Arts{} + \Ft{}
+through NK7 by \lad{heat.NK7}\unit{eV}, the ion-ion recombinations K26 and
+K108 by \lad{heat.K26} and \lad{heat.K108}\unit{eV}, and the trimer's
+formation by \lad{heat.G5}\unit{eV}. \AtF{} emits \lad{hv.C3}\unit{eV} at
+\lad{wl.C3}\unit{nm} and leaves \lad{heat.C3}\unit{eV} of lower-state
+repulsion, and \Arts{} emits \lad{hv.V}\unit{eV} at \lad{wl.V}\unit{nm} and
+leaves \lad{heat.V}\unit{eV}. The \lad{nG1} G1 rows excite the 4s levels,
+with thresholds from \lad{g1.lo} to \lad{g1.hi}\unit{eV}, and the
+\lad{nC1} C1 rows the higher levels, from \lad{c1.lo} to
+\lad{c1.hi}\unit{eV}. Each family is drawn as one arrow.
+
+\begin{figure}[p]
+\centering
+\ladpicture
+\caption{The energy ladder of LIGHT\_ArF\_ebeam v0\_2, version \lad{version}, in
+eV above ground-state Ar and \Ft{} at rest. A bar is a species at its
+formation energy and a dashed bar a pair, the sum of two. An arrow is a
+row, labelled with its id. It is solid in the default network and dotted
+for a band whose default is 0, \lad{zero}. The rows of the optional group
+\lad{groups} are dashed. A photon's arrow drops by its quantum, and the red
+squiggle below it is the heat its lower state gives the gas as it falls
+apart. A red stub is a quench. The energy a row releases heats the gas,
+except a photon's, which leaves, and that of \lad{toe}, which goes to the
+electrons. The \lad{nG1} 4s rows and the \lad{nC1} higher rows are each
+drawn as one arrow to their highest threshold, and the squiggle beside
+each is the heat of the levels above \Ars. The rows \lad{notdrawn} move
+nothing between levels and are not drawn.}
+\label{fig:ladder}
+\end{figure}
+
+\section{The system map}
+
+The map on page~\pageref{p:map} draws v0\_2's basic network at the reference
+point, \wm{p}\unit{atm} of Ar with \wm{xF2}\,\% F$_2$,
+\wm{P}\unit{kW\,cm^{-3}} for \wm{pulse}\unit{\mu s}, with $n_e$ seeded at
+$\wm{ne}$\unit{cm^{-3}} and then free and every band at its default. Band
+widths are proportional to the energy they carry, and energy is conserved
+at each of the map's \wm{nodes} nodes to within $10^{-8}$ of \Edep. Of the
+deposited energy, \wm{arf.eff}\,\% passes through ArF(B) in
+\wm{hv.G4}-eV quanta. Of that ArF(B), \wm{brf.G4}\,\% radiates at
+193\unit{nm}, \wm{brf.tri}\,\% forms the trimer and \wm{brf.Ar}\,\% is
+quenched by argon, so
+\wm{out.193}\,\% of the deposited energy leaves at 193\unit{nm}, and
+\wm{out.127}\,\% leaves at 127\unit{nm} from \Arts. A further
+\wm{out.other}\,\% is still held at \wm{tend}\unit{\mu s}, most of it in
+\Arts, whose radiative lifetime is \wm{tauRAD}\unit{\mu s}.
+
+\section{Where LIGHT\_ArF\_ebeam is not yet reliable}
+
+\begin{enumerate}[leftmargin=1.6em]
+\item The \ArFs{} made per excitation. Electra at \x{\wi{elf.r1}} on the
+  own input and \x{\wi{elf.br1}} under the beam, SRI's
+  193-nm yield at \wi{sria.agm} and the yield band that brackets Electra all
+  point to it. The measured yield 0.5 stays the default. A measurement of the
+  \ArFs{} yield of \Ars{} + \Ft{} near 1\unit{atm} would settle it.
+\item The loss of \AtF{}. The network has no \AtF{} + \el{} and no other loss
+  that grows with excitation. Jancaitis's \AtF{} and SRI's 290-nm yield at
+  high pressure call for one.
+\item Pure argon. The VUV efficiency is \wi{moz.frac} of the one-photon
+  value, and no band closes it.
+\item The electron closure at low pumps. The tail table is read below the
+  ionization fractions it was checked at, and the own input's results there
+  depend on it (Section~\ref{sec:closure}). The beam drive does not.
+\item The formation efficiency against pump. Under the beam the model makes
+  \ArFs{} at nearly the same share of the input at every device pump, where
+  the measured share falls from Electra to Sandia, and Sandia rises to
+  \x{\wi{san.br1}}.
+\item Electra's gain against pressure, measured to fall faster than v0\_2's.
+\item What was never measured. The ArF(B) radiative lifetime, the ArF C
+  state, \Arts{} + F and the Penning rates are calculations or bands. F + F +
+  Ar is known here only through Baulch 1981. Sandia's efficiency is from its
+  abstract, and Keio's two pump readings give \x{\wi{keio.r1}} and
+  \x{\wi{keio.r2}}.
+\end{enumerate}
+
+% The map page closes the main text, so the text runs on past the
+% ladder's float page and no page is left short. \includepdf breaks the
+% page, and an \afterpage map would fire inside Appendix A's longtables and
+% hang pdfTeX (Known-bad).
+\clearpage
+\includepdf[pages=1,fitpaper=true,
+  pagecommand={\thispagestyle{empty}\label{p:map}}]{system_map.pdf}
+
+\appendix
+\section{The reaction rates}
+
+\subsection{The basic network, \wi{rates.nBasic} rows}
+Rates at 300\unit{K}. A band row runs its band's default. $N$ is the gas
+density in amagat.
+{\footnotesize
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{1.8cm}
+  >{\raggedright\arraybackslash}p{3.7cm}>{\raggedright\arraybackslash}p{3.9cm}
+  >{\raggedright\arraybackslash}p{1.9cm}>{\raggedright\arraybackslash}p{3.3cm}@{}}
+\toprule
+row & reaction & rate & depends on & source\\
+\midrule
+\endhead
+\wiTRows
+\bottomrule
+\end{longtable}}
+
+\subsection{The optional electron group, \wi{rates.nGroup} rows, off by
+default}
+{\footnotesize
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{1.8cm}
+  >{\raggedright\arraybackslash}p{3.7cm}>{\raggedright\arraybackslash}p{3.9cm}
+  >{\raggedright\arraybackslash}p{1.9cm}>{\raggedright\arraybackslash}p{3.3cm}@{}}
+\toprule
+row & reaction & rate & depends on & source\\
+\midrule
+\wiTGroup
+\bottomrule
+\end{longtable}}
+
+\subsection{The bands}
+{\footnotesize
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{2.1cm}
+  >{\raggedright\arraybackslash}p{3.3cm}>{\raggedright\arraybackslash}p{1.6cm}
+  >{\raggedright\arraybackslash}p{2.9cm}>{\raggedright\arraybackslash}p{1.1cm}
+  >{\raggedright\arraybackslash}p{3.0cm}@{}}
+\toprule
+band & rate & default & range & unit & source\\
+\midrule
+\endhead
+\wiTBandList
+\bottomrule
+\end{longtable}}
+
+\subsection{Formation energies}
+{\footnotesize
+\begin{longtable}{@{}lrll@{}}
+\toprule
+species & eV above Ar + \Ft{} & how known & source\\
+\midrule
+\wiTSpecies
+\bottomrule
+\end{longtable}}
+
+\section{The data scored}
+
+The \wi{readings.n} figure readings in \path{arf_data/fig_readings/}, each
+with its source and the way it was read. The numbers printed in the sources'
+text are in \path{arf_data/SCORING_DATA.md}.
+{\footnotesize
+\begin{longtable}{@{}>{\raggedright\arraybackslash}p{3.2cm}
+  >{\raggedright\arraybackslash}p{8.3cm}>{\raggedright\arraybackslash}p{3.6cm}@{}}
+\toprule
+file & source & reading\\
+\midrule
+\endhead
+\wiTReadings
+\bottomrule
+\end{longtable}}
+
+\end{document}

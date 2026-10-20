@@ -1,0 +1,44 @@
+{
+  "schema": "cross-section-metadata/1.1",
+  "generated_utc": "2026-07-30T05:04:50Z",
+  "source": "LXCat, www.lxcat.net (SIGLO database). SIGLO database is the electron-impact cross-section source of Chen et al., Phys. Plasmas 32, 113502 (2025), ref 22. Re-sourced from the project crossbrowser export lxcat_siglo.json, SIGLO process id SIGLO__Xe__Excitation__33.",
+  "data_file": "e_Xe_excitation_1.csv",
+  "data_kind": "total",
+  "process_id": "e_Xe_excitation_1",
+  "database": "SIGLO database (LXCat)",
+  "reaction": "E + Xe -> E + Xe(1s5)",
+  "type": "Excitation",
+  "category": "Excitation (electronic)",
+  "family": "Electron",
+  "projectile": "e",
+  "target": "Xe",
+  "mass_ratio_m_over_M": null,
+  "ion_mass_amu": null,
+  "ion_mass_ratio": null,
+  "stat_weight_ratio": null,
+  "complete_set": true,
+  "param_raw": "E = 8.31 eV, complete set",
+  "comment": "Excitation XE+e__e + XE*(1s5). SIGLO dataset (Chen 2025, ref 22); re-sourced from crossbrowser lxcat_siglo.json, source id SIGLO__Xe__Excitation__33. Representative level: Xe 1s5 taken as Xe* (arf.toml R16). Cross section stored in m^2 by SIGLO (converted to cm^2 for the CSV column).",
+  "updated": "2009-09-09 21:02:24",
+  "n_points": 19,
+  "threshold": 8.31,
+  "axes": {
+    "x_quantity": "Energy",
+    "y_quantity": "Cross section"
+  },
+  "units": {
+    "x": "eV",
+    "y": "cm^2"
+  },
+  "source_units": {
+    "x": "eV",
+    "y": "m^2"
+  },
+  "conversion_from_source": {
+    "x": 1,
+    "y": 10000
+  },
+  "x_min": 8.31,
+  "x_max": 50.0,
+  "y_max": 1.8e-17
+}
